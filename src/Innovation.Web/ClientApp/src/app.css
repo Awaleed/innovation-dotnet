@@ -1,1 +1,1248 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@plugin 'tailwindcss-animate';
+
+/* Source paths for Tailwind class scanning */
+
+/* ===== Custom Scrollbar Styling ===== */
+:root {
+  --sb-track-color: var(--muted);
+  --sb-thumb-color: var(--primary);
+  --sb-size: 8px;
+}
+
+/* Apply to all scrollable elements */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+}
+
+*::-webkit-scrollbar {
+  width: var(--sb-size);
+  height: var(--sb-size);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 4px;
+  border: 2px solid var(--sb-track-color);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+  opacity: 0.8;
+}
+
+/* ===== Theme Font Face Declarations ===== */
+/* 
+ * @font-face declarations are now generated dynamically from theme configuration.
+ * See resources/views/app.blade.php for theme font injection.
+ */
+
+@theme {
+    /* ===== Theme CSS Variables ===== */
+    /* 
+     * Font and design tokens are now generated dynamically from theme configuration.
+     * These are fallback values that will be overridden by theme-specific values.
+     * See resources/views/app.blade.php for theme CSS injection.
+     */
+    
+    /* Font Family Variables - Fallbacks (will be overridden by theme) */
+    --font-sans: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-heading: ui-sans-serif, system-ui, sans-serif;
+    --font-heading-en: ui-sans-serif, system-ui, sans-serif;
+    --font-body-en: ui-sans-serif, system-ui, sans-serif;
+
+    /* Border Radius Variables - Fallbacks (will be overridden by theme) */
+    /* These reference theme CSS variables */
+    --radius-lg: var(--radius-lg, var(--radius, 1rem));
+    --radius-md: var(--radius-md, var(--radius, 1rem));
+    --radius-sm: var(--radius-sm, var(--radius-xs, calc(var(--radius, 1rem) * 0.75)));
+
+    /* Color System - References theme CSS variables */
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    /* Theme-specific colors - These reference CSS variables that come from theme config */
+    --color-alinma-deep-blue: var(--alinma-deep-blue, #0c2337);
+    --color-lavender: var(--lavender, #8b84d7);
+    --color-light-lavender: var(--light-lavender, #cfccef);
+    --color-soft-lavender: var(--soft-lavender, #e7e5f7);
+    --color-heritage-brown: var(--heritage-brown);
+    --color-copper: var(--copper);
+    --color-light-copper: var(--light-copper);
+    --color-warm-white: var(--warm-white);
+    --color-off-white: var(--off-white);
+    --color-alinma-black: var(--alinma-black);
+    --color-desert-rose: var(--desert-rose);
+
+    /* Chart Colors */
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    /* Sidebar Colors */
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+
+    /* Header & Footer Colors */
+    --color-header: var(--header, var(--sidebar));
+    --color-header-foreground: var(--header-foreground, var(--sidebar-foreground));
+    --color-header-border: var(--header-border, var(--sidebar-border));
+    --color-footer: var(--footer, var(--sidebar));
+    --color-footer-foreground: var(--footer-foreground, var(--sidebar-foreground));
+    --color-footer-border: var(--footer-border, var(--sidebar-border));
+}
+
+/* ===== Theme CSS Variables ===== */
+/* 
+ * All CSS variables (colors, fonts, border radius, shadows, etc.) are now
+ * generated dynamically from theme configuration and injected via inline styles.
+ * See resources/views/app.blade.php for theme CSS injection.
+ * 
+ * This :root block is kept empty - all variables come from themes.
+ */
+:root {
+    /* Default theme colors — fallback values */
+    --background: #ffffff;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    --popover: #ffffff;
+    --popover-foreground: #0f172a;
+    --primary: #233968;
+    --primary-foreground: #ffffff;
+    --secondary: #8B84D7;
+    --secondary-foreground: #ffffff;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --accent: #CE654B;
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #233968;
+    --radius: 0.75rem;
+    --sidebar: #233968;
+    --sidebar-foreground: #ffffff;
+    --sidebar-primary: #CE654B;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #1a2d52;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: #1a2d52;
+    --sidebar-ring: #CE654B;
+    --alinma-deep-blue: #0C2337;
+    --lavender: #8B84D7;
+    --light-lavender: #CFCCEF;
+    --soft-lavender: #E7E5F7;
+    --heritage-brown: #623B2A;
+    --copper: #CE654B;
+    --light-copper: #E8A090;
+    --warm-white: #FAF8F5;
+    --off-white: #F5F0EB;
+    --alinma-black: #1A1A1A;
+    --desert-rose: #C4756A;
+    --chart-1: #233968;
+    --chart-2: #8B84D7;
+    --chart-3: #CE654B;
+    --chart-4: #623B2A;
+    --chart-5: #C4756A;
+}
+
+/* Dark Theme */
+/* Dark theme variables are generated dynamically from theme configuration */
+.dark {
+    /* All dark theme variables are generated from theme config */
+}
+
+@layer base {
+    /* Theme CSS variables are generated dynamically from theme configuration */
+    /* All CSS variables come from themes - see resources/views/app.blade.php */
+    html {
+        /* CSS variables are injected via inline styles from theme config */
+    }
+
+    body {
+        background-color: var(--sidebar, var(--primary));
+        color: var(--foreground);
+        font-feature-settings:
+            'rlig' 1,
+            'calt' 1;
+        margin: 0 !important;
+    }
+
+    /* Enhanced focus styles - Alinma brand */
+    *:focus-visible {
+        @apply ring-2 ring-ring ring-offset-2 ring-offset-background outline-none;
+    }
+
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Modern scrollbar styling - Uses theme colors */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--muted);
+        border-radius: var(--radius-xs, 0.5rem);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: color-mix(in srgb, var(--muted-foreground) 30%, transparent);
+        border-radius: var(--radius-xs, 0.5rem);
+        transition: background-color 0.2s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: color-mix(in srgb, var(--muted-foreground) 50%, transparent);
+    }
+
+    /* Enhanced interactive elements */
+    button,
+    [role='button'] {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Card effects */
+    .card,
+    [data-card] {
+        transition:
+            box-shadow 0.2s ease,
+            border-color 0.2s ease;
+    }
+
+    .card:hover,
+    [data-card]:hover {
+        box-shadow: 0 4px 12px color-mix(in srgb, var(--foreground) 5%, transparent);
+    }
+}
+
+@layer components {
+    /* ===== Theme Typography Classes ===== */
+    /* Font families come from theme configuration */
+
+    /* Heading Font - From theme config */
+    .font-heading {
+        font-family: var(--font-heading, ui-sans-serif, system-ui, sans-serif);
+    }
+
+    /* English Heading Font - From theme config */
+    .font-heading-en {
+        font-family: var(--font-heading-en, ui-sans-serif, system-ui, sans-serif);
+    }
+
+    /* Body Font - From theme config */
+    .font-body,
+    .font-sans {
+        font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+    }
+
+    /* English Body Font - From theme config */
+    .font-body-en {
+        font-family: var(--font-body-en, ui-sans-serif, system-ui, sans-serif);
+    }
+
+    /* Apply heading font to all heading elements */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: var(--font-heading, ui-sans-serif, system-ui, sans-serif);
+        font-weight: 600;
+    }
+
+    /* ===== Enhanced Button Variants ===== */
+    .btn-primary {
+        @apply rounded-xl bg-primary text-primary-foreground shadow-sm transition-all duration-200 hover:bg-primary/90 hover:shadow-md;
+    }
+
+    .btn-secondary {
+        @apply rounded-xl bg-secondary text-secondary-foreground shadow-sm transition-all duration-200 hover:bg-secondary/80 hover:shadow-md;
+    }
+
+    .btn-copper {
+        background-color: var(--accent, var(--copper));
+        @apply rounded-xl text-white shadow-sm transition-all duration-200 hover:shadow-md;
+    }
+
+    .btn-copper:hover {
+        background-color: color-mix(in srgb, var(--accent, var(--copper)) 90%, black);
+    }
+
+    .btn-lavender {
+        background-color: var(--secondary, var(--lavender));
+        @apply rounded-xl text-white shadow-sm transition-all duration-200 hover:shadow-md;
+    }
+
+    .btn-lavender:hover {
+        background-color: color-mix(in srgb, var(--secondary, var(--lavender)) 90%, black);
+    }
+
+    .btn-ghost {
+        @apply rounded-xl transition-all duration-200 hover:bg-accent hover:text-accent-foreground;
+    }
+
+    .btn-outline-alinma {
+        border: 2px solid var(--primary, var(--alinma-deep-blue));
+        color: var(--primary, var(--alinma-deep-blue));
+        @apply rounded-xl bg-transparent transition-all duration-200;
+    }
+
+    .btn-outline-alinma:hover {
+        background-color: var(--primary, var(--alinma-deep-blue));
+        @apply text-white;
+    }
+
+    /* ===== Modern Card Enhancements ===== */
+    .card-modern {
+        @apply rounded-2xl border border-border bg-card text-card-foreground shadow-sm transition-all duration-200 hover:shadow-md;
+    }
+
+    .card-alinma {
+        border: 1px solid var(--light-lavender);
+        @apply rounded-3xl bg-white shadow-sm transition-all duration-300 hover:shadow-lg;
+    }
+
+    .card-alinma:hover {
+        border-color: var(--lavender);
+    }
+
+    .card-gradient {
+        background: var(--gradient-deep-blue-lavender);
+        @apply rounded-3xl text-white shadow-md transition-all duration-300 hover:shadow-xl;
+    }
+
+    /* ===== Enhanced Input Styles ===== */
+    .input-modern {
+        @apply rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background transition-all duration-200 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50;
+    }
+
+    .input-alinma {
+        border: 2px solid var(--light-lavender);
+        background-color: white;
+        color: var(--alinma-deep-blue);
+        @apply rounded-xl px-4 py-3 transition-all duration-200 placeholder:text-muted-foreground focus:outline-none;
+    }
+
+    .input-alinma:focus {
+        border-color: var(--lavender);
+        @apply ring-2;
+        --tw-ring-color: color-mix(in srgb, var(--lavender) 20%, transparent);
+    }
+
+    /* ===== Modern Badge Styles ===== */
+    .badge-modern {
+        @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none;
+    }
+
+    .badge-alinma {
+        background-color: var(--lavender);
+        @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold text-white;
+    }
+
+    .badge-copper {
+        background-color: var(--copper);
+        @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold text-white;
+    }
+
+    /* ===== Enhanced Separator ===== */
+    .separator-modern {
+        @apply border-t border-border/50;
+    }
+
+    .separator-alinma {
+        border-top: 2px solid var(--light-lavender);
+    }
+
+    /* ===== Modern Tooltip ===== */
+    .tooltip-modern {
+        @apply z-50 overflow-hidden rounded-xl border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95;
+    }
+
+    /* ===== Content Section Styles ===== */
+    .section-hero {
+        background: var(--gradient-deep-blue-lavender);
+        @apply px-4 py-20 text-white;
+    }
+
+    .section-features {
+        background-color: var(--soft-lavender);
+        @apply px-4 py-16;
+    }
+
+    .section-cta {
+        background-color: var(--copper);
+        @apply rounded-3xl px-4 py-16 text-white;
+    }
+
+    /* ===== Theme Border Radius Utilities ===== */
+    /* Uses theme-defined border radius variables from theme config */
+    .rounded-brand-xs,
+    .rounded-alinma-xs {
+        border-radius: var(--radius-xs, calc(var(--radius, 1rem) * 0.5));
+    }
+
+    .rounded-brand-sm,
+    .rounded-alinma-sm {
+        border-radius: var(--radius-sm, calc(var(--radius, 1rem) * 0.75));
+    }
+
+    .rounded-brand-md,
+    .rounded-alinma-md {
+        border-radius: var(--radius-md, var(--radius, 1rem));
+    }
+
+    .rounded-brand-lg,
+    .rounded-alinma-lg {
+        border-radius: var(--radius-lg, calc(var(--radius, 1rem) * 1.5));
+    }
+
+    .rounded-brand-xl,
+    .rounded-alinma-xl {
+        border-radius: var(--radius-xl, calc(var(--radius, 1rem) * 2));
+    }
+
+    .rounded-brand-2xl,
+    .rounded-alinma-2xl {
+        border-radius: var(--radius-2xl, calc(var(--radius, 1rem) * 2.5));
+    }
+
+    .rounded-brand-3xl,
+    .rounded-alinma-3xl {
+        border-radius: var(--radius-3xl, calc(var(--radius, 1rem) * 3));
+    }
+
+    .rounded-brand-4xl,
+    .rounded-alinma-4xl {
+        border-radius: var(--radius-4xl, calc(var(--radius, 1rem) * 4));
+    }
+
+    /* ===== Theme Gradient Backgrounds ===== */
+    /* Uses theme-defined gradient variables */
+    .bg-gradient-primary-secondary {
+        background: var(--gradient-primary-secondary);
+    }
+
+    .bg-gradient-primary-accent {
+        background: var(--gradient-primary-accent);
+    }
+
+    .bg-gradient-accent-heritage {
+        background: var(--gradient-accent-heritage);
+    }
+
+    .bg-gradient-background-secondary {
+        background: var(--gradient-background-secondary);
+    }
+
+    .bg-gradient-secondary-white {
+        background: var(--gradient-secondary-white);
+    }
+
+    .bg-gradient-light-secondary-primary {
+        background: var(--gradient-light-secondary-primary);
+    }
+
+    /* Sidebar gradient support */
+    .bg-gradient-sidebar {
+        background: var(--gradient-primary-sidebar, var(--sidebar));
+    }
+
+    /* Override bg-sidebar to support gradients - important to override Tailwind utility */
+    [data-sidebar="sidebar"].bg-sidebar,
+    [data-sidebar="sidebar"] {
+        background: var(--gradient-sidebar, var(--sidebar)) !important;
+    }
+
+    /* 3D active indicator for sidebar menu items — only for themes with 3d effect */
+    [data-effects~="3d"] [data-sidebar="menu-button"][data-active="true"] {
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--sidebar-primary) 82%, white 18%) 0%,
+            var(--sidebar-primary) 45%,
+            color-mix(in oklch, var(--sidebar-primary) 78%, black 22%) 100%
+        ) !important;
+        border: 1px solid color-mix(in oklch, var(--sidebar-primary) 70%, white 30%) !important;
+        box-shadow:
+            inset 0 1px 0 0 color-mix(in oklch, var(--sidebar-primary) 50%, white 50%),
+            inset 0 -1px 0 0 color-mix(in oklch, var(--sidebar-primary) 68%, black 32%),
+            0 3px 10px 0 color-mix(in oklch, var(--sidebar-primary) 45%, transparent) !important;
+    }
+
+    /* ─── 3D effect for solid button variants — only for themes with 3d effect ── */
+
+    /* Shared transition */
+    [data-effects~="3d"] [data-slot="button"].bg-primary,
+    [data-effects~="3d"] [data-slot="button"].bg-destructive,
+    [data-effects~="3d"] [data-slot="button"].bg-secondary,
+    [data-effects~="3d"] [data-slot="button"].bg-accent {
+        transition: background 0.15s ease, box-shadow 0.15s ease !important;
+    }
+
+    /* Default (primary) */
+    [data-effects~="3d"] [data-slot="button"].bg-primary {
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--primary) 82%, white 18%) 0%,
+            var(--primary) 45%,
+            color-mix(in oklch, var(--primary) 78%, black 22%) 100%
+        ) !important;
+        border: 1px solid color-mix(in oklch, var(--primary) 70%, white 30%) !important;
+        box-shadow:
+            inset 0 1px 0 0 color-mix(in oklch, var(--primary) 50%, white 50%),
+            inset 0 -1px 0 0 color-mix(in oklch, var(--primary) 68%, black 32%),
+            0 3px 10px 0 color-mix(in oklch, var(--primary) 45%, transparent) !important;
+    }
+    [data-effects~="3d"] [data-slot="button"].bg-primary:hover {
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--primary) 88%, white 12%) 0%,
+            color-mix(in oklch, var(--primary) 95%, white 5%) 45%,
+            color-mix(in oklch, var(--primary) 82%, black 18%) 100%
+        ) !important;
+        box-shadow:
+            inset 0 1px 0 0 color-mix(in oklch, var(--primary) 55%, white 45%),
+            inset 0 -1px 0 0 color-mix(in oklch, var(--primary) 72%, black 28%),
+            0 5px 16px 0 color-mix(in oklch, var(--primary) 52%, transparent) !important;
+    }
+    [data-effects~="3d"] [data-slot="button"].bg-primary:active {
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--primary) 75%, black 25%) 0%,
+            var(--primary) 55%,
+            color-mix(in oklch, var(--primary) 84%, white 16%) 100%
+        ) !important;
+        box-shadow:
+            inset 0 2px 5px 0 color-mix(in oklch, var(--primary) 55%, black 45%),
+            0 1px 3px 0 color-mix(in oklch, var(--primary) 30%, transparent) !important;
+    }
+
+    /* Destructive */
+    [data-effects~="3d"] [data-slot="button"].bg-destructive {
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--destructive) 82%, white 18%) 0%,
+            var(--destructive) 45%,
+            color-mix(in oklch, var(--destructive) 78%, black 22%) 100%
+        ) !important;
+        border: 1px solid color-mix(in oklch, var(--destructive) 70%, white 30%) !important;
+        box-shadow:
+            inset 0 1px 0 0 color-mix(in oklch, var(--destructive) 50%, white 50%),
+            inset 0 -1px 0 0 color-mix(in oklch, var(--destructive) 68%, black 32%),
+            0 3px 10px 0 color-mix(in oklch, var(--destructive) 45%, transparent) !important;
+    }
+    [data-effects~="3d"] [data-slot="button"].bg-destructive:hover {
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--destructive) 88%, white 12%) 0%,
+            color-mix(in oklch, var(--destructive) 95%, white 5%) 45%,
+            color-mix(in oklch, var(--destructive) 82%, black 18%) 100%
+        ) !important;
+        box-shadow:
+            inset 0 1px 0 0 color-mix(in oklch, var(--destructive) 55%, white 45%),
+            inset 0 -1px 0 0 color-mix(in oklch, var(--destructive) 72%, black 28%),
+            0 5px 16px 0 color-mix(in oklch, var(--destructive) 52%, transparent) !important;
+    }
+    [data-effects~="3d"] [data-slot="button"].bg-destructive:active {
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--destructive) 75%, black 25%) 0%,
+            var(--destructive) 55%,
+            color-mix(in oklch, var(--destructive) 84%, white 16%) 100%
+        ) !important;
+        box-shadow:
+            inset 0 2px 5px 0 color-mix(in oklch, var(--destructive) 55%, black 45%),
+            0 1px 3px 0 color-mix(in oklch, var(--destructive) 30%, transparent) !important;
+    }
+
+    /* Secondary */
+    [data-effects~="3d"] [data-slot="button"].bg-secondary {
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--secondary) 82%, white 18%) 0%,
+            var(--secondary) 45%,
+            color-mix(in oklch, var(--secondary) 78%, black 22%) 100%
+        ) !important;
+        border: 1px solid color-mix(in oklch, var(--secondary) 70%, white 30%) !important;
+        box-shadow:
+            inset 0 1px 0 0 color-mix(in oklch, var(--secondary) 50%, white 50%),
+            inset 0 -1px 0 0 color-mix(in oklch, var(--secondary) 68%, black 32%),
+            0 3px 10px 0 color-mix(in oklch, var(--secondary) 45%, transparent) !important;
+    }
+    [data-effects~="3d"] [data-slot="button"].bg-secondary:hover {
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--secondary) 88%, white 12%) 0%,
+            color-mix(in oklch, var(--secondary) 95%, white 5%) 45%,
+            color-mix(in oklch, var(--secondary) 82%, black 18%) 100%
+        ) !important;
+        box-shadow:
+            inset 0 1px 0 0 color-mix(in oklch, var(--secondary) 55%, white 45%),
+            inset 0 -1px 0 0 color-mix(in oklch, var(--secondary) 72%, black 28%),
+            0 5px 16px 0 color-mix(in oklch, var(--secondary) 52%, transparent) !important;
+    }
+    [data-effects~="3d"] [data-slot="button"].bg-secondary:active {
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--secondary) 75%, black 25%) 0%,
+            var(--secondary) 55%,
+            color-mix(in oklch, var(--secondary) 84%, white 16%) 100%
+        ) !important;
+        box-shadow:
+            inset 0 2px 5px 0 color-mix(in oklch, var(--secondary) 55%, black 45%),
+            0 1px 3px 0 color-mix(in oklch, var(--secondary) 30%, transparent) !important;
+    }
+
+    /* Accent */
+    [data-effects~="3d"] [data-slot="button"].bg-accent {
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--accent) 82%, white 18%) 0%,
+            var(--accent) 45%,
+            color-mix(in oklch, var(--accent) 78%, black 22%) 100%
+        ) !important;
+        border: 1px solid color-mix(in oklch, var(--accent) 70%, white 30%) !important;
+        box-shadow:
+            inset 0 1px 0 0 color-mix(in oklch, var(--accent) 50%, white 50%),
+            inset 0 -1px 0 0 color-mix(in oklch, var(--accent) 68%, black 32%),
+            0 3px 10px 0 color-mix(in oklch, var(--accent) 45%, transparent) !important;
+    }
+    [data-effects~="3d"] [data-slot="button"].bg-accent:hover {
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--accent) 88%, white 12%) 0%,
+            color-mix(in oklch, var(--accent) 95%, white 5%) 45%,
+            color-mix(in oklch, var(--accent) 82%, black 18%) 100%
+        ) !important;
+        box-shadow:
+            inset 0 1px 0 0 color-mix(in oklch, var(--accent) 55%, white 45%),
+            inset 0 -1px 0 0 color-mix(in oklch, var(--accent) 72%, black 28%),
+            0 5px 16px 0 color-mix(in oklch, var(--accent) 52%, transparent) !important;
+    }
+    [data-effects~="3d"] [data-slot="button"].bg-accent:active {
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--accent) 75%, black 25%) 0%,
+            var(--accent) 55%,
+            color-mix(in oklch, var(--accent) 84%, white 16%) 100%
+        ) !important;
+        box-shadow:
+            inset 0 2px 5px 0 color-mix(in oklch, var(--accent) 55%, black 45%),
+            0 1px 3px 0 color-mix(in oklch, var(--accent) 30%, transparent) !important;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────── */
+
+    /* Remove padding/margin from sidebar wrapper for seamless gradient */
+    [data-variant="inset"] {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* Remove top/bottom padding from sidebar container when variant is floating or inset */
+    .group[data-variant="inset"] > div.fixed,
+    .group[data-variant="floating"] > div.fixed {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* More specific override for group data attributes */
+    :where(.group)[data-side="left"][data-variant="inset"] > div.fixed,
+    :where(.group)[data-side="right"][data-variant="inset"] > div.fixed {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* Make header gradient match sidebar for seamless flow */
+    .header-sidebar-gradient {
+        background: var(--sidebar) !important;
+        border-bottom-color: transparent !important;
+    }
+
+    /* Backward compatibility aliases */
+    .bg-gradient-deep-blue-lavender {
+        background: var(--gradient-primary-secondary);
+    }
+
+    .bg-gradient-deep-blue-copper {
+        background: var(--gradient-primary-accent);
+    }
+
+    .bg-gradient-copper-heritage {
+        background: var(--gradient-accent-heritage);
+    }
+
+    .bg-gradient-warm-white-lavender {
+        background: var(--gradient-background-secondary);
+    }
+
+    .bg-gradient-lavender-white {
+        background: var(--gradient-secondary-white);
+    }
+
+    .bg-gradient-light-lavender-deep-blue {
+        background: var(--gradient-light-secondary-primary);
+    }
+
+    /* ===== Alinma Brand Color Utilities ===== */
+    .bg-alinma-deep-blue {
+        background-color: var(--alinma-deep-blue);
+    }
+
+    .bg-lavender {
+        background-color: var(--lavender);
+    }
+
+    .bg-light-lavender {
+        background-color: var(--light-lavender);
+    }
+
+    .bg-soft-lavender {
+        background-color: var(--soft-lavender);
+    }
+
+    .bg-heritage-brown {
+        background-color: var(--heritage-brown);
+    }
+
+    .bg-copper {
+        background-color: var(--copper);
+    }
+
+    .bg-light-copper {
+        background-color: var(--light-copper);
+    }
+
+    .bg-warm-white {
+        background-color: var(--warm-white);
+    }
+
+    .bg-off-white {
+        background-color: var(--off-white);
+    }
+
+    .bg-alinma-black {
+        background-color: var(--alinma-black);
+    }
+
+    .bg-desert-rose {
+        background-color: var(--desert-rose);
+    }
+
+    .text-alinma-deep-blue {
+        color: var(--alinma-deep-blue);
+    }
+
+    .text-lavender {
+        color: var(--lavender);
+    }
+
+    .text-heritage-brown {
+        color: var(--heritage-brown);
+    }
+
+    .text-copper {
+        color: var(--copper);
+    }
+
+    .text-light-copper {
+        color: var(--light-copper);
+    }
+
+    .text-desert-rose {
+        color: var(--desert-rose);
+    }
+
+    .border-alinma-deep-blue {
+        border-color: var(--alinma-deep-blue);
+    }
+
+    .border-lavender {
+        border-color: var(--lavender);
+    }
+
+    .border-light-lavender {
+        border-color: var(--light-lavender);
+    }
+
+    .border-copper {
+        border-color: var(--copper);
+    }
+
+    /* ===== Semantic Color Utilities ===== */
+    .bg-primary {
+        background-color: var(--primary);
+    }
+
+    .bg-secondary {
+        background-color: var(--secondary);
+    }
+
+    .bg-accent {
+        background-color: var(--accent);
+    }
+
+    .bg-muted {
+        background-color: var(--muted);
+    }
+
+    .text-primary {
+        color: var(--primary);
+    }
+
+    .text-secondary {
+        color: var(--secondary);
+    }
+
+    .text-accent {
+        color: var(--accent);
+    }
+
+    .text-muted {
+        color: var(--muted-foreground);
+    }
+
+    .border-primary {
+        border-color: var(--primary);
+    }
+
+    .border-secondary {
+        border-color: var(--secondary);
+    }
+
+    .border-accent {
+        border-color: var(--accent);
+    }
+
+    .border-muted {
+        border-color: var(--muted);
+    }
+
+    /* ===== Segment-Specific Styles ===== */
+    /* These use theme CSS variables - colors come from theme config */
+    .segment-personal-dark {
+        background-color: var(--primary);
+        color: var(--primary-foreground);
+    }
+
+    .segment-personal-dark .accent {
+        background-color: var(--accent);
+        color: var(--accent-foreground);
+    }
+
+    .segment-personal-light {
+        background-color: var(--background);
+        color: var(--foreground);
+    }
+
+    .segment-personal-light .accent {
+        background-color: var(--accent);
+        color: var(--accent-foreground);
+    }
+
+    .segment-business {
+        background-color: var(--primary);
+        color: var(--primary-foreground);
+    }
+
+    .segment-business .accent {
+        background-color: var(--secondary);
+        color: var(--secondary-foreground);
+    }
+
+    .segment-private {
+        background-color: var(--primary);
+        color: var(--primary-foreground);
+    }
+
+    .segment-private .accent {
+        background-color: var(--accent);
+        color: var(--accent-foreground);
+    }
+
+    .segment-capital {
+        background-color: var(--secondary);
+        color: var(--primary);
+    }
+
+    .segment-capital .accent {
+        background-color: var(--accent);
+        color: var(--accent-foreground);
+    }
+
+    /* ===== Modern UI Components ===== */
+
+    /* Glass morphism effect */
+    .glass {
+        background: hsl(var(--background) / 0.8);
+        backdrop-filter: blur(12px);
+        border: 1px solid hsl(var(--border) / 0.5);
+    }
+
+    /* Radial gradient utility */
+    .bg-gradient-radial {
+        background-image: radial-gradient(circle, var(--tw-gradient-stops));
+    }
+
+    /* Progressive blur for sheet overlay */
+    .sheet-overlay-progressive-blur {
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
+    }
+
+    .sheet-overlay-progressive-blur[data-state='closed'] {
+        animation: progressive-overlay-out 300ms ease-in-out forwards !important;
+    }
+
+    @keyframes progressive-overlay-in {
+        0% {
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+            background-color: rgba(12, 35, 55, 0);
+        }
+
+        25% {
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            background-color: rgba(12, 35, 55, 0.15);
+        }
+
+        50% {
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            background-color: rgba(12, 35, 55, 0.3);
+        }
+
+        75% {
+            backdrop-filter: blur(9px);
+            -webkit-backdrop-filter: blur(9px);
+            background-color: rgba(12, 35, 55, 0.45);
+        }
+
+        100% {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background-color: rgba(12, 35, 55, 0.6);
+        }
+    }
+
+    @keyframes progressive-overlay-out {
+        0% {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background-color: rgba(12, 35, 55, 0.6);
+        }
+
+        25% {
+            backdrop-filter: blur(9px);
+            -webkit-backdrop-filter: blur(9px);
+            background-color: rgba(12, 35, 55, 0.45);
+        }
+
+        50% {
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            background-color: rgba(12, 35, 55, 0.3);
+        }
+
+        75% {
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            background-color: rgba(12, 35, 55, 0.15);
+        }
+
+        100% {
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+            background-color: rgba(12, 35, 55, 0);
+        }
+    }
+}
+
+@theme inline {
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-color-destructive-foreground: var(----color-destructive-foreground);
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+        margin: 0 !important;
+    }
+
+    /* Mock animations */
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in {
+        animation: fade-in 0.5s ease-out forwards;
+    }
+
+    @keyframes scale-up {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .animate-scale-up {
+        animation: scale-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Custom scrollbar styles from mock */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: color-mix(in srgb, var(--muted-foreground) 50%, transparent);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: color-mix(in srgb, var(--muted-foreground) 50%, transparent);
+        border-radius: var(--radius-xs, 0.5rem);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: color-mix(in srgb, var(--muted-foreground) 70%, transparent);
+    }
+
+    /* Hide scrollbar utility */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    /* Streamdown AI Chat Styling */
+    .streamdown-wrapper {
+        @apply text-sm leading-relaxed;
+    }
+
+    .streamdown-wrapper h1,
+    .streamdown-wrapper h2,
+    .streamdown-wrapper h3 {
+        @apply mt-4 mb-2 font-semibold;
+    }
+
+    .streamdown-wrapper h1 {
+        @apply text-base;
+    }
+
+    .streamdown-wrapper h2 {
+        @apply text-sm;
+    }
+
+    .streamdown-wrapper h3 {
+        @apply text-sm;
+    }
+
+    .streamdown-wrapper p {
+        @apply mb-2;
+    }
+
+    .streamdown-wrapper ul,
+    .streamdown-wrapper ol {
+        @apply mb-2 ms-4;
+    }
+
+    .streamdown-wrapper li {
+        @apply mb-1;
+    }
+
+    .streamdown-wrapper code {
+        @apply rounded bg-black/10 dark:bg-white/10 px-1 py-0.5 text-xs;
+    }
+
+    .streamdown-wrapper pre {
+        @apply my-2 overflow-x-auto rounded-lg bg-black/5 dark:bg-white/5 p-3;
+    }
+
+    .streamdown-wrapper pre code {
+        @apply bg-transparent p-0;
+    }
+
+    .streamdown-wrapper a {
+        @apply underline underline-offset-2 hover:opacity-80;
+    }
+
+    .streamdown-wrapper blockquote {
+        @apply border-s-2 border-current ps-3 italic opacity-80;
+    }
+
+    .streamdown-wrapper strong {
+        @apply font-semibold;
+    }
+
+    .streamdown-wrapper em {
+        @apply italic;
+    }
+
+    .streamdown-wrapper table {
+        @apply my-2 w-full border-collapse text-xs;
+    }
+
+    .streamdown-wrapper th,
+    .streamdown-wrapper td {
+        @apply border border-current/20 px-2 py-1;
+    }
+
+    .streamdown-wrapper th {
+        @apply font-semibold;
+    }
+
+    /* ===== Intro Screen Animations ===== */
+
+    /* Logo slides up with fade-in */
+    @keyframes logo-slide-up {
+        0% {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-logo-slide-up {
+        animation: logo-slide-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    /* Text slides in with blur effect */
+    @keyframes text-slide-blur {
+        0% {
+            opacity: 0;
+            transform: translateX(-20px);
+            filter: blur(10px);
+        }
+        50% {
+            opacity: 0.5;
+            filter: blur(5px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+            filter: blur(0px);
+        }
+    }
+
+    .animate-text-slide-blur {
+        animation: text-slide-blur 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    /* Overlay fade-out animation */
+    @keyframes overlay-fade-out {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .animate-overlay-fade-out {
+        animation: overlay-fade-out 1s ease-out forwards;
+    }
+
+    /* Logo exit animation (slide down and blur out) */
+    @keyframes logo-exit {
+        0% {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(40px);
+            filter: blur(12px);
+        }
+    }
+
+    .animate-logo-exit {
+        animation: logo-exit 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Glow pulse animation for background */
+    @keyframes glow-pulse {
+        0%, 100% {
+            opacity: 0.3;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.5;
+            transform: scale(1.05);
+        }
+    }
+
+    .animate-glow-pulse {
+        animation: glow-pulse 3s ease-in-out infinite;
+    }
+}
