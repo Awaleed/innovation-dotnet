@@ -52,8 +52,11 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
 
         if (!response.IsSuccessStatusCode)
         {
-            ModelState.AddModelError("email", "Invalid email or password.");
-            return Login();
+            TempData["errors"] = JsonSerializer.Serialize(new Dictionary<string, string>
+            {
+                { "email", "Invalid email or password." }
+            });
+            return Redirect("/login");
         }
 
         // Get access token and fetch user info
@@ -99,6 +102,7 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
 
         if (!response.IsSuccessStatusCode)
         {
+            var errorDict = new Dictionary<string, string>();
             var errorContent = await response.Content.ReadAsStringAsync();
             try
             {
@@ -107,22 +111,19 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
                 {
                     foreach (var error in errors.EnumerateObject())
                     {
-                        foreach (var msg in error.Value.EnumerateArray())
-                        {
-                            ModelState.AddModelError(error.Name, msg.GetString() ?? "");
-                        }
+                        var firstMsg = error.Value.EnumerateArray().FirstOrDefault().GetString();
+                        if (firstMsg != null)
+                            errorDict[error.Name] = firstMsg;
                     }
                 }
-                else
-                {
-                    ModelState.AddModelError("email", "Registration failed.");
-                }
             }
-            catch
-            {
-                ModelState.AddModelError("email", "Registration failed.");
-            }
-            return Register();
+            catch { }
+
+            if (errorDict.Count == 0)
+                errorDict["email"] = "Registration failed.";
+
+            TempData["errors"] = JsonSerializer.Serialize(errorDict);
+            return Redirect("/register");
         }
 
         // Auto-login after register
