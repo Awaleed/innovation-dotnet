@@ -1,8 +1,5 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-// Docker Compose deployment target
-var compose = builder.AddDockerComposeEnvironment("compose");
-
 // Infrastructure
 var redis = builder.AddRedis("redis")
     .WithLifetime(ContainerLifetime.Persistent)
@@ -23,20 +20,12 @@ var identityDb = postgres.AddDatabase("identitydb");
 var identityApi = builder.AddProject<Projects.Identity_API>("identity-api")
     .WithReference(identityDb)
     .WaitFor(identityDb)
-    .WithExternalHttpEndpoints()
-    .PublishAsDockerComposeService((resource, service) =>
-    {
-        service.Name = "identity-api";
-    });
+    .WithExternalHttpEndpoints();
 
 // Web App
 var web = builder.AddProject<Projects.Innovation_Web>("web")
     .WithExternalHttpEndpoints()
     .WithReference(identityApi)
-    .WaitFor(identityApi)
-    .PublishAsDockerComposeService((resource, service) =>
-    {
-        service.Name = "web";
-    });
+    .WaitFor(identityApi);
 
 builder.Build().Run();
