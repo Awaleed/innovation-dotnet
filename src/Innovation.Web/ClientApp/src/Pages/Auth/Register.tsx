@@ -1,125 +1,220 @@
-import { useState, FormEvent } from 'react';
-import { router } from '@inertiajs/react';
-import { dashboard, login as loginRoute } from '../../routes';
-import { register as apiRegister } from '../../routes/api/auth';
+import { Head } from '@inertiajs/react';
+import { LoaderCircle } from 'lucide-react';
+import { FormEventHandler } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { AuthPageTransition } from '@/components/auth/auth-page-transition';
+import InputError from '@/components/input-error';
+import TextLink from '@/components/text-link';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useInertiaForm } from '@/hooks';
+import AuthLayout from '@/layouts/auth-layout';
+import { login, register } from '@/routes';
+
+type RegisterForm = {
+    name: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+};
 
 export default function Register() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState<Record<string, string[]>>({});
-    const [generalError, setGeneralError] = useState('');
+    const { t } = useTranslation();
+    const { data, setData, post, processing, errors, reset } = useInertiaForm<Required<RegisterForm>>({
+        name: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+    });
 
-    async function handleSubmit(e: FormEvent) {
+    const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        setLoading(true);
-        setErrors({});
-        setGeneralError('');
-
-        try {
-            const route = apiRegister();
-            const res = await fetch(route.url, {
-                method: route.method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password, confirmPassword }),
-            });
-
-            if (res.ok) {
-                // Cookie is set by the server — just navigate
-                router.visit(dashboard.url());
-            } else {
-                const data = await res.json();
-                if (data.errors) {
-                    setErrors(data.errors);
-                } else {
-                    setGeneralError(data.detail || 'Registration failed.');
-                }
-            }
-        } catch {
-            setGeneralError('Something went wrong. Please try again.');
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    const firstError = (field: string) => errors[field]?.[0];
+        post(register.url(), {
+            onFinish: () => reset('password', 'password_confirmation'),
+        });
+    };
 
     return (
-        <div style={styles.container}>
-            <div style={styles.card}>
-                <h1 style={styles.title}>Register</h1>
-                <p style={styles.subtitle}>Create a new account</p>
+        <AuthPageTransition>
+            <AuthLayout
+                title={t('auth:register.title')}
+                description={t('auth:register.description')}
+                showAnimatedBackground={true}
+                animationPosition="right"
+                animationTheme="orange"
+            >
+                <Head title={t('app:register')} />
 
-                {generalError && <div style={styles.error}>{generalError}</div>}
+                {/* Desktop form - no header since it's shown on the right side */}
+                <div className="hidden lg:block">
+                    <form method="POST" className="flex flex-col gap-6" onSubmit={submit}>
+                        <div className="grid gap-6">
+                            <div className="grid gap-2">
+                                <Label htmlFor="name">{t('auth:register.name')}</Label>
+                                <Input
+                                    id="name"
+                                    type="text"
+                                    required
+                                    autoFocus
+                                    tabIndex={1}
+                                    autoComplete="name"
+                                    value={data.name}
+                                    onChange={(e) => setData('name', e.target.value)}
+                                    disabled={processing}
+                                    placeholder={t('auth:register.name_placeholder')}
+                                />
+                                <InputError message={errors.name} className="mt-2" />
+                            </div>
 
-                <form onSubmit={handleSubmit}>
-                    <div style={styles.field}>
-                        <label style={styles.label}>Name</label>
-                        <input type="text" value={name} onChange={e => setName(e.target.value)} style={styles.input} required />
-                        {firstError('Name') && <p style={styles.fieldError}>{firstError('Name')}</p>}
-                    </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="email">{t('auth:register.email')}</Label>
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    required
+                                    tabIndex={2}
+                                    autoComplete="email"
+                                    value={data.email}
+                                    onChange={(e) => setData('email', e.target.value)}
+                                    disabled={processing}
+                                    placeholder={t('auth:register.email_placeholder')}
+                                />
+                                <InputError message={errors.email} />
+                            </div>
 
-                    <div style={styles.field}>
-                        <label style={styles.label}>Email</label>
-                        <input type="email" value={email} onChange={e => setEmail(e.target.value)} style={styles.input} required />
-                        {firstError('DuplicateUserName') && <p style={styles.fieldError}>{firstError('DuplicateUserName')}</p>}
-                    </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="password">{t('auth:register.password')}</Label>
+                                <Input
+                                    id="password"
+                                    type="password"
+                                    required
+                                    tabIndex={3}
+                                    autoComplete="new-password"
+                                    value={data.password}
+                                    onChange={(e) => setData('password', e.target.value)}
+                                    disabled={processing}
+                                    placeholder={t('auth:register.password_placeholder')}
+                                />
+                                <InputError message={errors.password} />
+                            </div>
 
-                    <div style={styles.field}>
-                        <label style={styles.label}>Password</label>
-                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} style={styles.input} required minLength={8} />
-                        {firstError('PasswordTooShort') && <p style={styles.fieldError}>{firstError('PasswordTooShort')}</p>}
-                    </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="password_confirmation">{t('auth:register.password_confirmation')}</Label>
+                                <Input
+                                    id="password_confirmation"
+                                    type="password"
+                                    required
+                                    tabIndex={4}
+                                    autoComplete="new-password"
+                                    value={data.password_confirmation}
+                                    onChange={(e) => setData('password_confirmation', e.target.value)}
+                                    disabled={processing}
+                                    placeholder={t('auth:register.password_confirmation_placeholder')}
+                                />
+                                <InputError message={errors.password_confirmation} />
+                            </div>
 
-                    <div style={styles.field}>
-                        <label style={styles.label}>Confirm Password</label>
-                        <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} style={styles.input} required />
-                        {firstError('ConfirmPassword') && <p style={styles.fieldError}>{firstError('ConfirmPassword')}</p>}
-                    </div>
+                            <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
+                                {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                                {t('auth:register.submit')}
+                            </Button>
+                        </div>
 
-                    <button type="submit" disabled={loading} style={styles.button}>
-                        {loading ? 'Creating account...' : 'Create Account'}
-                    </button>
-                </form>
+                        <div className="text-center text-sm text-muted-foreground">
+                            {t('auth:register.has_account')}{' '}
+                            <TextLink href={login.url()} tabIndex={6}>
+                                {t('auth:register.login_link')}
+                            </TextLink>
+                        </div>
+                    </form>
+                </div>
 
-                <p style={styles.linkText}>
-                    Already have an account?{' '}
-                    <a href={loginRoute.url()} style={styles.link}>Login</a>
-                </p>
-            </div>
-        </div>
+                {/* Mobile form - with header */}
+                <div className="lg:hidden">
+                    <form method="POST" className="flex flex-col gap-6" onSubmit={submit}>
+                        <div className="grid gap-6">
+                            <div className="grid gap-2">
+                                <Label htmlFor="name-mobile">{t('auth:register.name')}</Label>
+                                <Input
+                                    id="name-mobile"
+                                    type="text"
+                                    required
+                                    autoFocus
+                                    tabIndex={1}
+                                    autoComplete="name"
+                                    value={data.name}
+                                    onChange={(e) => setData('name', e.target.value)}
+                                    disabled={processing}
+                                    placeholder={t('auth:register.name_placeholder')}
+                                />
+                                <InputError message={errors.name} className="mt-2" />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="email-mobile">{t('auth:register.email')}</Label>
+                                <Input
+                                    id="email-mobile"
+                                    type="email"
+                                    required
+                                    tabIndex={2}
+                                    autoComplete="email"
+                                    value={data.email}
+                                    onChange={(e) => setData('email', e.target.value)}
+                                    disabled={processing}
+                                    placeholder={t('auth:register.email_placeholder')}
+                                />
+                                <InputError message={errors.email} />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="password-mobile">{t('auth:register.password')}</Label>
+                                <Input
+                                    id="password-mobile"
+                                    type="password"
+                                    required
+                                    tabIndex={3}
+                                    autoComplete="new-password"
+                                    value={data.password}
+                                    onChange={(e) => setData('password', e.target.value)}
+                                    disabled={processing}
+                                    placeholder={t('auth:register.password_placeholder')}
+                                />
+                                <InputError message={errors.password} />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="password_confirmation-mobile">{t('auth:register.password_confirmation')}</Label>
+                                <Input
+                                    id="password_confirmation-mobile"
+                                    type="password"
+                                    required
+                                    tabIndex={4}
+                                    autoComplete="new-password"
+                                    value={data.password_confirmation}
+                                    onChange={(e) => setData('password_confirmation', e.target.value)}
+                                    disabled={processing}
+                                    placeholder={t('auth:register.password_confirmation_placeholder')}
+                                />
+                                <InputError message={errors.password_confirmation} />
+                            </div>
+
+                            <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
+                                {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                                {t('auth:register.submit')}
+                            </Button>
+                        </div>
+
+                        <div className="text-center text-sm text-muted-foreground">
+                            {t('auth:register.has_account')}{' '}
+                            <TextLink href={login.url()} tabIndex={6}>
+                                {t('auth:register.login_link')}
+                            </TextLink>
+                        </div>
+                    </form>
+                </div>
+            </AuthLayout>
+        </AuthPageTransition>
     );
 }
-
-const styles: Record<string, React.CSSProperties> = {
-    container: {
-        minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        backgroundColor: '#f8fafc', fontFamily: 'system-ui, -apple-system, sans-serif',
-    },
-    card: {
-        backgroundColor: 'white', padding: '2.5rem', borderRadius: '0.75rem',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)', width: '100%', maxWidth: '400px',
-    },
-    title: { fontSize: '1.75rem', fontWeight: 700, color: '#1e293b', marginBottom: '0.25rem' },
-    subtitle: { color: '#64748b', marginBottom: '1.5rem' },
-    error: {
-        backgroundColor: '#fef2f2', color: '#dc2626', padding: '0.75rem',
-        borderRadius: '0.5rem', marginBottom: '1rem', fontSize: '0.875rem',
-    },
-    fieldError: { color: '#dc2626', fontSize: '0.75rem', marginTop: '0.25rem' },
-    field: { marginBottom: '1rem' },
-    label: { display: 'block', fontSize: '0.875rem', fontWeight: 500, color: '#374151', marginBottom: '0.25rem' },
-    input: {
-        width: '100%', padding: '0.625rem 0.75rem', border: '1px solid #d1d5db',
-        borderRadius: '0.5rem', fontSize: '1rem', boxSizing: 'border-box',
-    },
-    button: {
-        width: '100%', padding: '0.75rem', backgroundColor: '#3b82f6', color: 'white',
-        border: 'none', borderRadius: '0.5rem', fontSize: '1rem', fontWeight: 500,
-        cursor: 'pointer', marginTop: '0.5rem',
-    },
-    linkText: { textAlign: 'center', marginTop: '1.5rem', color: '#64748b', fontSize: '0.875rem' },
-    link: { color: '#3b82f6', textDecoration: 'none' },
-};

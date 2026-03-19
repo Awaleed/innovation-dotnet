@@ -1,120 +1,211 @@
-import { useState, FormEvent } from 'react';
-import { router } from '@inertiajs/react';
-import { dashboard, register as registerRoute } from '../../routes';
-import { login as apiLogin } from '../../routes/api/auth';
+import { Head, useForm } from '@inertiajs/react';
+import { LoaderCircle, Lock, Mail } from 'lucide-react';
+import { FormEventHandler } from 'react';
 
-export default function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+import InputError from '@/components/input-error';
+import TextLink from '@/components/text-link';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useTheme } from '@/hooks/use-theme';
+import AuthLayout from '@/layouts/auth-layout';
+import { login, register } from '@/routes';
+import password from '@/routes/password';
+import { useTranslation } from 'react-i18next';
 
-    async function handleSubmit(e: FormEvent) {
-        e.preventDefault();
-        setLoading(true);
-        setError('');
-
-        try {
-            const route = apiLogin();
-            const res = await fetch(route.url, {
-                method: route.method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (res.ok) {
-                // Cookie is set by the server — just navigate
-                router.visit(dashboard.url());
-            } else {
-                const data = await res.json();
-                setError(data.detail || 'Invalid email or password.');
-            }
-        } catch {
-            setError('Something went wrong. Please try again.');
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    return (
-        <div style={styles.container}>
-            <div style={styles.card}>
-                <h1 style={styles.title}>Login</h1>
-                <p style={styles.subtitle}>Sign in to your account</p>
-
-                {error && <div style={styles.error}>{error}</div>}
-
-                <form onSubmit={handleSubmit}>
-                    <div style={styles.field}>
-                        <label style={styles.label}>Email</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                            style={styles.input}
-                            required
-                        />
-                    </div>
-
-                    <div style={styles.field}>
-                        <label style={styles.label}>Password</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                            style={styles.input}
-                            required
-                        />
-                    </div>
-
-                    <button type="submit" disabled={loading} style={styles.button}>
-                        {loading ? 'Signing in...' : 'Sign In'}
-                    </button>
-                </form>
-
-                <p style={styles.linkText}>
-                    Don't have an account?{' '}
-                    <a href={registerRoute.url()} style={styles.link}>Register</a>
-                </p>
-            </div>
-        </div>
-    );
+interface LoginForm {
+    email: string;
+    password: string;
+    remember: boolean;
+    [key: string]: string | boolean;
 }
 
-const styles: Record<string, React.CSSProperties> = {
-    container: {
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f8fafc',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
-    },
-    card: {
-        backgroundColor: 'white',
-        padding: '2.5rem',
-        borderRadius: '0.75rem',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-        width: '100%',
-        maxWidth: '400px',
-    },
-    title: { fontSize: '1.75rem', fontWeight: 700, color: '#1e293b', marginBottom: '0.25rem' },
-    subtitle: { color: '#64748b', marginBottom: '1.5rem' },
-    error: {
-        backgroundColor: '#fef2f2', color: '#dc2626', padding: '0.75rem',
-        borderRadius: '0.5rem', marginBottom: '1rem', fontSize: '0.875rem',
-    },
-    field: { marginBottom: '1rem' },
-    label: { display: 'block', fontSize: '0.875rem', fontWeight: 500, color: '#374151', marginBottom: '0.25rem' },
-    input: {
-        width: '100%', padding: '0.625rem 0.75rem', border: '1px solid #d1d5db',
-        borderRadius: '0.5rem', fontSize: '1rem', boxSizing: 'border-box',
-    },
-    button: {
-        width: '100%', padding: '0.75rem', backgroundColor: '#3b82f6', color: 'white',
-        border: 'none', borderRadius: '0.5rem', fontSize: '1rem', fontWeight: 500,
-        cursor: 'pointer', marginTop: '0.5rem',
-    },
-    linkText: { textAlign: 'center', marginTop: '1.5rem', color: '#64748b', fontSize: '0.875rem' },
-    link: { color: '#3b82f6', textDecoration: 'none' },
-};
+interface LoginProps {
+    status?: string;
+    canResetPassword: boolean;
+}
+
+export default function Login({ status, canResetPassword }: LoginProps) {
+    const { t } = useTranslation();
+    const theme = useTheme();
+    const { data, setData, post, processing, errors, reset } = useForm<LoginForm>({
+        email: '',
+        password: '',
+        remember: false,
+    });
+
+    const submit: FormEventHandler = (e) => {
+        e.preventDefault();
+        post(login.url(), {
+            onFinish: () => reset('password'),
+        });
+    };
+
+    const primary = theme.colors['primary'] || '#233968';
+    const border = theme.colors['border'] || '#e5e7eb';
+    const foreground = theme.colors['foreground'] || '#111827';
+    const mutedFg = theme.colors['muted-foreground'] || '#6b7280';
+    const cardBg = theme.colors['card'] || '#ffffff';
+    const destructive = theme.colors['destructive'] || '#ef4444';
+
+    return (
+        <AuthLayout
+            title={t('auth:login.title')}
+            description={t('auth:login.description', 'Enter your email and password below to log in')}
+            showAnimatedBackground={true}
+        >
+            <Head title={t('auth:login.title')} />
+
+            <form method="POST" className="flex flex-col gap-5" onSubmit={submit}>
+                {/* Email */}
+                <div className="grid gap-1.5">
+                    <Label
+                        htmlFor="email"
+                        className="font-sans text-sm font-medium"
+                        style={{ color: foreground }}
+                    >
+                        {t('auth:login.email')}
+                    </Label>
+                    <div className="relative">
+                        <Mail
+                            className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2"
+                            style={{ color: mutedFg }}
+                        />
+                        <Input
+                            id="email"
+                            type="email"
+                            required
+                            autoFocus
+                            tabIndex={1}
+                            autoComplete="email"
+                            value={data.email}
+                            onChange={(e) => setData('email', e.target.value)}
+                            placeholder={t('auth:login.email_placeholder', 'email@example.com')}
+                            className="h-11 ps-10 font-sans"
+                            style={{
+                                borderColor: errors.email ? destructive : border,
+                                backgroundColor: cardBg,
+                                color: foreground,
+                            }}
+                        />
+                    </div>
+                    {errors.email && <InputError message={errors.email} className="text-xs" />}
+                </div>
+
+                {/* Password */}
+                <div className="grid gap-1.5">
+                    <div className="flex items-center justify-between">
+                        <Label
+                            htmlFor="password"
+                            className="font-sans text-sm font-medium"
+                            style={{ color: foreground }}
+                        >
+                            {t('auth:login.password')}
+                        </Label>
+                        {canResetPassword && (
+                            <TextLink
+                                href={password.request()}
+                                className="font-sans text-xs font-medium"
+                                style={{ color: mutedFg }}
+                                tabIndex={5}
+                            >
+                                {t('auth:login.forgot_password')}
+                            </TextLink>
+                        )}
+                    </div>
+                    <div className="relative">
+                        <Lock
+                            className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2"
+                            style={{ color: mutedFg }}
+                        />
+                        <Input
+                            id="password"
+                            type="password"
+                            required
+                            tabIndex={2}
+                            autoComplete="current-password"
+                            value={data.password}
+                            onChange={(e) => setData('password', e.target.value)}
+                            placeholder="••••••••"
+                            className="h-11 ps-10 font-sans"
+                            style={{
+                                borderColor: errors.password ? destructive : border,
+                                backgroundColor: cardBg,
+                                color: foreground,
+                            }}
+                        />
+                    </div>
+                    {errors.password && <InputError message={errors.password} className="text-xs" />}
+                </div>
+
+                {/* Remember me */}
+                <div className="flex items-center gap-2.5">
+                    <Checkbox
+                        id="remember"
+                        name="remember"
+                        checked={data.remember}
+                        onClick={() => setData('remember', !data.remember)}
+                        tabIndex={3}
+                    />
+                    <Label
+                        htmlFor="remember"
+                        className="cursor-pointer font-sans text-sm"
+                        style={{ color: foreground }}
+                    >
+                        {t('auth:login.remember')}
+                    </Label>
+                </div>
+
+                {/* Submit */}
+                <Button
+                    type="submit"
+                    className="mt-1 h-11 w-full font-sans text-sm font-semibold tracking-wide"
+                    tabIndex={4}
+                    disabled={processing}
+                    style={{
+                        backgroundColor: primary,
+                        color: theme.colors['primary-foreground'] || '#ffffff',
+                    }}
+                >
+                    {processing ? (
+                        <LoaderCircle className="h-4 w-4 animate-spin" />
+                    ) : (
+                        t('auth:login.submit')
+                    )}
+                </Button>
+
+                {/* Divider + register link */}
+                <div
+                    className="border-t pt-4 text-center"
+                    style={{ borderColor: border }}
+                >
+                    <p className="font-sans text-sm" style={{ color: mutedFg }}>
+                        {t('auth:login.no_account', "Don't have an account?")}{' '}
+                        <TextLink
+                            href={register()}
+                            className="font-medium"
+                            style={{ color: primary }}
+                            tabIndex={6}
+                        >
+                            {t('app:register')}
+                        </TextLink>
+                    </p>
+                </div>
+            </form>
+
+            {status && (
+                <div
+                    className="mt-4 rounded-md border p-3 text-center font-sans text-sm"
+                    style={{
+                        backgroundColor: theme.colors['muted'] || '#f3f4f6',
+                        borderColor: border,
+                        color: foreground,
+                    }}
+                >
+                    {status}
+                </div>
+            )}
+        </AuthLayout>
+    );
+}
