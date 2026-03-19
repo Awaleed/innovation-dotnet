@@ -9,7 +9,10 @@ var postgres = builder.AddPostgres("postgres")
     .WithImage("ankane/pgvector")
     .WithImageTag("latest")
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithoutHttpsCertificate();
+    .WithoutHttpsCertificate()
+    .WithPgAdmin(pgAdmin => pgAdmin
+        .WithLifetime(ContainerLifetime.Persistent)
+        .WithoutHttpsCertificate());
 
 var identityDb = postgres.AddDatabase("identitydb");
 
