@@ -1,0 +1,293 @@
+{
+  "title": "Strategic Insights",
+  "subtitle": "Comprehensive strategic insights and innovation portfolio analytics",
+  "financial_dashboard": "Strategic Insights",
+
+  "buttons": {
+    "present": "Present",
+    "export_pdf": "Export PDF",
+    "exporting": "Exporting...",
+    "full_screen": "Full Screen",
+    "exit": "Exit",
+    "advanced_filters": "Advanced Filters",
+    "apply_filters": "Apply Filters",
+    "reset": "Reset",
+    "play": "Play",
+    "pause": "Pause"
+  },
+
+  "tabs": {
+    "roi": {
+      "label": "Innovation ROI",
+      "description": "Investment returns and value creation"
+    },
+    "portfolio": {
+      "label": "Investment Portfolio",
+      "description": "Asset allocation and performance"
+    },
+    "health": {
+      "label": "Financial Health",
+      "description": "Operational metrics and efficiency"
+    },
+    "impact": {
+      "label": "Impact & Value",
+      "description": "Economic and strategic outcomes"
+    }
+  },
+
+  "roi": {
+    "waterfall_title": "Investment Flow Analysis",
+    "waterfall_description": "Track how capital flows from initial allocation to net innovation investment",
+    "waterfall_award_budget": "Award Budget",
+    "waterfall_award_budget_desc": "Total challenge awards allocated",
+    "waterfall_sponsorships": "Sponsorships",
+    "waterfall_sponsorships_desc": "External sponsor contributions",
+    "waterfall_operational_costs": "Operational Costs",
+    "waterfall_operational_costs_desc": "Idea processing and evaluation",
+    "waterfall_net_investment": "Net Investment",
+    "waterfall_net_investment_desc": "Total available for innovation",
+    "gauge_label": "Innovation ROI",
+    "investment_vs_returns_title": "Investment vs. Returns (Last 12 Months)",
+    "investment_vs_returns_description": "Track your innovation investment and projected returns over time",
+    "net_cash_flow_title": "Net Cash Flow Trend",
+    "net_cash_flow_description": "Monthly net cash flow showing investment vs. returns balance",
+    "net_cash_flow_filter_hint": "Click bars to filter • Click again to clear",
+    "net_cash_flow_filter_description": "Monthly net cash flow showing investment vs. returns balance. Click on bars to cross-filter all charts.",
+    "quick_stats_title": "Quick Statistics",
+    "hero_total_investment": "Total Innovation Investment",
+    "hero_portfolio_value": "Portfolio Value",
+    "hero_ytd_roi": "YTD ROI",
+    "hero_active_investments": "Active Investments",
+    "hero_challenges_unit": "Challenges",
+    "quick_cost_per_idea": "Cost per Idea",
+    "quick_conversion_rate": "Conversion Rate",
+    "quick_payback_period": "Payback Period",
+    "quick_projected_returns": "Projected Returns",
+    "investment": "Investment",
+    "returns": "Returns",
+    "net_cash_flow": "Net Cash Flow",
+    "inflow": "Inflow (+)",
+    "outflow": "Outflow (−)",
+    "total": "Total"
+  },
+
+  "portfolio": {
+    "diversification_title": "Portfolio Diversification",
+    "diversification_description": "Innovation portfolio spread across {{categories}} categories",
+    "total_assets": "Total Assets",
+    "categories": "Categories",
+    "diversification_score": "Diversification Score",
+    "excellent": "Excellent",
+    "good": "Good",
+    "fair": "Fair",
+    "allocation_title": "Portfolio Allocation",
+    "allocation_description": "Investment distribution by category",
+    "allocation_filter_hint": "Click slices to filter • Click again to clear",
+    "allocation_filter_description": "Investment distribution by category. Click on slices to cross-filter all charts.",
+    "risk_return_title": "Risk-Return Matrix",
+    "risk_return_description": "Ideas positioned by risk and expected return",
+    "risk_level": "Risk Level",
+    "expected_return": "Expected Return (K SAR)",
+    "risk": "Risk",
+    "return": "Return",
+    "ideas": "Ideas",
+    "asset_performance_title": "Top 10 Asset Performance",
+    "asset_performance_description": "High-value innovation assets with projected returns",
+    "asset_name": "Asset Name",
+    "investment": "Investment",
+    "stage": "Stage",
+    "projected_value": "Projected Value",
+    "risk_adj_return": "Risk-Adj. Return",
+    "trend_30_day": "30-Day Trend",
+    "liquidity": "Liquidity",
+    "no_data": "No data"
+  },
+
+  "health": {
+    "burn_rate_title": "Monthly Burn Rate",
+    "burn_rate_description": "Average monthly spending on innovation initiatives",
+    "average_monthly_spend": "Average monthly spend",
+    "runway_title": "Financial Runway",
+    "runway_description": "Months of operation at current burn rate",
+    "at_current_burn_rate": "At current burn rate",
+    "months": "Months",
+    "budget_health_title": "Budget Health",
+    "budget_health_action_needed": "Action needed: Runway below 6 months",
+    "budget_health_healthy": "Healthy: Sufficient runway available",
+    "budget_utilization_title": "Budget Utilization by Challenge",
+    "budget_utilization_description": "Track spending against allocated budgets",
+    "spending_vs_budgets": "Spending vs. allocated budgets",
+    "unnamed_challenge": "Unnamed",
+    "allocated": "Allocated",
+    "spent": "Spent",
+    "remaining": "Remaining",
+    "utilization": "Utilization",
+    "efficiency_title": "Operational Efficiency Metrics",
+    "efficiency_description": "Key performance indicators for innovation program",
+    "efficiency_cost_per_acquisition": "Cost per Idea Acquired",
+    "efficiency_cost_per_implementation": "Cost per Implementation",
+    "efficiency_implementation_rate": "Implementation Rate",
+    "cash_flow_title": "Cash Flow Projection (Next 12 Months)",
+    "cash_flow_description": "Forecasted inflows, outflows, and balance",
+    "inflow": "Inflow",
+    "outflow": "Outflow",
+    "balance": "Balance"
+  },
+
+  "impact": {
+    "economic_impact_title": "Economic Impact",
+    "economic_jobs_created": "Jobs Created",
+    "economic_market_value": "Market Value Generated",
+    "economic_cost_savings": "Cost Savings Realized",
+    "projected": "Projected",
+    "funnel_submitted": "Submitted",
+    "funnel_shortlisted": "Shortlisted",
+    "funnel_winners": "Winners",
+    "funnel_implemented": "Implemented",
+    "strategic_alignment_title": "Strategic Alignment",
+    "strategic_alignment_description": "Ideas aligned with national priorities",
+    "excellent_alignment": "Excellent alignment with strategic goals",
+    "good_alignment": "Good alignment with strategic priorities",
+    "moderate_alignment": "Moderate alignment - room for improvement",
+    "innovation_velocity_title": "Innovation Velocity",
+    "innovation_velocity_description": "Average time from idea to implementation",
+    "fast_track": "Fast track to market",
+    "standard_timeline": "Standard implementation timeline",
+    "extended_cycle": "Extended development cycle",
+    "success_flow_title": "Innovation Success Flow",
+    "success_flow_description": "Interactive flow visualization showing conversion rates from submission to implementation. Hover over flows to see conversion percentages.",
+    "pipeline_metrics_title": "Pipeline Performance Metrics",
+    "pipeline_metrics_description": "Key conversion and success indicators",
+    "overall_conversion_rate": "Overall Conversion Rate",
+    "of_ideas_implemented": "{{count}} of {{total}} ideas implemented",
+    "success_rate": "Success Rate",
+    "winners_selected": "{{count}} winners selected",
+    "total_pipeline": "Total Pipeline",
+    "ideas_in_pipeline": "Ideas in innovation pipeline"
+  },
+
+  "ai_insights": {
+    "title": "AI-Powered Insights",
+    "subtitle": "Intelligent analysis of your innovation portfolio",
+    "live": "Live",
+    "trending_up": "Trending Up",
+    "attention": "Attention",
+    "opportunities": "Opportunities",
+    "exceptional_roi_title": "Exceptional ROI Performance",
+    "exceptional_roi_description": "Your innovation portfolio is delivering {{roi}}% ROI, significantly outperforming industry benchmarks of 8-12%. This indicates highly efficient capital allocation.",
+    "roi_below_target_title": "ROI Below Target",
+    "roi_below_target_description": "Current ROI of {{roi}}% is below the target threshold. Consider reallocating resources to higher-performing innovation categories.",
+    "runway_critical_title": "Budget Runway Critical",
+    "runway_critical_description": "Only {{runway}} months of runway remaining at current burn rate. Immediate action required to secure additional funding or reduce spend.",
+    "healthy_position_title": "Healthy Financial Position",
+    "healthy_position_description": "Strong runway of {{runway}} months provides excellent flexibility for strategic initiatives and expansion opportunities.",
+    "well_diversified_title": "Well-Diversified Portfolio",
+    "well_diversified_description": "Diversification score of {{score}}% across {{categories}} categories reduces risk and increases probability of breakthrough innovations.",
+    "diversification_opportunity_title": "Diversification Opportunity",
+    "diversification_opportunity_description": "Portfolio concentration detected. Expanding into additional innovation categories could improve risk-adjusted returns.",
+    "high_alignment_title": "High Strategic Alignment",
+    "high_alignment_description": "{{alignment}}% of initiatives aligned with strategic priorities. This strong alignment increases probability of long-term value creation.",
+    "rapid_velocity_title": "Rapid Innovation Velocity",
+    "rapid_velocity_description": "Average time-to-market of {{velocity}} months is {{percent}}% faster than industry average, enabling quick value capture.",
+    "high_value_asset_title": "High-Value Asset Identified",
+    "high_value_asset_description": "Top innovation asset showing {{liquidity}}% liquidity score with projected value of {{value}} SAR. Fast-track for maximum impact.",
+    "top_pick": "Top Pick",
+    "action_view_top_performers": "View top performers",
+    "action_analyze_underperformers": "Analyze underperformers",
+    "action_review_budget": "Review budget",
+    "action_explore_categories": "Explore new categories",
+    "action_view_details": "View details"
+  },
+
+  "filters": {
+    "title": "Advanced Filters",
+    "cross_filtering_active": "Cross-Filtering Active",
+    "time_period": "Time Period",
+    "last_3_months": "Last 3 Months",
+    "last_6_months": "Last 6 Months",
+    "last_12_months": "Last 12 Months",
+    "last_2_years": "Last 2 Years",
+    "all_time": "All Time",
+    "budget_range": "Budget Range (SAR)",
+    "to": "to",
+    "challenge_status": "Challenge Status",
+    "open": "Open",
+    "closed": "Closed",
+    "judging": "Judging",
+    "completed": "Completed",
+    "specific_challenges": "Specific Challenges ({count} selected)",
+    "unnamed": "Unnamed"
+  },
+
+  "presentation": {
+    "slide_of": "Slide {{current}} of {{total}}",
+    "seconds_remaining": "{{seconds}}s remaining",
+    "seconds_elapsed": "{{seconds}}s elapsed",
+    "slides": {
+      "roi_overview": {
+        "title": "Innovation ROI Overview",
+        "narration": "Our innovation portfolio has generated an impressive 28.5% ROI with a portfolio value of 20.4M SAR. Investment flow analysis shows strong capital allocation from awards and sponsorships."
+      },
+      "investment_returns": {
+        "title": "Investment vs Returns Trend",
+        "narration": "Over the last 12 months, we've seen consistent growth in both investments and returns, with returns exceeding investments by Q3, indicating positive momentum."
+      },
+      "portfolio_diversification": {
+        "title": "Portfolio Diversification",
+        "narration": "Our innovation portfolio maintains excellent diversification with a score of 85%, spread across 8 categories and 120 total assets, reducing overall risk."
+      },
+      "risk_return": {
+        "title": "Risk-Return Matrix",
+        "narration": "The risk-return matrix shows a healthy balance of high-return, low-risk ideas in the sweet spot, with strategic bets in higher-risk opportunities."
+      },
+      "top_assets": {
+        "title": "Top Asset Performance",
+        "narration": "Our top 10 assets show strong performance with positive 30-day trends, high liquidity scores, and risk-adjusted returns averaging 1.2M SAR per asset."
+      },
+      "financial_health": {
+        "title": "Financial Health Metrics",
+        "narration": "Current burn rate is 178K SAR per month with a healthy 56.2 month runway. Budget utilization across challenges averages 75%, indicating efficient capital deployment."
+      },
+      "cash_flow": {
+        "title": "Cash Flow Projections",
+        "narration": "Cash flow projections remain positive for the next 12 months, with balanced inflows and outflows maintaining operational sustainability."
+      },
+      "economic_impact": {
+        "title": "Economic & Strategic Impact",
+        "narration": "Our innovation program has created 1.85M SAR in direct economic value, generated 42 jobs, and achieved 78.3% strategic alignment with national priorities."
+      },
+      "success_funnel": {
+        "title": "Innovation Success Funnel",
+        "narration": "The Sankey diagram visualizes our innovation journey: from 120 submissions through shortlisting and winner selection, to 24 successfully implemented projects - a 20% conversion rate."
+      },
+      "summary": {
+        "title": "Summary & Conclusion",
+        "narration": "In summary: 28.5% ROI, 85% diversification, 56 months runway, and 78% strategic alignment. Our innovation portfolio demonstrates strong financial health and strategic value creation."
+      }
+    }
+  },
+
+  "units": {
+    "sar": "SAR",
+    "percentage": "%",
+    "months": "Months"
+  },
+
+  "common": {
+    "close": "Close",
+    "next": "Next",
+    "previous": "Previous",
+    "loading": "Loading...",
+    "no_results": "No results found"
+  },
+
+  "chart_labels": {
+    "investment": "Investment",
+    "returns": "Returns",
+    "net_cash_flow": "Net Cash Flow",
+    "value": "Value",
+    "inflow": "Inflow",
+    "outflow": "Outflow",
+    "balance": "Balance"
+  }
+}

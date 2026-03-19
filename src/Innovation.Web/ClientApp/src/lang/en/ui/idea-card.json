@@ -1,0 +1,18 @@
+{
+    "metrics": {
+        "rating": "Rating",
+        "votes": "Votes",
+        "views": "Views"
+    },
+    "progress": {
+        "environmental_impact": "Environmental Impact"
+    },
+    "buttons": {
+        "view_details": "View Details"
+    },
+    "risk_levels": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+    }
+}

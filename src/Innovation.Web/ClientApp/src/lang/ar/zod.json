@@ -1,0 +1,89 @@
+{
+    "errors": {
+        "invalid_type": "المتوقع {{expected}}، المستلم {{received}}",
+        "invalid_type_received_undefined": "مطلوب",
+        "invalid_type_received_null": "مطلوب",
+        "invalid_literal": "قيمة حرفية غير صالحة، المتوقع {{expected}}",
+        "custom": "قيمة غير صالحة",
+        "invalid_union": "نوع غير مدعوم",
+        "invalid_union_discriminator": "معرف غير مدعوم",
+        "invalid_enum_value": "قيمة غير مدعومة. متوقع: {{expected}}",
+        "unrecognized_keys": "مفاتيح غير معروفة في الكائن: {{keys}}",
+        "invalid_arguments": "وسائط الدالة غير صالحة",
+        "invalid_return_type": "نوع إرجاع الدالة غير صالح",
+        "invalid_date": "تاريخ غير صالح",
+        "invalid_string": {
+            "email": "بريد إلكتروني غير صالح",
+            "url": "رابط غير صالح",
+            "emoji": "رموز تعبيرية غير مدعومة",
+            "uuid": "معرف فريد غير صالح",
+            "nanoid": "معرف غير صالح",
+            "cuid": "معرف غير صالح",
+            "cuid2": "معرف غير صالح",
+            "ulid": "معرف غير صالح",
+            "regex": "تنسيق غير صالح",
+            "includes": "يجب أن يحتوي على \"{{includes}}\"",
+            "startsWith": "يجب أن يبدأ بـ \"{{startsWith}}\"",
+            "endsWith": "يجب أن ينتهي بـ \"{{endsWith}}\"",
+            "datetime": "تنسيق التاريخ والوقت غير صالح",
+            "ip": "عنوان IP غير صالح"
+        },
+        "too_small": {
+            "array": {
+                "exact": "يجب أن يحتوي على {{minimum}} عنصر",
+                "inclusive": "يجب أن يحتوي على {{minimum}} عنصر على الأقل",
+                "not_inclusive": "يجب أن يحتوي على أكثر من {{minimum}} عنصر"
+            },
+            "string": {
+                "exact": "يجب أن يحتوي على {{minimum}} حرف",
+                "inclusive": "يجب أن يحتوي على {{minimum}} حرف على الأقل",
+                "not_inclusive": "يجب أن يحتوي على أكثر من {{minimum}} حرف"
+            },
+            "number": {
+                "exact": "يجب أن يكون {{minimum}}",
+                "inclusive": "يجب أن يكون {{minimum}} على الأقل",
+                "not_inclusive": "يجب أن يكون أكثر من {{minimum}}"
+            },
+            "date": {
+                "exact": "يجب أن يكون {{minimum}}",
+                "inclusive": "يجب أن يكون {{minimum}} على الأقل",
+                "not_inclusive": "يجب أن يكون أكثر من {{minimum}}"
+            },
+            "bigint": {
+                "exact": "يجب أن يكون {{minimum}}",
+                "inclusive": "يجب أن يكون {{minimum}} على الأقل",
+                "not_inclusive": "يجب أن يكون أكثر من {{minimum}}"
+            }
+        },
+        "too_big": {
+            "array": {
+                "exact": "يجب أن يحتوي على {{maximum}} عنصر",
+                "inclusive": "يجب أن يحتوي على {{maximum}} عنصر على الأكثر",
+                "not_inclusive": "يجب أن يحتوي على أقل من {{maximum}} عنصر"
+            },
+            "string": {
+                "exact": "يجب أن يحتوي على {{maximum}} حرف",
+                "inclusive": "يجب أن يحتوي على {{maximum}} حرف على الأكثر",
+                "not_inclusive": "يجب أن يحتوي على أقل من {{maximum}} حرف"
+            },
+            "number": {
+                "exact": "يجب أن يكون {{maximum}}",
+                "inclusive": "يجب أن يكون {{maximum}} على الأكثر",
+                "not_inclusive": "يجب أن يكون أقل من {{maximum}}"
+            },
+            "date": {
+                "exact": "يجب أن يكون {{maximum}}",
+                "inclusive": "يجب أن يكون {{maximum}} على الأكثر",
+                "not_inclusive": "يجب أن يكون أقل من {{maximum}}"
+            },
+            "bigint": {
+                "exact": "يجب أن يكون {{maximum}}",
+                "inclusive": "يجب أن يكون {{maximum}} على الأكثر",
+                "not_inclusive": "يجب أن يكون أقل من {{maximum}}"
+            }
+        },
+        "invalid_intersection_types": "لا يمكن دمج النتائج",
+        "not_multiple_of": "يجب أن يكون مضاعف {{multipleOf}}",
+        "not_finite": "يجب أن يكون رقم محدود"
+    }
+}

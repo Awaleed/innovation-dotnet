@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import laravel from 'laravel-vite-plugin';
+import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 
 export default defineConfig({
@@ -11,6 +12,7 @@ export default defineConfig({
             buildDirectory: 'build',
             refresh: true,
         }),
+        tailwindcss(),
         react(),
     ],
     resolve: {

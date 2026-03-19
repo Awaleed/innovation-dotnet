@@ -1,0 +1,503 @@
+{
+    "title": "الإعدادات",
+    "appearance": {
+        "title": "المظهر",
+        "description": "تخصيص مظهر التطبيق. التبديل التلقائي بين مواضيع النهار والليل.",
+        "theme": "المظهر",
+        "light": "فاتح",
+        "dark": "غامق",
+        "system": "النظام"
+    },
+    "profile": {
+        "title": "الملف الشخصي",
+        "description": "هذه هي الطريقة التي سيراك بها الآخرون على الموقع.",
+        "name": "الاسم",
+        "email": "البريد الإلكتروني",
+        "save": "تحديث الملف الشخصي"
+    },
+    "password": {
+        "title": "كلمة المرور",
+        "description": "تأكد من أن حسابك يستخدم كلمة مرور طويلة وعشوائية للبقاء آمناً.",
+        "current_password": "كلمة المرور الحالية",
+        "new_password": "كلمة المرور الجديدة",
+        "confirm_password": "تأكيد كلمة المرور",
+        "save": "حفظ"
+    },
+    "delete_user": {
+        "title": "حذف الحساب",
+        "description": "حذف حسابك وجميع موارده",
+        "warning": "تحذير",
+        "warning_message": "يرجى المتابعة بحذر، لا يمكن التراجع عن هذا الإجراء.",
+        "button": "حذف الحساب",
+        "dialog_title": "هل أنت متأكد من أنك تريد حذف حسابك؟",
+        "dialog_description": "بمجرد حذف حسابك، سيتم أيضًا حذف جميع موارده وبياناته نهائيًا. يرجى إدخال كلمة المرور لتأكيد رغبتك في حذف حسابك نهائيًا.",
+        "password_placeholder": "كلمة المرور",
+        "cancel_button": "إلغاء",
+        "confirm_button": "حذف الحساب"
+    },
+    "evaluation_factors": {
+        "title": "عوامل التقييم",
+        "description": "إدارة معايير التقييم والعوامل المستخدمة لتقييم الأفكار والمشاريع",
+        "create": {
+            "title": "إنشاء عامل تقييم",
+            "description": "إضافة عامل تقييم جديد لتقييم الأفكار والمشاريع.",
+            "name": "الاسم",
+            "description": "الوصف",
+            "weight": "الوزن (%)",
+            "type": "النوع",
+            "scoring_method": "طريقة التقييم",
+            "scale_labels": "تسميات المقياس",
+            "required": "مطلوب",
+            "active": "نشط",
+            "creating": "جاري الإنشاء...",
+            "create": "إنشاء"
+        },
+        "edit": {
+            "title": "تعديل عامل التقييم",
+            "description": "تعديل تفاصيل عامل التقييم وإدارة عناصره.",
+            "updating": "جاري التحديث...",
+            "update": "تحديث"
+        },
+        "view": {
+            "title": "تفاصيل عامل التقييم",
+            "description": "عرض معلومات مفصلة حول عامل التقييم هذا وعناصره."
+        },
+        "types": {
+            "scale": "مقياس",
+            "percentage": "نسبة مئوية",
+            "boolean": "منطقي"
+        },
+        "scoring_methods": {
+            "average": "متوسط",
+            "weighted": "مرجح",
+            "median": "وسيط",
+            "consensus": "إجماع"
+        },
+        "messages": {
+            "created_successfully": "تم إنشاء عامل التقييم بنجاح",
+            "updated_successfully": "تم تحديث عامل التقييم بنجاح",
+            "deleted_successfully": "تم حذف عامل التقييم بنجاح",
+            "create_failed": "فشل في إنشاء عامل التقييم",
+            "update_failed": "فشل في تحديث عامل التقييم",
+            "delete_failed": "فشل في حذف عامل التقييم",
+            "confirm_delete": "هل أنت متأكد من أنك تريد حذف عامل التقييم هذا؟"
+        },
+        "columns": {
+            "name": "الاسم",
+            "weight": "الوزن",
+            "scoring_method": "طريقة التقييم",
+            "required": "مطلوب",
+            "status": "الحالة",
+            "actions": "الإجراءات"
+        },
+        "filters": {
+            "search_placeholder": "البحث في عوامل التقييم...",
+            "status": "الحالة",
+            "type": "النوع"
+        },
+        "form": {
+            "name": "الاسم",
+            "description": "الوصف",
+            "weight": "الوزن (%)",
+            "type": "النوع",
+            "scoring_method": "طريقة التقييم",
+            "scale_labels": "تسميات المقياس",
+            "scale_labels_placeholder": "أدخل التسمية واضغط Enter",
+            "required": "مطلوب",
+            "active": "نشط",
+            "status": "الحالة"
+        },
+        "tabs": {
+            "basic_info": "المعلومات الأساسية",
+            "factor_items": "عناصر العامل"
+        },
+        "sort": {
+            "name_ar": "الاسم (عربي)",
+            "name_en": "الاسم (إنجليزي)",
+            "weight": "الوزن",
+            "type": "النوع",
+            "created_at": "تاريخ الإنشاء",
+            "sort_order": "ترتيب الفرز"
+        }
+    },
+    "evaluation_stages": {
+        "title": "مراحل التقييم",
+        "description": "إدارة مراحل التقييم والعمليات",
+        "create": {
+            "title": "إنشاء مرحلة تقييم",
+            "description": "إضافة مرحلة تقييم جديدة لعملية التقييم.",
+            "name": "الاسم",
+            "description": "الوصف",
+            "duration": "المدة (أيام)",
+            "evaluator_type": "نوع المقيم",
+            "required_evaluators": "المقيمون المطلوبون",
+            "status": "الحالة",
+            "deadline_type": "نوع الموعد النهائي",
+            "creating": "جاري الإنشاء...",
+            "create": "إنشاء"
+        },
+        "edit": {
+            "title": "تعديل مرحلة التقييم",
+            "description": "تعديل تفاصيل مرحلة التقييم.",
+            "updating": "جاري التحديث...",
+            "update": "تحديث"
+        },
+        "view": {
+            "title": "تفاصيل مرحلة التقييم",
+            "description": "عرض معلومات مفصلة حول مرحلة التقييم هذه.",
+            "basic_info": "المعلومات الأساسية"
+        },
+        "evaluator_types": {
+            "internal": "داخلي",
+            "external": "خارجي",
+            "mixed": "مختلط"
+        },
+        "statuses": {
+            "draft": "مسودة",
+            "active": "نشط",
+            "completed": "مكتمل",
+            "paused": "متوقف مؤقتاً"
+        },
+        "deadline_types": {
+            "fixed": "ثابت",
+            "flexible": "مرن"
+        },
+        "messages": {
+            "created": "تم إنشاء مرحلة التقييم بنجاح",
+            "updated": "تم تحديث مرحلة التقييم بنجاح",
+            "deleted": "تم حذف مرحلة التقييم بنجاح",
+            "create_error": "فشل في إنشاء مرحلة التقييم",
+            "update_error": "فشل في تحديث مرحلة التقييم",
+            "delete_error": "فشل في حذف مرحلة التقييم",
+            "delete_confirm": "هل أنت متأكد من أنك تريد حذف مرحلة التقييم هذه؟"
+        },
+        "columns": {
+            "name": "الاسم",
+            "description": "الوصف",
+            "duration": "المدة",
+            "evaluator_type": "نوع المقيم",
+            "required_evaluators": "المقيمون المطلوبون",
+            "status": "الحالة",
+            "order": "الترتيب",
+            "actions": "الإجراءات"
+        },
+        "filters": {
+            "search_placeholder": "البحث في مراحل التقييم...",
+            "status": "الحالة",
+            "evaluator_type": "نوع المقيم",
+            "sort_options": {
+                "name_ar": "الاسم (عربي)",
+                "name_en": "الاسم (إنجليزي)",
+                "order": "الترتيب",
+                "duration": "المدة",
+                "created_at": "تاريخ الإنشاء",
+                "status": "الحالة"
+            }
+        },
+        "form": {
+            "name": {
+                "label": "الاسم"
+            },
+            "description": {
+                "label": "الوصف"
+            },
+            "duration": {
+                "label": "المدة (أيام)"
+            },
+            "required_evaluators": {
+                "label": "المقيمون المطلوبون"
+            },
+            "evaluator_type": {
+                "label": "نوع المقيم"
+            },
+            "status": {
+                "label": "الحالة"
+            },
+            "deadline_type": {
+                "label": "نوع الموعد النهائي"
+            }
+        }
+    },
+    "evaluation_templates": {
+        "title": "قوالب التقييم",
+        "description": "إدارة قوالب التقييم القابلة لإعادة الاستخدام",
+        "create": {
+            "title": "إنشاء قالب تقييم",
+            "description": "إنشاء قالب قابل لإعادة الاستخدام للتقييمات.",
+            "template_name": "اسم القالب",
+            "active": "نشط",
+            "creating": "جاري الإنشاء...",
+            "create": "إنشاء"
+        },
+        "edit": {
+            "title": "تعديل قالب التقييم",
+            "description": "تعديل قالب التقييم وإدارة المراحل المخصصة له.",
+            "updating": "جاري التحديث...",
+            "update": "تحديث"
+        },
+        "view": {
+            "title": "تفاصيل قالب التقييم",
+            "description": "عرض معلومات قالب التقييم والمراحل المخصصة."
+        },
+        "messages": {
+            "created": "تم إنشاء قالب التقييم بنجاح",
+            "updated": "تم تحديث قالب التقييم بنجاح",
+            "deleted": "تم حذف قالب التقييم بنجاح",
+            "create_error": "فشل في إنشاء قالب التقييم",
+            "update_error": "فشل في تحديث قالب التقييم",
+            "delete_error": "فشل في حذف قالب التقييم",
+            "delete_confirm": "هل أنت متأكد من أنك تريد حذف قالب التقييم هذا؟"
+        },
+        "columns": {
+            "template_name": "اسم القالب",
+            "stages": "المراحل",
+            "status": "الحالة",
+            "created": "تاريخ الإنشاء",
+            "actions": "الإجراءات"
+        },
+        "filters": {
+            "search_placeholder": "البحث في قوالب التقييم...",
+            "status": "الحالة"
+        },
+        "template_stages": {
+            "title": "مراحل القالب",
+            "description": "تكوين مراحل التقييم المدرجة في هذا القالب.",
+            "no_stages": "لم يتم تعيين مراحل لهذا القالب بعد.",
+            "no_stages_view": "لم يتم تعيين مراحل لهذا القالب.",
+            "add_stage": "إضافة مرحلة للقالب",
+            "remove_stage": "إزالة مرحلة من القالب",
+            "labels": {
+                "required": "مطلوب"
+            },
+            "empty_state": {
+                "title": "لا توجد مراحل بعد",
+                "description": "ابدأ بإضافة أول مرحلة تقييم إلى هذا القالب."
+            },
+            "actions": {
+                "add_first_stage": "إضافة المرحلة الأولى",
+                "add_stage": "إضافة مرحلة",
+                "remove_stage": "إزالة المرحلة"
+            },
+            "dialogs": {
+                "add": {
+                    "title": "إضافة مرحلة إلى القالب",
+                    "description": "حدد مرحلة تقييم لإضافتها إلى القالب."
+                },
+                "edit": {
+                    "title": "تعديل مرحلة القالب",
+                    "description": "تحديث خصائص هذه المرحلة داخل القالب."
+                },
+                "remove": {
+                    "title": "إزالة المرحلة من القالب",
+                    "description": "هل أنت متأكد من إزالة \":stage\" من هذا القالب؟ لا يمكن التراجع عن هذا الإجراء."
+                }
+            },
+            "form": {
+                "stage": "المرحلة",
+                "select_stage": "اختر مرحلة...",
+                "required": "مرحلة مطلوبة",
+                "required_description": "إذا تم تمكينه، يجب إكمال هذه المرحلة."
+            },
+            "messages": {
+                "stage_assigned": "تم تعيين المرحلة للقالب بنجاح",
+                "assign_error": "فشل في تعيين المرحلة للقالب",
+                "stage_updated": "تم تحديث المرحلة بنجاح",
+                "update_error": "فشل في تحديث المرحلة",
+                "stage_removed": "تمت إزالة المرحلة من القالب بنجاح",
+                "remove_error": "فشل في إزالة المرحلة من القالب"
+            }
+        }
+    },
+    "factor_items": {
+        "title": "عناصر العامل",
+        "description": "إدارة العناصر الفردية داخل عوامل التقييم",
+        "create": {
+            "title": "إنشاء عنصر عامل",
+            "description": "إضافة عنصر عامل لـ :factorName.",
+            "name": "الاسم",
+            "description": "الوصف",
+            "weight": "الوزن (%)",
+            "active": "نشط",
+            "creating": "جاري الإنشاء...",
+            "create": "إنشاء"
+        },
+        "edit": {
+            "title": "تعديل عنصر العامل",
+            "description": "تعديل عنصر عامل لـ :factorName.",
+            "updating": "جاري التحديث...",
+            "update": "تحديث"
+        },
+        "messages": {
+            "item_created": "تم إنشاء عنصر العامل بنجاح",
+            "item_updated": "تم تحديث عنصر العامل بنجاح",
+            "item_deleted": "تم حذف عنصر العامل بنجاح",
+            "create_error": "فشل في إنشاء عنصر العامل",
+            "update_error": "فشل في تحديث عنصر العامل",
+            "delete_error": "فشل في حذف عنصر العامل"
+        },
+        "form": {
+            "name": "الاسم",
+            "name_ar_placeholder": "الاسم بالعربية...",
+            "name_en_placeholder": "الاسم بالإنجليزية...",
+            "description": "الوصف",
+            "description_ar_placeholder": "الوصف بالعربية...",
+            "description_en_placeholder": "الوصف بالإنجليزية...",
+            "weight": "الوزن (%)",
+            "weight_placeholder": "أدخل نسبة الوزن",
+            "weight_description": "نسبة الوزن لهذا العنصر (0-100)",
+            "active": "نشط",
+            "active_description": "ما إذا كان هذا العنصر نشطاً ويجب استخدامه في التقييمات"
+        },
+        "columns": {
+            "name": "الاسم",
+            "order": "الترتيب",
+            "weight": "الوزن",
+            "status": "الحالة",
+            "actions": "الإجراءات"
+        },
+        "actions": {
+            "add_item": "إضافة عنصر",
+            "add_first_item": "إضافة أول عنصر",
+            "add_another_item": "إضافة عنصر آخر",
+            "delete_item": "حذف عنصر"
+        },
+        "empty_state": {
+            "title": "لا توجد عناصر بعد",
+            "description": "أضف عناصر لتحديد ما سيتم تقييمه لهذا العامل"
+        },
+        "item_number": "العنصر :number",
+        "dialogs": {
+            "add": {
+                "title": "إضافة عنصر عامل",
+                "description": "إضافة عنصر جديد لعامل التقييم هذا"
+            },
+            "edit": {
+                "title": "تعديل عنصر العامل",
+                "description": "تعديل عنصر العامل هذا"
+            },
+            "delete": {
+                "title": "حذف عنصر العامل",
+                "description": "هل أنت متأكد من حذف \":item\"؟ لا يمكن التراجع عن هذا الإجراء."
+            }
+        }
+    },
+    "stage_factors": {
+        "title": "عوامل المرحلة",
+        "description": "إدارة عوامل التقييم المخصصة لهذه المرحلة",
+        "labels": {
+            "weight": "الوزن",
+            "required": "مطلوب"
+        },
+        "empty_state": {
+            "title": "لا توجد عوامل بعد",
+            "description": "ابدأ بإضافة أول عامل تقييم لهذه المرحلة."
+        },
+        "actions": {
+            "add_first_factor": "إضافة أول عامل",
+            "add_factor": "إضافة عامل",
+            "remove_factor": "إزالة عامل"
+        },
+        "dialogs": {
+            "add": {
+                "title": "إضافة عامل للمرحلة",
+                "description": "اختر عامل تقييم لإضافته للمرحلة."
+            },
+            "edit": {
+                "title": "تعديل عامل المرحلة",
+                "description": "تحديث خصائص هذا العامل داخل المرحلة."
+            },
+            "remove": {
+                "title": "إزالة عامل من المرحلة",
+                "description": "هل أنت متأكد من إزالة \":factor\" من هذه المرحلة؟ لا يمكن التراجع عن هذا الإجراء."
+            }
+        },
+        "form": {
+            "factor": "العامل",
+            "select_factor": "اختر عامل...",
+            "weight": "الوزن (%)",
+            "weight_placeholder": "أدخل الوزن (0-100)",
+            "weight_description": "الوزن النسبي لهذا العامل في التقييم.",
+            "required": "عامل مطلوب",
+            "required_description": "في حالة التمكين، يجب تقييم هذا العامل."
+        },
+        "messages": {
+            "factor_assigned": "تم تخصيص العامل للمرحلة بنجاح",
+            "assign_error": "فشل في تخصيص العامل للمرحلة",
+            "factor_updated": "تم تحديث العامل بنجاح",
+            "update_error": "فشل في تحديث العامل",
+            "factor_removed": "تم إزالة العامل من المرحلة بنجاح",
+            "remove_error": "فشل في إزالة العامل من المرحلة",
+            "factor_created_and_assigned": "تم إنشاء العامل وتخصيصه للمرحلة بنجاح",
+            "create_error": "فشل في إنشاء العامل"
+        },
+        "tabs": {
+            "assign_existing": "تخصيص موجود",
+            "create_new": "إنشاء جديد"
+        },
+        "create": {
+            "name": "الاسم",
+            "name_ar_placeholder": "الاسم بالعربية...",
+            "name_en_placeholder": "الاسم بالإنجليزية...",
+            "description": "الوصف",
+            "description_ar_placeholder": "الوصف بالعربية...",
+            "description_en_placeholder": "الوصف بالإنجليزية...",
+            "type": "النوع",
+            "active": "نشط"
+        },
+        "actions": {
+            "assign_factor": "تخصيص عامل",
+            "create_and_assign": "إنشاء وتخصيص"
+        }
+    },
+    "notifications": {
+        "title": "الإشعارات",
+        "description": "ابق على اطلاع بأحدث الإشعارات",
+        "mark_all_read": "تعيين الكل كمقروء",
+        "clear_all": "مسح الكل",
+        "mark_as_read": "تعيين كمقروء",
+        "mark_as_unread": "تعيين كغير مقروء",
+        "delete": "حذف",
+        "load_more": "تحميل المزيد",
+        "no_notifications": "لا توجد إشعارات",
+        "no_notifications_description": "أنت محدث! لا توجد إشعارات جديدة.",
+        "time_ago": "منذ :time",
+        "messages": {
+            "marked_as_read": "تم تعيين الإشعار كمقروء",
+            "marked_as_unread": "تم تعيين الإشعار كغير مقروء",
+            "deleted": "تم حذف الإشعار",
+            "all_marked_read": "تم تعيين جميع الإشعارات كمقروءة",
+            "all_deleted": "تم حذف جميع الإشعارات",
+            "bulk_marked_read": "تم تعيين الإشعارات المحددة كمقروءة",
+            "bulk_marked_unread": "تم تعيين الإشعارات المحددة كغير مقروءة",
+            "bulk_deleted": "تم حذف الإشعارات المحددة"
+        },
+        "fallback": {
+            "title": "إشعار",
+            "message": "لديك إشعار جديد"
+        }
+    },
+    "challenge_auto_generate": {
+        "label": "إنشاء التحديات تلقائيًا",
+        "help": "إنشاء التحديات تلقائيًا بناءً على الاتجاهات والإشارات المكتشفة"
+    },
+    "data_sources": {
+        "title": "مصادر البيانات",
+        "description": "إعداد مصادر البيانات الخارجية لاكتشاف الاتجاهات وجمع الإشارات",
+        "rss": {
+            "title": "موجزات RSS",
+            "description": "مراقبة موجزات RSS للأخبار والتحديثات ذات الصلة"
+        },
+        "arxiv": {
+            "title": "أرخايف",
+            "description": "تتبع الأوراق الأكاديمية والمنشورات البحثية من أرخايف"
+        },
+        "google_news": {
+            "title": "أخبار جوجل",
+            "description": "جمع المقالات الإخبارية من أخبار جوجل المتعلقة بمواضيعك"
+        },
+        "reddit": {
+            "title": "ريديت",
+            "description": "مراقبة مجتمعات ريديت والمناقشات للاتجاهات الناشئة"
+        }
+    }
+}

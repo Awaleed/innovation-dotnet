@@ -1,0 +1,267 @@
+{
+    "title": "مركز التكامل",
+    "description": "قم بالاتصال وإدارة تكاملات الطرف الثالث بسلاسة",
+    "stats": {
+        "total": "إجمالي التكاملات",
+        "total_description": "التكاملات المتاحة",
+        "connected": "متصل",
+        "active": "اتصالات نشطة",
+        "available": "متاح",
+        "ready_to_connect": "جاهز للاتصال",
+        "uptime": "وقت التشغيل",
+        "last_30_days": "آخر 30 يوم"
+    },
+    "tabs": {
+        "all": "الكل",
+        "connected": "متصل",
+        "available": "متاح"
+    },
+    "categories": {
+        "all": "جميع الفئات",
+        "crm": "إدارة علاقات العملاء",
+        "payment": "الدفع",
+        "communication": "الاتصالات",
+        "development": "التطوير",
+        "analytics": "التحليلات",
+        "storage": "التخزين",
+        "marketing": "التسويق",
+        "security": "الأمان",
+        "support": "الدعم",
+        "custom": "مخصص",
+        "market_intelligence": "استخبارات السوق",
+        "product_management": "إدارة المنتجات",
+        "project_management": "إدارة المشاريع",
+        "collaboration": "التعاون",
+        "erp": "تخطيط موارد المؤسسة"
+    },
+    "status": {
+        "all": "جميع الحالات",
+        "connected": "متصل",
+        "disconnected": "غير متصل",
+        "pending": "قيد الانتظار",
+        "error": "خطأ",
+        "syncing": "جاري المزامنة"
+    },
+    "sort": {
+        "name": "الاسم (أ-ي)",
+        "status": "الحالة",
+        "last_sync": "آخر مزامنة"
+    },
+    "search": {
+        "placeholder": "البحث عن التكاملات..."
+    },
+    "filter": {
+        "category": "الفئة",
+        "status": "الحالة"
+    },
+    "actions": {
+        "add_integration": "إضافة تكامل",
+        "connect": "اتصال",
+        "configure": "تكوين"
+    },
+    "verified": "متحقق",
+    "last_sync": "آخر مزامنة",
+    "usage": {
+        "requests": "طلبات API"
+    },
+    "more": "المزيد",
+    "empty": {
+        "title": "لم يتم العثور على تكاملات",
+        "description": "حاول تعديل معايير البحث أو التصفية للعثور على ما تبحث عنه."
+    },
+    "cta": {
+        "connect_new_tool": "ربط أداة جديدة",
+        "connect_new_tool_description": "واجهة REST أو GraphQL أو Webhook"
+    },
+    "wizard": {
+        "step_title_select": "اختر نوع الخدمة",
+        "step_title_configure": "اضبط {{type}}",
+        "step_description_select": "اختر قالباً جاهزاً أو قم بضبط اتصال مخصص.",
+        "step_description_configure": "أدخل بيانات المصادقة وإعدادات نقطة النهاية.",
+        "integration_name_label": "اسم التكامل",
+        "integration_name_placeholder": "تكامل {{type}} الخاص بي",
+        "service_types": {
+            "rest": "واجهة REST API",
+            "db": "قاعدة بيانات",
+            "webhook": "Webhook",
+            "aws": "خدمة AWS S3",
+            "custom": "SDK مخصص"
+        },
+        "test": {
+            "title": "اختبار الاتصال",
+            "idle": "لم يتم الاختبار بعد",
+            "testing": "جارٍ إرسال طلب...",
+            "success": "تم الاتصال بنجاح",
+            "failed": "فشل الاتصال",
+            "button": "اختبار الاتصال"
+        },
+        "buttons": {
+            "back": "رجوع",
+            "cancel": "إلغاء",
+            "complete": "إنهاء الإعداد"
+        }
+    },
+    "card": {
+        "connect": "اتصال",
+        "disconnect": "قطع الاتصال",
+        "synced": "تمت المزامنة {{time}}",
+        "custom_description": "تكامل {{type}} مخصص تم ضبطه يدوياً."
+    },
+    "form": {
+        "base_endpoint": "عنوان نقطة النهاية",
+        "auth_type": "نوع المصادقة",
+        "credential_api": "مفتاح / رمز API",
+        "credential_basic": "اسم المستخدم:كلمة المرور",
+        "auth_options": {
+            "api_key": "مفتاح API",
+            "bearer": "رمز Bearer",
+            "basic": "مصادقة أساسية"
+        },
+        "db_drivers": {
+            "postgresql": "PostgreSQL",
+            "mysql": "MySQL",
+            "mongodb": "MongoDB"
+        },
+        "driver": "المحرك",
+        "port": "المنفذ",
+        "host": "المضيف",
+        "database_name": "اسم قاعدة البيانات",
+        "username": "اسم المستخدم",
+        "password": "كلمة المرور",
+        "region": "المنطقة",
+        "bucket": "اسم الحاوية",
+        "access_key": "معرّف مفتاح الوصول",
+        "secret_key": "مفتاح الوصول السري",
+        "webhook_url": "رابط Webhook (مُنشأ)",
+        "webhook_hint": "أرسل طلبات POST إلى هذا الرابط لتشغيل الأحداث.",
+        "secret_token": "الرمز السري",
+        "events": "الأحداث المشترك بها",
+        "json_configuration": "تهيئة JSON",
+        "json_hint": "الصق إعداد تهيئة SDK هنا.",
+        "invalid_type": "اختر نوع تكامل صالح."
+    },
+    "manage": {
+        "last_synced": "آخر مزامنة",
+        "category": "الفئة",
+        "edit_configuration": "تعديل الإعدادات",
+        "view_logs": "سجلات الأمان",
+        "remove_connection": "إزالة الاتصال",
+        "details_title": "تفاصيل {{name}}",
+        "logs_title": "سجلات الأمان",
+        "never": "أبداً",
+        "table": {
+            "time": "الوقت",
+            "event": "الحدث",
+            "status": "الحالة",
+            "details": "التفاصيل"
+        },
+        "table_status": {
+            "success": "ناجح",
+            "warning": "تحذير",
+            "error": "خطأ"
+        },
+        "delete_title": "تأكيد الحذف",
+        "delete_body": "هل أنت متأكد أنك تريد إزالة تكامل {{name}}؟",
+        "delete_hint": "لا يمكن التراجع عن هذا الإجراء. سيتم إلغاء جميع Webhooks ورموز المزامنة فوراً.",
+        "buttons": {
+            "save_changes": "حفظ التغييرات",
+            "confirm_remove": "تأكيد الإزالة"
+        }
+    },
+    "data": {
+        "salesforce": {
+            "name": "Salesforce CRM",
+            "description": "مزامنة بيانات العملاء ومسارات المبيعات في الوقت الفعلي.",
+            "last_sync": "منذ دقيقتين"
+        },
+        "slack": {
+            "name": "Slack",
+            "description": "استلم إشعارات المنصة مباشرة داخل قنوات مساحة العمل.",
+            "last_sync": "مباشر"
+        },
+        "jira": {
+            "name": "Jira Software",
+            "description": "إنشاء التذاكر تلقائياً من ملاحظات الابتكار.",
+            "last_sync": "فشل قبل ساعة"
+        },
+        "github": {
+            "name": "GitHub",
+            "description": "ربط المستودعات بمخططات المشاريع."
+        },
+        "hubspot": {
+            "name": "HubSpot",
+            "description": "تكامل لأتمتة التسويق وتتبع العملاء المحتملين.",
+            "last_sync": "جاري المزامنة..."
+        },
+        "zendesk": {
+            "name": "Zendesk",
+            "description": "نظام موحّد لتذاكر دعم العملاء."
+        },
+        "matomo": {
+            "name": "Matomo Analytics",
+            "description": "تحليلات تركز على الخصوصية لتتبع التفاعل دون المساس بالامتثال.",
+            "last_sync": "منذ 5 دقائق"
+        },
+        "yammer": {
+            "name": "Yammer",
+            "description": "شبكة اجتماعية مؤسسية للنقاشات ومشاركة المعرفة على مستوى الشركة."
+        },
+        "crunchbase": {
+            "name": "Crunchbase",
+            "description": "الوصول إلى بيانات تمويل الشركات الناشئة لإثراء عمليات استكشاف الابتكار.",
+            "last_sync": "تمت المزامنة اليوم"
+        },
+        "craft": {
+            "name": "Craft.io",
+            "description": "تخطيط محافظ المنتجات بخرائط طريق مترابطة وتخطيط استراتيجي.",
+            "last_sync": "جاري المزامنة..."
+        },
+        "teams": {
+            "name": "Microsoft Teams",
+            "description": "دفع تحديثات الابتكار إلى قنوات Teams متعددة الوظائف في الوقت الفعلي.",
+            "last_sync": "مباشر"
+        },
+        "asana": {
+            "name": "Asana",
+            "description": "إنشاء مهام التنفيذ ومتابعتها المرتبطة بمبادرات الابتكار.",
+            "last_sync": "منذ 10 دقائق"
+        },
+        "sap": {
+            "name": "SAP S/4HANA",
+            "description": "مواءمة استثمارات المحفظة مع بيانات ERP المالية وسلاسل الإمداد."
+        },
+        "sharepoint": {
+            "name": "Microsoft SharePoint",
+            "description": "عرض قواعد المعرفة في SharePoint داخل مساحات عمل الابتكار."
+        },
+        "ga4": {
+            "name": "Google Analytics 4",
+            "description": "ربط تجارب المنتجات مع بيانات جماهير وقنوات GA4.",
+            "last_sync": "فشل قبل 30 دقيقة"
+        },
+        "pitchbook": {
+            "name": "PitchBook",
+            "description": "إدخال اتجاهات رأس المال الجريء وإشارات الصفقات في التقييمات."
+        },
+        "oracle": {
+            "name": "Oracle Fusion Cloud",
+            "description": "ربط مبادرات الابتكار مع سجلات ERP و CX المؤسسية.",
+            "last_sync": "منذ ساعة واحدة"
+        }
+    },
+    "toast": {
+        "copied_title": "تم النسخ",
+        "copied_message": "تم نسخ الرابط إلى الحافظة",
+        "connection_success_title": "تم الاتصال بنجاح",
+        "connection_success_message": "تم إرسال طلب بنجاح إلى الخدمة البعيدة.",
+        "connection_failed_title": "فشل الاتصال",
+        "connection_failed_message": "تحقق من بيانات الاعتماد ثم أعد المحاولة.",
+        "integration_added_title": "تمت إضافة التكامل",
+        "integration_added_message": "تم إعداد {{name}} بنجاح.",
+        "configuration_updated_title": "تم تحديث الإعدادات",
+        "configuration_updated_message": "تم حفظ إعدادات التكامل.",
+        "integration_removed_title": "تمت إزالة التكامل",
+        "integration_removed_message": "تم فصل {{name}}."
+    }
+}
+

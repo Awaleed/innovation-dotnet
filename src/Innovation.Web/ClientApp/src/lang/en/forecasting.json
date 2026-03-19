@@ -1,0 +1,484 @@
+{
+    "trends": {
+        "title": "Trends",
+        "description": "Strategically aggregated shifts in technology and consumer behavior.",
+        "add_trend": "Add Trend",
+        "filter_placeholder": "Filter trends by name or description...",
+        "global_domains": "Global Domains",
+        "table": {
+            "strategic_trend": "Strategic Trend",
+            "category": "Category",
+            "impact": "Impact",
+            "horizon": "Horizon",
+            "priority": "Priority",
+            "status": "Status",
+            "evidence_links": "Evidence Links"
+        },
+        "detail": {
+            "edit_blueprint": "Edit Blueprint",
+            "blueprint_vision": "Blueprint Vision",
+            "validation_ecosystem": "Validation Ecosystem",
+            "evidence": "Evidence",
+            "awaiting_validation": "Awaiting validation signals",
+            "strategic_matrix": "Strategic Matrix",
+            "impact_potential": "Impact Potential",
+            "deployment_horizon": "Deployment Horizon",
+            "readiness_level": "Readiness Level",
+            "urgency_of_action": "Urgency of Action",
+            "business_relevance": "Business Relevance",
+            "attach_docs": "Attach Strategic Docs",
+            "purge_trend": "Purge Trend",
+            "purge_confirm": "Permanently remove this trend from the portfolio?",
+            "no_description": "No detailed description available."
+        },
+        "modals": {
+            "new_trend": "New Strategic Trend",
+            "update_blueprint": "Update Blueprint"
+        }
+    },
+    "signals": {
+        "title": "Signals",
+        "description": "Capture early-stage evidence of future disruptive changes.",
+        "create_signal": "Create Signal",
+        "search_placeholder": "Search title, URL, keywords...",
+        "all_statuses": "All Statuses",
+        "all_types": "All Types",
+        "relevance": "Relevance",
+        "no_signals": "No signals found matching filters",
+        "detail": {
+            "edit": "Edit",
+            "delete_confirm": "Permanently delete this intelligence signal?",
+            "signal_strength": "Signal Strength",
+            "priority_relevance": "Priority Relevance",
+            "core_domains": "Core Domains",
+            "no_domains": "No domains categorized",
+            "analyst_assessment": "Analyst Assessment",
+            "pending_review": "Pending further analyst review and detailed insight capture.",
+            "launch_source": "Launch Source"
+        },
+        "modals": {
+            "intelligence_capture": "Intelligence Capture",
+            "update_intelligence": "Update Intelligence"
+        }
+    },
+    "radar": {
+        "title": "Radar",
+        "description": "Interactive radar visualization for forecasting and trend tracking",
+        "settings": "Radar Settings",
+        "controls_panel": "Radar Controls",
+        "customize_view": "Customize your radar view",
+        "view_controls": "View Controls",
+        "scroll_zoom": "Scroll Zoom",
+        "display_options": "Display Options",
+        "dimensions": "Dimensions",
+        "filters": "Filters",
+        "mode_180": "180° Mode",
+        "network_view": "Network View",
+        "show_labels": "Show Labels",
+        "zoom_in": "Zoom In",
+        "zoom_out": "Zoom Out",
+        "center_view": "Center View",
+        "zoom_on_scroll": "Zoom on Scroll",
+        "segment_by": "Segment by",
+        "color_by": "Color by",
+        "distance_by": "Distance",
+        "relations_filter": "Relations",
+        "add_dimension": "Add Dimension",
+        "legend": {
+            "title": "Legend",
+            "configure_hint": "Configure your view settings to see the legend.",
+            "potential_impact": "Potential Impact",
+            "trend_segmentation": "Trend Segmentation",
+            "time_to_market": "Time to Market Impact"
+        },
+        "impact": {
+            "none": "None",
+            "very_low": "Very Low",
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High",
+            "very_high": "Very High"
+        },
+        "time_rings": {
+            "0-2y": "0-2y",
+            "2-4y": "2-4y",
+            "4-6y": "4-6y",
+            "6-8y": "6-8y",
+            "8-10y": "8-10y",
+            "10+y": "10+y"
+        },
+        "segment_options": {
+            "category": "Domain Category",
+            "trendSegmentation": "Trend Segmentation",
+            "adoptionStage": "Adoption Stage",
+            "potentialImpact": "Potential Impact",
+            "timeHorizon": "Time Horizon"
+        },
+        "color_options": {
+            "potentialImpact": "Potential Impact",
+            "category": "Domain Category",
+            "trendSegmentation": "Trend Segmentation",
+            "adoptionStage": "Adoption Stage",
+            "needForAction": "Need for Action"
+        },
+        "distance_options": {
+            "timeHorizon": "Time Horizon",
+            "potentialImpact": "Potential Impact",
+            "businessRelevance": "Business Relevance"
+        },
+        "quadrant_adopt": "Adopt",
+        "quadrant_watch": "Watch",
+        "quadrant_hold": "Hold",
+        "quadrant_assess": "Assess",
+        "x_position": "X Position",
+        "y_position": "Y Position",
+        "quadrant": "Quadrant",
+        "detail": {
+            "related_signals": "Related Signals",
+            "no_signals": "No related signals",
+            "view_details": "View Details",
+            "forces_shaping_future": "Forces Shaping the Future",
+            "snapshot_of_future": "A Snapshot of the Future",
+            "implications_for_innovation": "Implications for Innovation",
+            "way_forward": "The Way Forward",
+            "ratings": "Ratings",
+            "scope": "Scope",
+            "strategic_fit": "Strategic Fit",
+            "speed_of_change_90": "Speed of Change [90 Days]",
+            "speed_of_change_180": "Speed of Change [180 Days]",
+            "tags": "Tags",
+            "sources_links": "Sources & Links",
+            "attachments": "Attachments",
+            "no_attachments": "No attachments",
+            "recommended_relations": "Recommended Relations",
+            "no_relations": "No related trends"
+        }
+    },
+    "dashboard": {
+        "description": "Overview of forecasting activities, trends, and signals",
+        "positioned_on_radar": "positioned on radar",
+        "challenges_generated": "challenges generated from trends",
+        "eligible_for_generation": "eligible for generation",
+        "radar_configurations": "radar configurations",
+        "activity_timeline": "Activity Timeline",
+        "activity_last_14_days": "Signal and trend activity over the last 14 days",
+        "quadrant_distribution": "Quadrant Distribution",
+        "trends_by_quadrant": "How trends are distributed across radar quadrants",
+        "high_impact_trends": "High-Impact Trends",
+        "top_trends_by_impact": "Top trends ranked by impact score",
+        "recent_signals": "Recent Signals",
+        "latest_collected_signals": "Latest signals collected from data sources",
+        "no_trends": "No trends available yet",
+        "no_signals": "No signals collected yet"
+    },
+    "signal": {
+        "description": "Description",
+        "entities": "Extracted Entities",
+        "entities_description": "Key entities identified from signal content",
+        "technologies": "Technologies",
+        "organizations": "Organizations",
+        "locations": "Locations",
+        "full_content": "Full Content",
+        "no_content": "No content available for this signal",
+        "related_trends": "Related Trends",
+        "related_trends_description": "Trends that this signal contributes to",
+        "no_related_trends": "This signal is not yet linked to any trends",
+        "published_at": "Published Date",
+        "source": "Source",
+        "source_link": "Source Link",
+        "processed_at": "Processed At",
+        "duplicate": "Duplicate",
+        "processed": "Processed",
+        "pending": "Pending",
+        "has_embedding": "Embedding Generated"
+    },
+    "trend": {
+        "description": "Description",
+        "impact_score": "Impact Score",
+        "maturity": "Maturity Level",
+        "signals_count": "Signals Count",
+        "business_relevance": "Business Relevance",
+        "need_for_action": "Need for Action",
+        "segmentation": "Segmentation",
+        "timeline": "Timeline",
+        "adoption_stage": "Adoption Stage",
+        "radar_position": "Radar Position",
+        "additional_info": "Additional Information",
+        "related_signals": "Related Signals",
+        "related_signals_description": "Signals that contribute to this trend",
+        "no_related_signals": "No signals are linked to this trend",
+        "generated_challenges": "Generated Challenges",
+        "generated_challenges_description": "Challenges created from this trend",
+        "no_generated_challenges": "No challenges have been generated from this trend yet",
+        "generate_challenge": "Generate Challenge",
+        "ai_enhanced": "AI Enhanced",
+        "ai_enhancement": "AI Enhancement",
+        "ai_enhanced_description": "This trend has been enhanced with AI-generated insights"
+    },
+    "challenge_generation": {
+        "title": "Challenge Generation",
+        "description": "Generate innovation challenges from high-impact trends using AI",
+        "eligible_trends": "Eligible Trends",
+        "total_generated": "Total Generated",
+        "pending_review": "Pending Review",
+        "trends_with_challenges": "Trends with Challenges",
+        "min_score": "Min Impact Score",
+        "high_impact_trends": "High-Impact Trends",
+        "high_impact_trends_description": "Select a trend to generate a challenge suggestion",
+        "no_eligible_trends": "No eligible trends available for challenge generation",
+        "generated_challenges": "Generated Challenges",
+        "recently_generated": "Recently Generated Challenges",
+        "recently_generated_description": "Challenges created from trends",
+        "no_generated_challenges": "No challenges have been generated yet",
+        "from_trend": "From trend",
+        "generate": "Generate Challenge",
+        "review": "Review Suggestion",
+        "review_suggestion": "Review Challenge Suggestion",
+        "review_description": "Review and edit the AI-generated challenge before confirming",
+        "source_trend": "Source Trend",
+        "suggested_challenge": "Suggested Challenge",
+        "edit_before_confirm": "Review the suggestion and edit if needed before creating the challenge",
+        "ai_confidence": "AI Confidence",
+        "ai_confidence_description": "How confident the AI is about this suggestion",
+        "objectives": "Objectives",
+        "objectives_placeholder": "Enter challenge objectives (one per line)",
+        "requirements": "Requirements",
+        "requirements_placeholder": "Enter challenge requirements (one per line)",
+        "one_per_line": "Enter one item per line",
+        "confirm_create": "Confirm & Create Challenge"
+    },
+    "settings": {
+        "title": "Forecasting Settings",
+        "description": "Configure forecasting automation, monitoring, and data collection settings",
+        "configuration": "Configuration",
+        "automation": "Automation",
+        "monitor": "Monitor",
+        "save_button": "Save Settings",
+        "save_success": "Settings Saved",
+        "save_success_description": "Your forecasting settings have been updated successfully",
+        "save_error": "Save Failed",
+        "save_error_description": "Failed to save settings. Please try again.",
+        "focus_topics": {
+            "title": "Focus Topics & Filters",
+            "description": "Define topics to track and keywords to exclude from signal collection",
+            "label": "Topics to Track",
+            "placeholder": "Enter a topic and press Enter",
+            "help": "Add topics to guide the AI in collecting relevant signals. Press Enter or comma after each topic."
+        },
+        "exclude_keywords": {
+            "label": "Exclude Keywords",
+            "placeholder": "Enter a keyword and press Enter",
+            "help": "Add keywords to filter out from signals. Press Enter or comma after each keyword. Signals containing these keywords will be excluded."
+        },
+        "collection": {
+            "title": "Collection Settings",
+            "description": "Control how often signals are collected and processed",
+            "interval_label": "Collection Interval",
+            "interval_placeholder": "Select interval",
+            "interval_help": "How often the system should collect new signals from data sources",
+            "hourly": "Every Hour",
+            "daily": "Once Daily",
+            "twicedaily": "Twice Daily",
+            "min_relevance_label": "Minimum Relevance Score",
+            "min_relevance_help": "Signals below this score will be filtered out (0-100)",
+            "max_signals_label": "Max Signals Per Run",
+            "max_signals_help": "Maximum number of signals to collect in each run (1-500)"
+        },
+        "synthesis": {
+            "title": "Synthesis Settings",
+            "description": "Configure how signals are synthesized into trends",
+            "time_label": "Daily Synthesis Time",
+            "time_help": "Time of day when trends are generated from collected signals",
+            "threshold_label": "Similarity Threshold",
+            "threshold_help": "How similar signals must be to group into trends (0-1, higher = more similar)",
+            "scheduler_label": "Enable Scheduled Collection",
+            "scheduler_help": "Automatically collect signals based on the interval setting",
+            "synthesis_label": "Enable Trend Synthesis",
+            "synthesis_help": "Automatically generate trends from signals daily"
+        },
+        "challenge_auto_generate": {
+            "label": "Auto-Generate Challenges",
+            "help": "Automatically create challenges based on discovered trends and signals"
+        },
+        "data_sources": {
+            "title": "Data Sources",
+            "description": "Configure external data sources for trend discovery and signal collection",
+            "rss": {
+                "title": "RSS Feeds",
+                "description": "Monitor RSS feeds for relevant news and updates",
+                "url_placeholder": "Feed URL",
+                "name_placeholder": "Feed Name",
+                "category_placeholder": "Category",
+                "add_feed": "Add RSS Feed"
+            },
+            "arxiv": {
+                "title": "arXiv",
+                "description": "Track academic papers and research publications from arXiv",
+                "categories_placeholder": "Enter categories (e.g., cs.AI, cs.LG)"
+            },
+            "google_news": {
+                "title": "Google News",
+                "description": "Collect news articles from Google News related to your topics",
+                "topics_placeholder": "Enter topics to monitor"
+            },
+            "reddit": {
+                "title": "Reddit",
+                "description": "Monitor Reddit communities and discussions for emerging trends",
+                "subreddits_placeholder": "Enter subreddit names (e.g., technology, futurology)"
+            }
+        },
+        "automation_details": {
+            "how_it_works": {
+                "title": "How Automation Works",
+                "subtitle": "Understanding the forecasting system",
+                "description": "Your forecasting system works automatically in the background, continuously monitoring data sources, collecting relevant signals, and synthesizing them into actionable trends. No manual intervention needed."
+            },
+            "workflow": {
+                "step1_title": "Collect Signals",
+                "hourly": "Collect new signals every hour",
+                "daily": "Collect new signals once daily",
+                "twicedaily": "Collect new signals twice daily",
+                "step2_title": "Process Data",
+                "step2_description": "Background worker processes each signal",
+                "step3_title": "Generate Trends",
+                "step3_description": "Daily at {{time}}, create trends from signals"
+            },
+            "schedule_status": {
+                "title": "Schedule Status",
+                "description": "Monitor the automated system components",
+                "cron_job": "Cron Job",
+                "cron_description": "Checks every minute if it's time to run scheduled tasks",
+                "scheduler": "Scheduler",
+                "scheduler_description": "Manages automated signal collection and trend synthesis",
+                "last_run": "Last Run",
+                "next_run": "Next Run"
+            },
+            "what_happens": {
+                "title": "What Happens When",
+                "description": "Timeline of automated processes",
+                "step1_title": "Continuous: Process Tasks",
+                "step1_description": "Background worker processes signals, generates embeddings, and prepares data for analysis",
+                "step2_title": "Daily at {{time}}: Synthesize Trends",
+                "step2_description": "Analyze all signals from the past period and group similar ones into strategic trends",
+                "step3_title": "On Schedule: Collect New Signals",
+                "step3_description": "Automatically fetch new signals from configured data sources based on your focus topics"
+            }
+        },
+        "status": {
+            "queue_worker": "Queue Worker",
+            "running": "Running",
+            "stopped": "Stopped",
+            "enabled": "Enabled",
+            "disabled": "Disabled",
+            "never": "Never",
+            "pending_tasks": "Pending Tasks",
+            "completed_today": "Completed Today",
+            "total_data": "Total Data",
+            "signals": "signals",
+            "trends": "trends",
+            "current_activity": "Current Activity",
+            "current_activity_description": "Real-time view of what's happening right now",
+            "processing_tasks": "Processing Tasks",
+            "remaining": "remaining",
+            "processing_signals": "Processing Signals",
+            "processing_trends": "Generating Trends",
+            "in_queue": "in queue",
+            "recent_tasks": "Recent Tasks",
+            "recent_tasks_description": "Tasks completed or pending in the last few hours",
+            "no_recent_tasks": "No recent task activity",
+            "completed": "Completed",
+            "pending": "Pending",
+            "last_collection": "Last collection"
+        }
+    },
+    "enums": {
+        "domain": {
+            "Mobility": "Mobility",
+            "Engineering": "Engineering",
+            "Energy": "Energy",
+            "Resources": "Resources",
+            "Chemicals": "Chemicals",
+            "Materials": "Materials",
+            "Health Tech": "Health Tech",
+            "Life Sciences": "Life Sciences",
+            "ICT": "ICT",
+            "Sustainability": "Sustainability",
+            "AI & Machine Learning": "AI & Machine Learning",
+            "Fintech": "Fintech",
+            "Healthcare": "Healthcare",
+            "Cybersecurity": "Cybersecurity",
+            "Cloud Infrastructure": "Cloud Infrastructure",
+            "Other": "Other"
+        },
+        "relevance": {
+            "None": "None",
+            "Very Low": "Very Low",
+            "Low": "Low",
+            "Medium": "Medium",
+            "High": "High",
+            "Very High": "Very High"
+        },
+        "potential_impact": {
+            "None": "None",
+            "Very Low": "Very Low",
+            "Low": "Low",
+            "Medium": "Medium",
+            "High": "High",
+            "Very High": "Very High"
+        },
+        "status": {
+            "New": "New",
+            "Under Review": "Under Review",
+            "Accepted": "Accepted",
+            "Rejected": "Rejected",
+            "Archived": "Archived",
+            "Draft": "Draft",
+            "Active": "Active"
+        },
+        "time_horizon": {
+            "Short-term": "Short-term",
+            "Mid-term": "Mid-term",
+            "Long-term": "Long-term",
+            "1-3 years": "1-3 years",
+            "3-5 years": "3-5 years",
+            "5+ years": "5+ years",
+            "Unknown": "Unknown"
+        },
+        "maturity": {
+            "Early": "Early",
+            "Growing": "Growing",
+            "Mature": "Mature"
+        },
+        "strength": {
+            "Weak": "Weak",
+            "Emerging": "Emerging",
+            "Strong": "Strong"
+        },
+        "source_type": {
+            "News": "News",
+            "Article": "Article",
+            "Patent": "Patent",
+            "Report": "Report",
+            "Social": "Social",
+            "Event": "Event",
+            "Internal": "Internal",
+            "Other": "Other"
+        },
+        "trend_segmentation": {
+            "Society & Individuals": "Society & Individuals",
+            "Economy & Business": "Economy & Business",
+            "Environment": "Environment",
+            "Politics & Law": "Politics & Law"
+        },
+        "adoption_stage": {
+            "Early": "Early",
+            "Growing": "Growing",
+            "Mature": "Mature"
+        },
+        "relation_type": {
+            "Drives": "Drives",
+            "Hinders": "Hinders",
+            "Relates to": "Relates to"
+        }
+    }
+}

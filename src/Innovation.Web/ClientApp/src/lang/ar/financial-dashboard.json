@@ -1,0 +1,293 @@
+{
+  "title": "الرؤى الاستراتيجية",
+  "subtitle": "رؤى استراتيجية شاملة وتحليلات محفظة الابتكار",
+  "financial_dashboard": "الرؤى الاستراتيجية",
+
+  "buttons": {
+    "present": "عرض تقديمي",
+    "export_pdf": "تصدير PDF",
+    "exporting": "جاري التصدير...",
+    "full_screen": "ملء الشاشة",
+    "exit": "خروج",
+    "advanced_filters": "فلاتر متقدمة",
+    "apply_filters": "تطبيق الفلاتر",
+    "reset": "إعادة تعيين",
+    "play": "تشغيل",
+    "pause": "إيقاف مؤقت"
+  },
+
+  "tabs": {
+    "roi": {
+      "label": "عائد الاستثمار",
+      "description": "عوائد الاستثمار وخلق القيمة"
+    },
+    "portfolio": {
+      "label": "محفظة الاستثمار",
+      "description": "توزيع الأصول والأداء"
+    },
+    "health": {
+      "label": "الصحة المالية",
+      "description": "مقاييس التشغيل والكفاءة"
+    },
+    "impact": {
+      "label": "الأثر والقيمة",
+      "description": "النتائج الاقتصادية والاستراتيجية"
+    }
+  },
+
+  "roi": {
+    "waterfall_title": "تحليل تدفق الاستثمار",
+    "waterfall_description": "تتبع كيفية تدفق رأس المال من التخصيص الأولي إلى صافي الاستثمار في الابتكار",
+    "waterfall_award_budget": "ميزانية الجوائز",
+    "waterfall_award_budget_desc": "إجمالي جوائز التحديات المخصصة",
+    "waterfall_sponsorships": "الرعايات",
+    "waterfall_sponsorships_desc": "مساهمات الرعاة الخارجيين",
+    "waterfall_operational_costs": "التكاليف التشغيلية",
+    "waterfall_operational_costs_desc": "معالجة وتقييم الأفكار",
+    "waterfall_net_investment": "صافي الاستثمار",
+    "waterfall_net_investment_desc": "الإجمالي المتاح للابتكار",
+    "gauge_label": "عائد الاستثمار في الابتكار",
+    "investment_vs_returns_title": "الاستثمار مقابل العائدات (آخر 12 شهرًا)",
+    "investment_vs_returns_description": "تتبع استثمارك في الابتكار والعوائد المتوقعة بمرور الوقت",
+    "net_cash_flow_title": "اتجاه التدفق النقدي الصافي",
+    "net_cash_flow_description": "التدفق النقدي الصافي الشهري يوضح التوازن بين الاستثمار والعائدات",
+    "net_cash_flow_filter_hint": "انقر على الأعمدة للتصفية • انقر مرة أخرى للإلغاء",
+    "net_cash_flow_filter_description": "التدفق النقدي الصافي الشهري يوضح التوازن بين الاستثمار والعائدات. انقر على الأعمدة للتصفية المتقاطعة لجميع الرسوم البيانية.",
+    "quick_stats_title": "إحصائيات سريعة",
+    "hero_total_investment": "إجمالي الاستثمار في الابتكار",
+    "hero_portfolio_value": "قيمة المحفظة",
+    "hero_ytd_roi": "عائد الاستثمار حتى تاريخه",
+    "hero_active_investments": "الاستثمارات النشطة",
+    "hero_challenges_unit": "التحديات",
+    "quick_cost_per_idea": "التكلفة لكل فكرة",
+    "quick_conversion_rate": "معدل التحويل",
+    "quick_payback_period": "فترة الاسترداد",
+    "quick_projected_returns": "العائدات المتوقعة",
+    "investment": "الاستثمار",
+    "returns": "العائدات",
+    "net_cash_flow": "التدفق النقدي الصافي",
+    "inflow": "تدفقات داخلة (+)",
+    "outflow": "تدفقات خارجة (−)",
+    "total": "الإجمالي"
+  },
+
+  "portfolio": {
+    "diversification_title": "تنويع المحفظة",
+    "diversification_description": "محفظة الابتكار موزعة على {{categories}} فئات",
+    "total_assets": "إجمالي الأصول",
+    "categories": "الفئات",
+    "diversification_score": "نقاط التنويع",
+    "excellent": "ممتاز",
+    "good": "جيد",
+    "fair": "مقبول",
+    "allocation_title": "توزيع المحفظة",
+    "allocation_description": "توزيع الاستثمار حسب الفئة",
+    "allocation_filter_hint": "انقر على الشرائح للتصفية • انقر مرة أخرى للإلغاء",
+    "allocation_filter_description": "توزيع الاستثمار حسب الفئة. انقر على الشرائح للتصفية المتقاطعة لجميع الرسوم البيانية.",
+    "risk_return_title": "مصفوفة المخاطر والعوائد",
+    "risk_return_description": "الأفكار موضعة حسب المخاطر والعائد المتوقع",
+    "risk_level": "مستوى المخاطر",
+    "expected_return": "العائد المتوقع (ألف ريال)",
+    "risk": "المخاطر",
+    "return": "العائد",
+    "ideas": "الأفكار",
+    "asset_performance_title": "أفضل 10 أصول أداءً",
+    "asset_performance_description": "أصول ابتكارية عالية القيمة مع عوائد متوقعة",
+    "asset_name": "اسم الأصل",
+    "investment": "الاستثمار",
+    "stage": "المرحلة",
+    "projected_value": "القيمة المتوقعة",
+    "risk_adj_return": "العائد المعدل للمخاطر",
+    "trend_30_day": "اتجاه 30 يومًا",
+    "liquidity": "السيولة",
+    "no_data": "لا توجد بيانات"
+  },
+
+  "health": {
+    "burn_rate_title": "معدل الإنفاق الشهري",
+    "burn_rate_description": "متوسط الإنفاق الشهري على مبادرات الابتكار",
+    "average_monthly_spend": "متوسط الإنفاق الشهري",
+    "runway_title": "المدرج المالي",
+    "runway_description": "أشهر التشغيل بمعدل الإنفاق الحالي",
+    "at_current_burn_rate": "بمعدل الإنفاق الحالي",
+    "months": "أشهر",
+    "budget_health_title": "صحة الميزانية",
+    "budget_health_action_needed": "مطلوب إجراء: المدرج أقل من 6 أشهر",
+    "budget_health_healthy": "صحي: مدرج كافٍ متاح",
+    "budget_utilization_title": "استخدام الميزانية حسب التحدي",
+    "budget_utilization_description": "تتبع الإنفاق مقابل الميزانيات المخصصة",
+    "spending_vs_budgets": "الإنفاق مقابل الميزانيات المخصصة",
+    "unnamed_challenge": "بدون اسم",
+    "allocated": "المخصص",
+    "spent": "المنفق",
+    "remaining": "المتبقي",
+    "utilization": "الاستخدام",
+    "efficiency_title": "مقاييس الكفاءة التشغيلية",
+    "efficiency_description": "مؤشرات الأداء الرئيسية لبرنامج الابتكار",
+    "efficiency_cost_per_acquisition": "التكلفة لكل فكرة مكتسبة",
+    "efficiency_cost_per_implementation": "التكلفة لكل تنفيذ",
+    "efficiency_implementation_rate": "معدل التنفيذ",
+    "cash_flow_title": "توقعات التدفق النقدي (الـ 12 شهرًا القادمة)",
+    "cash_flow_description": "التدفقات الداخلة والخارجة المتوقعة والرصيد",
+    "inflow": "تدفقات داخلة",
+    "outflow": "تدفقات خارجة",
+    "balance": "الرصيد"
+  },
+
+  "impact": {
+    "economic_impact_title": "الأثر الاقتصادي",
+    "economic_jobs_created": "الوظائف المُنشأة",
+    "economic_market_value": "القيمة السوقية المُحققة",
+    "economic_cost_savings": "التوفير في التكاليف",
+    "projected": "المتوقع",
+    "funnel_submitted": "المقدمة",
+    "funnel_shortlisted": "القائمة المختصرة",
+    "funnel_winners": "الفائزون",
+    "funnel_implemented": "المُنفذة",
+    "strategic_alignment_title": "التوافق الاستراتيجي",
+    "strategic_alignment_description": "الأفكار المتوافقة مع الأولويات الوطنية",
+    "excellent_alignment": "توافق ممتاز مع الأهداف الاستراتيجية",
+    "good_alignment": "توافق جيد مع الأولويات الاستراتيجية",
+    "moderate_alignment": "توافق معتدل - هناك مجال للتحسين",
+    "innovation_velocity_title": "سرعة الابتكار",
+    "innovation_velocity_description": "متوسط الوقت من الفكرة إلى التنفيذ",
+    "fast_track": "مسار سريع إلى السوق",
+    "standard_timeline": "جدول زمني قياسي للتنفيذ",
+    "extended_cycle": "دورة تطوير ممتدة",
+    "success_flow_title": "تدفق نجاح الابتكار",
+    "success_flow_description": "تصور تفاعلي للتدفق يوضح معدلات التحويل من التقديم إلى التنفيذ. مرر الماوس فوق التدفقات لرؤية نسب التحويل.",
+    "pipeline_metrics_title": "مقاييس أداء خط الأنابيب",
+    "pipeline_metrics_description": "مؤشرات التحويل والنجاح الرئيسية",
+    "overall_conversion_rate": "معدل التحويل الإجمالي",
+    "of_ideas_implemented": "{{count}} من {{total}} فكرة تم تنفيذها",
+    "success_rate": "معدل النجاح",
+    "winners_selected": "{{count}} فائز تم اختياره",
+    "total_pipeline": "إجمالي خط الأنابيب",
+    "ideas_in_pipeline": "الأفكار في خط أنابيب الابتكار"
+  },
+
+  "ai_insights": {
+    "title": "رؤى مدعومة بالذكاء الاصطناعي",
+    "subtitle": "تحليل ذكي لمحفظة الابتكار الخاصة بك",
+    "live": "مباشر",
+    "trending_up": "في تصاعد",
+    "attention": "انتباه",
+    "opportunities": "فرص",
+    "exceptional_roi_title": "أداء استثنائي لعائد الاستثمار",
+    "exceptional_roi_description": "تحقق محفظة الابتكار الخاصة بك عائد استثمار بنسبة {{roi}}%، متفوقة بشكل كبير على معايير الصناعة البالغة 8-12%. هذا يشير إلى تخصيص رأس مال فعال للغاية.",
+    "roi_below_target_title": "عائد الاستثمار أقل من المستهدف",
+    "roi_below_target_description": "عائد الاستثمار الحالي البالغ {{roi}}% أقل من العتبة المستهدفة. فكر في إعادة تخصيص الموارد لفئات الابتكار الأعلى أداءً.",
+    "runway_critical_title": "المدرج المالي حرج",
+    "runway_critical_description": "فقط {{runway}} أشهر متبقية من المدرج عند معدل الإنفاق الحالي. مطلوب إجراء فوري لتأمين تمويل إضافي أو تقليل الإنفاق.",
+    "healthy_position_title": "وضع مالي صحي",
+    "healthy_position_description": "يوفر المدرج القوي البالغ {{runway}} شهرًا مرونة ممتازة للمبادرات الاستراتيجية وفرص التوسع.",
+    "well_diversified_title": "محفظة متنوعة بشكل جيد",
+    "well_diversified_description": "درجة التنويع البالغة {{score}}% عبر {{categories}} فئات تقلل من المخاطر وتزيد من احتمالية الابتكارات الرائدة.",
+    "diversification_opportunity_title": "فرصة تنويع",
+    "diversification_opportunity_description": "تم اكتشاف تركيز المحفظة. قد يؤدي التوسع في فئات ابتكار إضافية إلى تحسين العوائد المعدلة حسب المخاطر.",
+    "high_alignment_title": "توافق استراتيجي عالٍ",
+    "high_alignment_description": "{{alignment}}% من المبادرات متوافقة مع الأولويات الاستراتيجية. هذا التوافق القوي يزيد من احتمالية خلق القيمة على المدى الطويل.",
+    "rapid_velocity_title": "سرعة ابتكار سريعة",
+    "rapid_velocity_description": "متوسط الوقت إلى السوق البالغ {{velocity}} أشهر أسرع بنسبة {{percent}}% من متوسط الصناعة، مما يتيح التقاط القيمة بسرعة.",
+    "high_value_asset_title": "تم تحديد أصل عالي القيمة",
+    "high_value_asset_description": "يُظهر أصل الابتكار الأول درجة سيولة {{liquidity}}% مع قيمة متوقعة تبلغ {{value}} ريال. مسار سريع لتحقيق أقصى تأثير.",
+    "top_pick": "الخيار الأول",
+    "action_view_top_performers": "عرض الأفضل أداءً",
+    "action_analyze_underperformers": "تحليل الأقل أداءً",
+    "action_review_budget": "مراجعة الميزانية",
+    "action_explore_categories": "استكشاف فئات جديدة",
+    "action_view_details": "عرض التفاصيل"
+  },
+
+  "filters": {
+    "title": "فلاتر متقدمة",
+    "cross_filtering_active": "التصفية المتقاطعة نشطة",
+    "time_period": "الفترة الزمنية",
+    "last_3_months": "آخر 3 أشهر",
+    "last_6_months": "آخر 6 أشهر",
+    "last_12_months": "آخر 12 شهرًا",
+    "last_2_years": "آخر سنتين",
+    "all_time": "كل الوقت",
+    "budget_range": "نطاق الميزانية (ريال)",
+    "to": "إلى",
+    "challenge_status": "حالة التحدي",
+    "open": "مفتوح",
+    "closed": "مغلق",
+    "judging": "التحكيم",
+    "completed": "مكتمل",
+    "specific_challenges": "تحديات محددة ({count} محدد)",
+    "unnamed": "بدون اسم"
+  },
+
+  "presentation": {
+    "slide_of": "شريحة {{current}} من {{total}}",
+    "seconds_remaining": "{{seconds}} ثانية متبقية",
+    "seconds_elapsed": "{{seconds}} ثانية مضت",
+    "slides": {
+      "roi_overview": {
+        "title": "نظرة عامة على عائد الاستثمار في الابتكار",
+        "narration": "حققت محفظة الابتكار لدينا عائد استثمار مثيرًا للإعجاب بنسبة 28.5٪ بقيمة محفظة تبلغ 20.4 مليون ريال. يظهر تحليل تدفق الاستثمار تخصيصًا قويًا لرأس المال من الجوائز والرعايات."
+      },
+      "investment_returns": {
+        "title": "اتجاه الاستثمار مقابل العائدات",
+        "narration": "على مدى الـ 12 شهرًا الماضية، شهدنا نموًا مستمرًا في كل من الاستثمارات والعائدات، مع تجاوز العائدات للاستثمارات في الربع الثالث، مما يشير إلى زخم إيجابي."
+      },
+      "portfolio_diversification": {
+        "title": "تنويع المحفظة",
+        "narration": "تحافظ محفظة الابتكار لدينا على تنويع ممتاز بدرجة 85٪، موزعة على 8 فئات و120 أصلًا إجماليًا، مما يقلل من المخاطر الإجمالية."
+      },
+      "risk_return": {
+        "title": "مصفوفة المخاطر والعوائد",
+        "narration": "تظهر مصفوفة المخاطر والعوائد توازنًا صحيًا للأفكار ذات العائد المرتفع والمخاطر المنخفضة في النقطة المثالية، مع رهانات استراتيجية على فرص عالية المخاطر."
+      },
+      "top_assets": {
+        "title": "أداء الأصول الرئيسية",
+        "narration": "تُظهر أفضل 10 أصول لدينا أداءً قويًا مع اتجاهات إيجابية لمدة 30 يومًا، ودرجات سيولة عالية، وعوائد معدلة للمخاطر بمتوسط 1.2 مليون ريال لكل أصل."
+      },
+      "financial_health": {
+        "title": "مقاييس الصحة المالية",
+        "narration": "معدل الإنفاق الحالي هو 178 ألف ريال شهريًا مع مدرج صحي يبلغ 56.2 شهرًا. يبلغ متوسط استخدام الميزانية عبر التحديات 75٪، مما يشير إلى نشر فعال لرأس المال."
+      },
+      "cash_flow": {
+        "title": "توقعات التدفق النقدي",
+        "narration": "تظل توقعات التدفق النقدي إيجابية للأشهر الـ 12 القادمة، مع تدفقات داخلة وخارجة متوازنة تحافظ على الاستدامة التشغيلية."
+      },
+      "economic_impact": {
+        "title": "الأثر الاقتصادي والاستراتيجي",
+        "narration": "خلق برنامج الابتكار لدينا 1.85 مليون ريال من القيمة الاقتصادية المباشرة، وولد 42 وظيفة، وحقق توافقًا استراتيجيًا بنسبة 78.3٪ مع الأولويات الوطنية."
+      },
+      "success_funnel": {
+        "title": "قمع نجاح الابتكار",
+        "narration": "يصور مخطط سانكي رحلة الابتكار لدينا: من 120 تقديمًا عبر القائمة المختصرة واختيار الفائزين، إلى 24 مشروعًا تم تنفيذه بنجاح - بمعدل تحويل 20٪."
+      },
+      "summary": {
+        "title": "الملخص والخاتمة",
+        "narration": "باختصار: 28.5٪ عائد استثمار، 85٪ تنويع، 56 شهرًا مدرج، و78٪ توافق استراتيجي. تُظهر محفظة الابتكار لدينا صحة مالية قوية وخلق قيمة استراتيجية."
+      }
+    }
+  },
+
+  "units": {
+    "sar": "ريال",
+    "percentage": "٪",
+    "months": "أشهر"
+  },
+
+  "common": {
+    "close": "إغلاق",
+    "next": "التالي",
+    "previous": "السابق",
+    "loading": "جاري التحميل...",
+    "no_results": "لم يتم العثور على نتائج"
+  },
+
+  "chart_labels": {
+    "investment": "الاستثمار",
+    "returns": "العائدات",
+    "net_cash_flow": "التدفق النقدي الصافي",
+    "value": "القيمة",
+    "inflow": "تدفقات داخلة",
+    "outflow": "تدفقات خارجة",
+    "balance": "الرصيد"
+  }
+}

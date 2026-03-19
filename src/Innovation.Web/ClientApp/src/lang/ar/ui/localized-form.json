@@ -1,0 +1,17 @@
+{
+    "enter_text": "أدخل النص...",
+    "enter_item_and_press_enter": "أدخل العنصر واضغط Enter...",
+    "enter_item": "أدخل العنصر...",
+    "add_item": "إضافة عنصر",
+    "edit_item": "تحرير العنصر",
+    "add_new_item": "إضافة عنصر جديد",
+    "edit": "تحرير",
+    "update": "تحديث",
+    "cancel": "إلغاء",
+    "maximum_items_allowed": "الحد الأقصى :count عناصر مسموح",
+    "press_enter_to_add": "اضغط Enter لإضافة \":item\"",
+    "enter_text_different_languages": "أدخل النص بلغات مختلفة. مطلوب لغة واحدة على الأقل.",
+    "no_items_added_yet": "لم يتم إضافة عناصر بعد",
+    "translate_from": "ترجمة من {{lang}}",
+    "translating": "جارٍ الترجمة..."
+}

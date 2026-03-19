@@ -1,0 +1,168 @@
+{
+    "dashboard_title": "مراقبة الأتمتة",
+    "dashboard_description": "مراقبة خط معالجة الأفكار المدعوم بالذكاء الاصطناعي",
+    "overview": "نظرة عامة",
+    "review_queue": "قائمة المراجعة",
+    "recent_activity": "النشاط الأخير",
+    "analytics": "التحليلات",
+    "refresh": "تحديث",
+    "export": "تصدير",
+    "last_updated": "آخر تحديث",
+
+    "pipeline_status": "حالة خط المعالجة",
+    "processing": "قيد المعالجة",
+    "completed": "مكتملة",
+    "failed": "فشلت",
+    "paused_for_review": "متوقفة للمراجعة",
+
+    "outcomes": "النتائج",
+    "auto_approved": "معتمدة تلقائياً",
+    "auto_rejected": "مرفوضة تلقائياً",
+    "needs_review": "تحتاج مراجعة",
+    "flagged_duplicates": "مُعلّمة كمكررة",
+
+    "performance_metrics": "مقاييس الأداء",
+    "automation_rate": "معدل الأتمتة",
+    "avg_processing_time": "متوسط وقت المعالجة",
+    "total_ideas": "إجمالي الأفكار",
+    "ideas_processed": "الأفكار المعالجة",
+
+    "stage_breakdown": "تفصيل المراحل",
+    "rejected_at_stage_1": "مرفوضة في المرحلة الأولى",
+    "rejected_at_screening": "مرفوضة في الفرز",
+    "stage_1_rejections": "رفض المرحلة الأولى",
+    "stage_2_duplicates": "مكررات المرحلة الثانية",
+    "stage_3_rejections": "رفض المرحلة الثالثة",
+    "stage_3_uncertain": "غير مؤكدة - المرحلة الثالثة",
+    "stage_4_completed": "مكتملة - المرحلة الرابعة",
+    "stage_4_failed": "فشلت - المرحلة الرابعة",
+    "stage_5_auto_approved": "معتمدة تلقائياً - المرحلة الخامسة",
+    "stage_5_auto_rejected": "مرفوضة تلقائياً - المرحلة الخامسة",
+    "stage_5_review": "مراجعة - المرحلة الخامسة",
+
+    "human_review_queue": "قائمة المراجعة اليدوية",
+    "ideas_requiring_review": "الأفكار التي تتطلب مراجعة يدوية",
+    "review_reason": "السبب",
+    "triage_score": "نقاط الفرز",
+    "overall_score": "النقاط الإجمالية",
+    "flagged_at": "تم التعليم في",
+    "screening_confidence": "ثقة الفرز",
+    "potential_duplicate": "احتمال تكرار",
+    "similar_ideas": "أفكار مشابهة",
+
+    "recent_ideas": "الأفكار الأخيرة",
+    "latest_processed_ideas": "آخر الأفكار المعالجة",
+    "idea_title": "الفكرة",
+    "status": "الحالة",
+    "automation_status": "حالة الأتمتة",
+    "current_stage": "المرحلة الحالية",
+    "created_at": "تاريخ الإنشاء",
+    "automation_completed_at": "اكتملت في",
+
+    "statuses": {
+        "pending": "معلّقة",
+        "in_progress": "قيد التنفيذ",
+        "completed": "مكتملة",
+        "needs_review": "تحتاج مراجعة",
+        "accepted": "مقبولة",
+        "rejected": "مرفوضة",
+        "failed": "فشلت",
+        "cancelled": "ملغاة"
+    },
+
+    "verdicts": {
+        "accept": "قبول",
+        "reject": "رفض",
+        "review": "مراجعة"
+    },
+
+    "stages": {
+        "screening": "الفرز",
+        "evaluation": "التقييم",
+        "unknown": "غير معروف"
+    },
+
+    "automation_stages": {
+        "pending": "معلّقة",
+        "in_pipeline": "في خط المعالجة",
+        "screening_complete": "اكتمل الفرز",
+        "full_evaluation_complete": "اكتمل التقييم الكامل",
+        "awaiting_human_review": "في انتظار المراجعة اليدوية",
+        "rejected": "مرفوضة",
+        "failed": "فشلت"
+    },
+
+    "automation_statuses": {
+        "processing": "قيد المعالجة",
+        "completed": "مكتملة",
+        "failed": "فشلت",
+        "paused_for_review": "متوقفة للمراجعة"
+    },
+
+    "review_reasons": {
+        "screening_uncertain": "فرز غير مؤكد",
+        "evaluation_failed": "لم تجتز التقييم",
+        "final_decision_uncertain": "قرار نهائي غير مؤكد",
+        "low_confidence": "ثقة منخفضة",
+        "potential_duplicate": "احتمال تكرار"
+    },
+
+    "status_distribution": "توزيع الحالات",
+    "stage_distribution": "توزيع المراحل",
+
+    "charts": {
+        "pipeline_flow": "تدفق خط المعالجة",
+        "automation_trend": "اتجاه الأتمتة",
+        "status_distribution": "توزيع الحالات",
+        "outcome_distribution": "توزيع النتائج",
+        "processing_time": "توزيع وقت المعالجة",
+        "stage_breakdown": "تفصيل المراحل",
+        "over_time": "معدل الأتمتة خلال آخر 7 أيام",
+        "by_stage": "توزيع الأفكار عبر مراحل خط المعالجة",
+        "by_status": "توزيع الأفكار عبر حالات خط المعالجة"
+    },
+
+    "filters": {
+        "filter_by": "التصفية حسب",
+        "date_range": "نطاق التاريخ",
+        "status": "الحالة",
+        "stage": "المرحلة",
+        "all": "الكل",
+        "apply": "تطبيق",
+        "clear": "مسح الفلاتر",
+        "search_placeholder": "البحث في الأفكار..."
+    },
+
+    "actions": {
+        "view_details": "عرض التفاصيل",
+        "approve": "اعتماد",
+        "reject": "رفض",
+        "review": "مراجعة",
+        "bulk_approve": "اعتماد جماعي",
+        "bulk_reject": "رفض جماعي",
+        "select_all": "تحديد الكل",
+        "clear_selection": "مسح التحديد"
+    },
+
+    "stats": {
+        "increase": "زيادة",
+        "decrease": "نقصان",
+        "no_change": "بدون تغيير",
+        "from_last_period": "من الفترة السابقة",
+        "seconds": "ثواني",
+        "minutes": "دقائق",
+        "hours": "ساعات"
+    },
+
+    "empty_states": {
+        "no_ideas_in_review": "لا توجد أفكار في قائمة المراجعة حالياً",
+        "no_recent_activity": "لا يوجد نشاط أتمتة حديث",
+        "no_data": "لا تتوفر بيانات"
+    },
+
+    "tooltips": {
+        "automation_rate_help": "نسبة الأفكار التي تمت معالجتها تلقائياً دون تدخل بشري",
+        "processing_time_help": "متوسط الوقت المستغرق لإكمال خط معالجة الأتمتة",
+        "review_queue_help": "الأفكار المعلّمة للمراجعة اليدوية بسبب عدم اليقين أو الحالات الخاصة"
+    }
+}

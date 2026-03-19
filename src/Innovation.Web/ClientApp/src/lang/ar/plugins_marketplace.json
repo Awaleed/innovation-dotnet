@@ -1,0 +1,143 @@
+{
+    "title": "سوق الإضافات",
+    "description": "اكتشف وقم بتثبيت إضافات قوية لتوسيع وظائف تطبيقك",
+    "stats": {
+        "total": "إجمالي الإضافات",
+        "available_plugins": "الإضافات المتاحة",
+        "featured": "مميز",
+        "premium_plugins": "إضافات مميزة",
+        "free": "مجاني",
+        "free_plugins": "إضافات مجانية",
+        "downloads": "التنزيلات",
+        "total_downloads": "إجمالي التنزيلات"
+    },
+    "tabs": {
+        "all": "الكل",
+        "featured": "مميز",
+        "free": "مجاني"
+    },
+    "categories": {
+        "all": "جميع الفئات",
+        "productivity": "الإنتاجية",
+        "analytics": "التحليلات",
+        "automation": "الأتمتة",
+        "security": "الأمان",
+        "integration": "التكامل",
+        "customization": "التخصيص",
+        "management": "الإدارة",
+        "design": "التصميم",
+        "finance": "المالية"
+    },
+    "search": {
+        "placeholder": "البحث عن الإضافات..."
+    },
+    "filter": {
+        "category": "الفئة",
+        "price": "السعر",
+        "all_prices": "جميع الأسعار",
+        "free_only": "مجاني فقط",
+        "paid_only": "مدفوع فقط"
+    },
+    "sort": {
+        "placeholder": "ترتيب حسب",
+        "popular": "الأكثر شعبية",
+        "rating": "الأعلى تقييماً",
+        "newest": "الأحدث",
+        "price_low": "السعر: من الأقل إلى الأعلى",
+        "price_high": "السعر: من الأعلى إلى الأقل"
+    },
+    "actions": {
+        "install": "تثبيت",
+        "buy": "شراء",
+        "details": "التفاصيل",
+        "install_now": "ثبّت الآن",
+        "installing": "جاري التثبيت...",
+        "share": "مشاركة مع الفريق",
+        "reset_filters": "إعادة تعيين عوامل التصفية"
+    },
+    "verified": "متحقق",
+    "downloads": "التنزيلات",
+    "free": "مجاني",
+    "featured": {
+        "title": "الإضافات المميزة",
+        "view_all": "عرض الكل"
+    },
+    "badge": "إضافات جديدة أسبوعياً",
+    "cards": {
+        "installed": "مثبّت",
+        "users": "{{value}} مستخدم",
+        "by": "بواسطة {{author}}"
+    },
+    "tags": {
+        "ai": "ذكاء اصطناعي",
+        "productivity": "الإنتاجية",
+        "analytics": "التحليلات",
+        "reporting": "التقارير",
+        "management": "الإدارة",
+        "agile": "أجايل",
+        "design": "التصميم",
+        "collaboration": "التعاون",
+        "finance": "المالية",
+        "web3": "ويب 3",
+        "security": "الأمان",
+        "devops": "ديف أوبس"
+    },
+    "dialog": {
+        "price_suffix": "لكل مستخدم / شهرياً",
+        "about": "حول هذه الإضافة",
+        "tags": "الوسوم",
+        "verified_title": "آمن ومعتمد",
+        "verified_description": "اجتازت هذه الإضافة فحص الأمان الآلي والمراجعة اليدوية لدينا.",
+        "rating": "التقييم",
+        "downloads": "التنزيلات",
+        "updated": "آخر تحديث",
+        "version": "الإصدار",
+        "uninstall": "إزالة الإضافة",
+        "share": "مشاركة مع الفريق",
+        "about_description": "تندمج هذه الإضافة بسلاسة مع مساحة عملك الحالية لتوفر مزامنة بيانات لحظية وقدرات عرض متقدمة تناسب فرق العمل المؤسساتية.",
+        "details_title": "تفاصيل {{name}}"
+    },
+    "data": {
+        "ai_brainstorm": {
+            "name": "AI Brainstorm Assistant",
+            "description": "يستخدم الذكاء الاصطناعي التوليدي لاقتراح تحسينات للميزات بناءً على ملاحظات المستخدمين.",
+            "author": "Nexus Labs"
+        },
+        "analytics_pro": {
+            "name": "Analytics Pro",
+            "description": "لوحات معلومات متقدمة ومخططات حرارة لمسار الابتكار لديك.",
+            "author": "DataViz Inc."
+        },
+        "team_velocity": {
+            "name": "Team Velocity Tracker",
+            "description": "مؤشرات مرحة لقياس سرعة دفعات الابتكار.",
+            "author": "AgileMasters"
+        },
+        "figma_connector": {
+            "name": "Figma Connector",
+            "description": "تضمين نماذج Figma الحية مباشرة داخل بطاقات المشاريع.",
+            "author": "DesignOps"
+        },
+        "crypto_payments": {
+            "name": "Crypto Payments",
+            "description": "قبول العملات المشفرة لمكافآت الابتكار.",
+            "author": "BlockSoft"
+        },
+        "security_audit": {
+            "name": "Security Audit Tool",
+            "description": "فحص تلقائي للاعتمادات في مشاريع الابتكار.",
+            "author": "SecGuard"
+        }
+    },
+    "toast": {
+        "installed_title": "تم تثبيت الإضافة",
+        "installed_message": "{{name}} جاهزة للاستخدام الآن.",
+        "removed_title": "تمت إزالة الإضافة",
+        "removed_message": "تم إلغاء تثبيت {{name}}."
+    },
+    "empty": {
+        "title": "لم يتم العثور على إضافات",
+        "description": "حاول تعديل معايير البحث أو التصفية للعثور على ما تبحث عنه."
+    }
+}
+

@@ -1,0 +1,267 @@
+{
+    "title": "Integration Hub",
+    "description": "Connect and manage your third-party integrations seamlessly",
+    "stats": {
+        "total": "Total Integrations",
+        "total_description": "Available integrations",
+        "connected": "Connected",
+        "active": "Active connections",
+        "available": "Available",
+        "ready_to_connect": "Ready to connect",
+        "uptime": "Uptime",
+        "last_30_days": "Last 30 days"
+    },
+    "tabs": {
+        "all": "All",
+        "connected": "Connected",
+        "available": "Available"
+    },
+    "categories": {
+        "all": "All Categories",
+        "crm": "CRM",
+        "payment": "Payment",
+        "communication": "Communication",
+        "development": "Development",
+        "analytics": "Analytics",
+        "storage": "Storage",
+        "marketing": "Marketing",
+        "security": "Security",
+        "support": "Support",
+        "custom": "Custom",
+        "market_intelligence": "Market Intelligence",
+        "product_management": "Product Management",
+        "project_management": "Project Management",
+        "collaboration": "Collaboration",
+        "erp": "ERP"
+    },
+    "status": {
+        "all": "All Statuses",
+        "connected": "Connected",
+        "disconnected": "Disconnected",
+        "pending": "Pending",
+        "error": "Error",
+        "syncing": "Syncing"
+    },
+    "sort": {
+        "name": "Name (A-Z)",
+        "status": "Status",
+        "last_sync": "Last sync"
+    },
+    "search": {
+        "placeholder": "Search integrations..."
+    },
+    "filter": {
+        "category": "Category",
+        "status": "Status"
+    },
+    "actions": {
+        "add_integration": "Add Integration",
+        "connect": "Connect",
+        "configure": "Configure"
+    },
+    "verified": "Verified",
+    "last_sync": "Last sync",
+    "usage": {
+        "requests": "API Requests"
+    },
+    "more": "more",
+    "empty": {
+        "title": "No integrations found",
+        "description": "Try adjusting your search or filter criteria to find what you're looking for."
+    },
+    "cta": {
+        "connect_new_tool": "Connect New Tool",
+        "connect_new_tool_description": "REST API, GraphQL, or Webhook"
+    },
+    "wizard": {
+        "step_title_select": "Choose Service Type",
+        "step_title_configure": "Configure {{type}}",
+        "step_description_select": "Select a pre-built template or configure a custom connection.",
+        "step_description_configure": "Enter the authentication details and endpoint configuration.",
+        "integration_name_label": "Integration Name",
+        "integration_name_placeholder": "My {{type}} Integration",
+        "service_types": {
+            "rest": "REST API",
+            "db": "Database",
+            "webhook": "Webhook",
+            "aws": "AWS S3",
+            "custom": "Custom SDK"
+        },
+        "test": {
+            "title": "Connection Test",
+            "idle": "Not tested yet",
+            "testing": "Pinging endpoint...",
+            "success": "Connection successful",
+            "failed": "Connection failed",
+            "button": "Test Ping"
+        },
+        "buttons": {
+            "back": "Back",
+            "cancel": "Cancel",
+            "complete": "Complete Setup"
+        }
+    },
+    "card": {
+        "connect": "Connect",
+        "disconnect": "Disconnect",
+        "synced": "Synced {{time}}",
+        "custom_description": "Custom {{type}} integration configured manually."
+    },
+    "form": {
+        "base_endpoint": "Base Endpoint URL",
+        "auth_type": "Auth Type",
+        "credential_api": "API Key / Token",
+        "credential_basic": "Username:Password",
+        "auth_options": {
+            "api_key": "API Key",
+            "bearer": "Bearer Token",
+            "basic": "Basic Auth"
+        },
+        "db_drivers": {
+            "postgresql": "PostgreSQL",
+            "mysql": "MySQL",
+            "mongodb": "MongoDB"
+        },
+        "driver": "Driver",
+        "port": "Port",
+        "host": "Host",
+        "database_name": "Database Name",
+        "username": "Username",
+        "password": "Password",
+        "region": "Region",
+        "bucket": "Bucket Name",
+        "access_key": "Access Key ID",
+        "secret_key": "Secret Access Key",
+        "webhook_url": "Webhook URL (Generated)",
+        "webhook_hint": "Send POST requests to this URL to trigger events.",
+        "secret_token": "Secret Token",
+        "events": "Subscribe to Events",
+        "json_configuration": "JSON Configuration",
+        "json_hint": "Paste your SDK initialization config JSON here.",
+        "invalid_type": "Select a valid integration type."
+    },
+    "manage": {
+        "last_synced": "Last Synced",
+        "category": "Category",
+        "edit_configuration": "Edit Configuration",
+        "view_logs": "View Security Logs",
+        "remove_connection": "Remove Connection",
+        "details_title": "{{name}} details",
+        "logs_title": "Security Logs",
+        "never": "Never",
+        "table": {
+            "time": "Time",
+            "event": "Event",
+            "status": "Status",
+            "details": "Details"
+        },
+        "table_status": {
+            "success": "Success",
+            "warning": "Warning",
+            "error": "Error"
+        },
+        "delete_title": "Confirm Deletion",
+        "delete_body": "Are you sure you want to remove the {{name}} integration?",
+        "delete_hint": "This action cannot be undone. All associated webhooks and sync tokens will be revoked immediately.",
+        "buttons": {
+            "save_changes": "Save Changes",
+            "confirm_remove": "Confirm Remove"
+        }
+    },
+    "data": {
+        "salesforce": {
+            "name": "Salesforce CRM",
+            "description": "Sync customer data and sales pipelines in real-time.",
+            "last_sync": "2 mins ago"
+        },
+        "slack": {
+            "name": "Slack",
+            "description": "Receive platform notifications directly in your workspace channels.",
+            "last_sync": "Live"
+        },
+        "jira": {
+            "name": "Jira Software",
+            "description": "Create tickets automatically from innovation feedback.",
+            "last_sync": "Failed 1h ago"
+        },
+        "github": {
+            "name": "GitHub",
+            "description": "Link repositories to project blueprints."
+        },
+        "hubspot": {
+            "name": "HubSpot",
+            "description": "Marketing automation and lead tracking integration.",
+            "last_sync": "Syncing..."
+        },
+        "zendesk": {
+            "name": "Zendesk",
+            "description": "Unified customer support ticketing."
+        },
+        "matomo": {
+            "name": "Matomo Analytics",
+            "description": "Privacy-first analytics to track engagement without compromising compliance.",
+            "last_sync": "5 mins ago"
+        },
+        "yammer": {
+            "name": "Yammer",
+            "description": "Enterprise social network for company-wide discussions and knowledge sharing."
+        },
+        "crunchbase": {
+            "name": "Crunchbase",
+            "description": "Access startup funding data to enrich innovation scouting workflows.",
+            "last_sync": "Synced today"
+        },
+        "craft": {
+            "name": "Craft.io",
+            "description": "Product portfolio planning with connected roadmaps and strategy mapping.",
+            "last_sync": "Syncing..."
+        },
+        "teams": {
+            "name": "Microsoft Teams",
+            "description": "Push innovation updates to cross-functional Teams channels in real time.",
+            "last_sync": "Live"
+        },
+        "asana": {
+            "name": "Asana",
+            "description": "Create and track execution tasks linked to innovation initiatives.",
+            "last_sync": "10 mins ago"
+        },
+        "sap": {
+            "name": "SAP S/4HANA",
+            "description": "Mirror portfolio investments with ERP financial and supply data."
+        },
+        "sharepoint": {
+            "name": "Microsoft SharePoint",
+            "description": "Surface SharePoint knowledge bases inside innovation workspaces."
+        },
+        "ga4": {
+            "name": "Google Analytics 4",
+            "description": "Correlate product experiments with GA4 audience and funnel data.",
+            "last_sync": "Failed 30 mins ago"
+        },
+        "pitchbook": {
+            "name": "PitchBook",
+            "description": "Bring venture capital trends and deal flow signals into evaluations."
+        },
+        "oracle": {
+            "name": "Oracle Fusion Cloud",
+            "description": "Connect innovation initiatives with enterprise ERP and CX records.",
+            "last_sync": "1 hour ago"
+        }
+    },
+    "toast": {
+        "copied_title": "Copied",
+        "copied_message": "URL copied to clipboard",
+        "connection_success_title": "Connection Successful",
+        "connection_success_message": "Successfully pinged the remote service.",
+        "connection_failed_title": "Connection Failed",
+        "connection_failed_message": "Check your credentials and try again.",
+        "integration_added_title": "Integration Added",
+        "integration_added_message": "{{name}} has been successfully configured.",
+        "configuration_updated_title": "Configuration Updated",
+        "configuration_updated_message": "Integration settings have been saved.",
+        "integration_removed_title": "Integration Removed",
+        "integration_removed_message": "{{name}} has been disconnected."
+    }
+}
+

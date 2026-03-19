@@ -1,0 +1,182 @@
+{
+    "ideas": {
+        "smart_waste_platform": {
+            "title": "Smart Electronic Waste Management Platform",
+            "description": "Developing a digital platform that uses artificial intelligence and Internet of Things to track and manage electronic waste from source to recycling. The platform includes a user app for scheduling collection of used devices, a GPS tracking system for trucks, and a comprehensive database of electronic waste types and processing methods. It also provides analytical reports for companies and governments on the amount of waste recycled and environmental impact achieved.",
+            "category": "Environment & Sustainability",
+            "tags": ["Artificial Intelligence", "Internet of Things", "Recycling", "Environment", "Technology"],
+            "author": "Dr. Sarah Al-Ahmad",
+            "status": "Under Development",
+            "priority": "High",
+            "stage": "Prototype",
+            "risk_level": "Medium",
+            "competitive_advantage": "First comprehensive platform in the region that combines AI and IoT for electronic waste management",
+            "market_potential": "Electronic waste market in the region is estimated at $2.5 billion annually with expected 15% annual growth",
+            "resource_requirements": {
+                "human": "Team of 12 people: 4 developers, 2 AI engineers, 2 environmental specialists, 2 marketers, 2 administrators",
+                "financial": "$1.2 million for the first two years",
+                "technical": "Cloud servers, IoT sensors, mobile and web applications, GPS systems"
+            }
+        },
+        "ar_education_system": {
+            "title": "Interactive Educational System with Augmented Reality for Students with Special Needs",
+            "description": "Developing an educational platform that uses augmented reality technology to provide a customized educational experience for students with special needs. The system includes interactive 3D content, educational games designed specifically for each type of disability, and a student progress tracking system using artificial intelligence. It also provides tools for teachers to create custom content and monitor student performance.",
+            "category": "Education & Training",
+            "tags": ["Augmented Reality", "Education", "Special Needs", "Artificial Intelligence", "Interactive"],
+            "author": "Mr. Mohammed Al-Zahrani",
+            "status": "Research Phase",
+            "priority": "High",
+            "stage": "Feasibility Study",
+            "risk_level": "Medium",
+            "competitive_advantage": "First system in the region that combines augmented reality and AI to serve people with special needs",
+            "market_potential": "More than 500,000 students with special needs in the region, with growing government investment in inclusive education",
+            "resource_requirements": {
+                "human": "Team of 15 people: 5 developers, 3 special education specialists, 2 UX/UI designers, 2 AR engineers, 3 administrators",
+                "financial": "$800,000 for the first phase",
+                "technical": "AR devices, AR development platform, cloud servers, interactive content development tools"
+            }
+        },
+        "agricultural_crowdfunding": {
+            "title": "Crowdfunding Platform for Sustainable Agricultural Projects",
+            "description": "Creating a digital platform that connects small farmers with investors and those interested in sustainable agriculture. The platform allows farmers to showcase their sustainable agricultural projects and request funding, while investors can choose projects they want to support. The platform includes a transparent system for tracking fund usage, periodic reports on project progress, and a reward system for investors in the form of agricultural products or financial returns.",
+            "category": "Agriculture & Food",
+            "tags": ["Crowdfunding", "Sustainable Agriculture", "Financial Technology", "Transparency", "Investment"],
+            "author": "Dr. Fatima Al-Khalidi",
+            "status": "New Idea",
+            "priority": "Medium",
+            "stage": "Brainstorming",
+            "risk_level": "High",
+            "competitive_advantage": "First crowdfunding platform specialized in sustainable agriculture with transparent tracking system and in-kind rewards",
+            "market_potential": "More than 100,000 small farmers in the region, with growing interest in sustainable investment",
+            "resource_requirements": {
+                "human": "Team of 10 people: 3 developers, 2 financial specialists, 2 agricultural engineers, 2 marketers, 1 legal",
+                "financial": "$600,000 for the first year",
+                "technical": "Web platform and mobile app, secure payment system, data analysis tools, content management system"
+            }
+        },
+        "elderly_care_robot": {
+            "title": "Smart Robot for Elderly Care at Home",
+            "description": "Developing a smart home robot specifically designed to help the elderly with their daily activities. The robot includes a smart voice assistant, health monitoring sensors, a robotic arm for assistance with simple tasks, and a reminder system for medications and appointments. It can also contact family members or emergency services when needed, and provides periodic health reports to treating physicians.",
+            "category": "Health & Care",
+            "tags": ["Robotics", "Elderly Care", "Healthcare", "Artificial Intelligence", "Home Assistant"],
+            "author": "Eng. Abdullah Al-Nuaimi",
+            "status": "Under Development",
+            "priority": "High",
+            "stage": "Detailed Design",
+            "risk_level": "High",
+            "competitive_advantage": "Comprehensive robot designed specifically for Arabic culture with Arabic language support and local customs",
+            "market_potential": "Elderly population growing by 8% annually, with increasing demand for home care solutions",
+            "resource_requirements": {
+                "human": "Team of 18 people: 6 robotics engineers, 3 developers, 2 health specialists, 2 industrial designers, 3 technicians, 2 administrators",
+                "financial": "$2.5 million for the first three years",
+                "technical": "Advanced robotic components, medical sensors, smart processors, long-lasting batteries"
+            }
+        },
+        "energy_efficiency_app": {
+            "title": "Smart App for Improving Energy Efficiency in Buildings",
+            "description": "Developing a smart app that uses artificial intelligence and Internet of Things to monitor and improve energy consumption in residential and commercial buildings. The app includes sensors to monitor temperature, humidity, and lighting, a smart control system for air conditioning and lighting, and detailed reports on energy consumption with suggestions for electricity savings. It also provides comparisons with similar buildings and a reward system for the most energy-efficient users.",
+            "category": "Energy & Environment",
+            "tags": ["Energy", "Artificial Intelligence", "Internet of Things", "Savings", "Smart Buildings"],
+            "author": "Dr. Nora Al-Shammari",
+            "status": "Testing Phase",
+            "priority": "High",
+            "stage": "Pilot Model",
+            "risk_level": "Low",
+            "competitive_advantage": "Comprehensive system that combines energy monitoring and smart control with easy-to-use Arabic interface",
+            "market_potential": "Millions of buildings in the region with rising energy prices and increasing environmental awareness",
+            "resource_requirements": {
+                "human": "Team of 12 people: 4 developers, 2 electrical engineers, 2 AI engineers, 2 marketers, 2 technicians",
+                "financial": "$900,000 for the first two years",
+                "technical": "IoT sensors, cloud platform, mobile applications, smart control systems"
+            }
+        },
+        "local_ecommerce": {
+            "title": "E-commerce Platform for Local and Handicraft Products",
+            "description": "Creating an e-commerce platform specialized in selling local and traditional handicraft products. The platform aims to support local artisans and producers by providing an easy interface to showcase their products, a secure payment system, and reliable shipping services. The platform also includes an educational section to introduce consumers to the history and value of traditional crafts, and a rating and review system to ensure product quality.",
+            "category": "Commerce & Business",
+            "tags": ["E-commerce", "Local Products", "Traditional Crafts", "Community Support", "Culture"],
+            "author": "Mr. Khalid Al-Balushi",
+            "status": "New Idea",
+            "priority": "Medium",
+            "stage": "Market Study",
+            "risk_level": "Medium",
+            "competitive_advantage": "Specialization in local products with cultural educational section and partnerships with local artisans",
+            "market_potential": "E-commerce growth of 25% annually with increasing interest in local products",
+            "resource_requirements": {
+                "human": "Team of 8 people: 3 developers, 2 marketers, 1 designer, 1 logistics specialist, 1 administrator",
+                "financial": "$400,000 for the first year",
+                "technical": "E-commerce platform, payment system, mobile app, inventory management system"
+            }
+        },
+        "smart_traffic_system": {
+            "title": "Smart Traffic Management System for Cities",
+            "description": "Developing a comprehensive smart system for managing city traffic using artificial intelligence and big data analysis. The system includes smart cameras to monitor roads, sensors to measure traffic density, and algorithms to optimize traffic signals in real-time. It also provides an app for citizens to know the best routes and travel times, and a control panel for traffic authorities to monitor and manage the traffic network.",
+            "category": "Transportation & Mobility",
+            "tags": ["Smart Traffic", "Artificial Intelligence", "Smart Cities", "Data Analysis", "Transportation"],
+            "author": "Eng. Ahmed Al-Rashid",
+            "status": "Under Development",
+            "priority": "High",
+            "stage": "Advanced Development",
+            "risk_level": "Medium",
+            "competitive_advantage": "Comprehensive system that combines traffic monitoring and smart control with citizen app",
+            "market_potential": "All major cities need smart traffic solutions, with massive government investments in smart cities",
+            "resource_requirements": {
+                "human": "Team of 20 people: 6 software engineers, 4 traffic engineers, 3 AI specialists, 3 technicians, 4 administrators",
+                "financial": "$3.2 million for the first four years",
+                "technical": "Smart cameras, sensors, high-performance servers, traffic signal control systems"
+            }
+        },
+        "digital_psychiatry_app": {
+            "title": "Digital Psychiatry App and Remote Therapy",
+            "description": "Developing a comprehensive mental health app that provides remote psychiatric therapy services in Arabic. The app includes video sessions with licensed psychiatrists, mental health assessment tools, interactive cognitive behavioral therapy programs, and a safe support community for patients. It also provides educational content about mental health and stress and anxiety management techniques, with complete privacy and confidentiality guarantees.",
+            "category": "Health & Care",
+            "tags": ["Mental Health", "Digital Medicine", "Remote Therapy", "Health App", "Psychological Support"],
+            "author": "Dr. Layla Al-Mansouri",
+            "status": "Testing Phase",
+            "priority": "High",
+            "stage": "Pilot Model",
+            "risk_level": "Medium",
+            "competitive_advantage": "First comprehensive mental health app in Arabic with licensed doctors and culturally appropriate content",
+            "market_potential": "Growing awareness of mental health importance with shortage of available services, especially in remote areas",
+            "resource_requirements": {
+                "human": "Team of 16 people: 4 developers, 6 psychiatrists, 2 UX/UI designers, 2 security specialists, 2 administrators",
+                "financial": "$1.5 million for the first three years",
+                "technical": "Secure video platform, mobile applications, advanced encryption systems, secure cloud servers"
+            }
+        }
+    },
+    "categories": {
+        "environment_sustainability": "Environment & Sustainability",
+        "education_training": "Education & Training",
+        "agriculture_food": "Agriculture & Food",
+        "health_care": "Health & Care",
+        "energy_environment": "Energy & Environment",
+        "commerce_business": "Commerce & Business",
+        "transportation_mobility": "Transportation & Mobility"
+    },
+    "statuses": {
+        "under_development": "Under Development",
+        "research_phase": "Research Phase",
+        "new_idea": "New Idea",
+        "testing_phase": "Testing Phase"
+    },
+    "priorities": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low"
+    },
+    "stages": {
+        "prototype": "Prototype",
+        "feasibility_study": "Feasibility Study",
+        "brainstorming": "Brainstorming",
+        "detailed_design": "Detailed Design",
+        "pilot_model": "Pilot Model",
+        "market_study": "Market Study",
+        "advanced_development": "Advanced Development"
+    },
+    "risk_levels": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low"
+    }
+}

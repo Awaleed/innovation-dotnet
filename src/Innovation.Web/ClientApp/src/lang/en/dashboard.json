@@ -1,0 +1,117 @@
+{
+    "ideas_distribution_by_category": "Ideas Distribution by Category",
+    "monthly_innovation_activity": "Monthly Innovation Activity",
+    "latest_activity": "Latest Activity",
+    "upcoming_deadlines": "Upcoming Deadlines",
+    "quick_actions": "Quick Actions",
+    "share_your_idea": "Share Your Idea",
+    "join_challenges": "Join Challenges",
+    "total_ideas": "Total Ideas",
+    "active_challenges": "Active Challenges",
+    "active_participants": "Active Participants",
+    "implemented_ideas": "Implemented Ideas",
+    "new_idea": "New Idea",
+    "join_challenge": "Join Challenge",
+    "invite_members": "Invite Members",
+    "view_awards": "View Awards",
+    "submit_innovative_ideas": "Submit your innovative ideas and get evaluated",
+    "start_now": "Start Now",
+    "participate_challenges": "Participate in challenges and win valuable prizes",
+    "explore": "Explore",
+    "from_last_month": "from last month",
+    "new_challenges": "new challenges",
+    "weekly_growth": "weekly growth",
+    "this_month": "this month",
+    "ideas": "Ideas",
+    "challenges": "Challenges",
+    "implementations": "Implementations",
+    "by": "by",
+    "ends_on": "Ends on:",
+    "participants": "participants",
+    "months": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June"
+    },
+    "categories": {
+        "technology": "Technology",
+        "sustainability": "Sustainability",
+        "education": "Education",
+        "health": "Health",
+        "other": "Other"
+    },
+    "activities": {
+        "new_idea_smart_energy": "New idea: Smart energy management application",
+        "new_joiner_ai_challenge": "New joiner to AI challenge",
+        "interactive_learning_implemented": "Interactive learning platform idea implemented"
+    },
+    "users": {
+        "ahmed_mohamed": "Ahmed Mohamed",
+        "fatima_ali": "Fatima Ali",
+        "mohamed_salem": "Mohamed Salem"
+    },
+    "time_ago": {
+        "5_minutes": "5 minutes ago",
+        "15_minutes": "15 minutes ago",
+        "1_hour": "an hour ago"
+    },
+    "challenge_titles": {
+        "environmental_sustainability": "Environmental Sustainability Challenge",
+        "fintech": "Fintech Challenge"
+    },
+    "currency": "SAR",
+    "activity_description": "Active",
+    "category_description": "Active",
+    "no_recent_activities": "No recent activities",
+    "no_upcoming_deadlines": "No upcoming deadlines",
+    "innovation_journey": "Innovation Journey",
+    "innovation_journey_description": "Comprehensive tracking of the innovation lifecycle across seven stages from incubation to sustainability",
+    "innovation_stages_map": "Innovation Journey Map - Seven Stages",
+    "innovation_stages_map_description": "Click on any stage to open the full page and interactive tools",
+    "notification_settings": "Notification Settings",
+    "notification_settings_description": "Manage stage transition notifications for ideas and projects",
+    "open_settings": "Open Settings",
+    "view_details": "View Details",
+    "projects_count": "Projects",
+    "status_label": "Status",
+    "stages": {
+        "discovery": {
+            "title": "Discovery / Opportunity Identification",
+            "description": "Identifying opportunities and problems through market research and trend analysis",
+            "status": "Completed"
+        },
+        "ideation": {
+            "title": "Idea Generation",
+            "description": "Brainstorming sessions and collaborative work to generate innovative ideas",
+            "status": "In Progress"
+        },
+        "incubation": {
+            "title": "Idea Incubation",
+            "description": "Nurturing and developing ideas through specialized committee prototypes",
+            "status": "In Progress"
+        },
+        "development": {
+            "title": "Concept Development",
+            "description": "Designing solution models under technical committee guidance with precision and credibility",
+            "status": "In Progress"
+        },
+        "testing": {
+            "title": "Validation & Testing",
+            "description": "Testing prototypes and collecting user feedback",
+            "status": "In Progress"
+        },
+        "launch": {
+            "title": "Implementation / Launch",
+            "description": "Market launch with marketing and continuous improvement",
+            "status": "Execution Started"
+        },
+        "sustainability": {
+            "title": "Consolidation & Sustainability",
+            "description": "Performance monitoring, continuous improvement, and expansion planning",
+            "status": "Early Stage"
+        }
+    }
+}

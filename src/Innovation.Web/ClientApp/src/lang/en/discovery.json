@@ -1,0 +1,220 @@
+{
+    "trends": {
+        "title": "Trends",
+        "description": "Strategically aggregated shifts in technology and consumer behavior.",
+        "add_trend": "Add Trend",
+        "filter_placeholder": "Filter trends by name or description...",
+        "global_domains": "Global Domains",
+        "table": {
+            "strategic_trend": "Strategic Trend",
+            "category": "Category",
+            "impact": "Impact",
+            "horizon": "Horizon",
+            "priority": "Priority",
+            "status": "Status",
+            "evidence_links": "Evidence Links"
+        },
+        "detail": {
+            "edit_blueprint": "Edit Blueprint",
+            "blueprint_vision": "Blueprint Vision",
+            "validation_ecosystem": "Validation Ecosystem",
+            "evidence": "Evidence",
+            "awaiting_validation": "Awaiting validation signals",
+            "strategic_matrix": "Strategic Matrix",
+            "impact_potential": "Impact Potential",
+            "deployment_horizon": "Deployment Horizon",
+            "readiness_level": "Readiness Level",
+            "urgency_of_action": "Urgency of Action",
+            "business_relevance": "Business Relevance",
+            "attach_docs": "Attach Strategic Docs",
+            "purge_trend": "Purge Trend",
+            "purge_confirm": "Permanently remove this trend from the portfolio?",
+            "no_description": "No detailed description available."
+        },
+        "modals": {
+            "new_trend": "New Strategic Trend",
+            "update_blueprint": "Update Blueprint"
+        }
+    },
+    "signals": {
+        "title": "Signals",
+        "description": "Capture early-stage evidence of future disruptive changes.",
+        "create_signal": "Create Signal",
+        "search_placeholder": "Search title, URL, keywords...",
+        "all_statuses": "All Statuses",
+        "all_types": "All Types",
+        "relevance": "Relevance",
+        "no_signals": "No signals found matching filters",
+        "detail": {
+            "edit": "Edit",
+            "delete_confirm": "Permanently delete this intelligence signal?",
+            "signal_strength": "Signal Strength",
+            "priority_relevance": "Priority Relevance",
+            "core_domains": "Core Domains",
+            "no_domains": "No domains categorized",
+            "analyst_assessment": "Analyst Assessment",
+            "pending_review": "Pending further analyst review and detailed insight capture.",
+            "launch_source": "Launch Source"
+        },
+        "modals": {
+            "intelligence_capture": "Intelligence Capture",
+            "update_intelligence": "Update Intelligence"
+        }
+    },
+    "radar": {
+        "title": "Radar",
+        "description": "Interactive radar visualization for discovery and innovation tracking",
+        "settings": "Radar Settings",
+        "mode_180": "180° Mode",
+        "network_view": "Network View",
+        "show_labels": "Show Labels",
+        "zoom_in": "Zoom In",
+        "zoom_out": "Zoom Out",
+        "center_view": "Center View",
+        "zoom_on_scroll": "Zoom on Scroll",
+        "segment_by": "Segment by",
+        "color_by": "Color by",
+        "distance_by": "Distance",
+        "relations_filter": "Relations",
+        "add_dimension": "Add Dimension",
+        "legend": {
+            "title": "Legend",
+            "configure_hint": "Configure your view settings to see the legend.",
+            "potential_impact": "Potential Impact",
+            "trend_segmentation": "Trend Segmentation",
+            "time_to_market": "Time to Market Impact"
+        },
+        "impact": {
+            "none": "None",
+            "very_low": "Very Low",
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High",
+            "very_high": "Very High"
+        },
+        "time_rings": {
+            "0-2y": "0-2y",
+            "2-4y": "2-4y",
+            "4-6y": "4-6y",
+            "6-8y": "6-8y",
+            "8-10y": "8-10y",
+            "10+y": "10+y"
+        },
+        "segment_options": {
+            "category": "Domain Category",
+            "trendSegmentation": "Trend Segmentation",
+            "adoptionStage": "Adoption Stage",
+            "potentialImpact": "Potential Impact",
+            "timeHorizon": "Time Horizon"
+        },
+        "color_options": {
+            "potentialImpact": "Potential Impact",
+            "category": "Domain Category",
+            "trendSegmentation": "Trend Segmentation",
+            "adoptionStage": "Adoption Stage",
+            "needForAction": "Need for Action"
+        },
+        "distance_options": {
+            "timeHorizon": "Time Horizon",
+            "potentialImpact": "Potential Impact",
+            "businessRelevance": "Business Relevance"
+        },
+        "detail": {
+            "related_signals": "Related Signals",
+            "no_signals": "No related signals",
+            "view_details": "View Details",
+            "forces_shaping_future": "Forces Shaping the Future",
+            "snapshot_of_future": "A Snapshot of the Future",
+            "implications_for_innovation": "Implications for Innovation",
+            "way_forward": "The Way Forward",
+            "ratings": "Ratings",
+            "scope": "Scope",
+            "strategic_fit": "Strategic Fit",
+            "speed_of_change_90": "Speed of Change [90 Days]",
+            "speed_of_change_180": "Speed of Change [180 Days]",
+            "tags": "Tags",
+            "sources_links": "Sources & Links",
+            "attachments": "Attachments",
+            "no_attachments": "No attachments",
+            "recommended_relations": "Recommended Relations",
+            "no_relations": "No related trends"
+        }
+    },
+    "enums": {
+        "domain": {
+            "Mobility": "Mobility",
+            "Engineering": "Engineering",
+            "Energy": "Energy",
+            "Resources": "Resources",
+            "Chemicals": "Chemicals",
+            "Materials": "Materials",
+            "Health Tech": "Health Tech",
+            "Life Sciences": "Life Sciences",
+            "ICT": "ICT"
+        },
+        "relevance": {
+            "Low": "Low",
+            "Medium": "Medium",
+            "High": "High"
+        },
+        "potential_impact": {
+            "None": "None",
+            "Very Low": "Very Low",
+            "Low": "Low",
+            "Medium": "Medium",
+            "High": "High",
+            "Very High": "Very High"
+        },
+        "status": {
+            "New": "New",
+            "Under Review": "Under Review",
+            "Accepted": "Accepted",
+            "Rejected": "Rejected",
+            "Archived": "Archived",
+            "Draft": "Draft",
+            "Active": "Active"
+        },
+        "time_horizon": {
+            "Short-term": "Short-term",
+            "Mid-term": "Mid-term",
+            "Long-term": "Long-term"
+        },
+        "maturity": {
+            "Early": "Early",
+            "Growing": "Growing",
+            "Mature": "Mature"
+        },
+        "strength": {
+            "Weak": "Weak",
+            "Emerging": "Emerging",
+            "Strong": "Strong"
+        },
+        "source_type": {
+            "News": "News",
+            "Article": "Article",
+            "Patent": "Patent",
+            "Report": "Report",
+            "Social": "Social",
+            "Event": "Event",
+            "Internal": "Internal",
+            "Other": "Other"
+        },
+        "trend_segmentation": {
+            "Society & Individuals": "Society & Individuals",
+            "Economy & Business": "Economy & Business",
+            "Environment": "Environment",
+            "Politics & Law": "Politics & Law"
+        },
+        "adoption_stage": {
+            "Early": "Early",
+            "Growing": "Growing",
+            "Mature": "Mature"
+        },
+        "relation_type": {
+            "Drives": "Drives",
+            "Hinders": "Hinders",
+            "Relates to": "Relates to"
+        }
+    }
+}
+

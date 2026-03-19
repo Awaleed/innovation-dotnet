@@ -1,0 +1,17 @@
+{
+    "previous": "Previous",
+    "next": "Next",
+    "more_pages": "More pages",
+    "go_to_previous_page": "Go to previous page",
+    "go_to_next_page": "Go to next page",
+    "page_size_label": "Items per page",
+    "first_page": "First",
+    "previous_page": "Previous",
+    "next_page": "Next",
+    "last_page": "Last",
+    "page_info": "Page {{page}} of {{totalPages}}",
+    "showing_label": "Showing",
+    "of_label": "of",
+    "items_label": "items",
+    "page_label": "Page"
+}

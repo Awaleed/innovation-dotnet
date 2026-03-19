@@ -1,0 +1,17 @@
+{
+    "enter_text": "Enter text...",
+    "enter_item_and_press_enter": "Enter item and press Enter...",
+    "enter_item": "Enter item...",
+    "add_item": "Add Item",
+    "edit_item": "Edit Item",
+    "add_new_item": "Add New Item",
+    "edit": "Edit",
+    "update": "Update",
+    "cancel": "Cancel",
+    "maximum_items_allowed": "Maximum {{count}} items allowed",
+    "press_enter_to_add": "Press Enter to add \":item\"",
+    "enter_text_different_languages": "Enter the text in different languages. At least one language is required.",
+    "no_items_added_yet": "No items added yet",
+    "translate_from": "Translate from {{lang}}",
+    "translating": "Translating..."
+}

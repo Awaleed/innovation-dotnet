@@ -1,0 +1,274 @@
+{
+    "version_history": {
+        "title": "سجل الإصدارات",
+        "versions": "إصدارات",
+        "no_version_history": "لا يوجد سجل إصدارات",
+        "version_history_description": "سيتم عرض جميع التغييرات والتعديلات هنا",
+        "current": "الحالي",
+        "compare_with_previous": "مقارنة مع السابق",
+        "more": "المزيد",
+        "total_versions": "إجمالي الإصدارات",
+        "edit_requests": "طلبات التعديل",
+        "total_changes": "إجمالي التغييرات",
+
+        "change_types": {
+            "created": "تم الإنشاء",
+            "updated": "تم التحديث",
+            "edit_request_submitted": "اكتمل طلب التعديل",
+            "admin_edit": "تعديل إداري",
+            "rollback": "تم التراجع"
+        },
+
+        "summaries": {
+            "initial_creation": "إنشاء الفكرة الأولي",
+            "enhanced_description": "تحسين الوصف وإضافة الميزة التنافسية",
+            "admin_request_completed": "معالجة طلب التعديل الإداري - إضافة الجدول الزمني والموارد التقنية"
+        },
+
+        "fields": {
+            "description": "الوصف",
+            "competitive_advantage": "الميزة التنافسية",
+            "duration": "المدة",
+            "resource_technical": "الموارد التقنية",
+            "budget": "الميزانية",
+            "market_potential": "إمكانات السوق",
+            "timeline": "الجدول الزمني",
+            "resource_human": "الموارد البشرية",
+            "resource_financial": "الموارد المالية"
+        }
+    },
+
+    "version_comparison": {
+        "title": "مقارنة الإصدارات",
+        "comparing": "مقارنة الإصدار {{from}} مع الإصدار {{to}}",
+        "close": "إغلاق",
+        "restore_version": "استعادة هذا الإصدار",
+        "changes_summary": "ملخص التغييرات",
+        "added_fields": "حقول مضافة",
+        "modified_fields": "حقول معدلة",
+        "removed_fields": "حقول محذوفة",
+        "total_changes": "إجمالي التغييرات",
+        "field_changes": "تغييرات الحقول",
+        "no_changes": "لا توجد تغييرات",
+
+        "change_types": {
+            "added": "مضاف",
+            "modified": "معدل",
+            "removed": "محذوف"
+        },
+
+        "labels": {
+            "field": "الحقل",
+            "old_value": "القيمة القديمة",
+            "new_value": "القيمة الجديدة",
+            "change_type": "نوع التغيير"
+        }
+    },
+
+    "conversations": {
+        "title": "المحادثات",
+        "new_conversation": "محادثة جديدة",
+        "no_conversations": "لا توجد محادثات",
+        "no_conversations_description": "ابدأ محادثة جديدة للتواصل",
+        "unread_messages": "رسائل غير مقروءة",
+        "last_message": "آخر رسالة",
+        "active": "نشط",
+        "resolved": "محلول",
+        "archived": "مؤرشف",
+
+        "types": {
+            "admin_feedback": "ملاحظات الإدارة",
+            "evaluator_qa": "أسئلة المقيّم",
+            "mentor_guidance": "إرشادات الموجه",
+            "general": "عام",
+            "ai_insights": "رؤى الذكاء الاصطناعي"
+        }
+    },
+
+    "messages": {
+        "type_your_message": "اكتب رسالتك...",
+        "send": "إرسال",
+        "sending": "جاري الإرسال...",
+        "attach_file": "إرفاق ملف",
+        "no_messages": "لا توجد رسائل",
+        "no_messages_description": "ابدأ المحادثة بإرسال رسالة",
+        "system_message": "رسالة النظام",
+        "ai_message": "رسالة الذكاء الاصطناعي",
+        "edited": "معدّل",
+        "read": "مقروءة",
+        "unread": "غير مقروءة",
+
+        "types": {
+            "text": "نص",
+            "system": "النظام",
+            "edit_request": "طلب تعديل",
+            "ai_suggestion": "اقتراح الذكاء الاصطناعي",
+            "evaluator_question": "سؤال المقيّم",
+            "file_attachment": "مرفق ملف"
+        }
+    },
+
+    "edit_requests": {
+        "title": "طلبات التعديل",
+        "new_request": "طلب تعديل جديد",
+        "no_requests": "لا توجد طلبات تعديل",
+        "requested_by": "طلب من قبل",
+        "deadline": "الموعد النهائي",
+        "priority": "الأولوية",
+        "fields_to_edit": "الحقول المطلوب تعديلها",
+        "request_message": "رسالة الطلب",
+        "admin_notes": "ملاحظات الإدارة",
+        "start_editing": "بدء التعديل",
+        "view_details": "عرض التفاصيل",
+        "mark_completed": "وضع علامة مكتمل",
+        "reject": "رفض",
+
+        "status": {
+            "pending": "قيد الانتظار",
+            "in_progress": "قيد التنفيذ",
+            "completed": "مكتمل",
+            "rejected": "مرفوض"
+        },
+
+        "priority_levels": {
+            "low": "منخفضة",
+            "medium": "متوسطة",
+            "high": "عالية"
+        },
+
+        "banner": {
+            "title": "طلب تعديل مطلوب",
+            "description": "تحتاج الإدارة إلى معلومات إضافية لإكمال تقييم فكرتك",
+            "fields_count": "{{count}} حقول مطلوبة",
+            "deadline_text": "الموعد النهائي: {{date}}",
+            "view_details_button": "عرض التفاصيل",
+            "start_editing_button": "بدء التعديل"
+        }
+    },
+
+    "changes_requested": "تغييرات مطلوبة",
+    "edit_request_overdue": "طلب التعديل متأخر",
+    "priority_low": "أولوية منخفضة",
+    "priority_medium": "أولوية متوسطة",
+    "priority_high": "أولوية عالية",
+    "fields_to_update": "حقول للتحديث",
+    "required_updates": "التحديثات المطلوبة",
+    "requested": "تم الطلب",
+    "due": "موعد الاستحقاق",
+    "deadline_passed": "انتهى الموعد النهائي",
+    "dismiss": "تجاهل",
+
+    "participants": {
+        "title": "المشاركون",
+        "add_participant": "إضافة مشارك",
+        "remove_participant": "إزالة مشارك",
+        "role": "الدور",
+        "joined_at": "انضم في",
+        "last_read": "آخر قراءة",
+
+        "roles": {
+            "owner": "المالك",
+            "admin": "مدير",
+            "evaluator": "مقيّم",
+            "mentor": "موجه",
+            "participant": "مشارك"
+        }
+    },
+
+    "attachments": {
+        "title": "المرفقات",
+        "attach_files": "إرفاق ملفات",
+        "drop_files": "اسحب الملفات هنا",
+        "or": "أو",
+        "browse": "تصفح",
+        "file_size_limit": "الحد الأقصى لحجم الملف: {{size}}",
+        "file_type_allowed": "الأنواع المسموحة: {{types}}",
+        "uploading": "جاري الرفع...",
+        "upload_failed": "فشل الرفع",
+        "download": "تحميل",
+        "delete": "حذف"
+    },
+
+    "notifications": {
+        "new_message": "رسالة جديدة من {{sender}}",
+        "edit_request_received": "طلب تعديل جديد من {{requester}}",
+        "edit_request_completed": "تم إكمال طلب التعديل",
+        "conversation_resolved": "تم حل المحادثة",
+        "new_participant_added": "تمت إضافة مشارك جديد: {{participant}}"
+    },
+
+    "errors": {
+        "load_conversations_failed": "فشل تحميل المحادثات",
+        "load_messages_failed": "فشل تحميل الرسائل",
+        "send_message_failed": "فشل إرسال الرسالة",
+        "upload_attachment_failed": "فشل رفع المرفق",
+        "invalid_file_type": "نوع الملف غير صالح",
+        "file_too_large": "الملف كبير جداً"
+    },
+
+    "success": {
+        "message_sent": "تم إرسال الرسالة",
+        "edit_request_submitted": "تم تقديم طلب التعديل",
+        "conversation_created": "تم إنشاء المحادثة",
+        "participant_added": "تمت إضافة المشارك",
+        "attachment_uploaded": "تم رفع المرفق"
+    },
+
+    "message_input": {
+        "failed_to_send_message": "فشل إرسال الرسالة",
+        "max_attachment_size_exceeded": "تجاوز الحد الأقصى لحجم المرفقات (10 ميجابايت)",
+        "type_your_message": "اكتب رسالتك...",
+        "message_input": "إدخال الرسالة",
+        "press_ctrl_enter_to_send": "اضغط Ctrl+Enter للإرسال",
+        "attach_files": "إرفاق ملفات",
+        "send_message": "إرسال الرسالة"
+    },
+
+    "conversation_list": {
+        "conversations": "المحادثات",
+        "unread": "غير مقروءة",
+        "new": "جديد",
+        "all": "الكل",
+        "no_unread_conversations": "لا توجد محادثات غير مقروءة",
+        "no_conversations": "لا توجد محادثات",
+        "all_caught_up": "لقد قرأت كل شيء!",
+        "conversations_will_appear_here": "ستظهر المحادثات هنا عند بدء التواصل",
+        "conversation_types": "أنواع المحادثات"
+    },
+
+    "message_thread": {
+        "unknown_user": "مستخدم غير معروف",
+        "loading_messages": "جاري تحميل الرسائل...",
+        "no_messages_yet": "لا توجد رسائل بعد",
+        "start_conversation_description": "ابدأ المحادثة بإرسال رسالة",
+        "message_types": {
+            "text": "رسالة",
+            "system": "النظام",
+            "edit_request": "طلب تعديل",
+            "ai_suggestion": "اقتراح ذكي",
+            "evaluator_question": "سؤال المقيّم",
+            "file_attachment": "مرفق ملف"
+        }
+    },
+
+    "version_comparison_dialog": {
+        "version_comparison": "مقارنة الإصدارات",
+        "previous_version": "الإصدار السابق",
+        "new_version": "الإصدار الجديد",
+        "empty": "فارغ",
+        "before": "قبل",
+        "after": "بعد",
+        "detailed_changes": "التغييرات التفصيلية",
+        "no_changes_detected": "لم يتم اكتشاف تغييرات",
+        "restore_previous_version": "استعادة الإصدار السابق",
+        "close": "إغلاق",
+        "added": "مضاف",
+        "modified": "معدل",
+        "removed": "محذوف",
+        "change_types": {
+            "added": "تمت الإضافة",
+            "modified": "تم التعديل",
+            "removed": "تمت الإزالة"
+        }
+    }
+}
