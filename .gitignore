@@ -36,6 +36,12 @@ ehthumbs.db
 Desktop.ini
 .DS_Store
 
+## Aspire
+.aspire/
+
 ## Vite
 **/wwwroot/build/
 **/wwwroot/hot
+
+## Publish output
+dist/
