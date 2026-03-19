@@ -1,10 +1,9 @@
 using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 using InertiaCore;
 using InertiaCore.Extensions;
 using Innovation.ServiceDefaults;
+using Innovation.Web.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -73,6 +72,7 @@ if (!string.IsNullOrEmpty(secret))
 }
 
 builder.Services.AddAuthorization();
+builder.Services.AddTransient<HandleInertiaRequests>();
 
 // HttpClient for proxying API calls to Identity.API
 builder.Services.AddHttpClient("identity-api", client =>
@@ -139,29 +139,7 @@ app.UseInertia();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Share auth data with every Inertia page
-app.Use(async (context, next) =>
-{
-    object? authUser = null;
-
-    if (context.User.Identity?.IsAuthenticated == true)
-    {
-        authUser = new
-        {
-            id = context.User.FindFirstValue(ClaimTypes.NameIdentifier)
-                 ?? context.User.FindFirstValue(JwtRegisteredClaimNames.Sub),
-            name = context.User.FindFirstValue(ClaimTypes.GivenName)
-                   ?? context.User.FindFirstValue(JwtRegisteredClaimNames.GivenName),
-            email = context.User.FindFirstValue(ClaimTypes.Email)
-                    ?? context.User.FindFirstValue(JwtRegisteredClaimNames.Email),
-        };
-    }
-
-    Inertia.Share("auth", new { user = authUser });
-
-    await next();
-});
+app.UseMiddleware<HandleInertiaRequests>();
 
 app.MapControllers();
 
