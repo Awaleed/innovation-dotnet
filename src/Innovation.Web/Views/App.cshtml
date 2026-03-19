@@ -1,0 +1,64 @@
+@using InertiaCore
+@using System.Text.Json
+@{
+    var hotFilePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "hot");
+    var isHot = System.IO.File.Exists(hotFilePath);
+    var devServerUrl = isHot ? System.IO.File.ReadAllText(hotFilePath).Trim() : "";
+
+    string? manifestCss = null;
+    string? manifestJs = null;
+    if (!isHot)
+    {
+        var manifestPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "build", "manifest.json");
+        if (System.IO.File.Exists(manifestPath))
+        {
+            var json = System.IO.File.ReadAllText(manifestPath);
+            var manifest = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(json);
+            if (manifest != null && manifest.TryGetValue("src/App.tsx", out var entry))
+            {
+                manifestJs = entry.GetProperty("file").GetString();
+                if (entry.TryGetProperty("css", out var css))
+                {
+                    manifestCss = css.EnumerateArray().FirstOrDefault().GetString();
+                }
+            }
+        }
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title inertia>Innovation Platform</title>
+    @await Inertia.Head(Model)
+    @if (!isHot && manifestCss != null)
+    {
+        <link rel="stylesheet" href="/build/@manifestCss" />
+    }
+</head>
+<body>
+    @if (isHot)
+    {
+        <script type="module">
+            import RefreshRuntime from '@(devServerUrl)/@("@react-refresh")';
+            RefreshRuntime.injectIntoGlobalHook(window);
+            window.$RefreshReg$ = () => {};
+            window.$RefreshSig$ = () => (type) => type;
+            window.__vite_plugin_react_preamble_installed__ = true;
+        </script>
+    }
+
+    @await Inertia.Html(Model)
+
+    @if (isHot)
+    {
+        <script type="module" src="@(devServerUrl)/@("@vite/client")"></script>
+        <script type="module" src="@(devServerUrl)/src/App.tsx"></script>
+    }
+    else if (manifestJs != null)
+    {
+        <script type="module" src="/build/@manifestJs"></script>
+    }
+</body>
+</html>
