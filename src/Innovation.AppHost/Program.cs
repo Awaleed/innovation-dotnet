@@ -2,12 +2,14 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 // Infrastructure
 var redis = builder.AddRedis("redis")
-    .WithLifetime(ContainerLifetime.Persistent);
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithoutHttpsCertificate();
 
 var postgres = builder.AddPostgres("postgres")
     .WithImage("ankane/pgvector")
     .WithImageTag("latest")
-    .WithLifetime(ContainerLifetime.Persistent);
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithoutHttpsCertificate();
 
 var identityDb = postgres.AddDatabase("identitydb");
 
