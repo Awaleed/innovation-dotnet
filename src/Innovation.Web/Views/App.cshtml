@@ -30,14 +30,23 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- OG Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Innovation Platform" />
+    <meta property="og:description" content="Innovation Lab - Where ideas become reality" />
+
     <title inertia>Innovation Platform</title>
+
+    <link rel="icon" href="/favicon.svg" sizes="any" />
+
     @await Inertia.Head(Model)
     @if (!isHot && manifestCss != null)
     {
         <link rel="stylesheet" href="/build/@manifestCss" />
     }
 </head>
-<body>
+<body class="font-sans antialiased">
     @if (isHot)
     {
         <script type="module">
