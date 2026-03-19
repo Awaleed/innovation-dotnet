@@ -4,10 +4,11 @@
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
     <UserSecretsId>innovation-dotnet-apphost</UserSecretsId>
-    <NoWarn>$(NoWarn);ASPIRECERTIFICATES001</NoWarn>
+    <NoWarn>$(NoWarn);ASPIRECERTIFICATES001;ASPIRECOMPUTE003</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.Docker" />
     <PackageReference Include="Aspire.Hosting.PostgreSQL" />
     <PackageReference Include="Aspire.Hosting.Redis" />
   </ItemGroup>

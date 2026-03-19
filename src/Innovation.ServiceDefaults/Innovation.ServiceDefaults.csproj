@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Innovation.ServiceDefaults</RootNamespace>
+    <IsPublishable>false</IsPublishable>
   </PropertyGroup>
 
   <ItemGroup>
