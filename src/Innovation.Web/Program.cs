@@ -48,6 +48,12 @@ if (!string.IsNullOrEmpty(secret))
 
 builder.Services.AddAuthorization();
 
+// HttpClient for proxying API calls to Identity.API
+builder.Services.AddHttpClient("identity-api", client =>
+{
+    client.BaseAddress = new Uri("https+http://identity-api");
+});
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
