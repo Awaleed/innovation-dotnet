@@ -15,6 +15,9 @@ builder.AddServiceDefaults();
 
 builder.AddNpgsqlDbContext<ApplicationDbContext>("identitydb");
 
+// Auto-apply database migrations on startup
+builder.Services.AddMigration<ApplicationDbContext>();
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     {
         options.Password.RequireDigit = true;

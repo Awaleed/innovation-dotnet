@@ -4,4 +4,10 @@
     <RootNamespace>Innovation.Shared</RootNamespace>
   </PropertyGroup>
 
+  <!-- These files are linked into service projects directly, not compiled here -->
+  <ItemGroup>
+    <Compile Remove="MigrateDbContextExtensions.cs" />
+    <Compile Remove="ActivityExtensions.cs" />
+  </ItemGroup>
+
 </Project>
