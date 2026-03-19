@@ -11,6 +11,10 @@ var postgres = builder.AddPostgres("postgres")
 
 var identityDb = postgres.AddDatabase("identitydb");
 
-// Services will be wired here as they are created
+// Services
+var identityApi = builder.AddProject<Projects.Identity_API>("identity-api")
+    .WithReference(identityDb)
+    .WaitFor(identityDb)
+    .WithExternalHttpEndpoints();
 
 builder.Build().Run();
