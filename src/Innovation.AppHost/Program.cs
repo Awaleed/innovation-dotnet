@@ -22,10 +22,15 @@ var identityApi = builder.AddProject<Projects.Identity_API>("identity-api")
     .WaitFor(identityDb)
     .WithExternalHttpEndpoints();
 
+// Vite dev server — managed by Aspire (replaces custom auto-start in Program.cs)
+var vite = builder.AddViteApp("vite", "../Innovation.Web/ClientApp")
+    .WithNpmPackageInstallation();
+
 // Web App
 var web = builder.AddProject<Projects.Innovation_Web>("web")
     .WithExternalHttpEndpoints()
     .WithReference(identityApi)
-    .WaitFor(identityApi);
+    .WaitFor(identityApi)
+    .WithEnvironment("VITE_DEV_SERVER_URL", vite.GetEndpoint("http"));
 
 builder.Build().Run();

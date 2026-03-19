@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using InertiaCore;
 using InertiaCore.Extensions;
 using Innovation.ServiceDefaults;
@@ -48,55 +47,8 @@ var app = builder.Build();
 
 app.MapDefaultEndpoints();
 
-if (app.Environment.IsDevelopment())
-{
-    // Auto-start Vite dev server
-    var clientAppDir = Path.Combine(app.Environment.ContentRootPath, "ClientApp");
-    var hotFile = Path.Combine(app.Environment.ContentRootPath, "wwwroot", "hot");
-
-    if (!File.Exists(hotFile))
-    {
-        var viteProcess = new Process
-        {
-            StartInfo = new ProcessStartInfo
-            {
-                FileName = "cmd.exe",
-                Arguments = "/c npm run dev",
-                WorkingDirectory = clientAppDir,
-                UseShellExecute = false,
-                RedirectStandardOutput = false,
-                RedirectStandardError = false,
-                CreateNoWindow = true,
-            }
-        };
-        viteProcess.Start();
-
-        var timeout = DateTime.UtcNow.AddSeconds(30);
-        while (!File.Exists(hotFile) && DateTime.UtcNow < timeout)
-        {
-            await Task.Delay(500);
-        }
-
-        if (File.Exists(hotFile))
-        {
-            Console.WriteLine($"Vite dev server started at {File.ReadAllText(hotFile).Trim()}");
-        }
-        else
-        {
-            Console.WriteLine("Warning: Vite dev server did not start in time.");
-        }
-
-        app.Lifetime.ApplicationStopping.Register(() =>
-        {
-            try
-            {
-                if (!viteProcess.HasExited) viteProcess.Kill(entireProcessTree: true);
-                if (File.Exists(hotFile)) File.Delete(hotFile);
-            }
-            catch { }
-        });
-    }
-}
+// Vite dev server is managed by Aspire AppHost (AddViteApp)
+// No custom process spawning needed here
 
 app.UseStaticFiles();
 app.UseInertia();

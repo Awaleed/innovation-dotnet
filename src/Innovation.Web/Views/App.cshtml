@@ -1,9 +1,13 @@
 @using InertiaCore
 @using System.Text.Json
 @{
+    // Vite dev server URL — injected by Aspire AppHost via environment variable
+    // Falls back to hot file for standalone dev, or null for production
+    var viteEnvUrl = Environment.GetEnvironmentVariable("VITE_DEV_SERVER_URL");
     var hotFilePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "hot");
-    var isHot = System.IO.File.Exists(hotFilePath);
-    var devServerUrl = isHot ? System.IO.File.ReadAllText(hotFilePath).Trim() : "";
+    var devServerUrl = viteEnvUrl?.TrimEnd('/')
+        ?? (System.IO.File.Exists(hotFilePath) ? System.IO.File.ReadAllText(hotFilePath).Trim() : null);
+    var isHot = !string.IsNullOrEmpty(devServerUrl);
 
     string? manifestCss = null;
     string? manifestJs = null;
