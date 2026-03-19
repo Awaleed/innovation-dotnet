@@ -1,5 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { router } from '@inertiajs/react';
+import { dashboard, login as loginRoute } from '../../routes';
+import { register as apiRegister } from '../../routes/api/auth';
 
 export default function Register() {
     const [name, setName] = useState('');
@@ -17,15 +19,16 @@ export default function Register() {
         setGeneralError('');
 
         try {
-            const res = await fetch('/api/auth/register', {
-                method: 'POST',
+            const route = apiRegister();
+            const res = await fetch(route.url, {
+                method: route.method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, email, password, confirmPassword }),
             });
 
             if (res.ok) {
                 // Cookie is set by the server — just navigate
-                router.visit('/dashboard');
+                router.visit(dashboard.url());
             } else {
                 const data = await res.json();
                 if (data.errors) {
@@ -83,7 +86,7 @@ export default function Register() {
 
                 <p style={styles.linkText}>
                     Already have an account?{' '}
-                    <a href="/login" style={styles.link}>Login</a>
+                    <a href={loginRoute.url()} style={styles.link}>Login</a>
                 </p>
             </div>
         </div>

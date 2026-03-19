@@ -1,3 +1,5 @@
+import { login, register } from '../routes';
+
 export default function Welcome() {
     return (
         <div style={{
@@ -18,7 +20,7 @@ export default function Welcome() {
             </p>
             <div style={{ display: 'flex', gap: '1rem' }}>
                 <a
-                    href="/login"
+                    href={login.url()}
                     style={{
                         padding: '0.75rem 2rem',
                         backgroundColor: '#3b82f6',
@@ -31,7 +33,7 @@ export default function Welcome() {
                     Login
                 </a>
                 <a
-                    href="/register"
+                    href={register.url()}
                     style={{
                         padding: '0.75rem 2rem',
                         backgroundColor: 'white',
