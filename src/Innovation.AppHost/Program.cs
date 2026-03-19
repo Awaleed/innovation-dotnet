@@ -17,4 +17,10 @@ var identityApi = builder.AddProject<Projects.Identity_API>("identity-api")
     .WaitFor(identityDb)
     .WithExternalHttpEndpoints();
 
+// Web App
+var web = builder.AddProject<Projects.Innovation_Web>("web")
+    .WithExternalHttpEndpoints()
+    .WithReference(identityApi)
+    .WaitFor(identityApi);
+
 builder.Build().Run();
