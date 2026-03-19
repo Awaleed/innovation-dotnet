@@ -1,4 +1,5 @@
 using System.Text;
+using Innovation.Identity.API;
 using Innovation.Identity.API.Apis;
 using Innovation.Identity.API.Data;
 using Innovation.Identity.API.Models;
@@ -15,8 +16,8 @@ builder.AddServiceDefaults();
 
 builder.AddNpgsqlDbContext<ApplicationDbContext>("identitydb");
 
-// Auto-apply database migrations on startup
-builder.Services.AddMigration<ApplicationDbContext>();
+// Auto-apply database migrations and seed demo users on startup
+builder.Services.AddMigration<ApplicationDbContext, UsersSeed>();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     {
