@@ -18,9 +18,12 @@
     "framer-motion": "^12.38.0",
     "i18next": "^25.8.20",
     "lucide-react": "^0.577.0",
+    "motion": "^12.38.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.71.2",
     "react-i18next": "^16.5.8",
+    "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {

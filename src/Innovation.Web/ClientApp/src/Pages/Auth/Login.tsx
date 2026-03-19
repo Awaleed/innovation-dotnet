@@ -105,7 +105,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         </Label>
                         {canResetPassword && (
                             <TextLink
-                                href={password.request()}
+                                href={password.request.url()}
                                 className="font-sans text-xs font-medium"
                                 style={{ color: mutedFg }}
                                 tabIndex={5}
@@ -183,7 +183,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                     <p className="font-sans text-sm" style={{ color: mutedFg }}>
                         {t('auth:login.no_account', "Don't have an account?")}{' '}
                         <TextLink
-                            href={register()}
+                            href={register.url()}
                             className="font-medium"
                             style={{ color: primary }}
                             tabIndex={6}

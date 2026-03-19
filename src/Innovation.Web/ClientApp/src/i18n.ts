@@ -18,7 +18,7 @@ import navigationAr from '@/lang/ar/navigation.json';
 import integrationHubAr from '@/lang/ar/integration_hub.json';
 import pluginsMarketplaceAr from '@/lang/ar/plugins_marketplace.json';
 import publicAr from '@/lang/ar/public.json';
-import reportsAr from '../../Modules/ReportEngineAI/lang/ar/reports.json';
+// import reportsAr from '../../Modules/ReportEngineAI/lang/ar/reports.json'; // TODO: add when ReportEngine module is ported
 import settingsAr from '@/lang/ar/settings.json';
 import sidebarAr from '@/lang/ar/sidebar.json';
 import userAr from '@/lang/ar/user.json';
@@ -39,7 +39,7 @@ import navigationEn from '@/lang/en/navigation.json';
 import integrationHubEn from '@/lang/en/integration_hub.json';
 import pluginsMarketplaceEn from '@/lang/en/plugins_marketplace.json';
 import publicEn from '@/lang/en/public.json';
-import reportsEn from '../../Modules/ReportEngineAI/lang/en/reports.json';
+// import reportsEn from '../../Modules/ReportEngineAI/lang/en/reports.json'; // TODO: add when ReportEngine module is ported
 import settingsEn from '@/lang/en/settings.json';
 import sidebarEn from '@/lang/en/sidebar.json';
 import userEn from '@/lang/en/user.json';
@@ -107,7 +107,7 @@ i18n.use(initReactI18next).init({
             navigation: navigationAr,
             integration_hub: integrationHubAr,
             plugins_marketplace: pluginsMarketplaceAr,
-            reports: reportsAr,
+            // reports: reportsAr, // TODO
             settings: settingsAr,
             sidebar: sidebarAr,
             user: userAr,
@@ -152,7 +152,7 @@ i18n.use(initReactI18next).init({
             navigation: navigationEn,
             integration_hub: integrationHubEn,
             plugins_marketplace: pluginsMarketplaceEn,
-            reports: reportsEn,
+            // reports: reportsEn, // TODO
             settings: settingsEn,
             sidebar: sidebarEn,
             user: userEn,

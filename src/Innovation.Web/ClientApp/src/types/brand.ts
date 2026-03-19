@@ -116,7 +116,7 @@ export interface IconProps {
  * Brand color palette with HEX values
  * All values must match brand.txt exactly
  */
-export const BRAND_COLORS: Record<BrandColor, string> = {
+export const BRAND_COLORS: Partial<Record<BrandColor, string>> = {
     'alinma-deep-blue': '#0C2337',
     lavender: '#8B84D7',
     'light-lavender': '#CFCCEF',

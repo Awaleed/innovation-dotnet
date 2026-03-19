@@ -6,5 +6,7 @@ export interface Auth {
 
 export interface SharedData {
     auth: Auth;
+    name?: string;
+    quote?: { message: string; author: string };
     [key: string]: unknown;
 }

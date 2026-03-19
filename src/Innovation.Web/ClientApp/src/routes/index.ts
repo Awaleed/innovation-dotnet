@@ -40,6 +40,16 @@ export const register = (): RouteDefinition<'get'> => ({
 
 register.url = () => '/register'
 
+// Aliases
+export const home = index;
+
+/** @route '/logout' */
+export const logout = (): RouteDefinition<'post'> => ({
+    url: '/api/auth/logout',
+    method: 'post',
+})
+logout.url = () => '/api/auth/logout'
+
 // Sub-routes
 export * as api from './api'
 
