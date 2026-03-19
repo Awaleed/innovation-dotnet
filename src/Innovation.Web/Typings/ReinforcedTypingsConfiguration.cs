@@ -1,4 +1,5 @@
 using Innovation.Shared;
+using Innovation.Shared.Enums;
 using Innovation.Web.Models;
 using Reinforced.Typings.Fluent;
 
@@ -28,5 +29,8 @@ public static class ReinforcedTypingsConfiguration
 
         builder.ExportAsInterface<SharedProps>()
             .WithPublicProperties();
+
+        // Enums
+        builder.ExportAsEnum<ChallengeStatus>();
     }
 }

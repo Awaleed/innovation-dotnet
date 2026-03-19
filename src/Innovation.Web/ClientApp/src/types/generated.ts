@@ -21,3 +21,13 @@ export interface ISharedProps
 {
 	auth: IAuthProps;
 }
+export enum ChallengeStatus {
+	Draft = 0,
+	Upcoming = 1,
+	Open = 2,
+	Closed = 3,
+	Judging = 4,
+	Voting = 5,
+	Completed = 6,
+	Cancelled = 7
+}
