@@ -1,11 +1,9 @@
 using System.Diagnostics;
-using System.Text;
 using InertiaCore;
 using InertiaCore.Extensions;
 using Innovation.ServiceDefaults;
 using Innovation.Web.Middleware;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,50 +24,16 @@ builder.Services.AddViteHelper(options =>
     options.HotFile = "hot";
 });
 
-// JWT auth so we can validate tokens from Identity.API
-var jwtSettings = builder.Configuration.GetSection("Jwt");
-var secret = jwtSettings["Secret"];
-if (!string.IsNullOrEmpty(secret))
-{
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = jwtSettings["Issuer"],
-                ValidAudience = jwtSettings["Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
-            };
-
-            // Also accept token from cookie (not just Authorization header)
-            options.Events = new JwtBearerEvents
-            {
-                OnMessageReceived = context =>
-                {
-                    if (context.Request.Cookies.TryGetValue("auth_token", out var token))
-                    {
-                        context.Token = token;
-                    }
-                    return Task.CompletedTask;
-                },
-                // Redirect to /login for browser/Inertia requests instead of returning 401
-                OnChallenge = context =>
-                {
-                    var isApiRequest = context.Request.Path.StartsWithSegments("/api");
-                    if (!isApiRequest)
-                    {
-                        context.HandleResponse();
-                        context.Response.Redirect("/login");
-                    }
-                    return Task.CompletedTask;
-                }
-            };
-        });
-}
+// Cookie authentication — .NET 10 auto-handles redirect vs 401 for API endpoints
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/login";
+        options.LogoutPath = "/api/auth/logout";
+        options.AccessDeniedPath = "/login";
+        options.ExpireTimeSpan = TimeSpan.FromHours(1);
+        options.SlidingExpiration = true;
+    });
 
 builder.Services.AddAuthorization();
 builder.Services.AddTransient<HandleInertiaRequests>();

@@ -1,19 +1,19 @@
-using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Innovation.Web.Controllers;
 
 /// <summary>
 /// Proxies /api/auth/* requests from the frontend to the Identity.API service.
-/// Sets HTTP-only auth cookie on successful login/register.
+/// Signs the user in/out via cookie authentication on success.
 /// </summary>
 [ApiController]
 [Route("api/auth")]
 public class AuthApiProxyController(IHttpClientFactory httpClientFactory) : ControllerBase
 {
-    private const string AuthCookieName = "auth_token";
-
     [HttpPost("register")]
     public async Task<IActionResult> Register()
     {
@@ -29,18 +29,28 @@ public class AuthApiProxyController(IHttpClientFactory httpClientFactory) : Cont
     [HttpPost("logout")]
     public async Task<IActionResult> Logout()
     {
-        Response.Cookies.Delete(AuthCookieName);
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return Ok(new { message = "Logged out successfully." });
     }
 
     [HttpGet("me")]
-    public async Task<IActionResult> Me()
+    public IActionResult Me()
     {
-        return await ProxyGet("api/auth/me");
+        if (User.Identity?.IsAuthenticated != true)
+        {
+            return Unauthorized();
+        }
+
+        return Ok(new
+        {
+            id = User.FindFirstValue(ClaimTypes.NameIdentifier),
+            name = User.FindFirstValue(ClaimTypes.GivenName),
+            email = User.FindFirstValue(ClaimTypes.Email),
+        });
     }
 
     /// <summary>
-    /// Proxies login/register POST and sets auth cookie on success.
+    /// Proxies login/register POST to Identity.API and signs the user in via cookie auth on success.
     /// </summary>
     private async Task<IActionResult> ProxyAuthPost(string path)
     {
@@ -59,52 +69,40 @@ public class AuthApiProxyController(IHttpClientFactory httpClientFactory) : Cont
 
         if (response.IsSuccessStatusCode)
         {
-            // Parse response to extract token and set cookie
             var authResponse = JsonSerializer.Deserialize<JsonElement>(content);
 
-            if (authResponse.TryGetProperty("token", out var tokenElement))
+            if (authResponse.TryGetProperty("user", out var userElement))
             {
-                var token = tokenElement.GetString()!;
-                var expiresAt = authResponse.GetProperty("expiresAt").GetDateTime();
+                var userId = userElement.GetProperty("id").GetString()!;
+                var userName = userElement.GetProperty("name").GetString()!;
+                var userEmail = userElement.GetProperty("email").GetString()!;
 
-                Response.Cookies.Append(AuthCookieName, token, new CookieOptions
+                // Create claims and sign in with cookie authentication
+                var claims = new List<Claim>
                 {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    Expires = expiresAt,
-                    Path = "/",
-                });
+                    new(ClaimTypes.NameIdentifier, userId),
+                    new(ClaimTypes.GivenName, userName),
+                    new(ClaimTypes.Email, userEmail),
+                    new(ClaimTypes.Name, userName),
+                };
 
-                // Return only user info (not the token) to the frontend
-                var user = authResponse.GetProperty("user");
-                return Ok(new { user });
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    principal,
+                    new AuthenticationProperties
+                    {
+                        IsPersistent = true,
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
+                    });
+
+                return Ok(new { user = new { id = userId, name = userName, email = userEmail } });
             }
         }
 
         Response.ContentType = "application/json";
         return StatusCode((int)response.StatusCode, content);
-    }
-
-    private async Task<IActionResult> ProxyGet(string path)
-    {
-        var client = httpClientFactory.CreateClient("identity-api");
-
-        var request = new HttpRequestMessage(HttpMethod.Get, path);
-        CopyAuthHeader(request);
-
-        var response = await client.SendAsync(request);
-        var content = await response.Content.ReadAsStringAsync();
-
-        Response.ContentType = "application/json";
-        return StatusCode((int)response.StatusCode, content);
-    }
-
-    private void CopyAuthHeader(HttpRequestMessage request)
-    {
-        if (Request.Headers.TryGetValue("Authorization", out var authHeader))
-        {
-            request.Headers.Authorization = AuthenticationHeaderValue.Parse(authHeader.ToString());
-        }
     }
 }

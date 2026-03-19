@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using InertiaCore;
 
@@ -14,12 +13,9 @@ public class HandleInertiaRequests : IMiddleware
         {
             authUser = new
             {
-                id = context.User.FindFirstValue(ClaimTypes.NameIdentifier)
-                     ?? context.User.FindFirstValue(JwtRegisteredClaimNames.Sub),
-                name = context.User.FindFirstValue(ClaimTypes.GivenName)
-                       ?? context.User.FindFirstValue(JwtRegisteredClaimNames.GivenName),
-                email = context.User.FindFirstValue(ClaimTypes.Email)
-                        ?? context.User.FindFirstValue(JwtRegisteredClaimNames.Email),
+                id = context.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                name = context.User.FindFirstValue(ClaimTypes.GivenName),
+                email = context.User.FindFirstValue(ClaimTypes.Email),
             };
         }
 
