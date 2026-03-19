@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using InertiaCore;
 using InertiaCore.Extensions;
@@ -42,6 +44,30 @@ if (!string.IsNullOrEmpty(secret))
                 ValidIssuer = jwtSettings["Issuer"],
                 ValidAudience = jwtSettings["Audience"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
+            };
+
+            // Also accept token from cookie (not just Authorization header)
+            options.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context =>
+                {
+                    if (context.Request.Cookies.TryGetValue("auth_token", out var token))
+                    {
+                        context.Token = token;
+                    }
+                    return Task.CompletedTask;
+                },
+                // Redirect to /login for browser/Inertia requests instead of returning 401
+                OnChallenge = context =>
+                {
+                    var isApiRequest = context.Request.Path.StartsWithSegments("/api");
+                    if (!isApiRequest)
+                    {
+                        context.HandleResponse();
+                        context.Response.Redirect("/login");
+                    }
+                    return Task.CompletedTask;
+                }
             };
         });
 }
@@ -113,6 +139,30 @@ app.UseInertia();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Share auth data with every Inertia page
+app.Use(async (context, next) =>
+{
+    object? authUser = null;
+
+    if (context.User.Identity?.IsAuthenticated == true)
+    {
+        authUser = new
+        {
+            id = context.User.FindFirstValue(ClaimTypes.NameIdentifier)
+                 ?? context.User.FindFirstValue(JwtRegisteredClaimNames.Sub),
+            name = context.User.FindFirstValue(ClaimTypes.GivenName)
+                   ?? context.User.FindFirstValue(JwtRegisteredClaimNames.GivenName),
+            email = context.User.FindFirstValue(ClaimTypes.Email)
+                    ?? context.User.FindFirstValue(JwtRegisteredClaimNames.Email),
+        };
+    }
+
+    Inertia.Share("auth", new { user = authUser });
+
+    await next();
+});
+
 app.MapControllers();
 
 app.Run();

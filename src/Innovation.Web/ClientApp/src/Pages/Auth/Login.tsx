@@ -1,21 +1,16 @@
 import { useState, FormEvent } from 'react';
 import { router } from '@inertiajs/react';
 
-interface Props {
-    errors?: Record<string, string[]>;
-    error?: string;
-}
-
-export default function Login({ errors, error }: Props) {
+export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [localError, setLocalError] = useState('');
+    const [error, setError] = useState('');
 
     async function handleSubmit(e: FormEvent) {
         e.preventDefault();
         setLoading(true);
-        setLocalError('');
+        setError('');
 
         try {
             const res = await fetch('/api/auth/login', {
@@ -25,16 +20,14 @@ export default function Login({ errors, error }: Props) {
             });
 
             if (res.ok) {
-                const data = await res.json();
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
+                // Cookie is set by the server — just navigate
                 router.visit('/dashboard');
             } else {
                 const data = await res.json();
-                setLocalError(data.detail || 'Invalid email or password.');
+                setError(data.detail || 'Invalid email or password.');
             }
         } catch {
-            setLocalError('Something went wrong. Please try again.');
+            setError('Something went wrong. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -46,9 +39,7 @@ export default function Login({ errors, error }: Props) {
                 <h1 style={styles.title}>Login</h1>
                 <p style={styles.subtitle}>Sign in to your account</p>
 
-                {(localError || error) && (
-                    <div style={styles.error}>{localError || error}</div>
-                )}
+                {error && <div style={styles.error}>{error}</div>}
 
                 <form onSubmit={handleSubmit}>
                     <div style={styles.field}>
@@ -104,62 +95,23 @@ const styles: Record<string, React.CSSProperties> = {
         width: '100%',
         maxWidth: '400px',
     },
-    title: {
-        fontSize: '1.75rem',
-        fontWeight: 700,
-        color: '#1e293b',
-        marginBottom: '0.25rem',
-    },
-    subtitle: {
-        color: '#64748b',
-        marginBottom: '1.5rem',
-    },
+    title: { fontSize: '1.75rem', fontWeight: 700, color: '#1e293b', marginBottom: '0.25rem' },
+    subtitle: { color: '#64748b', marginBottom: '1.5rem' },
     error: {
-        backgroundColor: '#fef2f2',
-        color: '#dc2626',
-        padding: '0.75rem',
-        borderRadius: '0.5rem',
-        marginBottom: '1rem',
-        fontSize: '0.875rem',
+        backgroundColor: '#fef2f2', color: '#dc2626', padding: '0.75rem',
+        borderRadius: '0.5rem', marginBottom: '1rem', fontSize: '0.875rem',
     },
-    field: {
-        marginBottom: '1rem',
-    },
-    label: {
-        display: 'block',
-        fontSize: '0.875rem',
-        fontWeight: 500,
-        color: '#374151',
-        marginBottom: '0.25rem',
-    },
+    field: { marginBottom: '1rem' },
+    label: { display: 'block', fontSize: '0.875rem', fontWeight: 500, color: '#374151', marginBottom: '0.25rem' },
     input: {
-        width: '100%',
-        padding: '0.625rem 0.75rem',
-        border: '1px solid #d1d5db',
-        borderRadius: '0.5rem',
-        fontSize: '1rem',
-        boxSizing: 'border-box',
+        width: '100%', padding: '0.625rem 0.75rem', border: '1px solid #d1d5db',
+        borderRadius: '0.5rem', fontSize: '1rem', boxSizing: 'border-box',
     },
     button: {
-        width: '100%',
-        padding: '0.75rem',
-        backgroundColor: '#3b82f6',
-        color: 'white',
-        border: 'none',
-        borderRadius: '0.5rem',
-        fontSize: '1rem',
-        fontWeight: 500,
-        cursor: 'pointer',
-        marginTop: '0.5rem',
+        width: '100%', padding: '0.75rem', backgroundColor: '#3b82f6', color: 'white',
+        border: 'none', borderRadius: '0.5rem', fontSize: '1rem', fontWeight: 500,
+        cursor: 'pointer', marginTop: '0.5rem',
     },
-    linkText: {
-        textAlign: 'center',
-        marginTop: '1.5rem',
-        color: '#64748b',
-        fontSize: '0.875rem',
-    },
-    link: {
-        color: '#3b82f6',
-        textDecoration: 'none',
-    },
+    linkText: { textAlign: 'center', marginTop: '1.5rem', color: '#64748b', fontSize: '0.875rem' },
+    link: { color: '#3b82f6', textDecoration: 'none' },
 };
