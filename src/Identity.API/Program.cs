@@ -32,9 +32,10 @@ var app = builder.Build();
 
 app.MapDefaultEndpoints();
 
+app.MapOpenApi();
+
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
     app.MapScalarApiReference();
 }
 

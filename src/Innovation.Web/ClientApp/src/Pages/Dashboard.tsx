@@ -1,10 +1,9 @@
-import { usePage } from '@inertiajs/react';
-import { router } from '@inertiajs/react';
-import type { SharedProps } from '../types';
+import { usePage, router } from '@inertiajs/react';
+import type { DashboardProps } from '../types';
 
 export default function Dashboard() {
-    const { props } = usePage<SharedProps>();
-    const user = props.auth?.user;
+    const { auth } = usePage<DashboardProps>().props;
+    const user = auth?.user;
 
     async function handleLogout() {
         await fetch('/api/auth/logout', { method: 'POST' });
