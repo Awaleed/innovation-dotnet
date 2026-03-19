@@ -2,28 +2,50 @@ using System.Security.Claims;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Innovation.Web.Controllers;
 
 /// <summary>
-/// Proxies /api/auth/* requests from the frontend to the Identity.API service.
-/// Signs the user in/out via cookie authentication on success.
+/// Proxies auth requests to Identity.API's built-in Identity endpoints.
+/// Signs the user in/out via cookie authentication on the Web app.
 /// </summary>
 [ApiController]
 [Route("api/auth")]
 public class AuthApiProxyController(IHttpClientFactory httpClientFactory) : ControllerBase
 {
     [HttpPost("register")]
-    public async Task<IActionResult> Register()
+    public async Task<IActionResult> Register([FromBody] JsonElement body)
     {
-        return await ProxyAuthPost("api/auth/register");
+        // Forward to Identity.API's built-in /register endpoint
+        var client = httpClientFactory.CreateClient("identity-api");
+
+        var response = await client.PostAsync("register",
+            new StringContent(body.GetRawText(), System.Text.Encoding.UTF8, "application/json"));
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            Response.ContentType = "application/json";
+            return StatusCode((int)response.StatusCode, content);
+        }
+
+        // Registration succeeded — now login to get tokens and create session
+        var email = body.GetProperty("email").GetString()!;
+        var password = body.GetProperty("password").GetString()!;
+
+        return await LoginInternal(email, password);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login()
+    public async Task<IActionResult> Login([FromBody] JsonElement body)
     {
-        return await ProxyAuthPost("api/auth/login");
+        var email = body.GetProperty("email").GetString()!;
+        var password = body.GetProperty("password").GetString()!;
+
+        return await LoginInternal(email, password);
     }
 
     [HttpPost("logout")]
@@ -49,60 +71,68 @@ public class AuthApiProxyController(IHttpClientFactory httpClientFactory) : Cont
         });
     }
 
-    /// <summary>
-    /// Proxies login/register POST to Identity.API and signs the user in via cookie auth on success.
-    /// </summary>
-    private async Task<IActionResult> ProxyAuthPost(string path)
+    private async Task<IActionResult> LoginInternal(string email, string password)
     {
         var client = httpClientFactory.CreateClient("identity-api");
 
-        using var reader = new StreamReader(Request.Body);
-        var body = await reader.ReadToEndAsync();
+        // Call Identity.API's built-in /login endpoint (token mode)
+        var loginPayload = JsonSerializer.Serialize(new { email, password });
+        var loginResponse = await client.PostAsync("login",
+            new StringContent(loginPayload, System.Text.Encoding.UTF8, "application/json"));
 
-        var request = new HttpRequestMessage(HttpMethod.Post, path)
+        if (!loginResponse.IsSuccessStatusCode)
         {
-            Content = new StringContent(body, System.Text.Encoding.UTF8, "application/json")
-        };
-
-        var response = await client.SendAsync(request);
-        var content = await response.Content.ReadAsStringAsync();
-
-        if (response.IsSuccessStatusCode)
-        {
-            var authResponse = JsonSerializer.Deserialize<JsonElement>(content);
-
-            if (authResponse.TryGetProperty("user", out var userElement))
-            {
-                var userId = userElement.GetProperty("id").GetString()!;
-                var userName = userElement.GetProperty("name").GetString()!;
-                var userEmail = userElement.GetProperty("email").GetString()!;
-
-                // Create claims and sign in with cookie authentication
-                var claims = new List<Claim>
-                {
-                    new(ClaimTypes.NameIdentifier, userId),
-                    new(ClaimTypes.GivenName, userName),
-                    new(ClaimTypes.Email, userEmail),
-                    new(ClaimTypes.Name, userName),
-                };
-
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var principal = new ClaimsPrincipal(identity);
-
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    principal,
-                    new AuthenticationProperties
-                    {
-                        IsPersistent = true,
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
-                    });
-
-                return Ok(new { user = new { id = userId, name = userName, email = userEmail } });
-            }
+            var errorContent = await loginResponse.Content.ReadAsStringAsync();
+            Response.ContentType = "application/json";
+            return StatusCode((int)loginResponse.StatusCode, errorContent);
         }
 
-        Response.ContentType = "application/json";
-        return StatusCode((int)response.StatusCode, content);
+        // Got access token — now fetch user info from /manage/info
+        var tokenJson = await loginResponse.Content.ReadAsStringAsync();
+        var tokenData = JsonSerializer.Deserialize<JsonElement>(tokenJson);
+        var accessToken = tokenData.GetProperty("accessToken").GetString()!;
+
+        var infoRequest = new HttpRequestMessage(HttpMethod.Get, "manage/info");
+        infoRequest.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+        var infoResponse = await client.SendAsync(infoRequest);
+
+        string userName = email;
+
+        if (infoResponse.IsSuccessStatusCode)
+        {
+            var infoJson = await infoResponse.Content.ReadAsStringAsync();
+            var infoData = JsonSerializer.Deserialize<JsonElement>(infoJson);
+            if (infoData.TryGetProperty("email", out var emailProp))
+                userName = emailProp.GetString() ?? email;
+        }
+
+        // Create claims and sign in with cookie authentication
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.Email, email),
+            new(ClaimTypes.Name, userName),
+        };
+
+        // Try to get the user's name from the custom Name property via a workaround
+        // The built-in /manage/info doesn't return custom fields, so we store email as name for now
+        // This will be improved when we add a custom /me endpoint
+        claims.Add(new Claim(ClaimTypes.GivenName, userName));
+
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var principal = new ClaimsPrincipal(identity);
+
+        await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            principal,
+            new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
+            });
+
+        return Ok(new
+        {
+            user = new { name = userName, email }
+        });
     }
 }
