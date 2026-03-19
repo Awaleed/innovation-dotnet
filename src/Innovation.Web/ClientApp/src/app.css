@@ -4,7 +4,6 @@
 
 @plugin 'tailwindcss-animate';
 
-/* Source paths for Tailwind class scanning */
 
 /* ===== Custom Scrollbar Styling ===== */
 :root {
@@ -143,51 +142,7 @@
  * This :root block is kept empty - all variables come from themes.
  */
 :root {
-    /* Default theme colors — fallback values */
-    --background: #ffffff;
-    --foreground: #0f172a;
-    --card: #ffffff;
-    --card-foreground: #0f172a;
-    --popover: #ffffff;
-    --popover-foreground: #0f172a;
-    --primary: #233968;
-    --primary-foreground: #ffffff;
-    --secondary: #8B84D7;
-    --secondary-foreground: #ffffff;
-    --muted: #f1f5f9;
-    --muted-foreground: #64748b;
-    --accent: #CE654B;
-    --accent-foreground: #ffffff;
-    --destructive: #ef4444;
-    --destructive-foreground: #ffffff;
-    --border: #e2e8f0;
-    --input: #e2e8f0;
-    --ring: #233968;
-    --radius: 0.75rem;
-    --sidebar: #233968;
-    --sidebar-foreground: #ffffff;
-    --sidebar-primary: #CE654B;
-    --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #1a2d52;
-    --sidebar-accent-foreground: #ffffff;
-    --sidebar-border: #1a2d52;
-    --sidebar-ring: #CE654B;
-    --alinma-deep-blue: #0C2337;
-    --lavender: #8B84D7;
-    --light-lavender: #CFCCEF;
-    --soft-lavender: #E7E5F7;
-    --heritage-brown: #623B2A;
-    --copper: #CE654B;
-    --light-copper: #E8A090;
-    --warm-white: #FAF8F5;
-    --off-white: #F5F0EB;
-    --alinma-black: #1A1A1A;
-    --desert-rose: #C4756A;
-    --chart-1: #233968;
-    --chart-2: #8B84D7;
-    --chart-3: #CE654B;
-    --chart-4: #623B2A;
-    --chart-5: #C4756A;
+    /* All CSS variables are generated from theme config */
 }
 
 /* Dark Theme */

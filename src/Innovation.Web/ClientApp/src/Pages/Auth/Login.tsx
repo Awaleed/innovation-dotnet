@@ -11,7 +11,6 @@ import { Label } from '@/components/ui/label';
 import { useTheme } from '@/hooks/use-theme';
 import AuthLayout from '@/layouts/auth-layout';
 import { login, register } from '@/routes';
-import password from '@/routes/password';
 import { useTranslation } from 'react-i18next';
 
 interface LoginForm {
@@ -105,7 +104,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         </Label>
                         {canResetPassword && (
                             <TextLink
-                                href={password.request.url()}
+                                href="#"
                                 className="font-sans text-xs font-medium"
                                 style={{ color: mutedFg }}
                                 tabIndex={5}

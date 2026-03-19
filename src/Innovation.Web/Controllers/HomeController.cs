@@ -5,8 +5,9 @@ namespace Innovation.Web.Controllers;
 
 public class HomeController : Controller
 {
-    [Route("/")]
-    public IActionResult Index()
+    [Route("/", Name = "home")]
+    [HttpGet]
+    public IActionResult Home()
     {
         if (User.Identity?.IsAuthenticated == true)
         {
