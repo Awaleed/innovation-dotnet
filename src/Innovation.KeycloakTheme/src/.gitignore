@@ -3,13 +3,6 @@
 # === Owned files start ===
 # login/styleLevelCustomization.tsx
 # login/components/Template/Template.tsx
-# login/components/UserProfileFormFields/FieldErrors.tsx
-# login/components/UserProfileFormFields/InputLabel.tsx
-# login/components/UserProfileFormFields/InputTag.tsx
-# login/components/UserProfileFormFields/UserProfileFormFields.tsx
-# login/pages/login/Form.tsx
-# login/pages/register/Form.tsx
-# login/pages/register/Page.tsx
 # === Owned files end =====
 
 # === @keycloakify/login-ui v250004.7.0 ===
@@ -24,12 +17,16 @@
 /login/components/Template/useInitializeTemplate.ts
 /login/components/UserProfileFormFields/AddRemoveButtonsMultiValuedAttribute.tsx
 /login/components/UserProfileFormFields/DO_MAKE_USER_CONFIRM_PASSWORD.ts
+/login/components/UserProfileFormFields/FieldErrors.tsx
 /login/components/UserProfileFormFields/GroupLabel.tsx
 /login/components/UserProfileFormFields/index.ts
 /login/components/UserProfileFormFields/InputFieldByType.tsx
+/login/components/UserProfileFormFields/InputLabel.tsx
+/login/components/UserProfileFormFields/InputTag.tsx
 /login/components/UserProfileFormFields/InputTagSelects.tsx
 /login/components/UserProfileFormFields/SelectTag.tsx
 /login/components/UserProfileFormFields/TextareaTag.tsx
+/login/components/UserProfileFormFields/UserProfileFormFields.tsx
 /login/pages/code/index.ts
 /login/pages/code/Page.tsx
 /login/pages/delete-account-confirm/index.ts
@@ -46,6 +43,7 @@
 /login/pages/info/Page.tsx
 /login/pages/link-idp-action/index.ts
 /login/pages/link-idp-action/Page.tsx
+/login/pages/login/Form.tsx
 /login/pages/login/index.ts
 /login/pages/login/Info.tsx
 /login/pages/login/Page.tsx
@@ -96,7 +94,9 @@
 /login/pages/login-x509-info/Page.tsx
 /login/pages/logout-confirm/index.ts
 /login/pages/logout-confirm/Page.tsx
+/login/pages/register/Form.tsx
 /login/pages/register/index.ts
+/login/pages/register/Page.tsx
 /login/pages/register/TermsAcceptance.tsx
 /login/pages/saml-post-form/index.ts
 /login/pages/saml-post-form/Page.tsx

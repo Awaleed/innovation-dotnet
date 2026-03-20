@@ -20,6 +20,6 @@ type StyleLevelCustomization = {
 
 export function useStyleLevelCustomization(): StyleLevelCustomization {
     return {
-        doUseDefaultCss: false,
+        doUseDefaultCss: true,
     };
 }

@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Innovation.KeycloakTheme</RootNamespace>
+    <IsPublishable>false</IsPublishable>
+    <IsPackable>false</IsPackable>
+    <!-- Prevent dotnet from trying to compile TypeScript/React files -->
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="**" />
+    <None Include="package.json;package-lock.json;vite.config.ts;tsconfig.json" />
+    <None Include="src\**" Exclude="node_modules\**" />
+  </ItemGroup>
+
+  <!-- Debug: ensure node_modules installed -->
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('node_modules') ">
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build the Keycloak theme." />
+    <Message Importance="high" Text="Restoring Keycloak theme dependencies using 'npm'..." />
+    <Exec Command="npm install" />
+  </Target>
+
+  <!-- Publish: build Keycloak theme JAR -->
+  <Target Name="BuildKeycloakTheme" AfterTargets="ComputeFilesToPublish">
+    <Message Importance="high" Text="Building Keycloak theme JAR..." />
+    <Exec Command="npm install" />
+    <Exec Command="npm run build" />
+    <Exec Command="npx keycloakify build" />
+    <ItemGroup>
+      <ThemeJars Include="dist_keycloak\*.jar" />
+      <ResolvedFileToPublish Include="@(ThemeJars->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>keycloak-theme\%(FileName)%(Extension)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+</Project>
