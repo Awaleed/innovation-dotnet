@@ -5,6 +5,7 @@
     <RootNamespace>Innovation.KeycloakTheme</RootNamespace>
     <IsPublishable>false</IsPublishable>
     <IsPackable>false</IsPackable>
+    <IsAspireProjectResource>false</IsAspireProjectResource>
     <!-- Prevent dotnet from trying to compile TypeScript/React files -->
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
