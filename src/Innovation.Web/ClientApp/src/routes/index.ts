@@ -48,5 +48,6 @@ export const register = (): RouteDefinition<'get'> => ({
 
 register.url = () => '/register'
 
-
+// Sub-routes
+export * as admin from './admin'
 

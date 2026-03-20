@@ -1,54 +1,96 @@
-import { usePage, router } from '@inertiajs/react';
+import { Head, Link, usePage, router } from '@inertiajs/react';
 import { type SharedData } from '../types';
+import { LayoutDashboard, Trophy, Lightbulb, Users, BarChart3, Settings, LogOut, ChevronRight } from 'lucide-react';
+
+const navItems = [
+    { label: 'Challenges', href: '/admin/challenges', icon: Trophy, description: 'Create and manage innovation challenges', ready: true },
+    { label: 'Ideas', href: '#', icon: Lightbulb, description: 'Review submitted ideas', ready: false },
+    { label: 'Users', href: '#', icon: Users, description: 'Manage platform users', ready: false },
+    { label: 'Reports', href: '#', icon: BarChart3, description: 'View analytics and reports', ready: false },
+    { label: 'Settings', href: '#', icon: Settings, description: 'Platform configuration', ready: false },
+];
 
 export default function Dashboard() {
     const { auth } = usePage<SharedData>().props;
     const user = auth?.user;
 
-    function handleLogout() {
-        router.post('/logout');
-    }
-
     return (
-        <div style={styles.container}>
-            <div style={styles.header}>
-                <h1 style={styles.title}>Dashboard</h1>
-                <button onClick={handleLogout} style={styles.logoutBtn}>
-                    Logout
-                </button>
-            </div>
-            <div style={styles.card}>
-                <h2 style={styles.greeting}>
-                    Welcome, {user?.name || 'User'}!
-                </h2>
-                <p style={styles.email}>{user?.email}</p>
-                <p style={styles.info}>
-                    You are logged in to the Innovation Platform.
-                </p>
-            </div>
+        <div className="min-h-screen bg-gray-50">
+            <Head title="Dashboard" />
+
+            {/* Top bar */}
+            <header className="border-b border-gray-200 bg-white">
+                <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+                    <div className="flex items-center gap-3">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600">
+                            <LayoutDashboard className="h-5 w-5 text-white" />
+                        </div>
+                        <h1 className="text-lg font-semibold text-gray-900">Innovation Platform</h1>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <div className="text-end">
+                            <p className="text-sm font-medium text-gray-900">{user?.name || 'User'}</p>
+                            <p className="text-xs text-gray-500">{user?.email}</p>
+                        </div>
+                        <button
+                            onClick={() => router.post('/logout')}
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-red-600"
+                        >
+                            <LogOut className="h-3.5 w-3.5" />
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main className="mx-auto max-w-7xl px-6 py-8">
+                {/* Welcome */}
+                <div className="mb-8">
+                    <h2 className="text-2xl font-bold text-gray-900">Welcome back, {user?.name || 'User'}</h2>
+                    <p className="mt-1 text-gray-500">Manage your innovation platform from here.</p>
+                </div>
+
+                {/* Navigation cards */}
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {navItems.map((item) => {
+                        const Icon = item.icon;
+                        return item.ready ? (
+                            <Link
+                                key={item.label}
+                                href={item.href}
+                                className="group flex items-start gap-4 rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-blue-200 hover:shadow-md"
+                            >
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600 group-hover:bg-blue-100">
+                                    <Icon className="h-5 w-5" />
+                                </div>
+                                <div className="flex-1">
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="font-semibold text-gray-900">{item.label}</h3>
+                                        <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-blue-500" />
+                                    </div>
+                                    <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                                </div>
+                            </Link>
+                        ) : (
+                            <div
+                                key={item.label}
+                                className="flex items-start gap-4 rounded-xl border border-dashed border-gray-200 bg-gray-50/50 p-5 opacity-60"
+                            >
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-400">
+                                    <Icon className="h-5 w-5" />
+                                </div>
+                                <div className="flex-1">
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="font-semibold text-gray-500">{item.label}</h3>
+                                        <span className="rounded-full bg-gray-200 px-2 py-0.5 text-[10px] font-medium text-gray-500">Coming Soon</span>
+                                    </div>
+                                    <p className="mt-1 text-sm text-gray-400">{item.description}</p>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </main>
         </div>
     );
 }
-
-const styles: Record<string, React.CSSProperties> = {
-    container: {
-        minHeight: '100vh', backgroundColor: '#f8fafc',
-        fontFamily: 'system-ui, -apple-system, sans-serif', padding: '2rem',
-    },
-    header: {
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        maxWidth: '800px', margin: '0 auto 2rem',
-    },
-    title: { fontSize: '1.5rem', fontWeight: 700, color: '#1e293b' },
-    logoutBtn: {
-        padding: '0.5rem 1rem', backgroundColor: '#ef4444', color: 'white',
-        border: 'none', borderRadius: '0.5rem', cursor: 'pointer', fontWeight: 500,
-    },
-    card: {
-        backgroundColor: 'white', padding: '2rem', borderRadius: '0.75rem',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)', maxWidth: '800px', margin: '0 auto',
-    },
-    greeting: { fontSize: '1.25rem', fontWeight: 600, color: '#1e293b', marginBottom: '0.25rem' },
-    email: { color: '#64748b', marginBottom: '1rem' },
-    info: { color: '#475569' },
-};
