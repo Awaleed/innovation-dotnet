@@ -52,12 +52,9 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
 
         if (!response.IsSuccessStatusCode)
         {
-            // ModelState errors → InertiaCore maps to props.errors automatically
             ModelState.AddModelError("email", "Invalid email or password.");
-            
-            // Flash error toast
             Inertia.Share("flash", new { success = (string?)null, error = "Invalid email or password." });
-            return Inertia.Render("Auth/Login", new { canResetPassword = false });
+            return Inertia.Render("Auth/Login", new { canResetPassword = false, oldInput = new { email } });
         }
 
         // Get access token and fetch user info
@@ -123,10 +120,17 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
             if (ModelState.ErrorCount == 0)
                 ModelState.AddModelError("email", "Registration failed.");
 
-            // Flash error toast
+            // Build oldInput from the submitted body (exclude password)
+            var oldInput = new Dictionary<string, string>();
+            foreach (var prop in body.EnumerateObject())
+            {
+                if (!prop.Name.Equals("password", StringComparison.OrdinalIgnoreCase) &&
+                    !prop.Name.Equals("password_confirmation", StringComparison.OrdinalIgnoreCase))
+                    oldInput[prop.Name] = prop.Value.GetString() ?? "";
+            }
+
             Inertia.Share("flash", new { success = (string?)null, error = "Registration failed. Please check the form." });
-            // ModelState errors → InertiaCore maps to props.errors automatically
-            return Inertia.Render("Auth/Register");
+            return Inertia.Render("Auth/Register", new { oldInput });
         }
 
         // Auto-login after register

@@ -1,52 +1,70 @@
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
+import { useForm } from 'react-hook-form';
 import { LoaderCircle, Lock, Mail } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { useEffect, useState } from 'react';
 import { type SharedData } from '@/types';
 
-import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useTheme } from '@/hooks/use-theme';
 import AuthLayout from '@/layouts/auth-layout';
-import { login, register } from '@/routes';
+import { login, register as registerRoute } from '@/routes';
 import { useTranslation } from 'react-i18next';
 
-interface LoginForm {
+interface LoginFormData {
     email: string;
     password: string;
     remember: boolean;
-    [key: string]: string | boolean;
 }
 
 interface LoginProps {
     status?: string;
     canResetPassword: boolean;
+    oldInput?: { email?: string };
 }
 
-export default function Login({ status, canResetPassword }: LoginProps) {
+export default function Login({ status, canResetPassword, oldInput }: LoginProps) {
     const { t } = useTranslation();
     const theme = useTheme();
+    const serverErrors = usePage<SharedData>().props.errors;
+    const [processing, setProcessing] = useState(false);
 
-    // Errors from page props (InertiaCore maps ModelState → props.errors automatically)
-    const { errors } = usePage<SharedData>().props;
-
-    // useForm for form state only — errors come from usePage above
-    const { data, setData, post, processing, reset } = useForm<LoginForm>({
-        email: '',
-        password: '',
-        remember: false,
+    const form = useForm<LoginFormData>({
+        defaultValues: { email: oldInput?.email ?? '', password: '', remember: false },
     });
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
-        post(login.url(), {
+    const onSubmit = (data: LoginFormData) => {
+        setProcessing(true);
+
+        router.post(login.url(), data, {
             preserveState: true,
-            onFinish: () => reset('password'),
+            preserveScroll: true,
+            onFinish: () => {
+                setProcessing(false);
+                form.setValue('password', '');
+            },
+            onError: (errors) => {
+                setProcessing(false);
+                Object.entries(errors).forEach(([key, msg]) => {
+                    form.setError(key as keyof LoginFormData, { message: String(msg) });
+                });
+            },
         });
     };
+
+    // Sync server errors from page props (after redirect with flashed errors)
+    useEffect(() => {
+        if (serverErrors && Object.keys(serverErrors).length > 0) {
+            Object.entries(serverErrors).forEach(([key, msg]) => {
+                form.setError(key as keyof LoginFormData, { message: String(msg) });
+            });
+        }
+    }, [serverErrors]);
 
     const primary = theme.colors['primary'] || '#233968';
     const border = theme.colors['border'] || '#e5e7eb';
@@ -63,142 +81,158 @@ export default function Login({ status, canResetPassword }: LoginProps) {
         >
             <Head title={t('auth:login.title')} />
 
-            <form method="POST" className="flex flex-col gap-5" onSubmit={submit}>
-                {/* Email */}
-                <div className="grid gap-1.5">
-                    <Label
-                        htmlFor="email"
-                        className="font-sans text-sm font-medium"
-                        style={{ color: foreground }}
-                    >
-                        {t('auth:login.email')}
-                    </Label>
-                    <div className="relative">
-                        <Mail
-                            className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2"
-                            style={{ color: mutedFg }}
-                        />
-                        <Input
-                            id="email"
-                            type="email"
-                            required
-                            autoFocus
-                            tabIndex={1}
-                            autoComplete="email"
-                            value={data.email}
-                            onChange={(e) => setData('email', e.target.value)}
-                            placeholder={t('auth:login.email_placeholder', 'email@example.com')}
-                            className="h-11 ps-10 font-sans"
-                            style={{
-                                borderColor: errors?.email ? destructive : border,
-                                backgroundColor: cardBg,
-                                color: foreground,
-                            }}
-                        />
-                    </div>
-                    {errors?.email && <InputError message={errors.email} className="text-xs" />}
-                </div>
-
-                {/* Password */}
-                <div className="grid gap-1.5">
-                    <div className="flex items-center justify-between">
-                        <Label
-                            htmlFor="password"
-                            className="font-sans text-sm font-medium"
-                            style={{ color: foreground }}
-                        >
-                            {t('auth:login.password')}
-                        </Label>
-                        {canResetPassword && (
-                            <TextLink
-                                href="#"
-                                className="font-sans text-xs font-medium"
-                                style={{ color: mutedFg }}
-                                tabIndex={5}
-                            >
-                                {t('auth:login.forgot_password')}
-                            </TextLink>
+            <Form {...form}>
+                <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
+                    {/* Email */}
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        rules={{ required: t('auth:login.email') + ' is required' }}
+                        render={({ field }) => (
+                            <FormItem className="grid gap-1.5">
+                                <FormLabel
+                                    className="font-sans text-sm font-medium"
+                                    style={{ color: foreground }}
+                                >
+                                    {t('auth:login.email')}
+                                </FormLabel>
+                                <FormControl>
+                                    <div className="relative">
+                                        <Mail
+                                            className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2"
+                                            style={{ color: mutedFg }}
+                                        />
+                                        <Input
+                                            type="email"
+                                            autoFocus
+                                            tabIndex={1}
+                                            autoComplete="email"
+                                            placeholder={t('auth:login.email_placeholder', 'email@example.com')}
+                                            className="h-11 ps-10 font-sans"
+                                            style={{
+                                                borderColor: form.formState.errors.email ? destructive : border,
+                                                backgroundColor: cardBg,
+                                                color: foreground,
+                                            }}
+                                            {...field}
+                                        />
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
                         )}
-                    </div>
-                    <div className="relative">
-                        <Lock
-                            className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2"
-                            style={{ color: mutedFg }}
-                        />
-                        <Input
-                            id="password"
-                            type="password"
-                            required
-                            tabIndex={2}
-                            autoComplete="current-password"
-                            value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
-                            placeholder="••••••••"
-                            className="h-11 ps-10 font-sans"
-                            style={{
-                                borderColor: errors?.password ? destructive : border,
-                                backgroundColor: cardBg,
-                                color: foreground,
-                            }}
-                        />
-                    </div>
-                    {errors?.password && <InputError message={errors.password} className="text-xs" />}
-                </div>
-
-                {/* Remember me */}
-                <div className="flex items-center gap-2.5">
-                    <Checkbox
-                        id="remember"
-                        name="remember"
-                        checked={data.remember}
-                        onClick={() => setData('remember', !data.remember)}
-                        tabIndex={3}
                     />
-                    <Label
-                        htmlFor="remember"
-                        className="cursor-pointer font-sans text-sm"
-                        style={{ color: foreground }}
+
+                    {/* Password */}
+                    <FormField
+                        control={form.control}
+                        name="password"
+                        rules={{ required: t('auth:login.password') + ' is required' }}
+                        render={({ field }) => (
+                            <FormItem className="grid gap-1.5">
+                                <div className="flex items-center justify-between">
+                                    <FormLabel
+                                        className="font-sans text-sm font-medium"
+                                        style={{ color: foreground }}
+                                    >
+                                        {t('auth:login.password')}
+                                    </FormLabel>
+                                    {canResetPassword && (
+                                        <TextLink
+                                            href="#"
+                                            className="font-sans text-xs font-medium"
+                                            style={{ color: mutedFg }}
+                                            tabIndex={5}
+                                        >
+                                            {t('auth:login.forgot_password')}
+                                        </TextLink>
+                                    )}
+                                </div>
+                                <FormControl>
+                                    <div className="relative">
+                                        <Lock
+                                            className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2"
+                                            style={{ color: mutedFg }}
+                                        />
+                                        <Input
+                                            type="password"
+                                            tabIndex={2}
+                                            autoComplete="current-password"
+                                            placeholder="••••••••"
+                                            className="h-11 ps-10 font-sans"
+                                            style={{
+                                                borderColor: form.formState.errors.password ? destructive : border,
+                                                backgroundColor: cardBg,
+                                                color: foreground,
+                                            }}
+                                            {...field}
+                                        />
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    {/* Remember me */}
+                    <FormField
+                        control={form.control}
+                        name="remember"
+                        render={({ field }) => (
+                            <FormItem className="flex items-center gap-2.5">
+                                <FormControl>
+                                    <Checkbox
+                                        id="remember"
+                                        checked={field.value}
+                                        onCheckedChange={field.onChange}
+                                        tabIndex={3}
+                                    />
+                                </FormControl>
+                                <Label
+                                    htmlFor="remember"
+                                    className="cursor-pointer font-sans text-sm"
+                                    style={{ color: foreground }}
+                                >
+                                    {t('auth:login.remember')}
+                                </Label>
+                            </FormItem>
+                        )}
+                    />
+
+                    {/* Submit */}
+                    <Button
+                        type="submit"
+                        className="mt-1 h-11 w-full font-sans text-sm font-semibold tracking-wide"
+                        tabIndex={4}
+                        disabled={processing}
+                        style={{
+                            backgroundColor: primary,
+                            color: theme.colors['primary-foreground'] || '#ffffff',
+                        }}
                     >
-                        {t('auth:login.remember')}
-                    </Label>
-                </div>
+                        {processing ? (
+                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                        ) : (
+                            t('auth:login.submit')
+                        )}
+                    </Button>
 
-                {/* Submit */}
-                <Button
-                    type="submit"
-                    className="mt-1 h-11 w-full font-sans text-sm font-semibold tracking-wide"
-                    tabIndex={4}
-                    disabled={processing}
-                    style={{
-                        backgroundColor: primary,
-                        color: theme.colors['primary-foreground'] || '#ffffff',
-                    }}
-                >
-                    {processing ? (
-                        <LoaderCircle className="h-4 w-4 animate-spin" />
-                    ) : (
-                        t('auth:login.submit')
-                    )}
-                </Button>
-
-                {/* Divider + register link */}
-                <div
-                    className="border-t pt-4 text-center"
-                    style={{ borderColor: border }}
-                >
-                    <p className="font-sans text-sm" style={{ color: mutedFg }}>
-                        {t('auth:login.no_account', "Don't have an account?")}{' '}
-                        <TextLink
-                            href={register.url()}
-                            className="font-medium"
-                            style={{ color: primary }}
-                            tabIndex={6}
-                        >
-                            {t('app:register')}
-                        </TextLink>
-                    </p>
-                </div>
-            </form>
+                    {/* Divider + register link */}
+                    <div className="border-t pt-4 text-center" style={{ borderColor: border }}>
+                        <p className="font-sans text-sm" style={{ color: mutedFg }}>
+                            {t('auth:login.no_account', "Don't have an account?")}{' '}
+                            <TextLink
+                                href={registerRoute.url()}
+                                className="font-medium"
+                                style={{ color: primary }}
+                                tabIndex={6}
+                            >
+                                {t('app:register')}
+                            </TextLink>
+                        </p>
+                    </div>
+                </form>
+            </Form>
 
             {status && (
                 <div
