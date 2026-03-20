@@ -54,6 +54,9 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
         {
             // ModelState errors → InertiaCore maps to props.errors automatically
             ModelState.AddModelError("email", "Invalid email or password.");
+            
+            // Flash error toast
+            Inertia.Share("flash", new { success = (string?)null, error = "Invalid email or password." });
             return Inertia.Render("Auth/Login", new { canResetPassword = false });
         }
 
@@ -120,6 +123,8 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
             if (ModelState.ErrorCount == 0)
                 ModelState.AddModelError("email", "Registration failed.");
 
+            // Flash error toast
+            Inertia.Share("flash", new { success = (string?)null, error = "Registration failed. Please check the form." });
             // ModelState errors → InertiaCore maps to props.errors automatically
             return Inertia.Render("Auth/Register");
         }

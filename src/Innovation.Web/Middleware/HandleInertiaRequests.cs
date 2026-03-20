@@ -7,7 +7,10 @@ public class HandleInertiaRequests : IMiddleware
 {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
+        // Auth
         object? authUser = null;
+        string[]? roles = null;
+        string[]? permissions = null;
 
         if (context.User.Identity?.IsAuthenticated == true)
         {
@@ -17,9 +20,40 @@ public class HandleInertiaRequests : IMiddleware
                 name = context.User.FindFirstValue(ClaimTypes.GivenName),
                 email = context.User.FindFirstValue(ClaimTypes.Email),
             };
+
+            roles = context.User.FindAll(ClaimTypes.Role).Select(c => c.Value).ToArray();
+            permissions = context.User.FindAll("permission").Select(c => c.Value).ToArray();
         }
 
-        Inertia.Share("auth", new { user = authUser });
+        // Localization
+        var currentLocale = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+        if (currentLocale != "ar" && currentLocale != "en")
+            currentLocale = "ar";
+
+        // Share all props (matches Laravel HandleInertiaRequests)
+        Inertia.Share("name", "Innovation Platform");
+        Inertia.Share("auth", new
+        {
+            user = authUser,
+            roles = roles ?? Array.Empty<string>(),
+            permissions = permissions ?? Array.Empty<string>(),
+        });
+        Inertia.Share("sidebarOpen", true);
+        Inertia.Share("localization", new
+        {
+            currentLocale,
+            currentLocaleDirection = currentLocale == "ar" ? "rtl" : "ltr",
+            supportedLocales = new Dictionary<string, object>
+            {
+                ["en"] = new { name = "English", native = "English" },
+                ["ar"] = new { name = "Arabic", native = "العربية" },
+            },
+        });
+        Inertia.Share("flash", new
+        {
+            success = (string?)null,
+            error = (string?)null,
+        });
 
         await next(context);
     }

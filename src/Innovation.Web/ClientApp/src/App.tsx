@@ -18,6 +18,7 @@ import './i18n'; // Initialize i18n
 // import './zod-setup'; // Initialize zod i18n error map
 import { AppWrapper } from './components/app-wrapper';
 import { ErrorBoundary } from './components/ui/error-boundary';
+import { FlashToaster } from './components/flash-toaster';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Innovation Platform';
 
@@ -84,6 +85,7 @@ createInertiaApp({
             <ThemeProvider>
                 <RTLProvider>
                     <Component {...props} />
+                    <FlashToaster />
                 </RTLProvider>
             </ThemeProvider>
         );
@@ -100,7 +102,6 @@ createInertiaApp({
                         <AppWrapper>
                             <App {...props} />
                         </AppWrapper>
-                        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
                     </NuqsAdapter>
                 </QueryClientProvider>
             </ErrorBoundary>,

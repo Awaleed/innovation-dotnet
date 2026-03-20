@@ -3,6 +3,8 @@ import type { ThemeConfig } from './brand';
 
 export interface Auth {
     user: IAuthUser | null;
+    roles: string[];
+    permissions: string[];
 }
 
 export interface Localization {
@@ -16,13 +18,18 @@ export interface Localization {
     };
 }
 
+export interface Flash {
+    success?: string | null;
+    error?: string | null;
+}
+
 export interface SharedData {
+    name: string;
     auth: Auth;
     errors: Record<string, string | string[]>;
-    name?: string;
-    quote?: { message: string; author: string };
-    sidebarOpen?: boolean;
-    localization?: Localization;
+    sidebarOpen: boolean;
+    localization: Localization;
     theme?: ThemeConfig;
+    flash: Flash;
     [key: string]: unknown;
 }
