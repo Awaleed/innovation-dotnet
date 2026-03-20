@@ -38,7 +38,10 @@
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
       "attributes": {
-        "post.logout.redirect.uris": "*"
+        "post.logout.redirect.uris": "*",
+        "backchannel.logout.url": "http://host.docker.internal:5200/signout-oidc",
+        "backchannel.logout.session.required": "true",
+        "backchannel.logout.revoke.offline.tokens": "false"
       },
       "protocolMappers": [
         {

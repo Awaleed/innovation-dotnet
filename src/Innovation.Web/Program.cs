@@ -3,6 +3,7 @@ using InertiaCore.Extensions;
 using Innovation.ServiceDefaults;
 using Innovation.Web.Middleware;
 using Innovation.Web.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 
@@ -35,6 +36,35 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/login";
         options.ExpireTimeSpan = TimeSpan.FromHours(1);
         options.SlidingExpiration = true;
+
+        // Periodically validate Direct Access Grant sessions against Keycloak
+        options.Events.OnValidatePrincipal = async context =>
+        {
+            // Only check sessions that have a refresh token (Direct Access Grant)
+            if (!context.Properties.Items.TryGetValue("refresh_token", out var refreshToken)
+                || string.IsNullOrEmpty(refreshToken))
+                return;
+
+            // Throttle: check at most every 5 minutes
+            var lastCheck = context.Properties.GetString("last_keycloak_check");
+            if (lastCheck is not null
+                && DateTime.TryParse(lastCheck, out var lastCheckTime)
+                && lastCheckTime > DateTime.UtcNow.AddSeconds(-30))
+                return;
+
+            var keycloakService = context.HttpContext.RequestServices
+                .GetRequiredService<KeycloakAuthService>();
+
+            if (!await keycloakService.ValidateRefreshTokenAsync(refreshToken))
+            {
+                context.RejectPrincipal();
+                await context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return;
+            }
+
+            context.Properties.SetString("last_keycloak_check", DateTime.UtcNow.ToString("O"));
+            context.ShouldRenew = true;
+        };
     })
     .AddOpenIdConnect("keycloak-oidc", options =>
     {
@@ -52,6 +82,17 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         {
             RoleClaimType = "roles",
             NameClaimType = "preferred_username",
+        };
+
+        // Backchannel logout — Keycloak notifies app when admin kills a session
+        options.SignedOutCallbackPath = "/signout-callback-oidc";
+        options.RemoteSignOutPath = "/signout-oidc";
+
+        // Handle backchannel logout even without 'sid' (Direct Access Grant sessions)
+        options.Events.OnRemoteSignOut = async context =>
+        {
+            await context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            context.HandleResponse();
         };
     });
 

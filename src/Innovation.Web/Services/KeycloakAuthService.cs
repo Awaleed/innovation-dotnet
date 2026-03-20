@@ -181,6 +181,26 @@ public class KeycloakAuthService(IHttpClientFactory httpClientFactory)
     }
 
     /// <summary>
+    /// Validate a refresh token by attempting to refresh it.
+    /// If Keycloak rejects it (session revoked, token expired), returns false.
+    /// </summary>
+    public async Task<bool> ValidateRefreshTokenAsync(string refreshToken)
+    {
+        var client = httpClientFactory.CreateClient("keycloak");
+
+        var content = new FormUrlEncodedContent(new Dictionary<string, string>
+        {
+            ["grant_type"] = "refresh_token",
+            ["client_id"] = ClientId,
+            ["client_secret"] = ClientSecret,
+            ["refresh_token"] = refreshToken,
+        });
+
+        var response = await client.PostAsync(TokenEndpoint, content);
+        return response.IsSuccessStatusCode;
+    }
+
+    /// <summary>
     /// Get a service account token using client_credentials grant.
     /// Used for Admin REST API calls (e.g., user registration).
     /// </summary>
