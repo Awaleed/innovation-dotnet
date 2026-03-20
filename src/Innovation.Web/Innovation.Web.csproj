@@ -20,8 +20,8 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.InertiaCore" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Reinforced.Typings" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,30 +7,34 @@ namespace Innovation.ServiceDefaults;
 
 public static class AuthenticationExtensions
 {
+    /// <summary>
+    /// Configures JWT Bearer authentication against Keycloak for API services.
+    /// Requires "Keycloak" section in configuration with "Url" and "Realm" keys.
+    /// </summary>
     public static IServiceCollection AddDefaultAuthentication(this IHostApplicationBuilder builder)
     {
         var services = builder.Services;
         var configuration = builder.Configuration;
 
-        var identitySection = configuration.GetSection("Identity");
+        var keycloakSection = configuration.GetSection("Keycloak");
 
-        if (!identitySection.Exists())
+        if (!keycloakSection.Exists())
         {
             return services;
         }
 
         JsonWebTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
 
+        var keycloakUrl = keycloakSection.GetRequiredValue("Url");
+        var realm = keycloakSection.GetRequiredValue("Realm");
+        var authority = $"{keycloakUrl}/realms/{realm}";
+
         services.AddAuthentication().AddJwtBearer(options =>
         {
-            var identityUrl = identitySection.GetRequiredValue("Url");
-            var audience = identitySection.GetRequiredValue("Audience");
-
-            options.Authority = identityUrl;
+            options.Authority = authority;
             options.RequireHttpsMetadata = false;
-            options.Audience = audience;
-            options.TokenValidationParameters.ValidIssuers = [identityUrl];
             options.TokenValidationParameters.ValidateAudience = false;
+            options.TokenValidationParameters.ValidIssuers = [authority];
         });
 
         services.AddAuthorization();

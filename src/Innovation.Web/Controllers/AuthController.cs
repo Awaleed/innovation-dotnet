@@ -1,6 +1,6 @@
-using System.Security.Claims;
 using System.Text.Json;
 using InertiaCore;
+using Innovation.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Innovation.Web.Controllers;
 
-public class AuthController(IHttpClientFactory httpClientFactory) : Controller
+public class AuthController(KeycloakAuthService keycloak) : Controller
 {
     // ========== Pages ==========
 
@@ -45,48 +45,28 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
         var email = body.GetProperty("email").GetString()!;
         var password = body.GetProperty("password").GetString()!;
 
-        var client = httpClientFactory.CreateClient("identity-api");
-        var loginPayload = JsonSerializer.Serialize(new { email, password });
-        var response = await client.PostAsync("login",
-            new StringContent(loginPayload, System.Text.Encoding.UTF8, "application/json"));
+        var result = await keycloak.LoginAsync(email, password);
 
-        if (!response.IsSuccessStatusCode)
+        if (result is null)
         {
             ModelState.AddModelError("email", "Invalid email or password.");
             Inertia.Share("flash", new { success = (string?)null, error = "Invalid email or password." });
             return Inertia.Render("Auth/Login", new { canResetPassword = false });
         }
 
-        // Get access token and fetch user info
-        var tokenJson = await response.Content.ReadAsStringAsync();
-        var tokenData = JsonSerializer.Deserialize<JsonElement>(tokenJson);
-        var accessToken = tokenData.GetProperty("accessToken").GetString()!;
+        // Create cookie session from Keycloak token claims
+        var principal = keycloak.ExtractClaims(result);
 
-        var infoRequest = new HttpRequestMessage(HttpMethod.Get, "manage/info");
-        infoRequest.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
-        var infoResponse = await client.SendAsync(infoRequest);
-
-        string userName = email;
-        if (infoResponse.IsSuccessStatusCode)
-        {
-            var infoJson = await infoResponse.Content.ReadAsStringAsync();
-            var infoData = JsonSerializer.Deserialize<JsonElement>(infoJson);
-            if (infoData.TryGetProperty("email", out var emailProp))
-                userName = emailProp.GetString() ?? email;
-        }
-
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.Email, email),
-            new(ClaimTypes.Name, userName),
-            new(ClaimTypes.GivenName, userName),
-        };
-
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
-            new ClaimsPrincipal(identity),
-            new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1) });
+            principal,
+            new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
+                // Store refresh token for logout
+                Items = { ["refresh_token"] = result.RefreshToken },
+            });
 
         return Redirect("/dashboard");
     }
@@ -94,58 +74,47 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
     [HttpPost("/register")]
     public async Task<IActionResult> RegisterPost([FromBody] JsonElement body)
     {
-        var client = httpClientFactory.CreateClient("identity-api");
-        var response = await client.PostAsync("register",
-            new StringContent(body.GetRawText(), System.Text.Encoding.UTF8, "application/json"));
+        var name = body.GetProperty("name").GetString()!;
+        var email = body.GetProperty("email").GetString()!;
+        var password = body.GetProperty("password").GetString()!;
 
-        if (!response.IsSuccessStatusCode)
+        var registerResult = await keycloak.RegisterAsync(name, email, password);
+
+        if (!registerResult.Success)
         {
-            // Parse Identity.API errors and add to ModelState
-            var errorContent = await response.Content.ReadAsStringAsync();
-            try
+            if (registerResult.Errors is not null)
             {
-                var errorData = JsonSerializer.Deserialize<JsonElement>(errorContent);
-                if (errorData.TryGetProperty("errors", out var errors))
+                foreach (var (field, messages) in registerResult.Errors)
                 {
-                    foreach (var error in errors.EnumerateObject())
-                    {
-                        var firstMsg = error.Value.EnumerateArray().FirstOrDefault().GetString();
-                        if (firstMsg != null)
-                            ModelState.AddModelError(error.Name, firstMsg);
-                    }
+                    foreach (var msg in messages)
+                        ModelState.AddModelError(field, msg);
                 }
             }
-            catch { }
-
-            if (ModelState.ErrorCount == 0)
+            else
+            {
                 ModelState.AddModelError("email", "Registration failed.");
+            }
 
             Inertia.Share("flash", new { success = (string?)null, error = "Registration failed. Please check the form." });
             return Inertia.Render("Auth/Register");
         }
 
-        // Auto-login after register
-        var email = body.GetProperty("email").GetString()!;
-        var password = body.GetProperty("password").GetString()!;
+        // Auto-login after registration
+        var loginResult = await keycloak.LoginAsync(email, password);
 
-        var loginPayload = JsonSerializer.Serialize(new { email, password });
-        var loginResponse = await client.PostAsync("login",
-            new StringContent(loginPayload, System.Text.Encoding.UTF8, "application/json"));
-
-        if (loginResponse.IsSuccessStatusCode)
+        if (loginResult is not null)
         {
-            var claims = new List<Claim>
-            {
-                new(ClaimTypes.Email, email),
-                new(ClaimTypes.Name, email),
-                new(ClaimTypes.GivenName, email),
-            };
+            var principal = keycloak.ExtractClaims(loginResult);
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(identity),
-                new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1) });
+                principal,
+                new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
+                    Items = { ["refresh_token"] = loginResult.RefreshToken },
+                });
         }
 
         return Redirect("/dashboard");
@@ -154,6 +123,13 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
     [HttpPost("/logout")]
     public async Task<IActionResult> Logout()
     {
+        // Revoke refresh token in Keycloak
+        var authResult = await HttpContext.AuthenticateAsync();
+        string? refreshToken = null;
+        authResult.Properties?.Items.TryGetValue("refresh_token", out refreshToken);
+        await keycloak.LogoutAsync(refreshToken);
+
+        // Clear local cookie
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return Redirect("/login");
     }

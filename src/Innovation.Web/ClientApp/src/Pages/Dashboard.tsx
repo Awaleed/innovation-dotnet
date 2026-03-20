@@ -1,16 +1,12 @@
 import { usePage, router } from '@inertiajs/react';
 import { type SharedData } from '../types';
-import { login } from '../routes';
-import { logout as apiLogout } from '../routes/api/auth';
 
 export default function Dashboard() {
     const { auth } = usePage<SharedData>().props;
     const user = auth?.user;
 
-    async function handleLogout() {
-        const route = apiLogout();
-        await fetch(route.url, { method: route.method });
-        router.visit(login.url());
+    function handleLogout() {
+        router.post('/logout');
     }
 
     return (

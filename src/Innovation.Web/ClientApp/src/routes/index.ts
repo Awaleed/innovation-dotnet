@@ -64,6 +64,5 @@ export const registerPost = (): RouteDefinition<'post'> => ({
 
 registerPost.url = () => '/register'
 
-// Sub-routes
-export * as api from './api'
+
 

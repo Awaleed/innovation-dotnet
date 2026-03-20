@@ -2,6 +2,7 @@ using InertiaCore;
 using InertiaCore.Extensions;
 using Innovation.ServiceDefaults;
 using Innovation.Web.Middleware;
+using Innovation.Web.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,12 +24,11 @@ builder.Services.AddViteHelper(options =>
     options.HotFile = "hot";
 });
 
-// Cookie authentication — .NET 10 auto-handles redirect vs 401 for API endpoints
+// Cookie authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/login";
-        options.LogoutPath = "/api/auth/logout";
         options.AccessDeniedPath = "/login";
         options.ExpireTimeSpan = TimeSpan.FromHours(1);
         options.SlidingExpiration = true;
@@ -37,11 +37,15 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddAuthorization();
 builder.Services.AddTransient<HandleInertiaRequests>();
 
-// HttpClient for proxying API calls to Identity.API
-builder.Services.AddHttpClient("identity-api", client =>
+// Keycloak HttpClient (connection string injected by Aspire via WithReference)
+builder.Services.AddHttpClient("keycloak", (sp, client) =>
 {
-    client.BaseAddress = new Uri("https+http://identity-api");
+    var config = sp.GetRequiredService<IConfiguration>();
+    var url = config.GetConnectionString("keycloak") ?? "http://localhost:8080";
+    client.BaseAddress = new Uri(url);
 });
+
+builder.Services.AddScoped<KeycloakAuthService>();
 
 var app = builder.Build();
 

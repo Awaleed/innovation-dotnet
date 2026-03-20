@@ -14,23 +14,21 @@ var postgres = builder.AddPostgres("postgres")
         .WithLifetime(ContainerLifetime.Persistent)
         .WithoutHttpsCertificate());
 
-var identityDb = postgres.AddDatabase("identitydb");
-
-// Services
-var identityApi = builder.AddProject<Projects.Identity_API>("identity-api")
-    .WithReference(identityDb)
-    .WaitFor(identityDb)
+// Keycloak — identity provider (replaces Identity.API)
+var keycloak = builder.AddKeycloak("keycloak", 8080)
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithRealmImport("./KeycloakRealms")
     .WithExternalHttpEndpoints();
 
-// Vite dev server — managed by Aspire (replaces custom auto-start in Program.cs)
+// Vite dev server — managed by Aspire
 var vite = builder.AddViteApp("vite", "../Innovation.Web/ClientApp")
     .WithNpmPackageInstallation();
 
 // Web App
 var web = builder.AddProject<Projects.Innovation_Web>("web")
     .WithExternalHttpEndpoints()
-    .WithReference(identityApi)
-    .WaitFor(identityApi)
+    .WithReference(keycloak)
+    .WaitFor(keycloak)
     .WithEnvironment("VITE_DEV_SERVER_URL", vite.GetEndpoint("http"));
 
 builder.Build().Run();
