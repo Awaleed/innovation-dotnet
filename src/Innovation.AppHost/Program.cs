@@ -14,6 +14,8 @@ var postgres = builder.AddPostgres("postgres")
         .WithLifetime(ContainerLifetime.Persistent)
         .WithoutHttpsCertificate());
 
+var innovationDb = postgres.AddDatabase("innovationdb");
+
 // Fake Active Directory (OpenLDAP)
 var ldap = builder.AddContainer("openldap", "osixia/openldap", "latest")
     .WithLifetime(ContainerLifetime.Persistent)
@@ -47,7 +49,9 @@ var vite = builder.AddViteApp("vite", "../Innovation.Web/ClientApp")
 // Web App
 var web = builder.AddProject<Projects.Innovation_Web>("web")
     .WithExternalHttpEndpoints()
+    .WithReference(innovationDb)
     .WithReference(keycloak)
+    .WaitFor(postgres)
     .WaitFor(keycloak)
     .WithEnvironment("VITE_DEV_SERVER_URL", vite.GetEndpoint("http"));
 

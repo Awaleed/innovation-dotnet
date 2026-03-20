@@ -1,17 +1,45 @@
 using System.Security.Claims;
 using InertiaCore;
 using InertiaCore.Extensions;
+using Innovation.Application;
+using Innovation.Infrastructure;
+using Innovation.Infrastructure.Data;
+using Innovation.Infrastructure.Data.Interceptors;
 using Innovation.ServiceDefaults;
+using Innovation.Web.Endpoints;
 using Innovation.Web.Middleware;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-builder.Services.AddControllersWithViews();
+// Application + Infrastructure layers
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure();
+
+// EF Core with PostgreSQL via Aspire
+builder.Services.AddDbContext<AppDbContext>((sp, options) =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("innovationdb") ?? "Host=localhost;Database=innovation;");
+    options.AddInterceptors(
+        sp.GetRequiredService<AuditableInterceptor>(),
+        sp.GetRequiredService<SoftDeleteInterceptor>());
+});
+
+builder.Services.AddProblemDetails();
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+});
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
 
 builder.Services.AddInertia(options =>
 {
@@ -95,10 +123,14 @@ builder.Services.AddTransient<HandleInertiaRequests>();
 
 var app = builder.Build();
 
-app.MapDefaultEndpoints();
+// Auto-apply EF Core migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await db.Database.MigrateAsync();
+}
 
-// Vite dev server is managed by Aspire AppHost (AddViteApp)
-// No custom process spawning needed here
+app.MapDefaultEndpoints();
 
 app.UseStaticFiles();
 app.UseInertia();
@@ -108,5 +140,6 @@ app.UseAuthorization();
 app.UseMiddleware<HandleInertiaRequests>();
 
 app.MapControllers();
+app.MapChallengeEndpoints();
 
 app.Run();
