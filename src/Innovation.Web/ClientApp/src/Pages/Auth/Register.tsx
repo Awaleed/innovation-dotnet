@@ -1,40 +1,49 @@
 import { Head } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { LoaderCircle, Lock, Mail, User } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { AuthPageTransition } from '@/components/auth/auth-page-transition';
-import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useInertiaForm } from '@/hooks';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useHookForm } from '@/hooks/use-hook-form';
+import { useTheme } from '@/hooks/use-theme';
 import AuthLayout from '@/layouts/auth-layout';
 import { login, register } from '@/routes';
 
-type RegisterForm = {
+interface RegisterFormData {
     name: string;
     email: string;
     password: string;
     password_confirmation: string;
-};
+}
 
 export default function Register() {
     const { t } = useTranslation();
-    const { data, setData, post, processing, errors, reset } = useInertiaForm<Required<RegisterForm>>({
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
+    const theme = useTheme();
+    const [processing, setProcessing] = useState(false);
+
+    const form = useHookForm<RegisterFormData>({
+        formKey: 'register',
+        defaultValues: { name: '', email: '', password: '', password_confirmation: '' },
     });
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
-        post(register.url(), {
-            onFinish: () => reset('password', 'password_confirmation'),
+    const onSubmit = (data: RegisterFormData) => {
+        setProcessing(true);
+
+        form.post(register.url(), {
+            onFinish: () => setProcessing(false),
         });
     };
+
+    const primary = theme.colors['primary'] || '#233968';
+    const border = theme.colors['border'] || '#e5e7eb';
+    const foreground = theme.colors['foreground'] || '#111827';
+    const mutedFg = theme.colors['muted-foreground'] || '#6b7280';
+    const cardBg = theme.colors['card'] || '#ffffff';
+    const destructive = theme.colors['destructive'] || '#ef4444';
 
     return (
         <AuthPageTransition>
@@ -47,173 +56,199 @@ export default function Register() {
             >
                 <Head title={t('app:register')} />
 
-                {/* Desktop form - no header since it's shown on the right side */}
-                <div className="hidden lg:block">
-                    <form method="POST" className="flex flex-col gap-6" onSubmit={submit}>
-                        <div className="grid gap-6">
-                            <div className="grid gap-2">
-                                <Label htmlFor="name">{t('auth:register.name')}</Label>
-                                <Input
-                                    id="name"
-                                    type="text"
-                                    required
-                                    autoFocus
-                                    tabIndex={1}
-                                    autoComplete="name"
-                                    value={data.name}
-                                    onChange={(e) => setData('name', e.target.value)}
-                                    disabled={processing}
-                                    placeholder={t('auth:register.name_placeholder')}
-                                />
-                                <InputError message={errors.name} className="mt-2" />
-                            </div>
+                <Form {...form}>
+                    <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
+                        {/* Name */}
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            rules={{ required: t('auth:register.name') + ' is required' }}
+                            render={({ field }) => (
+                                <FormItem className="grid gap-1.5">
+                                    <FormLabel
+                                        className="font-sans text-sm font-medium"
+                                        style={{ color: foreground }}
+                                    >
+                                        {t('auth:register.name')}
+                                    </FormLabel>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <User
+                                                className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2"
+                                                style={{ color: mutedFg }}
+                                            />
+                                            <Input
+                                                type="text"
+                                                autoFocus
+                                                tabIndex={1}
+                                                autoComplete="name"
+                                                placeholder={t('auth:register.name_placeholder')}
+                                                className="h-11 ps-10 font-sans"
+                                                style={{
+                                                    borderColor: form.formState.errors.name ? destructive : border,
+                                                    backgroundColor: cardBg,
+                                                    color: foreground,
+                                                }}
+                                                {...field}
+                                            />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">{t('auth:register.email')}</Label>
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    required
-                                    tabIndex={2}
-                                    autoComplete="email"
-                                    value={data.email}
-                                    onChange={(e) => setData('email', e.target.value)}
-                                    disabled={processing}
-                                    placeholder={t('auth:register.email_placeholder')}
-                                />
-                                <InputError message={errors.email} />
-                            </div>
+                        {/* Email */}
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            rules={{ required: t('auth:register.email') + ' is required' }}
+                            render={({ field }) => (
+                                <FormItem className="grid gap-1.5">
+                                    <FormLabel
+                                        className="font-sans text-sm font-medium"
+                                        style={{ color: foreground }}
+                                    >
+                                        {t('auth:register.email')}
+                                    </FormLabel>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <Mail
+                                                className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2"
+                                                style={{ color: mutedFg }}
+                                            />
+                                            <Input
+                                                type="email"
+                                                tabIndex={2}
+                                                autoComplete="email"
+                                                placeholder={t('auth:register.email_placeholder')}
+                                                className="h-11 ps-10 font-sans"
+                                                style={{
+                                                    borderColor: form.formState.errors.email ? destructive : border,
+                                                    backgroundColor: cardBg,
+                                                    color: foreground,
+                                                }}
+                                                {...field}
+                                            />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                            <div className="grid gap-2">
-                                <Label htmlFor="password">{t('auth:register.password')}</Label>
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    required
-                                    tabIndex={3}
-                                    autoComplete="new-password"
-                                    value={data.password}
-                                    onChange={(e) => setData('password', e.target.value)}
-                                    disabled={processing}
-                                    placeholder={t('auth:register.password_placeholder')}
-                                />
-                                <InputError message={errors.password} />
-                            </div>
+                        {/* Password */}
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            rules={{ required: t('auth:register.password') + ' is required' }}
+                            render={({ field }) => (
+                                <FormItem className="grid gap-1.5">
+                                    <FormLabel
+                                        className="font-sans text-sm font-medium"
+                                        style={{ color: foreground }}
+                                    >
+                                        {t('auth:register.password')}
+                                    </FormLabel>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <Lock
+                                                className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2"
+                                                style={{ color: mutedFg }}
+                                            />
+                                            <Input
+                                                type="password"
+                                                tabIndex={3}
+                                                autoComplete="new-password"
+                                                placeholder="••••••••"
+                                                className="h-11 ps-10 font-sans"
+                                                style={{
+                                                    borderColor: form.formState.errors.password ? destructive : border,
+                                                    backgroundColor: cardBg,
+                                                    color: foreground,
+                                                }}
+                                                {...field}
+                                            />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                            <div className="grid gap-2">
-                                <Label htmlFor="password_confirmation">{t('auth:register.password_confirmation')}</Label>
-                                <Input
-                                    id="password_confirmation"
-                                    type="password"
-                                    required
-                                    tabIndex={4}
-                                    autoComplete="new-password"
-                                    value={data.password_confirmation}
-                                    onChange={(e) => setData('password_confirmation', e.target.value)}
-                                    disabled={processing}
-                                    placeholder={t('auth:register.password_confirmation_placeholder')}
-                                />
-                                <InputError message={errors.password_confirmation} />
-                            </div>
+                        {/* Confirm Password */}
+                        <FormField
+                            control={form.control}
+                            name="password_confirmation"
+                            rules={{ required: t('auth:register.password_confirmation') + ' is required' }}
+                            render={({ field }) => (
+                                <FormItem className="grid gap-1.5">
+                                    <FormLabel
+                                        className="font-sans text-sm font-medium"
+                                        style={{ color: foreground }}
+                                    >
+                                        {t('auth:register.password_confirmation')}
+                                    </FormLabel>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <Lock
+                                                className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2"
+                                                style={{ color: mutedFg }}
+                                            />
+                                            <Input
+                                                type="password"
+                                                tabIndex={4}
+                                                autoComplete="new-password"
+                                                placeholder="••••••••"
+                                                className="h-11 ps-10 font-sans"
+                                                style={{
+                                                    borderColor: form.formState.errors.password_confirmation ? destructive : border,
+                                                    backgroundColor: cardBg,
+                                                    color: foreground,
+                                                }}
+                                                {...field}
+                                            />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                            <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
-                                {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                                {t('auth:register.submit')}
-                            </Button>
-                        </div>
+                        {/* Submit */}
+                        <Button
+                            type="submit"
+                            className="mt-1 h-11 w-full font-sans text-sm font-semibold tracking-wide"
+                            tabIndex={5}
+                            disabled={processing}
+                            style={{
+                                backgroundColor: primary,
+                                color: theme.colors['primary-foreground'] || '#ffffff',
+                            }}
+                        >
+                            {processing ? (
+                                <LoaderCircle className="h-4 w-4 animate-spin" />
+                            ) : (
+                                t('auth:register.submit')
+                            )}
+                        </Button>
 
-                        <div className="text-center text-sm text-muted-foreground">
-                            {t('auth:register.has_account')}{' '}
-                            <TextLink href={login.url()} tabIndex={6}>
-                                {t('auth:register.login_link')}
-                            </TextLink>
+                        {/* Divider + login link */}
+                        <div className="border-t pt-4 text-center" style={{ borderColor: border }}>
+                            <p className="font-sans text-sm" style={{ color: mutedFg }}>
+                                {t('auth:register.has_account')}{' '}
+                                <TextLink
+                                    href={login.url()}
+                                    className="font-medium"
+                                    style={{ color: primary }}
+                                    tabIndex={6}
+                                >
+                                    {t('auth:register.login_link')}
+                                </TextLink>
+                            </p>
                         </div>
                     </form>
-                </div>
-
-                {/* Mobile form - with header */}
-                <div className="lg:hidden">
-                    <form method="POST" className="flex flex-col gap-6" onSubmit={submit}>
-                        <div className="grid gap-6">
-                            <div className="grid gap-2">
-                                <Label htmlFor="name-mobile">{t('auth:register.name')}</Label>
-                                <Input
-                                    id="name-mobile"
-                                    type="text"
-                                    required
-                                    autoFocus
-                                    tabIndex={1}
-                                    autoComplete="name"
-                                    value={data.name}
-                                    onChange={(e) => setData('name', e.target.value)}
-                                    disabled={processing}
-                                    placeholder={t('auth:register.name_placeholder')}
-                                />
-                                <InputError message={errors.name} className="mt-2" />
-                            </div>
-
-                            <div className="grid gap-2">
-                                <Label htmlFor="email-mobile">{t('auth:register.email')}</Label>
-                                <Input
-                                    id="email-mobile"
-                                    type="email"
-                                    required
-                                    tabIndex={2}
-                                    autoComplete="email"
-                                    value={data.email}
-                                    onChange={(e) => setData('email', e.target.value)}
-                                    disabled={processing}
-                                    placeholder={t('auth:register.email_placeholder')}
-                                />
-                                <InputError message={errors.email} />
-                            </div>
-
-                            <div className="grid gap-2">
-                                <Label htmlFor="password-mobile">{t('auth:register.password')}</Label>
-                                <Input
-                                    id="password-mobile"
-                                    type="password"
-                                    required
-                                    tabIndex={3}
-                                    autoComplete="new-password"
-                                    value={data.password}
-                                    onChange={(e) => setData('password', e.target.value)}
-                                    disabled={processing}
-                                    placeholder={t('auth:register.password_placeholder')}
-                                />
-                                <InputError message={errors.password} />
-                            </div>
-
-                            <div className="grid gap-2">
-                                <Label htmlFor="password_confirmation-mobile">{t('auth:register.password_confirmation')}</Label>
-                                <Input
-                                    id="password_confirmation-mobile"
-                                    type="password"
-                                    required
-                                    tabIndex={4}
-                                    autoComplete="new-password"
-                                    value={data.password_confirmation}
-                                    onChange={(e) => setData('password_confirmation', e.target.value)}
-                                    disabled={processing}
-                                    placeholder={t('auth:register.password_confirmation_placeholder')}
-                                />
-                                <InputError message={errors.password_confirmation} />
-                            </div>
-
-                            <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
-                                {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                                {t('auth:register.submit')}
-                            </Button>
-                        </div>
-
-                        <div className="text-center text-sm text-muted-foreground">
-                            {t('auth:register.has_account')}{' '}
-                            <TextLink href={login.url()} tabIndex={6}>
-                                {t('auth:register.login_link')}
-                            </TextLink>
-                        </div>
-                    </form>
-                </div>
+                </Form>
             </AuthLayout>
         </AuthPageTransition>
     );

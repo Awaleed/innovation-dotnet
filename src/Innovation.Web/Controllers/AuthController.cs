@@ -54,7 +54,7 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
         {
             ModelState.AddModelError("email", "Invalid email or password.");
             Inertia.Share("flash", new { success = (string?)null, error = "Invalid email or password." });
-            return Inertia.Render("Auth/Login", new { canResetPassword = false, oldInput = new { email } });
+            return Inertia.Render("Auth/Login", new { canResetPassword = false });
         }
 
         // Get access token and fetch user info
@@ -120,17 +120,8 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
             if (ModelState.ErrorCount == 0)
                 ModelState.AddModelError("email", "Registration failed.");
 
-            // Build oldInput from the submitted body (exclude password)
-            var oldInput = new Dictionary<string, string>();
-            foreach (var prop in body.EnumerateObject())
-            {
-                if (!prop.Name.Equals("password", StringComparison.OrdinalIgnoreCase) &&
-                    !prop.Name.Equals("password_confirmation", StringComparison.OrdinalIgnoreCase))
-                    oldInput[prop.Name] = prop.Value.GetString() ?? "";
-            }
-
             Inertia.Share("flash", new { success = (string?)null, error = "Registration failed. Please check the form." });
-            return Inertia.Render("Auth/Register", new { oldInput });
+            return Inertia.Render("Auth/Register");
         }
 
         // Auto-login after register

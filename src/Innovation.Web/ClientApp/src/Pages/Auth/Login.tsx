@@ -1,9 +1,6 @@
-import { Head, usePage } from '@inertiajs/react';
-import { router } from '@inertiajs/react';
-import { useForm } from 'react-hook-form';
+import { Head } from '@inertiajs/react';
 import { LoaderCircle, Lock, Mail } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { type SharedData } from '@/types';
+import { useState } from 'react';
 
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -11,6 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useHookForm } from '@/hooks/use-hook-form';
 import { useTheme } from '@/hooks/use-theme';
 import AuthLayout from '@/layouts/auth-layout';
 import { login, register as registerRoute } from '@/routes';
@@ -25,46 +23,26 @@ interface LoginFormData {
 interface LoginProps {
     status?: string;
     canResetPassword: boolean;
-    oldInput?: { email?: string };
 }
 
-export default function Login({ status, canResetPassword, oldInput }: LoginProps) {
+export default function Login({ status, canResetPassword }: LoginProps) {
     const { t } = useTranslation();
     const theme = useTheme();
-    const serverErrors = usePage<SharedData>().props.errors;
     const [processing, setProcessing] = useState(false);
 
-    const form = useForm<LoginFormData>({
-        defaultValues: { email: oldInput?.email ?? '', password: '', remember: false },
+    const form = useHookForm<LoginFormData>({
+        formKey: 'login',
+        resetFields: ['password'],
+        defaultValues: { email: '', password: '', remember: false },
     });
 
     const onSubmit = (data: LoginFormData) => {
         setProcessing(true);
-
-        router.post(login.url(), data, {
-            preserveState: true,
-            preserveScroll: true,
-            onFinish: () => {
-                setProcessing(false);
-                form.setValue('password', '');
-            },
-            onError: (errors) => {
-                setProcessing(false);
-                Object.entries(errors).forEach(([key, msg]) => {
-                    form.setError(key as keyof LoginFormData, { message: String(msg) });
-                });
-            },
+        
+        form.post(login.url(), {
+            onFinish: () => setProcessing(false),
         });
     };
-
-    // Sync server errors from page props (after redirect with flashed errors)
-    useEffect(() => {
-        if (serverErrors && Object.keys(serverErrors).length > 0) {
-            Object.entries(serverErrors).forEach(([key, msg]) => {
-                form.setError(key as keyof LoginFormData, { message: String(msg) });
-            });
-        }
-    }, [serverErrors]);
 
     const primary = theme.colors['primary'] || '#233968';
     const border = theme.colors['border'] || '#e5e7eb';
