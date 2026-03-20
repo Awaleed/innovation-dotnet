@@ -122,12 +122,15 @@ public static class Program
 
                 var fullRoute = CombineRoutes(controllerRoute, routeTemplate);
 
-                var parameters = Regex.Matches(fullRoute, @"\{(\w+)\??}")
+                // Strip route constraints like :int, :guid, :alpha from {param:constraint}
+                var cleanRoute = Regex.Replace(fullRoute, @"\{(\w+)(:\w+)(\?)?}", "{$1$3}");
+
+                var parameters = Regex.Matches(cleanRoute, @"\{(\w+)\??}")
                     .Select(m => m.Groups[1].Value)
                     .ToList();
 
                 routes.Add(new RouteInfo(
-                    "/" + fullRoute.TrimStart('/'),
+                    "/" + cleanRoute.TrimStart('/'),
                     httpMethod,
                     parameters,
                     controller.Name.Replace("Controller", ""),
