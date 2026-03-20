@@ -1,0 +1,33 @@
+{
+  "name": "innovation-keycloak-theme",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "postinstall": "keycloakify sync-extensions",
+    "dev": "vite",
+    "build": "vite build",
+    "build-keycloak-theme": "npm run build && npx keycloakify build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "keycloakify": "^11.15.1",
+    "lucide-react": "^0.577.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.1",
+    "@keycloakify/login-ui": "~250004.7.0",
+    "tsafe": "^1.8.5"
+  },
+  "devDependencies": {
+    "storybook": "^9.0.4",
+    "@storybook/react-vite": "^9.0.4",
+    "@keycloakify/login-ui-storybook": "~250004.2.0"
+  }
+}

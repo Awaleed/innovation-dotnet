@@ -32,14 +32,6 @@ export const login = (): RouteDefinition<'get'> => ({
 
 login.url = () => '/login'
 
-/** @controller Auth @action LoginPost @route '/login' */
-export const loginPost = (): RouteDefinition<'post'> => ({
-    url: '/login',
-    method: 'post',
-})
-
-loginPost.url = () => '/login'
-
 /** @controller Auth @action Logout @route '/logout' */
 export const logout = (): RouteDefinition<'post'> => ({
     url: '/logout',
@@ -55,14 +47,6 @@ export const register = (): RouteDefinition<'get'> => ({
 })
 
 register.url = () => '/register'
-
-/** @controller Auth @action RegisterPost @route '/register' */
-export const registerPost = (): RouteDefinition<'post'> => ({
-    url: '/register',
-    method: 'post',
-})
-
-registerPost.url = () => '/register'
 
 
 

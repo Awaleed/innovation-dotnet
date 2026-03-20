@@ -1,8 +1,8 @@
+using System.Security.Claims;
 using InertiaCore;
 using InertiaCore.Extensions;
 using Innovation.ServiceDefaults;
 using Innovation.Web.Middleware;
-using Innovation.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
@@ -26,7 +26,7 @@ builder.Services.AddViteHelper(options =>
     options.HotFile = "hot";
 });
 
-// Authentication: Cookie (default) + OIDC (opt-in for SSO/LDAP)
+// Authentication: Cookie (default) + OIDC via Keycloak
 var keycloakUrl = builder.Configuration.GetConnectionString("keycloak") ?? "http://localhost:8080";
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -36,35 +36,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/login";
         options.ExpireTimeSpan = TimeSpan.FromHours(1);
         options.SlidingExpiration = true;
-
-        // Periodically validate Direct Access Grant sessions against Keycloak
-        options.Events.OnValidatePrincipal = async context =>
-        {
-            // Only check sessions that have a refresh token (Direct Access Grant)
-            if (!context.Properties.Items.TryGetValue("refresh_token", out var refreshToken)
-                || string.IsNullOrEmpty(refreshToken))
-                return;
-
-            // Throttle: check at most every 5 minutes
-            var lastCheck = context.Properties.GetString("last_keycloak_check");
-            if (lastCheck is not null
-                && DateTime.TryParse(lastCheck, out var lastCheckTime)
-                && lastCheckTime > DateTime.UtcNow.AddSeconds(-30))
-                return;
-
-            var keycloakService = context.HttpContext.RequestServices
-                .GetRequiredService<KeycloakAuthService>();
-
-            if (!await keycloakService.ValidateRefreshTokenAsync(refreshToken))
-            {
-                context.RejectPrincipal();
-                await context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                return;
-            }
-
-            context.Properties.SetString("last_keycloak_check", DateTime.UtcNow.ToString("O"));
-            context.ShouldRenew = true;
-        };
+        options.ForwardChallenge = "keycloak-oidc";
     })
     .AddOpenIdConnect("keycloak-oidc", options =>
     {
@@ -88,7 +60,29 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SignedOutCallbackPath = "/signout-callback-oidc";
         options.RemoteSignOutPath = "/signout-oidc";
 
-        // Handle backchannel logout even without 'sid' (Direct Access Grant sessions)
+        // Map Keycloak claims to standard ClaimTypes used by HandleInertiaRequests
+        options.Events.OnTokenValidated = context =>
+        {
+            var identity = context.Principal?.Identity as ClaimsIdentity;
+            if (identity is null) return Task.CompletedTask;
+
+            var name = identity.FindFirst("name")?.Value
+                       ?? identity.FindFirst("given_name")?.Value
+                       ?? identity.FindFirst("preferred_username")?.Value;
+            if (name is not null && identity.FindFirst(ClaimTypes.GivenName) is null)
+                identity.AddClaim(new Claim(ClaimTypes.GivenName, name));
+
+            var sub = identity.FindFirst("sub")?.Value;
+            if (sub is not null && identity.FindFirst(ClaimTypes.NameIdentifier) is null)
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, sub));
+
+            var email = identity.FindFirst("email")?.Value;
+            if (email is not null && identity.FindFirst(ClaimTypes.Email) is null)
+                identity.AddClaim(new Claim(ClaimTypes.Email, email));
+
+            return Task.CompletedTask;
+        };
+
         options.Events.OnRemoteSignOut = async context =>
         {
             await context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -98,16 +92,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAuthorization();
 builder.Services.AddTransient<HandleInertiaRequests>();
-
-// Keycloak HttpClient (connection string injected by Aspire via WithReference)
-builder.Services.AddHttpClient("keycloak", (sp, client) =>
-{
-    var config = sp.GetRequiredService<IConfiguration>();
-    var url = config.GetConnectionString("keycloak") ?? "http://localhost:8080";
-    client.BaseAddress = new Uri(url);
-});
-
-builder.Services.AddScoped<KeycloakAuthService>();
 
 var app = builder.Build();
 

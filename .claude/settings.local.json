@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh api:*)",
+      "Bash(xargs wc:*)",
+      "Bash(find /c/Users/user/Documents/GitHub/innovation-dotnet/src/Shared -type f -name *.cs)",
+      "Bash(grep -r controller C:UsersuserDocumentsGitHubeShopsrcIdentity.API --include=*.cs -l)",
+      "WebSearch",
+      "WebFetch(domain:aspire.dev)",
+      "WebFetch(domain:www.keycloak.org)",
+      "Bash(find /c/Users/user/Documents/GitHub/innovation-dotnet -maxdepth 3 -name docker* -o -name *keycloak*)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -i \"json\\\\|ldap\\\\|auth\" /c/Users/user/Documents/GitHub/innovation-dotnet/src/Innovation.AppHost/ldap/*.ldif)"
+    ]
+  }
+}

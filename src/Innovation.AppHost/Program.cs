@@ -32,10 +32,11 @@ builder.AddContainer("phpldapadmin", "osixia/phpldapadmin", "latest")
     .WithEnvironment("PHPLDAPADMIN_LDAP_HOSTS", "openldap")
     .WaitFor(ldap);
 
-// Keycloak — identity provider with LDAP federation
+// Keycloak — identity provider with LDAP federation + custom theme
 var keycloak = builder.AddKeycloak("keycloak", 8080)
     .WithLifetime(ContainerLifetime.Persistent)
     .WithRealmImport("./KeycloakRealms")
+    .WithBindMount("../Innovation.KeycloakTheme/dist_keycloak", "/opt/keycloak/providers")
     .WithExternalHttpEndpoints()
     .WaitFor(ldap);
 
