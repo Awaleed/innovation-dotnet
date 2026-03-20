@@ -16,17 +16,21 @@
     <None Include="src\**" Exclude="node_modules\**" />
   </ItemGroup>
 
-  <!-- Debug: ensure node_modules installed -->
-  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('node_modules') ">
+  <!-- Debug: ensure node_modules installed and build theme JAR if missing -->
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' ">
     <Exec Command="node --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
     </Exec>
     <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build the Keycloak theme." />
-    <Message Importance="high" Text="Restoring Keycloak theme dependencies using 'npm'..." />
-    <Exec Command="npm install" />
+    <!-- Install deps if missing -->
+    <Exec Command="npm install" Condition=" !Exists('node_modules') " />
+    <!-- Build JAR if missing -->
+    <Message Importance="high" Text="Building Keycloak theme JAR..." Condition=" !Exists('dist_keycloak\keycloak-theme-for-kc-all-other-versions.jar') " />
+    <Exec Command="npm run build" Condition=" !Exists('dist_keycloak\keycloak-theme-for-kc-all-other-versions.jar') " />
+    <Exec Command="npx keycloakify build" Condition=" !Exists('dist_keycloak\keycloak-theme-for-kc-all-other-versions.jar') " />
   </Target>
 
-  <!-- Publish: build Keycloak theme JAR -->
+  <!-- Publish: always rebuild Keycloak theme JAR -->
   <Target Name="BuildKeycloakTheme" AfterTargets="ComputeFilesToPublish">
     <Message Importance="high" Text="Building Keycloak theme JAR..." />
     <Exec Command="npm install" />
