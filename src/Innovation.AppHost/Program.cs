@@ -14,11 +14,30 @@ var postgres = builder.AddPostgres("postgres")
         .WithLifetime(ContainerLifetime.Persistent)
         .WithoutHttpsCertificate());
 
-// Keycloak — identity provider (replaces Identity.API)
+// Fake Active Directory (OpenLDAP)
+var ldap = builder.AddContainer("openldap", "osixia/openldap", "latest")
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithEndpoint(port: 1389, targetPort: 389, name: "ldap")
+    .WithEnvironment("LDAP_ORGANISATION", "Company")
+    .WithEnvironment("LDAP_DOMAIN", "company.local")
+    .WithEnvironment("LDAP_ADMIN_PASSWORD", "adminpassword")
+    .WithEnvironment("LDAP_REMOVE_CONFIG_AFTER_SETUP", "false")
+    .WithBindMount("./ldap",
+        "/container/service/slapd/assets/config/bootstrap/ldif/custom");
+
+// phpLDAPadmin — browse/edit fake AD at :8081
+builder.AddContainer("phpldapadmin", "osixia/phpldapadmin", "latest")
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithEndpoint(port: 8081, targetPort: 443, name: "https", scheme: "https")
+    .WithEnvironment("PHPLDAPADMIN_LDAP_HOSTS", "openldap")
+    .WaitFor(ldap);
+
+// Keycloak — identity provider with LDAP federation
 var keycloak = builder.AddKeycloak("keycloak", 8080)
     .WithLifetime(ContainerLifetime.Persistent)
     .WithRealmImport("./KeycloakRealms")
-    .WithExternalHttpEndpoints();
+    .WithExternalHttpEndpoints()
+    .WaitFor(ldap);
 
 // Vite dev server — managed by Aspire
 var vite = builder.AddViteApp("vite", "../Innovation.Web/ClientApp")

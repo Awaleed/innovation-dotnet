@@ -21,6 +21,21 @@ public class AuthController(KeycloakAuthService keycloak) : Controller
         return Inertia.Render("Auth/Login", new { canResetPassword = false });
     }
 
+    /// <summary>
+    /// SSO login via Keycloak OIDC (for LDAP/AD users).
+    /// Triggers browser redirect to Keycloak's login page.
+    /// </summary>
+    [HttpGet("/login/sso")]
+    public IActionResult LoginSso(string? returnUrl = "/dashboard")
+    {
+        if (User.Identity?.IsAuthenticated == true)
+            return Redirect("/dashboard");
+
+        return Challenge(
+            new AuthenticationProperties { RedirectUri = returnUrl },
+            "keycloak-oidc");
+    }
+
     [HttpGet("/register")]
     public IActionResult Register()
     {
@@ -123,13 +138,22 @@ public class AuthController(KeycloakAuthService keycloak) : Controller
     [HttpPost("/logout")]
     public async Task<IActionResult> Logout()
     {
-        // Revoke refresh token in Keycloak
         var authResult = await HttpContext.AuthenticateAsync();
+
+        // If logged in via OIDC (has session ID from Keycloak), sign out of both
+        if (User.FindFirst("sid") is not null)
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return SignOut(
+                new AuthenticationProperties { RedirectUri = "/" },
+                "keycloak-oidc");
+        }
+
+        // Direct Access Grant login — revoke refresh token + clear cookie
         string? refreshToken = null;
         authResult.Properties?.Items.TryGetValue("refresh_token", out refreshToken);
         await keycloak.LogoutAsync(refreshToken);
 
-        // Clear local cookie
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return Redirect("/login");
     }

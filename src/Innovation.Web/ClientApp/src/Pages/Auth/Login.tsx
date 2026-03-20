@@ -195,6 +195,28 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         )}
                     </Button>
 
+                    {/* SSO login */}
+                    <div className="relative flex items-center py-2">
+                        <div className="flex-grow border-t" style={{ borderColor: border }} />
+                        <span className="mx-3 flex-shrink font-sans text-xs" style={{ color: mutedFg }}>
+                            {t('auth:login.or', 'or')}
+                        </span>
+                        <div className="flex-grow border-t" style={{ borderColor: border }} />
+                    </div>
+
+                    <a
+                        href="/login/sso"
+                        className="flex h-11 w-full items-center justify-center rounded-md border font-sans text-sm font-medium transition-colors hover:opacity-90"
+                        style={{
+                            borderColor: border,
+                            color: foreground,
+                            backgroundColor: cardBg,
+                        }}
+                        tabIndex={5}
+                    >
+                        {t('auth:login.sso', 'Login with Company Account')}
+                    </a>
+
                     {/* Divider + register link */}
                     <div className="border-t pt-4 text-center" style={{ borderColor: border }}>
                         <p className="font-sans text-sm" style={{ color: mutedFg }}>

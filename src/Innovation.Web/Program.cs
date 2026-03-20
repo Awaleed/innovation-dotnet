@@ -4,6 +4,7 @@ using Innovation.ServiceDefaults;
 using Innovation.Web.Middleware;
 using Innovation.Web.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,9 @@ builder.Services.AddViteHelper(options =>
     options.HotFile = "hot";
 });
 
-// Cookie authentication
+// Authentication: Cookie (default) + OIDC (opt-in for SSO/LDAP)
+var keycloakUrl = builder.Configuration.GetConnectionString("keycloak") ?? "http://localhost:8080";
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -32,6 +35,24 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/login";
         options.ExpireTimeSpan = TimeSpan.FromHours(1);
         options.SlidingExpiration = true;
+    })
+    .AddOpenIdConnect("keycloak-oidc", options =>
+    {
+        options.Authority = $"{keycloakUrl}/realms/innovation";
+        options.ClientId = "innovation-web";
+        options.ClientSecret = "innovation-web-secret";
+        options.ResponseType = "code";
+        options.SaveTokens = true;
+        options.GetClaimsFromUserInfoEndpoint = true;
+        options.Scope.Add("openid");
+        options.Scope.Add("profile");
+        options.Scope.Add("email");
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            RoleClaimType = "roles",
+            NameClaimType = "preferred_username",
+        };
     });
 
 builder.Services.AddAuthorization();

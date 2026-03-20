@@ -83,6 +83,97 @@
       ]
     }
   ],
+  "components": {
+    "org.keycloak.storage.UserStorageProvider": [
+      {
+        "name": "Company LDAP",
+        "providerId": "ldap",
+        "config": {
+          "vendor": ["other"],
+          "connectionUrl": ["ldap://openldap-ad322e08:389"],
+          "bindDn": ["cn=admin,dc=company,dc=local"],
+          "bindCredential": ["adminpassword"],
+          "usersDn": ["ou=users,dc=company,dc=local"],
+          "usernameLDAPAttribute": ["cn"],
+          "uuidLDAPAttribute": ["entryUUID"],
+          "userObjectClasses": ["inetOrgPerson, person"],
+          "rdnLDAPAttribute": ["cn"],
+          "editMode": ["READ_ONLY"],
+          "syncRegistrations": ["false"],
+          "importEnabled": ["true"],
+          "fullSyncPeriod": ["86400"],
+          "enabled": ["true"],
+          "priority": ["0"],
+          "authType": ["simple"],
+          "searchScope": ["2"],
+          "pagination": ["true"],
+          "batchSizeForSync": ["1000"]
+        },
+        "subComponents": {
+          "org.keycloak.storage.ldap.mappers.LDAPStorageMapper": [
+            {
+              "name": "username",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["cn"],
+                "user.model.attribute": ["username"],
+                "read.only": ["true"],
+                "is.mandatory.in.ldap": ["true"],
+                "always.read.value.from.ldap": ["false"]
+              }
+            },
+            {
+              "name": "email",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["mail"],
+                "user.model.attribute": ["email"],
+                "read.only": ["true"],
+                "is.mandatory.in.ldap": ["false"],
+                "always.read.value.from.ldap": ["false"]
+              }
+            },
+            {
+              "name": "first name",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["givenName"],
+                "user.model.attribute": ["firstName"],
+                "read.only": ["true"],
+                "is.mandatory.in.ldap": ["false"],
+                "always.read.value.from.ldap": ["false"]
+              }
+            },
+            {
+              "name": "last name",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["sn"],
+                "user.model.attribute": ["lastName"],
+                "read.only": ["true"],
+                "is.mandatory.in.ldap": ["false"],
+                "always.read.value.from.ldap": ["false"]
+              }
+            },
+            {
+              "name": "ldap-groups",
+              "providerId": "group-ldap-mapper",
+              "config": {
+                "groups.dn": ["ou=groups,dc=company,dc=local"],
+                "group.name.ldap.attribute": ["cn"],
+                "group.object.classes": ["groupOfNames"],
+                "membership.ldap.attribute": ["member"],
+                "membership.attribute.type": ["DN"],
+                "mode": ["READ_ONLY"],
+                "user.roles.retrieve.strategy": ["LOAD_GROUPS_BY_MEMBER_ATTRIBUTE"],
+                "drop.non.existing.groups.during.sync": ["false"]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
   "users": [
     {
       "username": "service-account-innovation-web",
