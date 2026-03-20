@@ -7,6 +7,7 @@
 
 import type { ReactNode } from "react";
 import type { ClassKey } from "@keycloakify/login-ui/useKcClsx";
+import "./tailwind.css";
 
 type Classes = { [key in ClassKey]?: string };
 
@@ -20,8 +21,5 @@ type StyleLevelCustomization = {
 export function useStyleLevelCustomization(): StyleLevelCustomization {
     return {
         doUseDefaultCss: false,
-        loadCustomStylesheet: () => {
-            import("./tailwind.css");
-        },
     };
 }
