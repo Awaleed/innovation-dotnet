@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Innovation.Web\Innovation.Web.csproj" />
-    <ProjectReference Include="..\Innovation.KeycloakTheme\Innovation.KeycloakTheme.csproj" />
   </ItemGroup>
 
 </Project>

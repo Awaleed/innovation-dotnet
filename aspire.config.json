@@ -1,0 +1,5 @@
+{
+    "appHost": {
+        "path": "src\\Innovation.AppHost\\Innovation.AppHost.csproj"
+    }
+}

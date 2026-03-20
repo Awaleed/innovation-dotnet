@@ -6,7 +6,6 @@
     <IsPublishable>false</IsPublishable>
     <IsPackable>false</IsPackable>
     <IsAspireProjectResource>false</IsAspireProjectResource>
-    <!-- Prevent dotnet from trying to compile TypeScript/React files -->
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
 
@@ -16,33 +15,17 @@
     <None Include="src\**" Exclude="node_modules\**" />
   </ItemGroup>
 
-  <!-- Debug: ensure node_modules installed and build theme JAR if missing -->
-  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' ">
+  <!-- Debug: only install node_modules if missing -->
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build"
+          Condition=" '$(Configuration)' == 'Debug' And !Exists('node_modules') ">
     <Exec Command="node --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
     </Exec>
-    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build the Keycloak theme." />
-    <!-- Install deps if missing -->
-    <Exec Command="npm install" Condition=" !Exists('node_modules') " />
-    <!-- Build JAR if missing -->
-    <Message Importance="high" Text="Building Keycloak theme JAR..." Condition=" !Exists('dist_keycloak\keycloak-theme-for-kc-all-other-versions.jar') " />
-    <Exec Command="npm run build" Condition=" !Exists('dist_keycloak\keycloak-theme-for-kc-all-other-versions.jar') " />
-    <Exec Command="npx keycloakify build" Condition=" !Exists('dist_keycloak\keycloak-theme-for-kc-all-other-versions.jar') " />
-  </Target>
-
-  <!-- Publish: always rebuild Keycloak theme JAR -->
-  <Target Name="BuildKeycloakTheme" AfterTargets="ComputeFilesToPublish">
-    <Message Importance="high" Text="Building Keycloak theme JAR..." />
+    <Error Condition="'$(ErrorCode)' != '0'"
+           Text="Node.js is required for the Keycloak theme project." />
+    <Message Importance="high"
+             Text="Restoring Keycloak theme dependencies using 'npm'..." />
     <Exec Command="npm install" />
-    <Exec Command="npm run build" />
-    <Exec Command="npx keycloakify build" />
-    <ItemGroup>
-      <ThemeJars Include="dist_keycloak\*.jar" />
-      <ResolvedFileToPublish Include="@(ThemeJars->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-        <RelativePath>keycloak-theme\%(FileName)%(Extension)</RelativePath>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </ResolvedFileToPublish>
-    </ItemGroup>
   </Target>
 
 </Project>

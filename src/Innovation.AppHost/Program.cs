@@ -36,7 +36,7 @@ builder.AddContainer("phpldapadmin", "osixia/phpldapadmin", "latest")
 var keycloak = builder.AddKeycloak("keycloak", 8080)
     .WithLifetime(ContainerLifetime.Persistent)
     .WithRealmImport("./KeycloakRealms")
-    .WithBindMount("../Innovation.KeycloakTheme/dist_keycloak", "/opt/keycloak/providers")
+    .WithBindMount("./KeycloakThemes", "/opt/keycloak/providers")
     .WithExternalHttpEndpoints()
     .WaitFor(ldap);
 
