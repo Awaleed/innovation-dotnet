@@ -1,5 +1,5 @@
-using Innovation.Shared;
-using Innovation.Shared.Enums;
+using Innovation.Domain;
+using Innovation.Domain.Enums;
 using Innovation.Web.Models;
 using Reinforced.Typings.Fluent;
 

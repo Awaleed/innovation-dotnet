@@ -2,8 +2,10 @@
   <Folder Name="/src/">
     <Project Path="src/Innovation.AppHost/Innovation.AppHost.csproj" />
     <Project Path="src/Innovation.ServiceDefaults/Innovation.ServiceDefaults.csproj" />
+    <Project Path="src/Innovation.Domain/Innovation.Domain.csproj" />
+    <Project Path="src/Innovation.Application/Innovation.Application.csproj" />
+    <Project Path="src/Innovation.Infrastructure/Innovation.Infrastructure.csproj" />
     <Project Path="src/Innovation.Web/Innovation.Web.csproj" />
-    <Project Path="src/Shared/Shared.csproj" />
     <Project Path="src/Innovation.TsGen/Innovation.TsGen.csproj" />
   </Folder>
   <Folder Name="/tests/">

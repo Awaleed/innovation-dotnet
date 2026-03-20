@@ -1,4 +1,4 @@
-namespace Innovation.Shared;
+namespace Innovation.Domain;
 
 public abstract class BaseEntity
 {

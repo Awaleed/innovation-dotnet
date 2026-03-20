@@ -1,4 +1,4 @@
-namespace Innovation.Shared;
+namespace Innovation.Domain;
 
 /// <summary>
 /// Value object for bilingual (English/Arabic) translatable text.

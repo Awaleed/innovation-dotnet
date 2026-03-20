@@ -21,13 +21,19 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.InertiaCore" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Reinforced.Typings" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Innovation.ServiceDefaults\Innovation.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Innovation.Domain\Innovation.Domain.csproj" />
+    <ProjectReference Include="..\Innovation.Application\Innovation.Application.csproj" />
+    <ProjectReference Include="..\Innovation.Infrastructure\Innovation.Infrastructure.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
