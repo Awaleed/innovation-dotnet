@@ -1,4 +1,5 @@
 import { usePage } from '@inertiajs/react';
+import { SharedData } from '@/types';
 import { useEffect } from 'react';
 import { FieldValues, Path, useForm, UseFormProps, UseFormReturn } from 'react-hook-form';
 
@@ -16,7 +17,7 @@ export function useHookForm<TForm extends FieldValues = FieldValues>({
     ...options
 }: UseHookFormOptions<TForm> = {}): UseFormReturn<TForm> {
     const form = useForm<TForm>(options);
-    const { props } = usePage<{ errors: Record<string, string | string[]> }>();
+    const { props } = usePage<SharedData>();
 
     useEffect(() => {
         const serverErrors = props.errors || {};

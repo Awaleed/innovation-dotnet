@@ -1,4 +1,5 @@
 import { useForm as useInertiaBaseForm, usePage } from '@inertiajs/react';
+import { SharedData } from '@/types';
 import { useEffect } from 'react';
 
 type FormDataConvertible =
@@ -30,7 +31,7 @@ export function useInertiaForm<TForm extends FormDataType>(
     ...args: Parameters<typeof useInertiaBaseForm<TForm>>
 ): ReturnType<typeof useInertiaBaseForm<TForm>> {
     const form = useInertiaBaseForm<TForm>(...args);
-    const { props } = usePage<{ errors: Record<string, string | string[]> }>();
+    const { props } = usePage<SharedData>();
 
     useEffect(() => {
         const serverErrors = props.errors || {};

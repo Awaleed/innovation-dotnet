@@ -1,11 +1,12 @@
 import { usePage } from '@inertiajs/react';
+import { SharedData } from '@/types';
 import { ThemeConfig } from '@/types/brand';
 
 /**
  * Hook to access current theme configuration from Inertia shared props
  */
 export function useTheme(): ThemeConfig {
-    const { theme } = usePage<{ theme: ThemeConfig }>().props;
+    const { theme } = usePage<SharedData>().props;
 
     if (!theme) {
         // Fallback to default theme if not provided

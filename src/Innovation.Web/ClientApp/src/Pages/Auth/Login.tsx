@@ -1,6 +1,7 @@
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import { LoaderCircle, Lock, Mail } from 'lucide-react';
 import { FormEventHandler } from 'react';
+import { type SharedData } from '@/types';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
@@ -28,7 +29,12 @@ interface LoginProps {
 export default function Login({ status, canResetPassword }: LoginProps) {
     const { t } = useTranslation();
     const theme = useTheme();
-    const { data, setData, post, processing, errors, reset } = useForm<LoginForm>({
+
+    // Errors from page props (InertiaCore maps ModelState → props.errors automatically)
+    const { errors } = usePage<SharedData>().props;
+
+    // useForm for form state only — errors come from usePage above
+    const { data, setData, post, processing, reset } = useForm<LoginForm>({
         email: '',
         password: '',
         remember: false,
@@ -83,13 +89,13 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             placeholder={t('auth:login.email_placeholder', 'email@example.com')}
                             className="h-11 ps-10 font-sans"
                             style={{
-                                borderColor: errors.email ? destructive : border,
+                                borderColor: errors?.email ? destructive : border,
                                 backgroundColor: cardBg,
                                 color: foreground,
                             }}
                         />
                     </div>
-                    {errors.email && <InputError message={errors.email} className="text-xs" />}
+                    {errors?.email && <InputError message={errors.email} className="text-xs" />}
                 </div>
 
                 {/* Password */}
@@ -129,13 +135,13 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             placeholder="••••••••"
                             className="h-11 ps-10 font-sans"
                             style={{
-                                borderColor: errors.password ? destructive : border,
+                                borderColor: errors?.password ? destructive : border,
                                 backgroundColor: cardBg,
                                 color: foreground,
                             }}
                         />
                     </div>
-                    {errors.password && <InputError message={errors.password} className="text-xs" />}
+                    {errors?.password && <InputError message={errors.password} className="text-xs" />}
                 </div>
 
                 {/* Remember me */}

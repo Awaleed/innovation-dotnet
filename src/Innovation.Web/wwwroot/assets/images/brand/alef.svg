@@ -1,0 +1,11 @@
+<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Placeholder for Alinma "Alef" Graphic Device -->
+  <!-- Replace with official vector file when available -->
+  <rect width="100" height="100" fill="#F0EBE0" stroke="#0C2337" stroke-width="2" stroke-dasharray="5,5"/>
+  <path d="M 20 20 L 50 50 L 80 20" stroke="#0C2337" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M 20 80 L 50 50 L 80 80" stroke="#8B84D7" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <text x="50" y="95" font-family="Arial" font-size="8" fill="#8B84D7" text-anchor="middle">
+    Alef Placeholder
+  </text>
+</svg>
+

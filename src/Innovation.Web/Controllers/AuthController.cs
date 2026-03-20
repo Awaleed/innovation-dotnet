@@ -52,11 +52,9 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
 
         if (!response.IsSuccessStatusCode)
         {
-            TempData["errors"] = JsonSerializer.Serialize(new Dictionary<string, string>
-            {
-                { "email", "Invalid email or password." }
-            });
-            return Redirect("/login");
+            // ModelState errors → InertiaCore maps to props.errors automatically
+            ModelState.AddModelError("email", "Invalid email or password.");
+            return Inertia.Render("Auth/Login", new { canResetPassword = false });
         }
 
         // Get access token and fetch user info
@@ -102,7 +100,7 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorDict = new Dictionary<string, string>();
+            // Parse Identity.API errors and add to ModelState
             var errorContent = await response.Content.ReadAsStringAsync();
             try
             {
@@ -113,17 +111,17 @@ public class AuthController(IHttpClientFactory httpClientFactory) : Controller
                     {
                         var firstMsg = error.Value.EnumerateArray().FirstOrDefault().GetString();
                         if (firstMsg != null)
-                            errorDict[error.Name] = firstMsg;
+                            ModelState.AddModelError(error.Name, firstMsg);
                     }
                 }
             }
             catch { }
 
-            if (errorDict.Count == 0)
-                errorDict["email"] = "Registration failed.";
+            if (ModelState.ErrorCount == 0)
+                ModelState.AddModelError("email", "Registration failed.");
 
-            TempData["errors"] = JsonSerializer.Serialize(errorDict);
-            return Redirect("/register");
+            // ModelState errors → InertiaCore maps to props.errors automatically
+            return Inertia.Render("Auth/Register");
         }
 
         // Auto-login after register

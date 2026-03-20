@@ -18,6 +18,7 @@ export interface Localization {
 
 export interface SharedData {
     auth: Auth;
+    errors: Record<string, string | string[]>;
     name?: string;
     quote?: { message: string; author: string };
     sidebarOpen?: boolean;
