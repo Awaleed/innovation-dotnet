@@ -33,13 +33,13 @@ internal static class ServiceCollectionExtensions
                 }
             });
 
-            // o.AddSecurityRequirement(doc => new OpenApiSecurityRequirement
-            // {
-            //     {
-            //         new OpenApiSchemaReference("Keycloak", doc),
-            //         []
-            //     }
-            // });
+            o.AddSecurityRequirement(doc => new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecuritySchemeReference("Keycloak", doc),
+                    []
+                }
+            });
         });
 
         return services;

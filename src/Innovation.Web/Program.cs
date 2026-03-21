@@ -54,6 +54,7 @@ builder.Services.AddViteHelper(options =>
 
 builder.AddKeycloakAuth();
 builder.Services.AddTransient<HandleInertiaRequests>();
+builder.Services.AddSwaggerGenWithAuthSupport(builder.Configuration);
 
 var app = builder.Build();
 

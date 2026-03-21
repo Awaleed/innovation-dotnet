@@ -5,7 +5,6 @@
     <SpaRoot>ClientApp\</SpaRoot>
     <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>http://localhost:5173</SpaProxyServerUrl>
-    <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
     <!-- Reinforced.Typings config -->
     <RtConfigurationMethod>Innovation.Web.Typings.ReinforcedTypingsConfiguration.Configure</RtConfigurationMethod>
     <RtTargetFile>$(MSBuildProjectDirectory)\ClientApp\src\types\generated.ts</RtTargetFile>
