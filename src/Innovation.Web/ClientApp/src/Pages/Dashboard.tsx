@@ -1,5 +1,5 @@
 import { admin, logout } from '@/routes';
-import { Head, Link, usePage, router } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { type SharedData } from '../types';
 import { LayoutDashboard, Trophy, Lightbulb, Users, BarChart3, Settings, LogOut, ChevronRight } from 'lucide-react';
 
@@ -33,13 +33,15 @@ export default function Dashboard() {
                             <p className="text-sm font-medium text-gray-900">{user?.name || 'User'}</p>
                             <p className="text-xs text-gray-500">{user?.email}</p>
                         </div>
-                        <button
-                            onClick={() => router.post(logout.url())}
-                            className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-red-600"
-                        >
-                            <LogOut className="h-3.5 w-3.5" />
-                            Logout
-                        </button>
+                        <form method="post" action={logout.url()}>
+                            <button
+                                type="submit"
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-red-600"
+                            >
+                                <LogOut className="h-3.5 w-3.5" />
+                                Logout
+                            </button>
+                        </form>
                     </div>
                 </div>
             </header>
