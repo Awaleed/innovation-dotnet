@@ -51,3 +51,4 @@ Desktop.ini
 ## Publish output
 dist/
 dist-local/
+dist-local-k8s/
