@@ -106,17 +106,6 @@ export function usePagination({ defaultOrderBy = DEFAULT_ORDER_BY, defaultPageSi
         });
     }, []);
 
-    // Sync local filters with URL on navigation
-    useEffect(() => {
-        const urlFilters = getFiltersFromUrl();
-        setLocalFilters((prev) => {
-            if (JSON.stringify(urlFilters) !== JSON.stringify(prev)) {
-                return urlFilters;
-            }
-            return prev;
-        });
-    }, []);
-
     // Navigate to server when query state changes
     useEffect(() => {
         if (isInitialRender.current) {
