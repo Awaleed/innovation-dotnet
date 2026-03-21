@@ -6,14 +6,6 @@ interface AppWrapperProps {
     children: React.ReactNode;
 }
 
-interface InertiaStartEvent {
-    detail: {
-        visit: {
-            prefetch?: boolean;
-        };
-    };
-}
-
 /**
  * App Wrapper - Global loading indicator with animated intro
  *

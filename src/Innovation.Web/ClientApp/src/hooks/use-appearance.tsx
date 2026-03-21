@@ -2,14 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 
 export type Appearance = 'light' | 'dark' | 'system';
 
-const prefersDark = () => {
-    if (typeof window === 'undefined') {
-        return false;
-    }
-
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-};
-
 const setCookie = (name: string, value: string, days = 365) => {
     if (typeof document === 'undefined') {
         return;
@@ -19,7 +11,7 @@ const setCookie = (name: string, value: string, days = 365) => {
     document.cookie = `${name}=${value};path=/;max-age=${maxAge};SameSite=Lax`;
 };
 
-const applyTheme = (appearance: Appearance) => {
+const applyTheme = (_appearance: Appearance) => {
     // Force light theme only - ignore appearance parameter
     const isDark = false;
 
@@ -54,9 +46,9 @@ export function initializeTheme() {
 }
 
 export function useAppearance() {
-    const [appearance, setAppearance] = useState<Appearance>('light');
+    const [_appearance, setAppearance] = useState<Appearance>('light');
 
-    const updateAppearance = useCallback((mode: Appearance) => {
+    const updateAppearance = useCallback((_mode: Appearance) => {
         // Always force light mode regardless of input
         setAppearance('light');
 

@@ -8,8 +8,8 @@ interface AppLogoProps {
     noPadding?: boolean; // Disable clear space padding
 }
 
-export default function AppLogo({ theme, showText = true, size = 'medium', noPadding = false }: AppLogoProps) {
-    const { t, i18n } = useTranslation();
+export default function AppLogo({ theme, size = 'medium', noPadding = false }: AppLogoProps) {
+    const { i18n } = useTranslation();
 
     // Determine logo variant based on language
     const logoVariant = i18n.language === 'ar' ? 'arabic' : 'english';
