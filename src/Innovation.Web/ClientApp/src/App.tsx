@@ -15,7 +15,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import axios from 'axios';
 import { NuqsAdapter } from 'nuqs/adapters/react';
 import './i18n'; // Initialize i18n
-// import './zod-setup'; // Initialize zod i18n error map
+import './zod-setup'; // Initialize zod i18n error map
 import { AppWrapper } from './components/app-wrapper';
 import { ErrorBoundary } from './components/ui/error-boundary';
 import { FlashToaster } from './components/flash-toaster';
