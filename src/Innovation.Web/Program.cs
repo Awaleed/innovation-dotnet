@@ -9,6 +9,7 @@ using Innovation.Web.Endpoints;
 using Innovation.Web.Extensions;
 using Innovation.Web.Middleware;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,7 +56,7 @@ builder.Services.AddViteHelper(options =>
 
 builder.AddKeycloakAuth();
 builder.Services.AddTransient<HandleInertiaRequests>();
-builder.Services.AddSwaggerGenWithAuthSupport(builder.Configuration);
+builder.Services.AddOpenApiWithAuth(builder.Configuration);
 
 var app = builder.Build();
 
@@ -81,8 +82,11 @@ app.MapAuthEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference(options =>
+    {
+        options.WithTitle("Innovation Platform API");
+    });
 }
 
 app.Run();

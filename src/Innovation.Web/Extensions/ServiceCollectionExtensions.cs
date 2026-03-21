@@ -1,48 +1,19 @@
-﻿using Microsoft.OpenApi;
-
 namespace Innovation.Web.Extensions;
 
 internal static class ServiceCollectionExtensions
 {
-    internal static IServiceCollection AddSwaggerGenWithAuthSupport(this IServiceCollection services, IConfiguration configuration)
+    internal static IServiceCollection AddOpenApiWithAuth(this IServiceCollection services, IConfiguration configuration)
     {
-        var keycloakBase = configuration["Keycloak:auth-server-url"] ?? "http://localhost:8080";
-        var realm = configuration["Keycloak:realm"] ?? "innovation";
-        var oidcBase = $"{keycloakBase}/realms/{realm}/protocol/openid-connect";
-
-        services.AddSwaggerGen(o =>
+        services.AddOpenApi(options =>
         {
-            o.CustomSchemaIds(id => id.FullName!.Replace('+', '-'));
-
-            o.AddSecurityDefinition("Keycloak", new OpenApiSecurityScheme
+            options.AddDocumentTransformer((document, context, ct) =>
             {
-                Type = SecuritySchemeType.OAuth2,
-                Flows = new OpenApiOAuthFlows
-                {
-                    AuthorizationCode = new OpenApiOAuthFlow
-                    {
-                        AuthorizationUrl = new Uri($"{oidcBase}/auth"),
-                        TokenUrl = new Uri($"{oidcBase}/token"),
-                        Scopes = new Dictionary<string, string>
-                        {
-                            {"openid" ,"OpenID Connect scope"},
-                            {"profile" ,"Profile scope"},
-
-                        }
-                    }
-                }
-            });
-
-            o.AddSecurityRequirement(doc => new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecuritySchemeReference("Keycloak", doc),
-                    []
-                }
+                document.Info.Title = "Innovation Platform API";
+                document.Info.Version = "v1";
+                return Task.CompletedTask;
             });
         });
 
         return services;
     }
 }
-
