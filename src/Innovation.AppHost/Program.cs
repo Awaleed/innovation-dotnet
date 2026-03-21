@@ -1,5 +1,13 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
+// Publishing — container registry + deployment targets
+var registry = builder.AddContainerRegistry("dockerhub", "docker.io", "awaleed0011");
+var publishTarget = builder.Configuration["PUBLISH_TARGET"];
+if (publishTarget == "kubernetes")
+    builder.AddKubernetesEnvironment("innovation-k8s");
+else
+    builder.AddDockerComposeEnvironment("innovation");
+
 // Infrastructure
 var redis = builder.AddRedis("redis")
     .WithLifetime(ContainerLifetime.Persistent)
@@ -23,9 +31,14 @@ var ldap = builder.AddContainer("openldap", "osixia/openldap", "latest")
     .WithEnvironment("LDAP_ORGANISATION", "Company")
     .WithEnvironment("LDAP_DOMAIN", "company.local")
     .WithEnvironment("LDAP_ADMIN_PASSWORD", "adminpassword")
-    .WithEnvironment("LDAP_REMOVE_CONFIG_AFTER_SETUP", "false")
-    .WithBindMount("./ldap",
+    .WithEnvironment("LDAP_REMOVE_CONFIG_AFTER_SETUP", "false");
+
+// Bind mounts for config files (not supported by Kubernetes publisher)
+if (publishTarget != "kubernetes")
+{
+    ldap.WithBindMount("./ldap",
         "/container/service/slapd/assets/config/bootstrap/ldif/custom");
+}
 
 // phpLDAPadmin — browse/edit fake AD at :8081
 builder.AddContainer("phpldapadmin", "osixia/phpldapadmin", "latest")
@@ -38,9 +51,14 @@ builder.AddContainer("phpldapadmin", "osixia/phpldapadmin", "latest")
 var keycloak = builder.AddKeycloak("keycloak", 8080)
     .WithLifetime(ContainerLifetime.Persistent)
     .WithRealmImport("./KeycloakRealms")
-    .WithBindMount("./KeycloakThemes", "/opt/keycloak/providers")
     .WithExternalHttpEndpoints()
     .WaitFor(ldap);
+
+// Keycloak theme bind mount (not supported by Kubernetes publisher)
+if (publishTarget != "kubernetes")
+{
+    keycloak.WithBindMount("./KeycloakThemes", "/opt/keycloak/providers");
+}
 
 // Vite dev server — managed by Aspire
 var vite = builder.AddViteApp("vite", "../Innovation.Web/ClientApp")
@@ -49,6 +67,7 @@ var vite = builder.AddViteApp("vite", "../Innovation.Web/ClientApp")
 // Web App
 var web = builder.AddProject<Projects.Innovation_Web>("web")
     .WithExternalHttpEndpoints()
+    .WithContainerRegistry(registry)
     .WithReference(innovationDb)
     .WithReference(keycloak)
     .WithReference(redis)

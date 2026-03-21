@@ -1,0 +1,243 @@
+{
+  "realm": "innovation",
+  "enabled": true,
+  "loginTheme": "innovation",
+  "registrationAllowed": true,
+  "resetPasswordAllowed": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "internationalizationEnabled": true,
+  "supportedLocales": ["en", "ar"],
+  "defaultLocale": "en",
+  "sslRequired": "external",
+  "passwordPolicy": "length(8) and upperCase(1) and lowerCase(1) and digits(1) and specialChars(1)",
+  "requiredActions": [
+    { "alias": "VERIFY_EMAIL", "name": "Verify Email", "enabled": false, "defaultAction": false },
+    { "alias": "UPDATE_PASSWORD", "name": "Update Password", "enabled": false, "defaultAction": false },
+    { "alias": "UPDATE_PROFILE", "name": "Update Profile", "enabled": false, "defaultAction": false },
+    { "alias": "CONFIGURE_TOTP", "name": "Configure OTP", "enabled": false, "defaultAction": false },
+    { "alias": "terms_and_conditions", "name": "Terms and Conditions", "enabled": false, "defaultAction": false }
+  ],
+  "roles": {
+    "realm": [
+      { "name": "admin", "description": "Administrator" },
+      { "name": "user", "description": "Standard user" }
+    ]
+  },
+  "defaultRoles": ["user"],
+  "clients": [
+    {
+      "clientId": "innovation-web",
+      "name": "Innovation Web",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "innovation-web-secret",
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": false,
+      "publicClient": false,
+      "protocol": "openid-connect",
+      "redirectUris": ["*"],
+      "webOrigins": ["*"],
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "attributes": {
+        "post.logout.redirect.uris": "+",
+        "backchannel.logout.url": "http://web:8080/auth/backchannel-logout",
+        "backchannel.logout.session.required": "true",
+        "backchannel.logout.revoke.offline.tokens": "false",
+        "require.pushed.authorization.requests": "true"
+      },
+      "protocolMappers": [
+        {
+          "name": "name",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "config": {
+            "user.attribute": "firstName",
+            "claim.name": "name",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "email",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "config": {
+            "user.attribute": "email",
+            "claim.name": "email",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "config": {
+            "multivalued": "true",
+            "claim.name": "roles",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "session id",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "config": {
+            "user.session.note": "sid",
+            "claim.name": "sid",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "introspection.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "components": {
+    "org.keycloak.storage.UserStorageProvider": [
+      {
+        "name": "Company LDAP",
+        "providerId": "ldap",
+        "config": {
+          "vendor": ["other"],
+          "connectionUrl": ["ldap://openldap:389"],
+          "bindDn": ["cn=admin,dc=company,dc=local"],
+          "bindCredential": ["adminpassword"],
+          "usersDn": ["ou=users,dc=company,dc=local"],
+          "usernameLDAPAttribute": ["cn"],
+          "uuidLDAPAttribute": ["entryUUID"],
+          "userObjectClasses": ["inetOrgPerson, person"],
+          "rdnLDAPAttribute": ["cn"],
+          "editMode": ["READ_ONLY"],
+          "syncRegistrations": ["false"],
+          "importEnabled": ["true"],
+          "fullSyncPeriod": ["86400"],
+          "enabled": ["true"],
+          "priority": ["0"],
+          "authType": ["simple"],
+          "searchScope": ["2"],
+          "pagination": ["true"],
+          "batchSizeForSync": ["1000"]
+        },
+        "subComponents": {
+          "org.keycloak.storage.ldap.mappers.LDAPStorageMapper": [
+            {
+              "name": "username",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["cn"],
+                "user.model.attribute": ["username"],
+                "read.only": ["true"],
+                "is.mandatory.in.ldap": ["true"],
+                "always.read.value.from.ldap": ["false"]
+              }
+            },
+            {
+              "name": "email",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["mail"],
+                "user.model.attribute": ["email"],
+                "read.only": ["true"],
+                "is.mandatory.in.ldap": ["false"],
+                "always.read.value.from.ldap": ["false"]
+              }
+            },
+            {
+              "name": "first name",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["givenName"],
+                "user.model.attribute": ["firstName"],
+                "read.only": ["true"],
+                "is.mandatory.in.ldap": ["false"],
+                "always.read.value.from.ldap": ["false"]
+              }
+            },
+            {
+              "name": "last name",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["sn"],
+                "user.model.attribute": ["lastName"],
+                "read.only": ["true"],
+                "is.mandatory.in.ldap": ["false"],
+                "always.read.value.from.ldap": ["false"]
+              }
+            },
+            {
+              "name": "ldap-groups",
+              "providerId": "group-ldap-mapper",
+              "config": {
+                "groups.dn": ["ou=groups,dc=company,dc=local"],
+                "group.name.ldap.attribute": ["cn"],
+                "group.object.classes": ["groupOfNames"],
+                "membership.ldap.attribute": ["member"],
+                "membership.attribute.type": ["DN"],
+                "mode": ["READ_ONLY"],
+                "user.roles.retrieve.strategy": ["LOAD_GROUPS_BY_MEMBER_ATTRIBUTE"],
+                "drop.non.existing.groups.during.sync": ["false"]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "users": [
+    {
+      "username": "service-account-innovation-web",
+      "enabled": true,
+      "serviceAccountClientId": "innovation-web",
+      "clientRoles": {
+        "realm-management": [
+          "manage-users",
+          "view-users"
+        ]
+      }
+    },
+    {
+      "username": "admin@alinmabank.test",
+      "email": "admin@alinmabank.test",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Super Admin",
+      "lastName": "",
+      "realmRoles": ["admin", "user"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Admin@123!",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "demo@innovation.test",
+      "email": "demo@innovation.test",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Demo User",
+      "lastName": "",
+      "realmRoles": ["user"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Demo@123!",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}

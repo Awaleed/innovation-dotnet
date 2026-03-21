@@ -1,0 +1,91 @@
+# Organizational Units
+dn: ou=users,dc=company,dc=local
+objectClass: organizationalUnit
+ou: users
+
+dn: ou=groups,dc=company,dc=local
+objectClass: organizationalUnit
+ou: groups
+
+# ───────────────────────────────────────────
+# Users
+# ───────────────────────────────────────────
+
+# Admin user (matches Keycloak realm: admin@alinmabank.test / Admin@123!)
+dn: cn=admin@alinmabank.test,ou=users,dc=company,dc=local
+objectClass: inetOrgPerson
+cn: admin@alinmabank.test
+sn: Admin
+givenName: Super Admin
+mail: admin@alinmabank.test
+userPassword: Admin@123!
+
+# Demo user (matches Keycloak realm: demo@innovation.test / Demo@123!)
+dn: cn=demo@innovation.test,ou=users,dc=company,dc=local
+objectClass: inetOrgPerson
+cn: demo@innovation.test
+sn: User
+givenName: Demo
+mail: demo@innovation.test
+userPassword: Demo@123!
+
+# Additional test users
+dn: cn=jdoe,ou=users,dc=company,dc=local
+objectClass: inetOrgPerson
+cn: jdoe
+sn: Doe
+givenName: John
+mail: john.doe@company.test
+userPassword: Test@123!
+
+dn: cn=jsmith,ou=users,dc=company,dc=local
+objectClass: inetOrgPerson
+cn: jsmith
+sn: Smith
+givenName: Jane
+mail: jane.smith@company.test
+userPassword: Test@123!
+
+dn: cn=ahassan,ou=users,dc=company,dc=local
+objectClass: inetOrgPerson
+cn: ahassan
+sn: Hassan
+givenName: Ahmed
+mail: a.hassan@company.test
+userPassword: Test@123!
+
+dn: cn=malkharji,ou=users,dc=company,dc=local
+objectClass: inetOrgPerson
+cn: malkharji
+sn: Al-Kharji
+givenName: Mohammed
+mail: m.alkharji@company.test
+userPassword: Test@123!
+
+dn: cn=nwright,ou=users,dc=company,dc=local
+objectClass: inetOrgPerson
+cn: nwright
+sn: Wright
+givenName: Nora
+mail: nora.w@company.test
+userPassword: Test@123!
+
+# ───────────────────────────────────────────
+# Groups (groupOfNames requires at least one member)
+# ───────────────────────────────────────────
+
+dn: cn=admin,ou=groups,dc=company,dc=local
+objectClass: groupOfNames
+cn: admin
+member: cn=admin@alinmabank.test,ou=users,dc=company,dc=local
+
+dn: cn=user,ou=groups,dc=company,dc=local
+objectClass: groupOfNames
+cn: user
+member: cn=admin@alinmabank.test,ou=users,dc=company,dc=local
+member: cn=demo@innovation.test,ou=users,dc=company,dc=local
+member: cn=jdoe,ou=users,dc=company,dc=local
+member: cn=jsmith,ou=users,dc=company,dc=local
+member: cn=ahassan,ou=users,dc=company,dc=local
+member: cn=malkharji,ou=users,dc=company,dc=local
+member: cn=nwright,ou=users,dc=company,dc=local
