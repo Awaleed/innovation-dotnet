@@ -59,17 +59,16 @@ export default function ChallengesIndex({ challenges }: Props) {
     function goToPage(p: number) {
         const params = new URLSearchParams(window.location.search);
         params.set('page', String(p));
-        router.visit(`${admin.challenges.index.url()}?${params.toString()}`);
+        router.visit(admin.challenges.index.url(), { data: Object.fromEntries(params) });
     }
 
     function handleSearch() {
-        const params = new URLSearchParams();
-        params.set('page', '1');
+        const data: Record<string, string> = { page: '1' };
         const filters: string[] = [];
         if (searchInput) filters.push(`title=*${searchInput}`);
         if (statusFilter) filters.push(`status=${statusFilter}`);
-        if (filters.length) params.set('filter', filters.join(','));
-        router.visit(`${admin.challenges.index.url()}?${params.toString()}`);
+        if (filters.length) data.filter = filters.join(',');
+        router.visit(admin.challenges.index.url(), { data });
     }
 
     function clearFilters() {

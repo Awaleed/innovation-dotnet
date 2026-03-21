@@ -33,16 +33,40 @@ export default tseslint.config(
                     message: 'Use generated route helpers instead of string paths in router.visit()',
                 },
                 {
+                    selector: 'CallExpression[callee.object.name="router"][callee.property.name="visit"] > TemplateLiteral:first-child',
+                    message: 'Use generated route helpers instead of template literals in router.visit()',
+                },
+                {
                     selector: 'CallExpression[callee.object.name="router"][callee.property.name=/^(post|put|delete|patch|get)$/] > Literal:first-child',
                     message: 'Use generated route helpers instead of string paths in router methods',
+                },
+                {
+                    selector: 'CallExpression[callee.object.name="router"][callee.property.name=/^(post|put|delete|patch|get)$/] > TemplateLiteral:first-child',
+                    message: 'Use generated route helpers instead of template literals in router methods',
                 },
                 {
                     selector: 'CallExpression[callee.name="fetch"] > Literal:first-child',
                     message: 'Use generated route helpers instead of string paths in fetch()',
                 },
                 {
+                    selector: 'CallExpression[callee.name="fetch"] > TemplateLiteral:first-child',
+                    message: 'Use generated route helpers instead of template literals in fetch()',
+                },
+                {
                     selector: 'CallExpression[callee.object.name="axios"][callee.property.name=/^(get|post|put|delete|patch)$/] > Literal:first-child',
                     message: 'Use generated route helpers instead of string paths in axios calls',
+                },
+                {
+                    selector: 'CallExpression[callee.object.name="axios"][callee.property.name=/^(get|post|put|delete|patch)$/] > TemplateLiteral:first-child',
+                    message: 'Use generated route helpers instead of template literals in axios calls',
+                },
+                {
+                    selector: 'CallExpression[callee.object.name="http"][callee.property.name=/^(get|post|put|delete|patch)$/] > Literal:first-child',
+                    message: 'Use generated route helpers instead of string paths in http calls. Example: http.post(admin.challenges.store.url(), body)',
+                },
+                {
+                    selector: 'CallExpression[callee.object.name="http"][callee.property.name=/^(get|post|put|delete|patch)$/] > TemplateLiteral:first-child',
+                    message: 'Use generated route helpers instead of template literals in http calls. Example: http.post(admin.challenges.store.url(), body)',
                 },
             ],
         },
