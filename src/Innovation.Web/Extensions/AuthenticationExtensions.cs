@@ -52,19 +52,9 @@ internal static class AuthenticationExtensions
 
             options.Events.OnValidatePrincipal = async context =>
             {
-                var logger = context.HttpContext.RequestServices
-                    .GetRequiredService<ILoggerFactory>()
-                    .CreateLogger("Innovation.Web.Auth.Cookie");
-
                 var sid = context.Principal?.FindFirst(ClaimConstants.SessionId)?.Value;
-                var sub = context.Principal?.FindFirst("sub")?.Value
-                          ?? context.Principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
                 if (sid is null)
-                {
-                    logger.LogDebug("OnValidatePrincipal: No sid claim for sub={Sub} — skipping revocation check", sub);
                     return;
-                }
 
                 var cache = context.HttpContext.RequestServices
                     .GetRequiredService<IDistributedCache>();
@@ -73,13 +63,8 @@ internal static class AuthenticationExtensions
 
                 if (revoked is not null)
                 {
-                    logger.LogInformation("OnValidatePrincipal: Session REVOKED — rejecting principal. sid={Sid}, sub={Sub}", sid, sub);
                     context.RejectPrincipal();
                     await context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                }
-                else
-                {
-                    logger.LogDebug("OnValidatePrincipal: Session valid. sid={Sid}, sub={Sub}", sid, sub);
                 }
             };
         });
@@ -113,23 +98,12 @@ internal static class AuthenticationExtensions
                 if (previousOnTokenValidated is not null)
                     await previousOnTokenValidated(context);
 
-                var logger = context.HttpContext.RequestServices
-                    .GetRequiredService<ILoggerFactory>()
-                    .CreateLogger("Innovation.Web.Auth.OIDC");
-
                 var identity = context.Principal?.Identity as ClaimsIdentity;
                 if (identity is null)
-                {
-                    logger.LogWarning("OnTokenValidated: Principal identity is null");
                     return;
-                }
 
                 var preferredUsername = identity.FindFirst("preferred_username")?.Value;
                 var sub = identity.FindFirst("sub")?.Value;
-                var sid = identity.FindFirst(ClaimConstants.SessionId)?.Value;
-
-                logger.LogDebug("OnTokenValidated: sub={Sub}, sid={Sid}, preferred_username={Username}",
-                    sub, sid, preferredUsername);
 
                 // Map claims to standard ClaimTypes used by HandleInertiaRequests
                 var name = identity.FindFirst("name")?.Value
@@ -145,15 +119,6 @@ internal static class AuthenticationExtensions
                 if (email is not null && identity.FindFirst(ClaimTypes.Email) is null)
                     identity.AddClaim(new Claim(ClaimTypes.Email, email));
 
-                if (sid is not null)
-                {
-                    logger.LogDebug("OnTokenValidated: Persisted sid claim: {Sid}", sid);
-                }
-                else
-                {
-                    logger.LogWarning("OnTokenValidated: No sid claim in token — backchannel logout will not work for this session");
-                }
-
                 // Sync local user from Keycloak claims (upsert on login)
                 if (sub is not null)
                 {
@@ -164,13 +129,11 @@ internal static class AuthenticationExtensions
                     {
                         user = new User { KeycloakId = sub, Email = email ?? "", Name = name ?? "" };
                         db.Users.Add(user);
-                        logger.LogInformation("OnTokenValidated: Created local user for sub={Sub}, email={Email}", sub, email);
                     }
                     else
                     {
                         user.Email = email ?? user.Email;
                         user.Name = name ?? user.Name;
-                        logger.LogDebug("OnTokenValidated: Updated local user for sub={Sub}", sub);
                     }
 
                     await db.SaveChangesAsync();
