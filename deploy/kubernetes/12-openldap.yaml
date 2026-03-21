@@ -1,0 +1,100 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ldap-data
+  namespace: innovation
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ldap-config
+  namespace: innovation
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openldap
+  namespace: innovation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openldap
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: openldap
+    spec:
+      initContainers:
+        - name: copy-seed-data
+          image: busybox:1.36
+          command: ["sh", "-c", "cp /seed-data/* /custom-ldif/ 2>/dev/null || true"]
+          volumeMounts:
+            - name: ldap-seed
+              mountPath: /seed-data
+            - name: custom-ldif
+              mountPath: /custom-ldif
+      containers:
+        - name: openldap
+          image: osixia/openldap:1.5.0
+          ports:
+            - containerPort: 389
+          env:
+            - { name: LDAP_ORGANISATION, value: "Innovation" }
+            - { name: LDAP_DOMAIN, value: "innovation.localhost" }
+            - { name: LDAP_ADMIN_PASSWORD, valueFrom: { secretKeyRef: { name: innovation-secrets, key: ldap-admin-password } } }
+            - { name: LDAP_SEED_INTERNAL_LDIF_PATH, value: "/custom-ldif" }
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: ldap-data
+              mountPath: /var/lib/ldap
+            - name: ldap-config
+              mountPath: /etc/ldap/slapd.d
+            - name: custom-ldif
+              mountPath: /custom-ldif
+      volumes:
+        - name: ldap-data
+          persistentVolumeClaim:
+            claimName: ldap-data
+        - name: ldap-config
+          persistentVolumeClaim:
+            claimName: ldap-config
+        - name: ldap-seed
+          configMap:
+            name: ldap-seed
+            optional: true
+        - name: custom-ldif
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openldap
+  namespace: innovation
+spec:
+  type: ClusterIP
+  selector:
+    app: openldap
+  ports:
+    - port: 389
+      targetPort: 389

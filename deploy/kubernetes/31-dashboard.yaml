@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard
+  namespace: innovation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard
+  template:
+    metadata:
+      labels:
+        app: dashboard
+    spec:
+      containers:
+        - name: dashboard
+          image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
+          ports:
+            - { containerPort: 18888, name: ui }
+            - { containerPort: 18889, name: otlp-grpc }
+            - { containerPort: 18890, name: otlp-http }
+          env:
+            - { name: DASHBOARD__FRONTEND__AUTHMODE, value: "Unsecured" }
+            - { name: DASHBOARD__OTLP__AUTHMODE, value: "Unsecured" }
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboard
+  namespace: innovation
+spec:
+  type: ClusterIP
+  selector:
+    app: dashboard
+  ports:
+    - { port: 18888, targetPort: 18888, name: ui }
+    - { port: 18889, targetPort: 18889, name: otlp-grpc }
+    - { port: 18890, targetPort: 18890, name: otlp-http }
