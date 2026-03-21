@@ -43,7 +43,7 @@
       "implicitFlowEnabled": false,
       "attributes": {
         "post.logout.redirect.uris": "http://localhost:5200/*##https://localhost:7200/*",
-        "backchannel.logout.url": "http://host.docker.internal:5200/signout-oidc",
+        "backchannel.logout.url": "http://host.docker.internal:5200/auth/backchannel-logout",
         "backchannel.logout.session.required": "true",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
@@ -85,6 +85,19 @@
             "id.token.claim": "true",
             "access.token.claim": "true",
             "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "session id",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "config": {
+            "user.session.note": "sid",
+            "claim.name": "sid",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "introspection.token.claim": "true"
           }
         }
       ]

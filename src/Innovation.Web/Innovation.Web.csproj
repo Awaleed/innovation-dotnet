@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <RootNamespace>Innovation.Web</RootNamespace>
@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" />
     <PackageReference Include="AspNetCore.InertiaCore" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
@@ -26,6 +27,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Reinforced.Typings" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
   </ItemGroup>
 

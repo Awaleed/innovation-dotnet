@@ -51,8 +51,10 @@ var web = builder.AddProject<Projects.Innovation_Web>("web")
     .WithExternalHttpEndpoints()
     .WithReference(innovationDb)
     .WithReference(keycloak)
+    .WithReference(redis)
     .WaitFor(postgres)
     .WaitFor(keycloak)
+    .WaitFor(redis)
     .WithEnvironment("VITE_DEV_SERVER_URL", vite.GetEndpoint("http"));
 
 builder.Build().Run();
