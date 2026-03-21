@@ -22,34 +22,30 @@ public class TransactionBehavior<TRequest, TResponse>(
     {
         var typeName = typeof(TRequest).Name;
 
+        // If there's already an active transaction, just proceed
+        if (db.Database.CurrentTransaction is not null)
+        {
+            return await next(cancellationToken);
+        }
+
+        await using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
+
         try
         {
-            // If there's already an active transaction, just proceed
-            if (db.Database.CurrentTransaction is not null)
-            {
-                return await next(cancellationToken);
-            }
+            logger.LogInformation("Begin transaction for {CommandName}", typeName);
 
-            var strategy = db.Database.CreateExecutionStrategy();
+            var response = await next(cancellationToken);
 
-            return await strategy.ExecuteAsync(async () =>
-            {
-                await using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
 
-                logger.LogInformation("Begin transaction for {CommandName}", typeName);
+            logger.LogInformation("Committed transaction for {CommandName}", typeName);
 
-                var response = await next(cancellationToken);
-
-                await transaction.CommitAsync(cancellationToken);
-
-                logger.LogInformation("Committed transaction for {CommandName}", typeName);
-
-                return response;
-            });
+            return response;
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error handling transaction for {CommandName}", typeName);
+            logger.LogError(ex, "Error handling transaction for {CommandName}, rolling back", typeName);
+            await transaction.RollbackAsync(cancellationToken);
             throw;
         }
     }
