@@ -56,16 +56,7 @@ export const register = (): RouteDefinition<'get'> => ({
 
 register.url = () => '/register'
 
-/** @controller Auth @action me @route '/user/me' @method get */
-export const me = (): RouteDefinition<'get'> => ({
-    url: '/user/me',
-    method: 'get',
-})
-
-me.url = () => '/user/me'
-
 // Sub-routes
 export * as admin from './admin'
-export * as api from './api'
 export * as auth from './auth'
 

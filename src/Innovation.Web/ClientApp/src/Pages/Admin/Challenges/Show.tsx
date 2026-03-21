@@ -1,5 +1,5 @@
 import http from '@/lib/api-client';
-import { admin, api } from '@/routes';
+import { admin } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import {
@@ -89,7 +89,7 @@ export default function ChallengeShow({ challenge }: Props) {
         if (!confirm('Are you sure you want to advance this challenge to the next stage?')) return;
         setAdvancing(true);
         try {
-            await http.post(api.v1.challenges.advance({ id: challenge.id }).url);
+            await http.post(admin.challenges.advance.url({ id: challenge.id }));
             router.reload();
         } catch {
             alert('Failed to advance stage.');
@@ -140,7 +140,7 @@ export default function ChallengeShow({ challenge }: Props) {
                                 Edit
                             </Link>
                             <Link
-                                href={admin.index.url()}
+                                href={admin.challenges.index.url()}
                                 className="inline-flex items-center gap-1.5 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                             >
                                 <ArrowLeft className="h-4 w-4" />

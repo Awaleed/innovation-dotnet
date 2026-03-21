@@ -4,7 +4,7 @@ import { type SharedData } from '../types';
 import { LayoutDashboard, Trophy, Lightbulb, Users, BarChart3, Settings, LogOut, ChevronRight } from 'lucide-react';
 
 const navItems = [
-    { label: 'Challenges', href: admin.index.url(), icon: Trophy, description: 'Create and manage innovation challenges', ready: true },
+    { label: 'Challenges', href: admin.challenges.index.url(), icon: Trophy, description: 'Create and manage innovation challenges', ready: true },
     { label: 'Ideas', href: '#', icon: Lightbulb, description: 'Review submitted ideas', ready: false },
     { label: 'Users', href: '#', icon: Users, description: 'Manage platform users', ready: false },
     { label: 'Reports', href: '#', icon: BarChart3, description: 'View analytics and reports', ready: false },

@@ -16,6 +16,14 @@ export const index = (): RouteDefinition<'get'> => ({
 
 index.url = () => '/admin/challenges/'
 
+/** @controller Challenge @action Store @route '/admin/challenges/' @method post */
+export const store = (): RouteDefinition<'post'> => ({
+    url: '/admin/challenges/',
+    method: 'post',
+})
+
+store.url = () => '/admin/challenges/'
+
 /** @controller Challenge @action Show @route '/admin/challenges/{id}' @method get */
 export const show = (args: { id: string | number }): RouteDefinition<'get'> => ({
     url: `/admin/challenges/${args.id}`,
@@ -23,6 +31,30 @@ export const show = (args: { id: string | number }): RouteDefinition<'get'> => (
 })
 
 show.url = (args: { id: string | number }) => `/admin/challenges/${args.id}`
+
+/** @controller Challenge @action Update @route '/admin/challenges/{id}' @method put */
+export const update = (args: { id: string | number }): RouteDefinition<'put'> => ({
+    url: `/admin/challenges/${args.id}`,
+    method: 'put',
+})
+
+update.url = (args: { id: string | number }) => `/admin/challenges/${args.id}`
+
+/** @controller Challenge @action Destroy @route '/admin/challenges/{id}' @method delete */
+export const destroy = (args: { id: string | number }): RouteDefinition<'delete'> => ({
+    url: `/admin/challenges/${args.id}`,
+    method: 'delete',
+})
+
+destroy.url = (args: { id: string | number }) => `/admin/challenges/${args.id}`
+
+/** @controller Challenge @action Advance @route '/admin/challenges/{id}/advance' @method post */
+export const advance = (args: { id: string | number }): RouteDefinition<'post'> => ({
+    url: `/admin/challenges/${args.id}/advance`,
+    method: 'post',
+})
+
+advance.url = (args: { id: string | number }) => `/admin/challenges/${args.id}/advance`
 
 /** @controller Challenge @action Edit @route '/admin/challenges/{id}/edit' @method get */
 export const edit = (args: { id: string | number }): RouteDefinition<'get'> => ({

@@ -1,6 +1,6 @@
 import { handleApiError } from '@/lib/api-error-handler';
 import http from '@/lib/api-client';
-import { admin, api } from '@/routes';
+import { admin } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { Save, X } from 'lucide-react';
@@ -75,8 +75,8 @@ export default function ChallengeCreate(_props: SharedData) {
         };
 
         try {
-            await http.post(api.v1.create().url, body);
-            router.visit(admin.index.url());
+            await http.post(admin.challenges.store.url(), body);
+            router.visit(admin.challenges.index.url());
         } catch (err: unknown) {
             setErrors(handleApiError(err, 'Create challenge'));
         } finally {
@@ -258,7 +258,7 @@ export default function ChallengeCreate(_props: SharedData) {
                         {/* Actions */}
                         <div className="flex items-center justify-end gap-3 border-t border-gray-200 pt-4">
                             <Link
-                                href={admin.index.url()}
+                                href={admin.challenges.index.url()}
                                 className="inline-flex items-center gap-1.5 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                             >
                                 <X className="h-4 w-4" />
