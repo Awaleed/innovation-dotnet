@@ -1,6 +1,8 @@
+using FluentValidation;
 using InertiaCore;
 using InertiaCore.Extensions;
 using Innovation.Application;
+using Innovation.Application.Common.Exceptions;
 using Innovation.Infrastructure;
 using Innovation.Infrastructure.Data;
 using Innovation.Infrastructure.Data.Interceptors;
@@ -8,6 +10,7 @@ using Innovation.ServiceDefaults;
 using Innovation.Web.Endpoints;
 using Innovation.Web.Extensions;
 using Innovation.Web.Middleware;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -55,6 +58,13 @@ builder.Services.AddViteHelper(options =>
 });
 
 builder.AddKeycloakAuth();
+builder.Services.AddAntiforgery(options =>
+{
+    options.HeaderName = "X-XSRF-TOKEN";
+    options.Cookie.Name = "XSRF-TOKEN";
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+});
 builder.Services.AddTransient<HandleInertiaRequests>();
 builder.Services.AddOpenApiWithAuth(builder.Configuration);
 
@@ -69,16 +79,43 @@ using (var scope = app.Services.CreateScope())
 
 app.MapDefaultEndpoints();
 
+// Global exception handler — maps domain exceptions to ProblemDetails
+app.UseExceptionHandler(exceptionApp =>
+{
+    exceptionApp.Run(async context =>
+    {
+        context.Response.ContentType = "application/problem+json";
+        var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+        var (statusCode, title) = exception switch
+        {
+            ValidationException => (400, "Validation Failed"),
+            NotFoundException => (404, "Not Found"),
+            BusinessRuleException => (422, "Business Rule Violation"),
+            _ => (500, "Internal Server Error")
+        };
+        context.Response.StatusCode = statusCode;
+        await context.Response.WriteAsJsonAsync(new { status = statusCode, title });
+    });
+});
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+}
+app.UseHttpsRedirection();
+app.UseMiddleware<SecurityHeadersMiddleware>();
 app.UseStaticFiles();
 app.UseInertia();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseAntiforgery();
 app.UseMiddleware<HandleInertiaRequests>();
 
 app.MapControllers();
 app.MapChallengeEndpoints();
 app.MapAuthEndpoints();
+app.MapAntiforgeryEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
