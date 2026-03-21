@@ -1,8 +1,6 @@
-using Innovation.Application.Common.Exceptions;
 using Innovation.Application.Common.Interfaces;
 using Innovation.Application.Common.Models;
 using Innovation.Application.Features.Challenges.Shared;
-using Innovation.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,16 +10,6 @@ public record AdvanceChallengeStageCommand(int Id) : ICommand<Result<ChallengeDe
 
 public class AdvanceChallengeStageHandler(IAppDbContext db) : IRequestHandler<AdvanceChallengeStageCommand, Result<ChallengeDetailResponse>>
 {
-    private static readonly Dictionary<ChallengeStatus, ChallengeStatus> Transitions = new()
-    {
-        { ChallengeStatus.Draft, ChallengeStatus.Upcoming },
-        { ChallengeStatus.Upcoming, ChallengeStatus.Open },
-        { ChallengeStatus.Open, ChallengeStatus.Closed },
-        { ChallengeStatus.Closed, ChallengeStatus.Judging },
-        { ChallengeStatus.Judging, ChallengeStatus.Voting },
-        { ChallengeStatus.Voting, ChallengeStatus.Completed },
-    };
-
     public async Task<Result<ChallengeDetailResponse>> Handle(AdvanceChallengeStageCommand cmd, CancellationToken ct)
     {
         var challenge = await db.Challenges
@@ -35,11 +23,10 @@ public class AdvanceChallengeStageHandler(IAppDbContext db) : IRequestHandler<Ad
         if (challenge is null)
             return Result<ChallengeDetailResponse>.NotFound();
 
-        if (!Transitions.TryGetValue(challenge.Status, out var nextStatus))
+        if (!challenge.TryAdvanceStage())
             return Result<ChallengeDetailResponse>.Failure(
                 $"Cannot advance from status '{challenge.Status}'. It is a terminal state.");
 
-        challenge.Status = nextStatus;
         await db.SaveChangesAsync(ct);
 
         return Result<ChallengeDetailResponse>.Success(challenge.ToDetailResponse());

@@ -28,6 +28,7 @@ builder.Services.AddDbContext<AppDbContext>((sp, options) =>
         sp.GetRequiredService<SoftDeleteInterceptor>());
 });
 
+builder.Services.AddHttpClient();
 builder.Services.AddProblemDetails();
 builder.Services.ConfigureHttpJsonOptions(options =>
 {

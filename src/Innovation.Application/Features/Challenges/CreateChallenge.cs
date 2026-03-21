@@ -52,7 +52,7 @@ public class CreateChallengeHandler(IAppDbContext db) : IRequestHandler<CreateCh
     {
         var challenge = new Challenge
         {
-            PublicUlid = Guid.NewGuid().ToString("N")[..26],
+            PublicUlid = Ulid.NewUlid().ToString(),
             Title = cmd.Title,
             Slug = new TranslatableString(
                 cmd.Title.En?.ToLowerInvariant().Replace(" ", "-"),

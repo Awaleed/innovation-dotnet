@@ -52,6 +52,25 @@ public class Challenge : BaseEntity
 
     public int SortOrder { get; set; }
 
+    private static readonly Dictionary<ChallengeStatus, ChallengeStatus> StageTransitions = new()
+    {
+        { ChallengeStatus.Draft, ChallengeStatus.Upcoming },
+        { ChallengeStatus.Upcoming, ChallengeStatus.Open },
+        { ChallengeStatus.Open, ChallengeStatus.Closed },
+        { ChallengeStatus.Closed, ChallengeStatus.Judging },
+        { ChallengeStatus.Judging, ChallengeStatus.Voting },
+        { ChallengeStatus.Voting, ChallengeStatus.Completed },
+    };
+
+    public bool TryAdvanceStage()
+    {
+        if (!StageTransitions.TryGetValue(Status, out var next))
+            return false;
+
+        Status = next;
+        return true;
+    }
+
     // Navigation properties
     public Lookup? Category { get; set; }
     public InnovationType? InnovationType { get; set; }

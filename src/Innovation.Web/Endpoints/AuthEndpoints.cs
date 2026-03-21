@@ -27,6 +27,7 @@ public static class AuthEndpoints
         HttpContext httpContext,
         IDistributedCache cache,
         IConfiguration configuration,
+        IHttpClientFactory httpClientFactory,
         ILoggerFactory loggerFactory)
     {
         var logger = loggerFactory.CreateLogger("Innovation.Web.Auth.BackchannelLogout");
@@ -44,7 +45,7 @@ public static class AuthEndpoints
         var keycloakAuthority = $"{configuration["Keycloak:auth-server-url"]}/realms/{configuration["Keycloak:realm"]}";
         var jwksUrl = $"{keycloakAuthority}/protocol/openid-connect/certs";
 
-        using var httpClient = new HttpClient();
+        using var httpClient = httpClientFactory.CreateClient();
         var jwksJson = await httpClient.GetStringAsync(jwksUrl);
         var jwks = new JsonWebKeySet(jwksJson);
 
