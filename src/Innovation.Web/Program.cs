@@ -54,7 +54,7 @@ builder.Services.AddViteHelper(options =>
 {
     options.PublicDirectory = "wwwroot";
     options.BuildDirectory = "build";
-    options.ManifestFilename = "manifest.json";
+    options.ManifestFilename = ".vite/manifest.json";
     options.HotFile = "hot";
 });
 
