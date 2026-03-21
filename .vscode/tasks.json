@@ -21,8 +21,16 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/src/Innovation.AppHost/Innovation.AppHost.csproj"
+        "${workspaceFolder}/src/Innovation.AppHost/Innovation.AppHost.csproj",
+        "--launch-profile",
+        "https"
       ],
+      "options": {
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development",
+          "DOTNET_ENVIRONMENT": "Development"
+        }
+      },
       "isBackground": true,
       "problemMatcher": {
         "base": "$msCompile",
