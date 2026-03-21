@@ -6,6 +6,10 @@ internal static class ServiceCollectionExtensions
 {
     internal static IServiceCollection AddSwaggerGenWithAuthSupport(this IServiceCollection services, IConfiguration configuration)
     {
+        var keycloakBase = configuration["Keycloak:auth-server-url"] ?? "http://localhost:8080";
+        var realm = configuration["Keycloak:realm"] ?? "innovation";
+        var oidcBase = $"{keycloakBase}/realms/{realm}/protocol/openid-connect";
+
         services.AddSwaggerGen(o =>
         {
             o.CustomSchemaIds(id => id.FullName!.Replace('+', '-'));
@@ -17,8 +21,8 @@ internal static class ServiceCollectionExtensions
                 {
                     AuthorizationCode = new OpenApiOAuthFlow
                     {
-                        AuthorizationUrl = new Uri(configuration["Keycloak:AuthorizationUrl"]!),
-                        TokenUrl = new Uri(configuration["Keycloak:TokenUrl"]!),
+                        AuthorizationUrl = new Uri($"{oidcBase}/auth"),
+                        TokenUrl = new Uri($"{oidcBase}/token"),
                         Scopes = new Dictionary<string, string>
                         {
                             {"openid" ,"OpenID Connect scope"},

@@ -1,9 +1,10 @@
 using System.Security.Claims;
 using InertiaCore;
+using Innovation.Application.Common.Constants;
 
 namespace Innovation.Web.Middleware;
 
-public class HandleInertiaRequests : IMiddleware
+public class HandleInertiaRequests(IConfiguration configuration) : IMiddleware
 {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
@@ -22,7 +23,7 @@ public class HandleInertiaRequests : IMiddleware
             };
 
             roles = context.User.FindAll(ClaimTypes.Role).Select(c => c.Value).ToArray();
-            permissions = context.User.FindAll("permission").Select(c => c.Value).ToArray();
+            permissions = context.User.FindAll(ClaimConstants.Permission).Select(c => c.Value).ToArray();
         }
 
         // Localization
@@ -31,7 +32,7 @@ public class HandleInertiaRequests : IMiddleware
             currentLocale = "ar";
 
         // Share all props (matches Laravel HandleInertiaRequests)
-        Inertia.Share("name", "Innovation Platform");
+        Inertia.Share("name", configuration.GetValue("AppName", "Innovation Platform"));
         Inertia.Share("auth", new
         {
             user = authUser,
