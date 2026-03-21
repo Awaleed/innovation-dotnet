@@ -1,3 +1,4 @@
+import { admin, api } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { Save, X } from 'lucide-react';
@@ -72,7 +73,7 @@ export default function ChallengeCreate(_props: SharedData) {
         };
 
         try {
-            const res = await fetch('/api/v1/challenges', {
+            const res = await fetch(api.v1.create().url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
@@ -81,7 +82,7 @@ export default function ChallengeCreate(_props: SharedData) {
                 const text = await res.text();
                 throw new Error(text || `HTTP ${res.status}`);
             }
-            router.visit('/admin/challenges');
+            router.visit(admin.index.url());
         } catch (err: unknown) {
             setErrors(err instanceof Error ? err.message : 'An error occurred');
         } finally {
@@ -263,7 +264,7 @@ export default function ChallengeCreate(_props: SharedData) {
                         {/* Actions */}
                         <div className="flex items-center justify-end gap-3 border-t border-gray-200 pt-4">
                             <Link
-                                href="/admin/challenges"
+                                href={admin.index.url()}
                                 className="inline-flex items-center gap-1.5 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                             >
                                 <X className="h-4 w-4" />

@@ -9,12 +9,12 @@ namespace Innovation.TsGen;
 /// <summary>
 /// Generates TypeScript for the Innovation.Web React frontend:
 /// 1. Types — triggers Reinforced.Typings via dotnet build (C# → TS interfaces)
-/// 2. Routes — reads [Route] attributes from MVC controllers (→ directory-based typed route files)
+/// 2. Routes — reads MVC controllers ([Route] attributes) AND minimal API endpoints (MapGet/MapPost source parsing)
 ///
 /// Output structure matches Laravel's Wayfinder:
-///   routes/index.ts          — root routes + re-exports subdirs
-///   routes/auth/index.ts     — auth routes
-///   routes/api/auth/index.ts — API auth routes
+///   routes/index.ts                    — root routes + re-exports subdirs
+///   routes/admin/challenges/index.ts   — admin challenge page routes
+///   routes/api/v1/challenges/index.ts  — API challenge endpoint routes
 ///
 /// Usage: dotnet run --project src/Innovation.TsGen
 /// </summary>
@@ -48,12 +48,19 @@ public static class Program
         else
             Console.WriteLine("  ⚠ types/generated.ts not found");
 
-        // Step 2: Generate routes
+        // Step 2: Generate routes (controllers + endpoints)
         Console.WriteLine("[2/2] Generating routes...");
         var routesDir = Path.Combine(clientAppSrc, "routes");
-        var routes = DiscoverRoutes();
-        var fileCount = GenerateRouteFiles(routesDir, routes);
-        Console.WriteLine($"  → {routes.Count} routes in {fileCount} files");
+        var controllerRoutes = DiscoverControllerRoutes();
+        Console.WriteLine($"  Controllers: {controllerRoutes.Count} routes");
+
+        var endpointsDir = Path.Combine(root, "src", "Innovation.Web", "Endpoints");
+        var endpointRoutes = DiscoverEndpointRoutes(endpointsDir);
+        Console.WriteLine($"  Endpoints:   {endpointRoutes.Count} routes");
+
+        var allRoutes = controllerRoutes.Concat(endpointRoutes).OrderBy(r => r.Url).ToList();
+        var fileCount = GenerateRouteFiles(routesDir, allRoutes);
+        Console.WriteLine($"  → {allRoutes.Count} total routes in {fileCount} files");
 
         Console.WriteLine();
         Console.WriteLine("Done.");
@@ -71,9 +78,9 @@ public static class Program
         return Directory.GetCurrentDirectory();
     }
 
-    // ===================== ROUTE DISCOVERY =====================
+    // ===================== CONTROLLER ROUTE DISCOVERY =====================
 
-    static List<RouteInfo> DiscoverRoutes()
+    static List<RouteInfo> DiscoverControllerRoutes()
     {
         var routes = new List<RouteInfo>();
         var assembly = typeof(Innovation.Web.Controllers.HomeController).Assembly;
@@ -121,8 +128,6 @@ public static class Program
                 if (routeTemplate == null) continue;
 
                 var fullRoute = CombineRoutes(controllerRoute, routeTemplate);
-
-                // Strip route constraints like :int, :guid, :alpha from {param:constraint}
                 var cleanRoute = Regex.Replace(fullRoute, @"\{(\w+)(:\w+)(\?)?}", "{$1$3}");
 
                 var parameters = Regex.Matches(cleanRoute, @"\{(\w+)\??}")
@@ -139,7 +144,125 @@ public static class Program
             }
         }
 
-        return routes.OrderBy(r => r.Url).ToList();
+        return routes;
+    }
+
+    // ===================== ENDPOINT ROUTE DISCOVERY (Minimal API) =====================
+
+    static List<RouteInfo> DiscoverEndpointRoutes(string endpointsDir)
+    {
+        var routes = new List<RouteInfo>();
+
+        if (!Directory.Exists(endpointsDir))
+            return routes;
+
+        foreach (var file in Directory.GetFiles(endpointsDir, "*Endpoints.cs"))
+        {
+            var source = File.ReadAllText(file);
+            var controllerName = Path.GetFileNameWithoutExtension(file).Replace("Endpoints", "");
+            var parsedRoutes = ParseEndpointFile(source, controllerName);
+            routes.AddRange(parsedRoutes);
+        }
+
+        return routes;
+    }
+
+    static List<RouteInfo> ParseEndpointFile(string source, string controllerName)
+    {
+        var routes = new List<RouteInfo>();
+
+        // Find MapGroup prefix: app.MapGroup("/api/v1/challenges") or var group = app.MapGroup(...)
+        string groupPrefix = "";
+        var groupMatch = Regex.Match(source, @"MapGroup\(\s*""([^""]+)""\s*\)");
+        if (groupMatch.Success)
+            groupPrefix = groupMatch.Groups[1].Value.TrimEnd('/');
+
+        // Find all Map{Method}("route", ...) calls
+        // Matches: group.MapGet("/", ...) or group.MapGet("/{id:int}", ...) or app.MapGet("user/me", ...)
+        var mapPattern = new Regex(
+            @"(?:group|app)\s*\.\s*Map(Get|Post|Put|Delete|Patch)\s*\(\s*""([^""]+)""",
+            RegexOptions.Multiline);
+
+        foreach (Match match in mapPattern.Matches(source))
+        {
+            var httpMethod = match.Groups[1].Value.ToLowerInvariant();
+            var routeTemplate = match.Groups[2].Value;
+
+            // Determine full URL
+            string fullRoute;
+            if (match.Value.StartsWith("app"))
+            {
+                // Direct app.MapGet — no group prefix
+                fullRoute = "/" + routeTemplate.TrimStart('/');
+            }
+            else
+            {
+                // group.MapGet — prepend group prefix
+                fullRoute = groupPrefix + "/" + routeTemplate.TrimStart('/');
+                fullRoute = "/" + fullRoute.TrimStart('/');
+            }
+
+            // Clean trailing slash for non-root, normalize double slashes
+            fullRoute = Regex.Replace(fullRoute, @"//+", "/");
+            if (fullRoute.Length > 1)
+                fullRoute = fullRoute.TrimEnd('/');
+
+            // Strip route constraints: {id:int} → {id}
+            var cleanRoute = Regex.Replace(fullRoute, @"\{(\w+)(:\w+)(\?)?}", "{$1$3}");
+
+            // Extract parameters
+            var parameters = Regex.Matches(cleanRoute, @"\{(\w+)\??}")
+                .Select(m => m.Groups[1].Value)
+                .ToList();
+
+            // Derive action name from method + route
+            var actionName = DeriveActionName(httpMethod, routeTemplate);
+
+            routes.Add(new RouteInfo(
+                cleanRoute,
+                httpMethod,
+                parameters,
+                controllerName,
+                actionName
+            ));
+        }
+
+        return routes;
+    }
+
+    /// <summary>
+    /// Derives a meaningful action name from HTTP method + route template.
+    /// GET /           → list
+    /// GET /{id}       → get
+    /// POST /          → create
+    /// PUT /{id}       → update
+    /// DELETE /{id}    → remove
+    /// POST /{id}/advance → advance
+    /// </summary>
+    static string DeriveActionName(string method, string routeTemplate)
+    {
+        var route = routeTemplate.Trim('/');
+
+        // Remove parameter segments for naming
+        var segments = route.Split('/', StringSplitOptions.RemoveEmptyEntries)
+            .Where(s => !s.StartsWith('{'))
+            .ToList();
+
+        // If there's a trailing action segment (e.g., "advance" in "/{id}/advance")
+        if (segments.Count > 0)
+            return ToCamelCase(segments.Last());
+
+        // Root route — derive from HTTP method
+        return method switch
+        {
+            "get" when !route.Contains('{') => "list",
+            "get" => "get",
+            "post" => "create",
+            "put" => "update",
+            "delete" => "remove",
+            "patch" => "patch",
+            _ => method
+        };
     }
 
     // ===================== DIRECTORY-BASED ROUTE FILES =====================
@@ -168,7 +291,6 @@ public static class Program
             dirGroups[""] = [];
 
         // Create intermediate directories that don't have routes but have children
-        // e.g. "api/auth" exists but "api" doesn't — create "api" as a pass-through
         var allDirs = dirGroups.Keys.ToHashSet();
         var intermediates = new HashSet<string>();
         foreach (var dir in allDirs)
@@ -186,7 +308,6 @@ public static class Program
 
         int fileCount = 0;
 
-        // Generate each directory's index.ts
         foreach (var (dirPath, dirRoutes) in dirGroups.OrderBy(g => g.Key))
         {
             var fullDir = string.IsNullOrEmpty(dirPath)
@@ -203,39 +324,28 @@ public static class Program
         return fileCount;
     }
 
-    /// <summary>
-    /// Determines the directory for a route URL.
-    /// / → "" (root), /login → "" (root), /api/auth/login → "api/auth"
-    /// </summary>
     static string GetRouteDirectory(string url)
     {
         var segments = url.Trim('/').Split('/', StringSplitOptions.RemoveEmptyEntries)
-            .Where(s => !s.StartsWith('{')) // skip {param} segments
+            .Where(s => !s.StartsWith('{'))
             .ToList();
 
-        // Root routes (/, /login, /register, /dashboard) go in root
         if (segments.Count <= 1)
             return "";
 
-        // Multi-segment: all but last segment become the directory
-        // /api/auth/login → api/auth
-        // /admin/challenges → admin/challenges (if "challenges" is a known path group)
-        // But for API routes like /api/auth/register, the action is the last segment
         return string.Join("/", segments.Take(segments.Count - 1));
     }
 
     static string GenerateDirectoryIndexTs(string dirPath, List<RouteInfo> routes, Dictionary<string, List<RouteInfo>> allGroups)
     {
         var sb = new StringBuilder();
-        var relativeToRoot = string.IsNullOrEmpty(dirPath) ? "." : string.Join("/", dirPath.Split('/').Select(_ => ".."));
 
         sb.AppendLine("/**");
         sb.AppendLine(" * Auto-generated route helpers — do not edit.");
-        sb.AppendLine($" * Generated by Innovation.TsGen");
+        sb.AppendLine(" * Generated by Innovation.TsGen");
         sb.AppendLine(" */");
         sb.AppendLine();
 
-        // Find child directories to re-export
         var childDirs = allGroups.Keys
             .Where(k => k != dirPath && IsDirectChild(dirPath, k))
             .OrderBy(k => k)
@@ -247,13 +357,12 @@ public static class Program
         sb.AppendLine("}");
         sb.AppendLine();
 
-        // Generate route functions for this directory
         foreach (var route in routes)
         {
             var actionName = ToCamelCase(route.Action);
             var hasParams = route.Parameters.Count > 0;
 
-            sb.AppendLine($"/** @controller {route.Controller} @action {route.Action} @route '{route.Url}' */");
+            sb.AppendLine($"/** @controller {route.Controller} @action {route.Action} @route '{route.Url}' @method {route.Method} */");
 
             if (hasParams)
             {
@@ -275,7 +384,6 @@ public static class Program
             sb.AppendLine($"}})");
             sb.AppendLine();
 
-            // .url helper
             if (hasParams)
             {
                 var argsType = string.Join("; ", route.Parameters.Select(p =>
@@ -292,7 +400,6 @@ public static class Program
             sb.AppendLine();
         }
 
-        // Re-export child directories
         if (childDirs.Count > 0)
         {
             sb.AppendLine("// Sub-routes");
@@ -327,8 +434,6 @@ public static class Program
         }
         return urlTemplate;
     }
-
-    // ===================== HELPERS =====================
 
     static string CombineRoutes(string prefix, string template)
     {

@@ -1,9 +1,10 @@
+import { admin, logout } from '@/routes';
 import { Head, Link, usePage, router } from '@inertiajs/react';
 import { type SharedData } from '../types';
 import { LayoutDashboard, Trophy, Lightbulb, Users, BarChart3, Settings, LogOut, ChevronRight } from 'lucide-react';
 
 const navItems = [
-    { label: 'Challenges', href: '/admin/challenges', icon: Trophy, description: 'Create and manage innovation challenges', ready: true },
+    { label: 'Challenges', href: admin.index.url(), icon: Trophy, description: 'Create and manage innovation challenges', ready: true },
     { label: 'Ideas', href: '#', icon: Lightbulb, description: 'Review submitted ideas', ready: false },
     { label: 'Users', href: '#', icon: Users, description: 'Manage platform users', ready: false },
     { label: 'Reports', href: '#', icon: BarChart3, description: 'View analytics and reports', ready: false },
@@ -33,7 +34,7 @@ export default function Dashboard() {
                             <p className="text-xs text-gray-500">{user?.email}</p>
                         </div>
                         <button
-                            onClick={() => router.post('/logout')}
+                            onClick={() => router.post(logout.url())}
                             className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-red-600"
                         >
                             <LogOut className="h-3.5 w-3.5" />

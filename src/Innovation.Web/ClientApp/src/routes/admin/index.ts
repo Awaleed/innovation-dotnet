@@ -8,7 +8,7 @@ export interface RouteDefinition<M extends string = string> {
     method: M;
 }
 
-/** @controller Challenge @action Index @route '/admin/challenges/' */
+/** @controller Challenge @action Index @route '/admin/challenges/' @method get */
 export const index = (): RouteDefinition<'get'> => ({
     url: '/admin/challenges/',
     method: 'get',
@@ -16,7 +16,7 @@ export const index = (): RouteDefinition<'get'> => ({
 
 index.url = () => '/admin/challenges/'
 
-/** @controller Challenge @action Show @route '/admin/challenges/{id}' */
+/** @controller Challenge @action Show @route '/admin/challenges/{id}' @method get */
 export const show = (args: { id: string | number }): RouteDefinition<'get'> => ({
     url: `/admin/challenges/${args.id}`,
     method: 'get',

@@ -8,7 +8,7 @@ export interface RouteDefinition<M extends string = string> {
     method: M;
 }
 
-/** @controller Home @action Home @route '/' */
+/** @controller Home @action Home @route '/' @method get */
 export const home = (): RouteDefinition<'get'> => ({
     url: '/',
     method: 'get',
@@ -16,7 +16,7 @@ export const home = (): RouteDefinition<'get'> => ({
 
 home.url = () => '/'
 
-/** @controller Auth @action Dashboard @route '/dashboard' */
+/** @controller Auth @action Dashboard @route '/dashboard' @method get */
 export const dashboard = (): RouteDefinition<'get'> => ({
     url: '/dashboard',
     method: 'get',
@@ -24,7 +24,7 @@ export const dashboard = (): RouteDefinition<'get'> => ({
 
 dashboard.url = () => '/dashboard'
 
-/** @controller Auth @action Login @route '/login' */
+/** @controller Auth @action Login @route '/login' @method get */
 export const login = (): RouteDefinition<'get'> => ({
     url: '/login',
     method: 'get',
@@ -32,7 +32,7 @@ export const login = (): RouteDefinition<'get'> => ({
 
 login.url = () => '/login'
 
-/** @controller Auth @action Logout @route '/logout' */
+/** @controller Auth @action Logout @route '/logout' @method post */
 export const logout = (): RouteDefinition<'post'> => ({
     url: '/logout',
     method: 'post',
@@ -40,7 +40,7 @@ export const logout = (): RouteDefinition<'post'> => ({
 
 logout.url = () => '/logout'
 
-/** @controller Auth @action Register @route '/register' */
+/** @controller Auth @action Register @route '/register' @method get */
 export const register = (): RouteDefinition<'get'> => ({
     url: '/register',
     method: 'get',
@@ -50,4 +50,7 @@ register.url = () => '/register'
 
 // Sub-routes
 export * as admin from './admin'
+export * as api from './api'
+export * as auth from './auth'
+export * as user from './user'
 

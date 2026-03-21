@@ -1,5 +1,6 @@
 import type { IChallengeListResponse } from '@/types/generated';
 import type { PaginatedResponse } from '@/hooks/use-api-pagination';
+import { admin, api } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { Eye, Edit, Trash2, Plus, ChevronLeft, ChevronRight, Star, Search, X } from 'lucide-react';
@@ -45,7 +46,7 @@ export default function ChallengesIndex({ challenges }: Props) {
         if (!confirm(t('common:confirm_delete', 'Are you sure you want to delete this?'))) return;
         setDeleting(id);
         try {
-            await fetch(`/api/v1/challenges/${id}`, { method: 'DELETE' });
+            await fetch(api.v1.remove({ id }).url, { method: 'DELETE' });
             router.reload();
         } catch {
             alert('Failed to delete challenge.');
@@ -57,7 +58,7 @@ export default function ChallengesIndex({ challenges }: Props) {
     function goToPage(p: number) {
         const params = new URLSearchParams(window.location.search);
         params.set('page', String(p));
-        router.visit(`/admin/challenges?${params.toString()}`);
+        router.visit(`${admin.index.url()}?${params.toString()}`);
     }
 
     function handleSearch() {
@@ -67,13 +68,13 @@ export default function ChallengesIndex({ challenges }: Props) {
         if (searchInput) filters.push(`title=*${searchInput}`);
         if (statusFilter) filters.push(`status=${statusFilter}`);
         if (filters.length) params.set('filter', filters.join(','));
-        router.visit(`/admin/challenges?${params.toString()}`);
+        router.visit(`${admin.index.url()}?${params.toString()}`);
     }
 
     function clearFilters() {
         setSearchInput('');
         setStatusFilter('');
-        router.visit('/admin/challenges');
+        router.visit(admin.index.url());
     }
 
     return (
@@ -93,7 +94,7 @@ export default function ChallengesIndex({ challenges }: Props) {
                             </p>
                         </div>
                         <Link
-                            href="/admin/challenges/create"
+                            href={admin.challenges.create.url()}
                             className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
                         >
                             <Plus className="h-4 w-4" />
@@ -198,14 +199,14 @@ export default function ChallengesIndex({ challenges }: Props) {
                                         <td className="whitespace-nowrap px-4 py-3 text-right text-sm">
                                             <div className="flex items-center justify-end gap-1">
                                                 <Link
-                                                    href={`/admin/challenges/${c.id}`}
+                                                    href={admin.show.url({ id: c.id })}
                                                     className="rounded p-1.5 text-gray-400 hover:bg-gray-100 hover:text-indigo-600"
                                                     title={t('common:view', 'View')}
                                                 >
                                                     <Eye className="h-4 w-4" />
                                                 </Link>
                                                 <Link
-                                                    href={`/admin/challenges/${c.id}/edit`}
+                                                    href={admin.challenges.edit.url({ id: c.id })}
                                                     className="rounded p-1.5 text-gray-400 hover:bg-gray-100 hover:text-amber-600"
                                                     title={t('common:edit', 'Edit')}
                                                 >

@@ -1,3 +1,4 @@
+import { admin, api } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import {
@@ -87,7 +88,7 @@ export default function ChallengeShow({ challenge }: Props) {
         if (!confirm('Are you sure you want to advance this challenge to the next stage?')) return;
         setAdvancing(true);
         try {
-            const res = await fetch(`/api/v1/challenges/${challenge.id}/advance`, { method: 'POST' });
+            const res = await fetch(api.v1.challenges.advance({ id: challenge.id }).url, { method: 'POST' });
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             router.reload();
         } catch {
@@ -132,14 +133,14 @@ export default function ChallengeShow({ challenge }: Props) {
                                 {advancing ? 'Advancing...' : 'Advance Stage'}
                             </button>
                             <Link
-                                href={`/admin/challenges/${challenge.id}/edit`}
+                                href={admin.challenges.edit.url({ id: challenge.id })}
                                 className="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700"
                             >
                                 <Edit className="h-4 w-4" />
                                 Edit
                             </Link>
                             <Link
-                                href="/admin/challenges"
+                                href={admin.index.url()}
                                 className="inline-flex items-center gap-1.5 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                             >
                                 <ArrowLeft className="h-4 w-4" />

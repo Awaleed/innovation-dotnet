@@ -8,7 +8,7 @@ export interface RouteDefinition<M extends string = string> {
     method: M;
 }
 
-/** @controller Challenge @action Edit @route '/admin/challenges/{id}/edit' */
+/** @controller Challenge @action Edit @route '/admin/challenges/{id}/edit' @method get */
 export const edit = (args: { id: string | number }): RouteDefinition<'get'> => ({
     url: `/admin/challenges/${args.id}/edit`,
     method: 'get',
@@ -16,7 +16,7 @@ export const edit = (args: { id: string | number }): RouteDefinition<'get'> => (
 
 edit.url = (args: { id: string | number }) => `/admin/challenges/${args.id}/edit`
 
-/** @controller Challenge @action Create @route '/admin/challenges/create' */
+/** @controller Challenge @action Create @route '/admin/challenges/create' @method get */
 export const create = (): RouteDefinition<'get'> => ({
     url: '/admin/challenges/create',
     method: 'get',
