@@ -53,6 +53,47 @@ internal static class AuthenticationExtensions
                 );
                 options.SlidingExpiration = true;
 
+                options.Events.OnSigningIn = async context =>
+                {
+                    var identity = context.Principal?.Identity as ClaimsIdentity;
+                    // Use raw "sub" claim from Keycloak (available before our claim mapping)
+                    var sub =
+                        identity?.FindFirst("sub")?.Value
+                        ?? identity?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                    if (sub is null || identity is null)
+                        return;
+
+                    var db = context.HttpContext.RequestServices.GetRequiredService<AppDbContext>();
+                    var email =
+                        identity.FindFirst("email")?.Value
+                        ?? identity.FindFirst(ClaimTypes.Email)?.Value;
+                    var name =
+                        identity.FindFirst("name")?.Value
+                        ?? identity.FindFirst("given_name")?.Value
+                        ?? identity.FindFirst(ClaimTypes.GivenName)?.Value;
+
+                    var user = await db.Users.FirstOrDefaultAsync(u => u.KeycloakId == sub);
+
+                    if (user is null)
+                    {
+                        user = new User
+                        {
+                            KeycloakId = sub,
+                            Email = email ?? "",
+                            Name = name ?? "",
+                        };
+                        db.Users.Add(user);
+                    }
+                    else
+                    {
+                        user.Email = email ?? user.Email;
+                        user.Name = name ?? user.Name;
+                    }
+
+                    await db.SaveChangesAsync();
+                    identity.AddClaim(new Claim(ClaimConstants.LocalUserId, user.Id.ToString()));
+                };
+
                 options.Events.OnValidatePrincipal = async context =>
                 {
                     var sid = context.Principal?.FindFirst(ClaimConstants.SessionId)?.Value;
@@ -113,11 +154,12 @@ internal static class AuthenticationExtensions
                     ];
                 }
 
-                // Fix "Correlation failed" in development (HTTP without HTTPS)
-                options.CorrelationCookie.SameSite = SameSiteMode.Lax;
-                options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-                options.NonceCookie.SameSite = SameSiteMode.Lax;
-                options.NonceCookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                // SameSite=None is required because Keycloak posts the auth code back
+                // via a cross-site form POST; Lax blocks cookies on cross-site POSTs.
+                options.CorrelationCookie.SameSite = SameSiteMode.None;
+                options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.NonceCookie.SameSite = SameSiteMode.None;
+                options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;
             }
         );
     }
@@ -185,35 +227,6 @@ internal static class AuthenticationExtensions
                     var email = identity.FindFirst("email")?.Value;
                     if (email is not null && identity.FindFirst(ClaimTypes.Email) is null)
                         identity.AddClaim(new Claim(ClaimTypes.Email, email));
-
-                    // Sync local user from Keycloak claims (upsert on login)
-                    if (sub is not null)
-                    {
-                        var db =
-                            context.HttpContext.RequestServices.GetRequiredService<AppDbContext>();
-                        var user = await db.Users.FirstOrDefaultAsync(u => u.KeycloakId == sub);
-
-                        if (user is null)
-                        {
-                            user = new User
-                            {
-                                KeycloakId = sub,
-                                Email = email ?? "",
-                                Name = name ?? "",
-                            };
-                            db.Users.Add(user);
-                        }
-                        else
-                        {
-                            user.Email = email ?? user.Email;
-                            user.Name = name ?? user.Name;
-                        }
-
-                        await db.SaveChangesAsync();
-                        identity.AddClaim(
-                            new Claim(ClaimConstants.LocalUserId, user.Id.ToString())
-                        );
-                    }
                 };
 
                 var previousOnRemoteSignOut = options.Events.OnRemoteSignOut;
