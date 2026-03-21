@@ -81,6 +81,12 @@ internal static class AuthenticationExtensions
             options.SignedOutCallbackPath = "/signout-callback-oidc";
             options.RemoteSignOutPath = "/signout-oidc";
             options.ResponseType = OpenIdConnectResponseType.Code;
+
+            // Fix "Correlation failed" in development (HTTP without HTTPS)
+            options.CorrelationCookie.SameSite = SameSiteMode.Lax;
+            options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+            options.NonceCookie.SameSite = SameSiteMode.Lax;
+            options.NonceCookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
         });
     }
 
