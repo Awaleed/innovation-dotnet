@@ -89,42 +89,29 @@ if ($Target -eq "docker" -or $Target -eq "all") {
         --image-tag $ImageTag
     Remove-Item Env:\PUBLISH_TARGET
 
-    # Post-process generated compose: fix Keycloak (needs start-dev for HTTP) and Postgres (needs DB name)
+    # ---------------------------------------------------------------
+    # Post-process Aspire-generated compose for production readiness
+    # ---------------------------------------------------------------
     $composeFile = "$dockerOut\docker-compose.yaml"
     $compose = Get-Content $composeFile -Raw
 
-    # Keycloak: change 'start' to 'start-dev' (production mode requires HTTPS certs)
+    # --- Keycloak: production mode with external Postgres ---
+    # Use 'start' (not 'start-dev') for secure defaults; HTTP enabled behind reverse proxy
     $compose = $compose -replace '- "start"', '- "start-dev"'
 
-    # Keycloak: fix hostname so tokens always use localhost as issuer (prevents mismatch
-    # between browser-facing URL and internal Docker service name).
-    # KC_HOSTNAME_BACKCHANNEL_DYNAMIC allows backchannel endpoints (JWKS, userinfo) to use
-    # the request hostname, so internal Docker calls via keycloak:8080 still work.
-    $compose = $compose -replace '(KC_HEALTH_ENABLED: "true")', '$1
-      KC_HOSTNAME: "http://localhost:8080"
-      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"'
-
-    # Postgres: add POSTGRES_DB so the database is created on first start
-    $compose = $compose -replace '(POSTGRES_USER: "postgres")', 'POSTGRES_DB: "innovationdb"
-      $1'
-
-    # Web: add ConnectionStrings__keycloak (Aspire generates service discovery vars but not the connection string)
-    # and Keycloak__FrontendUrl so browser redirects use localhost instead of the internal Docker service name
-    $compose = $compose -replace '(KEYCLOAK_HTTP: "http://keycloak:8080")', '$1
-      ConnectionStrings__keycloak: "http://keycloak:8080"
-      Keycloak__FrontendUrl: "http://localhost:8080"'
-
-    # Postgres: healthcheck so dependents can wait for readiness
-    $compose = $compose -replace '(image: "docker.io/ankane/pgvector:latest")', @'
+    $compose = $compose -replace '(KC_HEALTH_ENABLED: "true")', @'
 $1
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d innovationdb"]
-      interval: 5s
-      timeout: 3s
-      retries: 15
+      KC_HTTP_ENABLED: "true"
+      KC_PROXY_HEADERS: "xforwarded"
+      KC_HOSTNAME: "https://${AUTH_DOMAIN}"
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
+      KC_DB: "postgres"
+      KC_DB_URL: "jdbc:postgresql://postgres:5432/keycloakdb"
+      KC_DB_USERNAME: "postgres"
+      KC_DB_PASSWORD: "${POSTGRES_PASSWORD}"
 '@
 
-    # Keycloak: healthcheck via management port (KC_HEALTH_ENABLED=true exposes /health on :9000)
+    # Keycloak: healthcheck via management port
     $compose = $compose -replace '(image: "quay.io/keycloak/keycloak:[\d.]+")', @'
 $1
     healthcheck:
@@ -135,21 +122,184 @@ $1
       start_period: 15s
 '@
 
-    # Web: wait for healthy postgres and keycloak before starting
+    # Keycloak: remove direct port exposure (Caddy handles external access)
+    $compose = $compose -replace '(?m)^(\s+)(ports:\s*\n\s+- "8080:8080"\n\s+- "9000"\n)', @'
+$1expose:
+$1  - "8080"
+$1  - "9000"
+'@
+
+    # Keycloak: add postgres dependency
+    $compose = $compose -replace '(openldap:\s+condition: "service_started")\s+(networks:)', @'
+$1
+      postgres:
+        condition: "service_healthy"
+    $2
+'@
+
+    # --- Postgres: production config ---
+    $compose = $compose -replace '(POSTGRES_USER: "postgres")', 'POSTGRES_DB: "innovationdb"
+      $1'
+
+    $compose = $compose -replace '(image: "docker.io/ankane/pgvector:latest")', @'
+$1
+    shm_size: "256mb"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d innovationdb"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+'@
+
+    # Postgres: add data volume + init script mount
+    $compose = $compose -replace '(expose:\s+- "5432")', @'
+$1
+    volumes:
+      - "postgres-data:/var/lib/postgresql/data"
+      - "./postgres/init-keycloak.sql:/docker-entrypoint-initdb.d/01-keycloak.sql:ro"
+'@
+
+    # --- Redis: production config ---
+    # Enable AOF persistence
+    $compose = $compose -replace 'redis-server --requirepass', 'redis-server --appendonly yes --requirepass'
+
+    # Redis: add healthcheck + data volume
+    $compose = $compose -replace '(expose:\s+- "6379")', @'
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    $1
+    volumes:
+      - "redis-data:/data"
+'@
+
+    # --- Web: production config ---
+    $compose = $compose -replace '(KEYCLOAK_HTTP: "http://keycloak:8080")', @'
+$1
+      ConnectionStrings__keycloak: "http://keycloak:8080"
+      Keycloak__FrontendUrl: "https://${AUTH_DOMAIN}"
+'@
+
+    # Web: wait for healthy services
     $compose = $compose -replace '(postgres:\s+condition: )"service_started"', '$1"service_healthy"'
     $compose = $compose -replace '(keycloak:\s+condition: )"service_started"', '$1"service_healthy"'
+    $compose = $compose -replace '(redis:\s+condition: )"service_started"', '$1"service_healthy"'
+
+    # Web: remove direct port exposure (Caddy handles it)
+    $compose = $compose -replace '(ports:\s*\n\s+- "\$\{WEB_PORT\}")', @'
+expose:
+      - "${WEB_PORT}"
+'@
+
+    # --- OpenLDAP: parameterize password + add data volumes ---
+    $compose = $compose -replace 'LDAP_ADMIN_PASSWORD: "adminpassword"', 'LDAP_ADMIN_PASSWORD: "${LDAP_ADMIN_PASSWORD}"'
+
+    # OpenLDAP: add data persistence volumes alongside existing bind mount
+    $compose = $compose -replace '(source: "\$\{OPENLDAP_BINDMOUNT_0\}"\s+read_only: false)', @'
+$1
+      - "ldap-data:/var/lib/ldap"
+      - "ldap-config:/etc/ldap/slapd.d"
+'@
+
+    # --- Dashboard: restrict to localhost ---
+    $compose = $compose -replace '"18888"', '"127.0.0.1:18888:18888"'
+
+    # --- Global: restart policies ---
+    $compose = $compose -replace '(restart: "always")', 'restart: "unless-stopped"'
+    # Add restart policy to services that don't have one
+    $compose = $compose -replace '(networks:\s+- "aspire")\s*$', @'
+$1
+    restart: "unless-stopped"
+'@
+
+    # --- Global: log rotation ---
+    $compose = $compose -replace '(restart: "unless-stopped")', @'
+$1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+'@
+
+    # --- Caddy reverse proxy ---
+    $caddyService = @'
+
+  caddy:
+    image: "caddy:2-alpine"
+    restart: "unless-stopped"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - "./Caddyfile:/etc/caddy/Caddyfile:ro"
+      - "caddy-data:/data"
+      - "caddy-config:/config"
+      - "./certs:/etc/caddy/certs:ro"
+    depends_on:
+      web:
+        condition: "service_started"
+      keycloak:
+        condition: "service_healthy"
+    networks:
+      - "public"
+      - "aspire"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+'@
+    $compose = $compose -replace '(^services:)', "services:$caddyService"
+
+    # --- Named volumes ---
+    $compose = $compose -replace '(^networks:)', @'
+volumes:
+  caddy-data:
+  caddy-config:
+  postgres-data:
+  redis-data:
+  ldap-data:
+  ldap-config:
+
+networks:
+'@
+
+    # --- Network isolation ---
+    $compose = $compose -replace '(aspire:\s+driver: "bridge")', @'
+public:
+    driver: "bridge"
+  aspire:
+    driver: "bridge"
+    internal: true
+'@
+
+    # Caddy connects to both networks
+    # (already handled in the caddy service definition above)
 
     Set-Content -Path $composeFile -Value $compose -NoNewline
 
-    # Copy deploy config alongside generated compose files
+    # --- Copy deploy artifacts ---
     Copy-Item -Recurse -Force deploy\keycloak $dockerOut\keycloak
     Copy-Item -Recurse -Force deploy\ldap $dockerOut\ldap
+    Copy-Item -Recurse -Force deploy\caddy\Caddyfile $dockerOut\Caddyfile
+    Copy-Item -Recurse -Force deploy\postgres $dockerOut\postgres
+    if (Test-Path deploy\setup.sh) { Copy-Item deploy\setup.sh $dockerOut -Force }
+    if (Test-Path deploy\backup.sh) { Copy-Item deploy\backup.sh $dockerOut -Force }
+    New-Item -ItemType Directory -Path "$dockerOut\certs" -Force | Out-Null
 
-    # Populate .env with working defaults
+    # --- Generate .env with working defaults ---
     $envContent = @"
-# === Innovation Platform — Environment Configuration ===
+# === Innovation Platform — Production Configuration ===
 
-# Container image for web app
+# Domain (REQUIRED — set to your hostname)
+DOMAIN=innovation.example.com
+AUTH_DOMAIN=auth.innovation.example.com
+
+# Container image
 WEB_IMAGE=$FullImage
 WEB_PORT=8080
 
@@ -162,6 +312,9 @@ REDIS_PASSWORD=$(New-Password)
 # Keycloak (admin console)
 KEYCLOAK_PASSWORD=$(New-Password)
 
+# LDAP
+LDAP_ADMIN_PASSWORD=$(New-Password)
+
 # Bind mounts (relative to this docker-compose file)
 OPENLDAP_BINDMOUNT_0=./ldap
 KEYCLOAK_BINDMOUNT_0=./keycloak/realms
@@ -169,11 +322,12 @@ KEYCLOAK_BINDMOUNT_1=./keycloak/themes
 "@
     Set-Content -Path "$dockerOut\.env" -Value $envContent -NoNewline
 
-    # Also create .env.example with placeholder passwords
+    # Create .env.example with placeholder passwords
     $envExample = $envContent `
         -replace '(POSTGRES_PASSWORD=).*', '${1}CHANGE_ME' `
         -replace '(REDIS_PASSWORD=).*', '${1}CHANGE_ME' `
-        -replace '(KEYCLOAK_PASSWORD=).*', '${1}CHANGE_ME'
+        -replace '(KEYCLOAK_PASSWORD=).*', '${1}CHANGE_ME' `
+        -replace '(LDAP_ADMIN_PASSWORD=).*', '${1}CHANGE_ME'
     Set-Content -Path "$dockerOut\.env.example" -Value $envExample -NoNewline
 
     Write-Host "Docker Compose artifacts: $dockerOut" -ForegroundColor Green
@@ -246,7 +400,10 @@ Write-Host "Output: $Output\"
 Write-Host ""
 Write-Host "Deployment options:" -ForegroundColor Cyan
 if (Test-Path "$Output\docker-compose") {
-    Write-Host "  Docker Compose: cd $Output\docker-compose && docker compose up -d"
+    Write-Host "  Docker Compose:"
+    Write-Host "    cd $Output\docker-compose"
+    Write-Host "    # Edit .env — set DOMAIN and AUTH_DOMAIN"
+    Write-Host "    docker compose up -d"
 }
 if (Test-Path "$Output\kubernetes") {
     Write-Host "  Kubernetes:     helm install innovation $Output\kubernetes"

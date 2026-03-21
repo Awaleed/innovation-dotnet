@@ -1,0 +1,31 @@
+# Innovation Platform — Reverse Proxy Configuration
+#
+# TLS Modes:
+#   1. Auto (Let's Encrypt) — default, just set DOMAIN and AUTH_DOMAIN in .env
+#   2. Custom certs — place cert.pem + key.pem in ./certs/, uncomment tls lines below
+#   3. Self-signed  — replace tls lines with: tls internal
+
+{$DOMAIN} {
+    reverse_proxy web:{$WEB_PORT}
+    encode gzip
+
+    # For custom certs, uncomment:
+    # tls /etc/caddy/certs/cert.pem /etc/caddy/certs/key.pem
+
+    # For self-signed (air-gapped on-prem), uncomment:
+    # tls internal
+}
+
+{$AUTH_DOMAIN} {
+    reverse_proxy keycloak:8080
+
+    # Keycloak needs larger buffers for token payloads
+    header_up X-Forwarded-Proto {scheme}
+    header_up X-Forwarded-Host {host}
+
+    # For custom certs, uncomment:
+    # tls /etc/caddy/certs/cert.pem /etc/caddy/certs/key.pem
+
+    # For self-signed (air-gapped on-prem), uncomment:
+    # tls internal
+}
