@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using Innovation.Application.Common.Constants;
 using Innovation.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -25,6 +25,7 @@ public class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICur
     public string? Email => httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.Email);
     public bool IsAuthenticated =>
         httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated ?? false;
+
     public IReadOnlyList<string> Roles =>
         httpContextAccessor
             .HttpContext?.User.FindAll(ClaimTypes.Role)
@@ -32,4 +33,31 @@ public class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICur
             .ToList()
             .AsReadOnly()
         ?? [];
+
+    public IReadOnlyList<string> Permissions =>
+        httpContextAccessor
+            .HttpContext?.User.FindAll(ClaimConstants.Permission)
+            .Select(c => c.Value)
+            .ToList()
+            .AsReadOnly()
+        ?? [];
+
+    public bool HasPermission(string permission) =>
+        Permissions.Contains(permission, StringComparer.OrdinalIgnoreCase);
+
+    public bool HasAnyPermission(params string[] permissions) =>
+        permissions.Any(p => Permissions.Contains(p, StringComparer.OrdinalIgnoreCase));
+
+    public bool IsAdmin() => HasRole("admin") || IsSuperAdmin();
+
+    public bool IsSuperAdmin() => HasRole("super-admin");
+
+    public bool IsEvaluator() => HasRole("evaluator");
+
+    public bool IsJury() => HasRole("jury");
+
+    public bool IsMentor() => HasRole("mentor");
+
+    private bool HasRole(string role) =>
+        Roles.Any(r => string.Equals(r, role, StringComparison.OrdinalIgnoreCase));
 }

@@ -1,6 +1,7 @@
 ﻿using Innovation.Application.Common.Interfaces;
 using Innovation.Domain;
 using Innovation.Domain.Entities;
+using Innovation.Domain.Entities.Authorization;
 using Innovation.Domain.Entities.Challenge;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options, IMediator medi
     public DbSet<ChallengeIntellectualProperty> ChallengeIntellectualProperties =>
         Set<ChallengeIntellectualProperty>();
     public DbSet<ChallengeUser> ChallengeUsers => Set<ChallengeUser>();
+    public DbSet<Role> Roles => Set<Role>();
+    public DbSet<Permission> Permissions => Set<Permission>();
+    public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
+    public DbSet<UserRole> UserRoles => Set<UserRole>();
+    public DbSet<UserPermission> UserPermissions => Set<UserPermission>();
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

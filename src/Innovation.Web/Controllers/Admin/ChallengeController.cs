@@ -2,15 +2,14 @@
 using InertiaCore;
 using Innovation.Application.Features.Challenges.Commands;
 using Innovation.Application.Features.Challenges.Queries;
+using Innovation.Web.Authorization;
 using Innovation.Web.Extensions;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
 
 namespace Innovation.Web.Controllers.Admin;
 
-[Authorize]
+[HasPermission("admin:challenges:read")]
 [Route("admin/challenges")]
 public class ChallengeController(IMediator mediator) : Controller
 {

@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Innovation.Application.Common.Constants;
+using Innovation.Application.Common.Interfaces;
 using Innovation.Domain.Entities;
 using Innovation.Infrastructure.Data;
 using Keycloak.AuthServices.Authentication;
@@ -92,6 +93,19 @@ internal static class AuthenticationExtensions
 
                     await db.SaveChangesAsync();
                     identity.AddClaim(new Claim(ClaimConstants.LocalUserId, user.Id.ToString()));
+
+                    // On first login (no local roles yet), seed from Keycloak realm roles
+                    var hasLocalRoles = await db.UserRoles.AnyAsync(ur => ur.UserId == user.Id);
+                    if (!hasLocalRoles)
+                    {
+                        var keycloakRoles = identity.FindAll("roles").Select(c => c.Value).ToList();
+                        if (keycloakRoles.Count > 0)
+                        {
+                            var permissionService =
+                                context.HttpContext.RequestServices.GetRequiredService<IPermissionService>();
+                            await permissionService.SyncRolesAsync(user.Id, keycloakRoles);
+                        }
+                    }
                 };
 
                 options.Events.OnValidatePrincipal = async context =>

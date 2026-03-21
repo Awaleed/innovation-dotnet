@@ -20,8 +20,12 @@
   ],
   "roles": {
     "realm": [
+      { "name": "super-admin", "description": "Super Administrator" },
       { "name": "admin", "description": "Administrator" },
-      { "name": "user", "description": "Standard user" }
+      { "name": "user", "description": "Standard user" },
+      { "name": "evaluator", "description": "Evaluator" },
+      { "name": "jury", "description": "Jury member" },
+      { "name": "mentor", "description": "Mentor" }
     ]
   },
   "defaultRoles": ["user"],
@@ -214,7 +218,7 @@
       "enabled": true,
       "firstName": "Super Admin",
       "lastName": "",
-      "realmRoles": ["admin", "user"],
+      "realmRoles": ["super-admin", "admin", "user"],
       "credentials": [
         {
           "type": "password",

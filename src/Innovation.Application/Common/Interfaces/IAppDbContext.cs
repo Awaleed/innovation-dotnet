@@ -1,4 +1,5 @@
 ﻿using Innovation.Domain.Entities;
+using Innovation.Domain.Entities.Authorization;
 using Innovation.Domain.Entities.Challenge;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -22,6 +23,11 @@ public interface IAppDbContext
     DbSet<ChallengeSustainabilityImpact> ChallengeSustainabilityImpacts { get; }
     DbSet<ChallengeIntellectualProperty> ChallengeIntellectualProperties { get; }
     DbSet<ChallengeUser> ChallengeUsers { get; }
+    DbSet<Role> Roles { get; }
+    DbSet<Permission> Permissions { get; }
+    DbSet<RolePermission> RolePermissions { get; }
+    DbSet<UserRole> UserRoles { get; }
+    DbSet<UserPermission> UserPermissions { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

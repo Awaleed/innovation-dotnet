@@ -10,4 +10,5 @@ export interface RouteDefinition<M extends string = string> {
 
 // Sub-routes
 export * as challenges from './challenges'
+export * as roles from './roles'
 

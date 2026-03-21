@@ -8,9 +8,11 @@ using Innovation.Infrastructure;
 using Innovation.Infrastructure.Data;
 using Innovation.Infrastructure.Data.Interceptors;
 using Innovation.ServiceDefaults;
+using Innovation.Web.Authorization;
 using Innovation.Web.Endpoints;
 using Innovation.Web.Extensions;
 using Innovation.Web.Middleware;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -70,6 +72,10 @@ builder.Services.AddViteHelper(options =>
 });
 
 builder.AddKeycloakAuth();
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+builder.Services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, UserTypeHandler>();
+builder.Services.AddHybridCache();
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
@@ -95,6 +101,7 @@ builder.Services.AddAntiforgery(options =>
     options.Cookie.SameSite = SameSiteMode.Lax;
     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 });
+builder.Services.AddScoped<PermissionMiddleware>();
 builder.Services.AddTransient<HandleInertiaRequests>();
 builder.Services.AddOpenApiWithAuth(builder.Configuration);
 
@@ -106,6 +113,8 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await db.Database.MigrateAsync();
 }
+
+await Innovation.Infrastructure.Data.Seeders.PermissionSeeder.SeedAsync(app.Services);
 
 app.MapDefaultEndpoints();
 
@@ -138,6 +147,7 @@ app.UseStaticFiles();
 app.UseInertia();
 app.UseRouting();
 app.UseAuthentication();
+app.UseMiddleware<PermissionMiddleware>();
 app.UseAuthorization();
 app.UseAntiforgery();
 app.UseRateLimiter();
@@ -145,6 +155,7 @@ app.UseMiddleware<HandleInertiaRequests>();
 
 app.MapControllers();
 app.MapAntiforgeryEndpoints();
+app.MapRoleEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
