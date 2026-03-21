@@ -39,7 +39,6 @@
     <PackageVersion Include="AspNetCore.InertiaCore" Version="0.0.9" />
     <!-- Miscellaneous -->
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.5" />
-    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.7.0" />
     <PackageVersion Include="Reinforced.Typings" Version="1.6.7" />
 <PackageVersion Include="MediatR" Version="13.0.0" />
     <PackageVersion Include="FluentValidation" Version="12.0.0" />

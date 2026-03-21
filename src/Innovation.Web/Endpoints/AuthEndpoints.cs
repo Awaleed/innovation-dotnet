@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Innovation.Application.Common.Constants;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Innovation.Web.Endpoints;
@@ -71,13 +72,14 @@ public static class AuthEndpoints
             RequireSignedTokens = true,
         };
 
-        var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        var tokenHandler = new JsonWebTokenHandler();
 
-        System.IdentityModel.Tokens.Jwt.JwtSecurityToken jwt;
+        TokenValidationResult result;
         try
         {
-            tokenHandler.ValidateToken(logoutToken, validationParameters, out var validatedToken);
-            jwt = (System.IdentityModel.Tokens.Jwt.JwtSecurityToken)validatedToken;
+            result = await tokenHandler.ValidateTokenAsync(logoutToken, validationParameters);
+            if (!result.IsValid)
+                throw result.Exception ?? new SecurityTokenValidationException("Token validation failed");
             logger.LogDebug("Logout token signature and claims validated successfully");
         }
         catch (Exception ex)
@@ -85,6 +87,8 @@ public static class AuthEndpoints
             logger.LogWarning(ex, "Rejected: logout token validation failed");
             return Results.BadRequest("Invalid logout_token");
         }
+
+        var jwt = (JsonWebToken)result.SecurityToken;
 
         // 3. Validate events claim (OIDC Back-Channel Logout spec)
         var eventsClaim = jwt.Claims.FirstOrDefault(c => c.Type == "events")?.Value;

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace Innovation.Web.Extensions;
 
@@ -94,6 +95,7 @@ internal static class AuthenticationExtensions
             options.GetClaimsFromUserInfoEndpoint = true;
             options.SignedOutCallbackPath = "/signout-callback-oidc";
             options.RemoteSignOutPath = "/signout-oidc";
+            options.ResponseType = OpenIdConnectResponseType.Code;
         });
     }
 

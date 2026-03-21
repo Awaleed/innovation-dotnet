@@ -45,7 +45,8 @@
         "post.logout.redirect.uris": "http://localhost:5200/*##https://localhost:7200/*",
         "backchannel.logout.url": "http://host.docker.internal:5200/auth/backchannel-logout",
         "backchannel.logout.session.required": "true",
-        "backchannel.logout.revoke.offline.tokens": "false"
+        "backchannel.logout.revoke.offline.tokens": "false",
+        "require.pushed.authorization.requests": "true"
       },
       "protocolMappers": [
         {
