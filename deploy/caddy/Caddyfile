@@ -17,11 +17,10 @@
 }
 
 {$AUTH_DOMAIN} {
-    reverse_proxy keycloak:8080
-
-    # Keycloak needs larger buffers for token payloads
-    header_up X-Forwarded-Proto {scheme}
-    header_up X-Forwarded-Host {host}
+    reverse_proxy keycloak:8080 {
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-Host {host}
+    }
 
     # For custom certs, uncomment:
     # tls /etc/caddy/certs/cert.pem /etc/caddy/certs/key.pem

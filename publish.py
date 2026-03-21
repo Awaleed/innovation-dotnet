@@ -80,18 +80,22 @@ def warn(msg: str) -> None:
 def build_container_image(full_image: str, image_name: str, image_tag: str,
                           skip_push: bool) -> None:
     header(f"Building container image: {full_image}")
-    run([
+
+    # dotnet publish with ContainerRegistry pushes directly to the registry.
+    # Without ContainerRegistry, the image is built locally only.
+    cmd = [
         "dotnet", "publish", "src/Innovation.Web", "-c", "Release",
         f"-p:PublishProfile=DefaultContainer",
         f"-p:ContainerRepository={image_name}",
         f"-p:ContainerImageTag={image_tag}",
-        "-p:ContainerRegistry=docker.io",
-    ])
-
+    ]
     if not skip_push:
-        info(f"Pushing {full_image} to Docker Hub...")
-        run(["docker", "push", full_image])
+        cmd.append("-p:ContainerRegistry=docker.io")
+        info(f"Building and pushing {full_image} to Docker Hub...")
+    else:
+        info("Building image locally (skip push)...")
 
+    run(cmd)
     success(f"Container image ready: {full_image}")
 
 
