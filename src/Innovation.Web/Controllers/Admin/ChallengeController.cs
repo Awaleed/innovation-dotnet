@@ -45,7 +45,6 @@ public class ChallengeController(IMediator mediator) : Controller
     }
 
     [HttpPost("")]
-    [EnableRateLimiting("api")]
     public async Task<IActionResult> Store([FromBody] CreateChallengeCommand command)
     {
         var result = await mediator.Send(command);
@@ -89,7 +88,6 @@ public class ChallengeController(IMediator mediator) : Controller
     }
 
     [HttpPut("{id:int}")]
-    [EnableRateLimiting("api")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateChallengeCommand command)
     {
         var cmd = command with { Id = id };
@@ -105,7 +103,6 @@ public class ChallengeController(IMediator mediator) : Controller
     }
 
     [HttpDelete("{id:int}")]
-    [EnableRateLimiting("api")]
     public async Task<IActionResult> Destroy(int id)
     {
         var result = await mediator.Send(new DeleteChallengeCommand(id));
@@ -120,7 +117,6 @@ public class ChallengeController(IMediator mediator) : Controller
     }
 
     [HttpPost("{id:int}/advance")]
-    [EnableRateLimiting("api")]
     public async Task<IActionResult> Advance(int id)
     {
         var result = await mediator.Send(new AdvanceChallengeStageCommand(id));
