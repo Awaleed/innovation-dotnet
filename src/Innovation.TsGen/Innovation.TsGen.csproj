@@ -8,6 +8,8 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Innovation.TsGen</RootNamespace>
     <IsPublishable>false</IsPublishable>
+    <!-- Exclude from solution-wide build/watch — run explicitly via scripts/generate-ts.ps1 -->
+    <ExcludeFromSolutionBuild>true</ExcludeFromSolutionBuild>
   </PropertyGroup>
 
 </Project>

@@ -8,11 +8,11 @@ export interface RouteDefinition<M extends string = string> {
     method: M;
 }
 
-/** @controller Auth @action backchannel-logout @route '/auth/backchannel-logout' @method post */
-export const backchannel-logout = (): RouteDefinition<'post'> => ({
+/** @controller Auth @action backchannelLogout @route '/auth/backchannel-logout' @method post */
+export const backchannelLogout = (): RouteDefinition<'post'> => ({
     url: '/auth/backchannel-logout',
     method: 'post',
 })
 
-backchannel-logout.url = () => '/auth/backchannel-logout'
+backchannelLogout.url = () => '/auth/backchannel-logout'
 

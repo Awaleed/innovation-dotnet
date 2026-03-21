@@ -321,6 +321,31 @@ public static class Program
             fileCount++;
         }
 
+        // Flatten: if a directory has only index.ts and no subdirectories,
+        // replace it with {dirName}.ts in the parent directory.
+        // Process bottom-up so nested flattening works correctly.
+        var allGeneratedDirs = Directory.GetDirectories(routesDir, "*", SearchOption.AllDirectories)
+            .OrderByDescending(d => d.Length) // deepest first
+            .ToList();
+
+        foreach (var dir in allGeneratedDirs)
+        {
+            var subDirs = Directory.GetDirectories(dir);
+            var files = Directory.GetFiles(dir);
+
+            // Only flatten if: exactly 1 file (index.ts), no subdirectories
+            if (subDirs.Length == 0 && files.Length == 1 && Path.GetFileName(files[0]) == "index.ts")
+            {
+                var dirName = new DirectoryInfo(dir).Name;
+                var parentDir = Directory.GetParent(dir)!.FullName;
+                var targetFile = Path.Combine(parentDir, $"{dirName}.ts");
+
+                File.Move(files[0], targetFile);
+                Directory.Delete(dir);
+                fileCount--; // net count stays accurate (moved, not new)
+            }
+        }
+
         return fileCount;
     }
 
@@ -445,6 +470,15 @@ public static class Program
     static string ToCamelCase(string name)
     {
         if (string.IsNullOrEmpty(name)) return name;
+
+        // Handle kebab-case and snake_case: "backchannel-logout" → "backchannelLogout"
+        if (name.Contains('-') || name.Contains('_'))
+        {
+            var parts = name.Split(['-', '_'], StringSplitOptions.RemoveEmptyEntries);
+            return parts[0].ToLowerInvariant() +
+                   string.Concat(parts.Skip(1).Select(p => char.ToUpperInvariant(p[0]) + p[1..].ToLowerInvariant()));
+        }
+
         return char.ToLowerInvariant(name[0]) + name[1..];
     }
 }
