@@ -50,7 +50,7 @@ const staticColors: Record<string, string> = {
  * @returns HEX color value
  */
 export function getBrandColor(color: BrandColor): string {
-    return staticColors[color] || staticColors.primary;
+    return staticColors[color] ?? '#0C2337';
 }
 
 /**
@@ -92,7 +92,7 @@ export function getBrandColorVar(color: BrandColor): string {
         white: '--white',
     };
 
-    return themeVarMap[color] || semanticVarMap.primary;
+    return themeVarMap[color] ?? '--primary';
 }
 
 /**
@@ -109,9 +109,9 @@ export function hexToRgb(hex: string): { r: number; g: number; b: number } | nul
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result
         ? {
-              r: parseInt(result[1], 16),
-              g: parseInt(result[2], 16),
-              b: parseInt(result[3], 16),
+              r: parseInt(result[1] ?? '0', 16),
+              g: parseInt(result[2] ?? '0', 16),
+              b: parseInt(result[3] ?? '0', 16),
           }
         : null;
 }
@@ -172,7 +172,7 @@ export function getContrastRatio(color1: string, color2: string): number {
         const rgb = hexToRgb(hex);
         if (!rgb) return 0;
 
-        const [r, g, b] = [rgb.r, rgb.g, rgb.b].map((val) => {
+        const [r = 0, g = 0, b = 0] = [rgb.r, rgb.g, rgb.b].map((val) => {
             val = val / 255;
             return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
         });
@@ -205,7 +205,7 @@ export function getLuminance(hex: string): number {
     const rgb = hexToRgb(hex);
     if (!rgb) return 0;
 
-    const [r, g, b] = [rgb.r, rgb.g, rgb.b].map((val) => {
+    const [r = 0, g = 0, b = 0] = [rgb.r, rgb.g, rgb.b].map((val) => {
         val = val / 255;
         return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
     });

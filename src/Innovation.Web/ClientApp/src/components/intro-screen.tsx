@@ -10,15 +10,15 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete, shouldExit
     const [isFadingOut, setIsFadingOut] = useState(false);
 
     useEffect(() => {
-        if (shouldExit && !isFadingOut) {
-            setIsFadingOut(true);
-            // onComplete is called after logo exit animation finishes (800ms)
-            const exitTimer = setTimeout(() => {
-                onComplete();
-            }, 800);
+        if (!shouldExit || isFadingOut) return;
 
-            return () => clearTimeout(exitTimer);
-        }
+        setIsFadingOut(true);
+        // onComplete is called after logo exit animation finishes (800ms)
+        const exitTimer = setTimeout(() => {
+            onComplete();
+        }, 800);
+
+        return () => clearTimeout(exitTimer);
     }, [shouldExit, isFadingOut, onComplete]);
 
     return (

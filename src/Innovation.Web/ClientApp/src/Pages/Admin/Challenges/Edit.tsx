@@ -55,7 +55,7 @@ function toDateInputValue(d: string | null): string {
     if (!d) return '';
     const date = new Date(d);
     if (isNaN(date.getTime())) return '';
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split('T')[0] ?? '';
 }
 
 const labelCls = 'block text-sm font-medium text-gray-700 mb-1';

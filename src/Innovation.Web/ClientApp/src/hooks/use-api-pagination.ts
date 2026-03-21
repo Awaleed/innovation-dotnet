@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
 import { useCallback, useMemo, useState } from 'react';
@@ -18,7 +18,7 @@ interface UseApiPaginationOptions<TFilters extends Record<string, any>> {
     /** Initial filters to apply */
     initialFilters?: Partial<TFilters>;
     /** React Query options */
-    queryOptions?: Partial<Pick<UseQueryOptions, 'enabled' | 'staleTime' | 'gcTime'>>;
+    queryOptions?: { enabled?: boolean; staleTime?: number; gcTime?: number };
 }
 
 /** Matches .NET PaginatedResponse<T> */

@@ -47,11 +47,12 @@ export const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
         // If page is already loaded, hide immediately
         if (document.readyState === 'complete') {
             hideServerIntro();
-        } else {
-            // Otherwise wait for page load
-            window.addEventListener('load', hideServerIntro);
-            return () => window.removeEventListener('load', hideServerIntro);
+            return;
         }
+
+        // Otherwise wait for page load
+        window.addEventListener('load', hideServerIntro);
+        return () => window.removeEventListener('load', hideServerIntro);
     }, []);
 
     useEffect(() => {
