@@ -128,11 +128,19 @@ def generate_docker_compose(output: pathlib.Path, full_image: str) -> None:
     with open(compose_file, "w") as f:
         yaml.dump(compose, f, default_flow_style=False, sort_keys=False, width=200)
 
-    # 4. Copy deploy artifacts
-    _copy_deploy_artifacts(docker_out)
+    # 4. Generate passwords (needed by both artifact copy and .env)
+    passwords = {
+        "POSTGRES_PASSWORD": generate_password(),
+        "REDIS_PASSWORD": generate_password(),
+        "KEYCLOAK_PASSWORD": generate_password(),
+        "LDAP_ADMIN_PASSWORD": generate_password(),
+    }
 
-    # 5. Generate .env
-    _generate_env(docker_out, full_image)
+    # 5. Copy deploy artifacts + inject LDAP password into realm JSON
+    _copy_deploy_artifacts(docker_out, passwords)
+
+    # 6. Generate .env
+    _generate_env(docker_out, full_image, passwords)
 
     success(f"Docker Compose artifacts: {docker_out}")
 
@@ -165,9 +173,10 @@ def _transform_compose(compose: dict) -> None:
         "logging": _log_config(),
     }
 
-    # --- Dashboard: restrict to localhost ---
+    # --- Dashboard: restrict to localhost, pin anonymous volume ---
     dash = services.get("innovation-dashboard", {})
     dash["ports"] = ["127.0.0.1:18888:18888"]
+    dash["volumes"] = ["dashboard-keys:/home/app/.aspnet/DataProtection-Keys"]
     dash["restart"] = "unless-stopped"
     dash["logging"] = _log_config()
 
@@ -222,19 +231,15 @@ def _transform_compose(compose: dict) -> None:
     ldap["restart"] = "unless-stopped"
     ldap["logging"] = _log_config()
 
-    # --- phpLDAPadmin ---
+    # --- phpLDAPadmin: pin anonymous volume ---
     if "phpldapadmin" in services:
+        services["phpldapadmin"]["volumes"] = ["phpldapadmin-data:/var/www/phpldapadmin"]
         services["phpldapadmin"]["restart"] = "unless-stopped"
         services["phpldapadmin"]["logging"] = _log_config()
 
-    # --- Keycloak: start-dev + production env + healthcheck + external DB ---
+    # --- Keycloak: production mode + env + healthcheck + external DB ---
     kc = services["keycloak"]
-    # Fix command: start -> start-dev
-    if "command" in kc:
-        kc["command"] = [
-            c.replace("start", "start-dev") if c == "start" else c
-            for c in kc["command"]
-        ]
+    # Keep Aspire's default 'start' (production mode) — Caddy handles TLS
     kc_env = kc.setdefault("environment", {})
     kc_env.update({
         "KC_HTTP_ENABLED": "true",
@@ -284,6 +289,8 @@ def _transform_compose(compose: dict) -> None:
     compose["volumes"] = {
         "caddy-data": None,
         "caddy-config": None,
+        "dashboard-keys": None,
+        "phpldapadmin-data": None,
         "postgres-data": None,
         "redis-data": None,
         "ldap-data": None,
@@ -304,8 +311,8 @@ def _log_config() -> dict:
     }
 
 
-def _copy_deploy_artifacts(docker_out: pathlib.Path) -> None:
-    """Copy deploy config files alongside compose."""
+def _copy_deploy_artifacts(docker_out: pathlib.Path, passwords: dict) -> None:
+    """Copy deploy config files alongside compose, injecting secrets."""
     for src_dir in ("keycloak", "ldap", "postgres"):
         src = ROOT / "deploy" / src_dir
         if src.is_dir():
@@ -313,6 +320,17 @@ def _copy_deploy_artifacts(docker_out: pathlib.Path) -> None:
             if dst.exists():
                 shutil.rmtree(dst)
             shutil.copytree(src, dst)
+
+    # Remove dev realm files (only production realm should be deployed)
+    for dev_file in (docker_out / "keycloak" / "realms").glob("*.dev.json"):
+        dev_file.unlink()
+
+    # Inject LDAP password into realm JSON (replace hardcoded bindCredential)
+    for realm_file in (docker_out / "keycloak" / "realms").glob("*.json"):
+        content = realm_file.read_text(encoding="utf-8")
+        if '"adminpassword"' in content:
+            content = content.replace('"adminpassword"', f'"{passwords["LDAP_ADMIN_PASSWORD"]}"')
+            realm_file.write_text(content, encoding="utf-8")
 
     # Caddyfile
     caddy_src = ROOT / "deploy" / "caddy" / "Caddyfile"
@@ -329,21 +347,15 @@ def _copy_deploy_artifacts(docker_out: pathlib.Path) -> None:
     (docker_out / "certs").mkdir(exist_ok=True)
 
 
-def _generate_env(docker_out: pathlib.Path, full_image: str) -> None:
+def _generate_env(docker_out: pathlib.Path, full_image: str,
+                  passwords: dict) -> None:
     """Generate .env and .env.example files."""
-    passwords = {
-        "POSTGRES_PASSWORD": generate_password(),
-        "REDIS_PASSWORD": generate_password(),
-        "KEYCLOAK_PASSWORD": generate_password(),
-        "LDAP_ADMIN_PASSWORD": generate_password(),
-    }
-
     lines = [
         "# === Innovation Platform — Production Configuration ===",
         "",
         "# Domain - set to your hostname",
-        "DOMAIN=innovation.example.com",
-        "AUTH_DOMAIN=auth.innovation.example.com",
+        "DOMAIN=innovation.test",
+        "AUTH_DOMAIN=auth.innovation.test",
         "",
         "# Container image",
         f"WEB_IMAGE={full_image}",
