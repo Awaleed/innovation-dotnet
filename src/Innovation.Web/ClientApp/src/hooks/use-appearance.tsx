@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export type Appearance = 'light' | 'dark' | 'system';
 
@@ -46,28 +46,21 @@ export function initializeTheme() {
 }
 
 export function useAppearance() {
-    const [_appearance, setAppearance] = useState<Appearance>('light');
-
     const updateAppearance = useCallback((_mode: Appearance) => {
         // Always force light mode regardless of input
-        setAppearance('light');
-
-        // Store light mode in localStorage
         localStorage.setItem('appearance', 'light');
-
-        // Store light mode in cookie for SSR
         setCookie('appearance', 'light');
-
-        // Always apply light theme
         applyTheme('light');
     }, []);
 
     useEffect(() => {
-        // Always set to light mode
-        updateAppearance('light');
+        // Initialize light mode on mount (side effects only, no state update)
+        localStorage.setItem('appearance', 'light');
+        setCookie('appearance', 'light');
+        applyTheme('light');
 
         return () => mediaQuery()?.removeEventListener('change', handleSystemThemeChange);
-    }, [updateAppearance]);
+    }, []);
 
     return { appearance: 'light', updateAppearance } as const;
 }

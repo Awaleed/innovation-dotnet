@@ -25,7 +25,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     const theme = useTheme();
 
     const getColor = (colorName: string): string => {
-        return theme.colors[colorName] || getBrandColor(colorName as any);
+        return theme.colors[colorName] || getBrandColor(colorName as Parameters<typeof getBrandColor>[0]);
     };
 
     const getLogo = (logoName: keyof ThemeConfig['logos']): string => {
@@ -44,6 +44,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 /**
  * Hook to access theme context
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export function useThemeContext(): ThemeContextValue {
     const context = useContext(ThemeContext);
     if (!context) {

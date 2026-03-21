@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { AnimatedLogo } from './animated-logo';
 
 interface IntroScreenProps {
@@ -7,30 +7,30 @@ interface IntroScreenProps {
 }
 
 export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete, shouldExit }) => {
-    const [isFadingOut, setIsFadingOut] = useState(false);
+    const hasStartedExit = useRef(false);
 
     useEffect(() => {
-        if (!shouldExit || isFadingOut) return;
+        if (!shouldExit || hasStartedExit.current) return;
 
-        setIsFadingOut(true);
+        hasStartedExit.current = true;
         // onComplete is called after logo exit animation finishes (800ms)
         const exitTimer = setTimeout(() => {
             onComplete();
         }, 800);
 
         return () => clearTimeout(exitTimer);
-    }, [shouldExit, isFadingOut, onComplete]);
+    }, [shouldExit, onComplete]);
 
     return (
         <div
             className={`fixed inset-0 z-9999 flex items-center justify-center bg-background ${
-                isFadingOut ? 'animate-overlay-fade-out' : ''
+                shouldExit ? 'animate-overlay-fade-out' : ''
             }`}
             style={{
                 willChange: 'opacity',
                 backfaceVisibility: 'hidden',
                 WebkitFontSmoothing: 'antialiased',
-                pointerEvents: isFadingOut ? 'none' : 'auto',
+                pointerEvents: shouldExit ? 'none' : 'auto',
             }}
         >
             {/* Background ambient glow - hardware accelerated */}
@@ -51,7 +51,7 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete, shouldExit
 
             {/* Logo container - hardware accelerated */}
             <div
-                className={`relative z-10 mx-auto px-4 ${isFadingOut ? 'animate-logo-exit' : ''}`}
+                className={`relative z-10 mx-auto px-4 ${shouldExit ? 'animate-logo-exit' : ''}`}
                 style={{
                     width: '80vw',
                     maxWidth: '800px',

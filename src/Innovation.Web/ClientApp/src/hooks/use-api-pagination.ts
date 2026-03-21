@@ -6,7 +6,7 @@ import { useCallback, useMemo, useState } from 'react';
 const DEFAULT_ORDER_BY = 'createdAt desc';
 const DEFAULT_PAGE_SIZE = 15;
 
-interface UseApiPaginationOptions<TFilters extends Record<string, any>> {
+interface UseApiPaginationOptions<TFilters extends Record<string, unknown>> {
     /** Base URL for API endpoint */
     endpoint: string;
     /** Default order by (e.g., 'createdAt desc') */
@@ -32,7 +32,7 @@ export interface PaginatedResponse<T> {
     hasPreviousPage: boolean;
 }
 
-interface UseApiPaginationReturn<TData, TFilters extends Record<string, any>> {
+interface UseApiPaginationReturn<TData, TFilters extends Record<string, unknown>> {
     data: TData[];
     isLoading: boolean;
     isFetching: boolean;
@@ -62,21 +62,21 @@ interface UseApiPaginationReturn<TData, TFilters extends Record<string, any>> {
  * Builds a Gridify filter string from a filters object.
  * Example: { status: "Open", featured: true } => "status=Open,featured=true"
  */
-function buildGridifyFilter(filters: Record<string, any>): string {
+function buildGridifyFilter(filters: Record<string, unknown>): string {
     const parts: string[] = [];
     for (const [key, value] of Object.entries(filters)) {
         if (value !== undefined && value !== null && value !== '') {
             if (typeof value === 'string' && value.includes('=')) {
                 parts.push(`${key}${value}`);
             } else {
-                parts.push(`${key}=${value}`);
+                parts.push(`${key}=${String(value)}`);
             }
         }
     }
     return parts.join(',');
 }
 
-export function useApiPagination<TData, TFilters extends Record<string, any> = Record<string, any>>({
+export function useApiPagination<TData, TFilters extends Record<string, unknown> = Record<string, unknown>>({
     endpoint,
     defaultOrderBy = DEFAULT_ORDER_BY,
     defaultPageSize = DEFAULT_PAGE_SIZE,

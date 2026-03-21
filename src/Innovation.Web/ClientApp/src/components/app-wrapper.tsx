@@ -2,6 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { IntroScreen } from './intro-screen';
 import { router } from '@inertiajs/react';
 
+declare global {
+    interface Window {
+        hideServerIntro?: () => void;
+    }
+}
+
 interface AppWrapperProps {
     children: React.ReactNode;
 }
@@ -28,10 +34,10 @@ export const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
             hasHiddenServerIntroRef.current = true;
 
             // Call global function to hide server intro
-            if (typeof window !== 'undefined' && (window as any).hideServerIntro) {
+            if (typeof window !== 'undefined' && window.hideServerIntro) {
                 // Wait a brief moment to ensure React has rendered
                 setTimeout(() => {
-                    (window as any).hideServerIntro();
+                    window.hideServerIntro?.();
                 }, 100);
             }
         };
@@ -51,8 +57,7 @@ export const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
         let showIntroTimer: ReturnType<typeof setTimeout> | null = null;
 
         // Listen to Inertia navigation events (for SPA navigation only)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const handleStart = (event: any) => {
+        const handleStart = (event: { detail?: { visit?: { prefetch?: boolean } } }) => {
             // Ignore prefetch requests - only show intro for actual navigation
             if (event.detail?.visit?.prefetch) {
                 return;

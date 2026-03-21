@@ -18,6 +18,7 @@ const RTLContext = createContext<RTLContextType>({
     supportedLocales: {},
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useRTL() {
     return useContext(RTLContext);
 }

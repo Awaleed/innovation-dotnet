@@ -143,7 +143,7 @@ export class ErrorBoundary extends Component<Props, State> {
     }
 }
 
-// Hook for functional components to catch errors
+// eslint-disable-next-line react-refresh/only-export-components
 export function useErrorHandler() {
     const handleError = (error: Error, errorInfo?: ErrorInfo) => {
         console.error('useErrorHandler caught an error:', error, errorInfo);
@@ -152,7 +152,7 @@ export function useErrorHandler() {
     return { handleError };
 }
 
-// Higher-order component for wrapping components with error boundary
+// eslint-disable-next-line react-refresh/only-export-components
 export function withErrorBoundary<P extends object>(
     Component: React.ComponentType<P>,
     errorBoundaryProps?: Omit<Props, 'children'>

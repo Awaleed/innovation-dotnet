@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/hooks/use-theme';
 import { isDarkColor } from '@/lib/utils/brand-colors';
-import { ImgHTMLAttributes, useEffect, useState } from 'react';
+import { ImgHTMLAttributes, useMemo } from 'react';
 
 export type LogoVariant = 'bilingual' | 'arabic' | 'english' | 'shorthand';
 export type LogoSize = 'small' | 'medium' | 'large' | number;
@@ -56,12 +56,11 @@ export default function Logo({ variant = 'bilingual', size = 'medium', theme: th
     const themeConfig = useTheme();
     
     // Auto-detect sidebar darkness if themeMode is not explicitly provided
-    const [detectedThemeMode, setDetectedThemeMode] = useState<'light' | 'dark'>(() => {
-        // Initial detection on mount
+    const finalThemeMode = useMemo<'light' | 'dark'>(() => {
         if (themeMode !== undefined) {
             return themeMode;
         }
-        
+
         // Try to get sidebar color from CSS variables
         if (typeof window !== 'undefined') {
             const root = document.documentElement;
@@ -70,32 +69,11 @@ export default function Logo({ variant = 'bilingual', size = 'medium', theme: th
                 return isDarkColor(sidebarColor) ? 'dark' : 'light';
             }
         }
-        
+
         // Fallback: check theme config
         const sidebarColorFromConfig = themeConfig.css?.light?.['--sidebar'] || '#1B1717';
         return isDarkColor(sidebarColorFromConfig) ? 'dark' : 'light';
-    });
-    
-    useEffect(() => {
-        if (themeMode !== undefined) {
-            // Use explicit theme mode if provided
-            setDetectedThemeMode(themeMode);
-            return;
-        }
-        
-        // Auto-detect sidebar background darkness from CSS variables
-        if (typeof window !== 'undefined') {
-            const root = document.documentElement;
-            const sidebarColor = getComputedStyle(root).getPropertyValue('--sidebar').trim();
-            if (sidebarColor) {
-                const isDark = isDarkColor(sidebarColor);
-                setDetectedThemeMode(isDark ? 'dark' : 'light');
-            }
-        }
-    }, [themeMode]);
-    
-    // Use explicit themeMode if provided, otherwise use detected mode
-    const finalThemeMode = themeMode ?? detectedThemeMode;
+    }, [themeMode, themeConfig.css?.light]);
 
     // Determine logo asset path based on variant and theme
     const getLogoPath = (variant: LogoVariant, mode: 'light' | 'dark'): string => {
