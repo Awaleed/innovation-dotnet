@@ -31,3 +31,199 @@ export enum ChallengeStatus {
 	Completed = 6,
 	Cancelled = 7
 }
+export enum ChallengeDifficulty {
+	Beginner = 0,
+	Intermediate = 1,
+	Advanced = 2
+}
+export enum ChallengeParticipationType {
+	Individual = 0,
+	Team = 1,
+	Both = 2
+}
+export enum ChallengeSubmissionType {
+	Idea = 0,
+	Prototype = 1,
+	FullProject = 2,
+	Research = 3,
+	FeasibilityStudy = 4
+}
+export enum WinnerSelectionMethod {
+	JuryVoting = 0,
+	EvaluatorScores = 1,
+	CombinedScoring = 2,
+	ManualSelection = 3
+}
+export interface ITranslatedField
+{
+	en?: string;
+	ar?: string;
+}
+export interface ISelectOption
+{
+	value: number;
+	label: string;
+}
+export interface ICategoryResponse
+{
+	id: number;
+	name: string;
+}
+export interface IInnovationTypeResponse
+{
+	id: number;
+	name: string;
+	icon?: string;
+}
+export interface ILookupResponse
+{
+	id: number;
+	name: string;
+	description?: string;
+	isActive: boolean;
+}
+export interface ISimpleMediaResponse
+{
+	id: number;
+	url: string;
+	name?: string;
+	mimeType?: string;
+	size: number;
+}
+export interface IChallengeListResponse
+{
+	id: number;
+	publicUlid: string;
+	title: string;
+	slug?: string;
+	status: string;
+	difficulty?: string;
+	organizer?: string;
+	startDate?: string;
+	endDate?: string;
+	featured: boolean;
+	urgent: boolean;
+	isPublic: boolean;
+	maxParticipants?: number;
+	createdAt: string;
+}
+export interface IChallengeDetailResponse
+{
+	id: number;
+	publicUlid: string;
+	title: string;
+	slug?: string;
+	description?: string;
+	status: string;
+	difficulty?: string;
+	organizer?: string;
+	location?: string;
+	startDate?: string;
+	endDate?: string;
+	submissionDeadline?: string;
+	evaluationStartDate?: string;
+	evaluationEndDate?: string;
+	winnersAnnouncedAt?: string;
+	participationType?: string;
+	submissionType?: string;
+	winnerSelectionMethod?: string;
+	maxParticipants?: number;
+	teamSizeMin?: number;
+	teamSizeMax?: number;
+	minEvaluatorsPerIdea?: number;
+	language?: string;
+	contactEmail?: string;
+	contactPhone?: string;
+	featured: boolean;
+	urgent: boolean;
+	isPublic: boolean;
+	enableComments: boolean;
+	autoTransitionEnabled: boolean;
+	categoryId?: number;
+	innovationTypeId?: number;
+	awards: IAwardResponse[];
+	objectives: IObjectiveResponse[];
+	requirements: IRequirementResponse[];
+	timeline: ITimelineResponse[];
+	sponsors: ISponsorResponse[];
+	createdAt: string;
+	updatedAt: string;
+}
+export interface IChallengeEditResponse
+{
+	id: number;
+	title: ITranslatedField;
+	slug?: ITranslatedField;
+	description?: ITranslatedField;
+	organizer?: ITranslatedField;
+	location?: ITranslatedField;
+	status: string;
+	categoryId?: number;
+	innovationTypeId?: number;
+	difficulty?: string;
+	participationType?: string;
+	submissionType?: string;
+	winnerSelectionMethod?: string;
+	maxParticipants?: number;
+	teamSizeMin?: number;
+	teamSizeMax?: number;
+	minEvaluatorsPerIdea?: number;
+	language?: string;
+	contactEmail?: string;
+	contactPhone?: string;
+	featured: boolean;
+	urgent: boolean;
+	isPublic: boolean;
+	enableComments: boolean;
+	autoTransitionEnabled: boolean;
+	startDate?: string;
+	endDate?: string;
+	submissionDeadline?: string;
+	evaluationStartDate?: string;
+	evaluationEndDate?: string;
+}
+export interface IAwardResponse
+{
+	id: number;
+	name?: string;
+	description?: string;
+	awardType?: string;
+	value?: number;
+	orderIndex: number;
+}
+export interface IObjectiveResponse
+{
+	id: number;
+	objective?: string;
+	description?: string;
+	orderIndex: number;
+}
+export interface IRequirementResponse
+{
+	id: number;
+	requirement?: string;
+	description?: string;
+	requirementType?: string;
+	mandatory: boolean;
+	orderIndex: number;
+}
+export interface ITimelineResponse
+{
+	id: number;
+	milestoneName?: string;
+	description?: string;
+	milestoneStartDate?: string;
+	milestoneEndDate?: string;
+	status?: string;
+	orderIndex: number;
+}
+export interface ISponsorResponse
+{
+	id: number;
+	sponsorName: string;
+	logoUrl?: string;
+	websiteUrl?: string;
+	contributionAmount?: number;
+	sponsorshipType?: string;
+	orderIndex: number;
+}

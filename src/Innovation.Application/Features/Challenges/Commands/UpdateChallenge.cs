@@ -1,14 +1,14 @@
 using ErrorOr;
 using FluentValidation;
 using Innovation.Application.Common.Interfaces;
-using Innovation.Application.Common.Models;
-using Innovation.Application.Features.Challenges.Shared;
+using Innovation.Application.Features.Challenges.Mappings;
+using Innovation.Application.Features.Challenges.Models;
 using Innovation.Domain;
 using Innovation.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Innovation.Application.Features.Challenges;
+namespace Innovation.Application.Features.Challenges.Commands;
 
 public record UpdateChallengeCommand(
     int Id,
@@ -33,7 +33,7 @@ public record UpdateChallengeCommand(
     DateTime? StartDate,
     DateTime? EndDate,
     DateTime? SubmissionDeadline
-) : ICommand<ErrorOr<ApiResource<ChallengeDetailAttributes>>>;
+) : ICommand<ErrorOr<ChallengeDetailResponse>>;
 
 public class UpdateChallengeValidator : AbstractValidator<UpdateChallengeCommand>
 {
@@ -44,9 +44,9 @@ public class UpdateChallengeValidator : AbstractValidator<UpdateChallengeCommand
 }
 
 public class UpdateChallengeHandler(IAppDbContext db)
-    : IRequestHandler<UpdateChallengeCommand, ErrorOr<ApiResource<ChallengeDetailAttributes>>>
+    : IRequestHandler<UpdateChallengeCommand, ErrorOr<ChallengeDetailResponse>>
 {
-    public async Task<ErrorOr<ApiResource<ChallengeDetailAttributes>>> Handle(UpdateChallengeCommand cmd, CancellationToken ct)
+    public async Task<ErrorOr<ChallengeDetailResponse>> Handle(UpdateChallengeCommand cmd, CancellationToken ct)
     {
         var challenge = await db.Challenges
             .Include(c => c.Awards)
@@ -83,6 +83,6 @@ public class UpdateChallengeHandler(IAppDbContext db)
 
         await db.SaveChangesAsync(ct);
 
-        return challenge.ToDetailResource();
+        return challenge.ToDetailResponse();
     }
 }

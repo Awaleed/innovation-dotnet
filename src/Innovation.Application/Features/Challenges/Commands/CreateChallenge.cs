@@ -1,16 +1,15 @@
 using ErrorOr;
 using FluentValidation;
 using Innovation.Application.Common.Interfaces;
-using Innovation.Application.Common.Models;
-using Innovation.Application.Features.Challenges.Shared;
+using Innovation.Application.Features.Challenges.Mappings;
+using Innovation.Application.Features.Challenges.Models;
 using Innovation.Domain;
 using Innovation.Domain.Entities.Challenge;
 using Innovation.Domain.Enums;
 using MediatR;
 
-namespace Innovation.Application.Features.Challenges;
+namespace Innovation.Application.Features.Challenges.Commands;
 
-// Command
 public record CreateChallengeCommand(
     TranslatableString Title,
     TranslatableString? Description,
@@ -34,9 +33,8 @@ public record CreateChallengeCommand(
     DateTime? StartDate,
     DateTime? EndDate,
     DateTime? SubmissionDeadline
-) : ICommand<ErrorOr<ApiResource<ChallengeDetailAttributes>>>;
+) : ICommand<ErrorOr<ChallengeDetailResponse>>;
 
-// Validator
 public class CreateChallengeValidator : AbstractValidator<CreateChallengeCommand>
 {
     public CreateChallengeValidator()
@@ -46,11 +44,10 @@ public class CreateChallengeValidator : AbstractValidator<CreateChallengeCommand
     }
 }
 
-// Handler
 public class CreateChallengeHandler(IAppDbContext db)
-    : IRequestHandler<CreateChallengeCommand, ErrorOr<ApiResource<ChallengeDetailAttributes>>>
+    : IRequestHandler<CreateChallengeCommand, ErrorOr<ChallengeDetailResponse>>
 {
-    public async Task<ErrorOr<ApiResource<ChallengeDetailAttributes>>> Handle(CreateChallengeCommand cmd, CancellationToken ct)
+    public async Task<ErrorOr<ChallengeDetailResponse>> Handle(CreateChallengeCommand cmd, CancellationToken ct)
     {
         var challenge = new Challenge
         {
@@ -85,6 +82,6 @@ public class CreateChallengeHandler(IAppDbContext db)
         db.Challenges.Add(challenge);
         await db.SaveChangesAsync(ct);
 
-        return challenge.ToDetailResource();
+        return challenge.ToDetailResponse();
     }
 }

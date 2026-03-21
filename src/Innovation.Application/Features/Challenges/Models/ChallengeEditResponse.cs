@@ -1,0 +1,35 @@
+using Innovation.Application.Common.Models;
+
+namespace Innovation.Application.Features.Challenges.Models;
+
+public record ChallengeEditResponse(
+    int Id,
+    TranslatedField Title,
+    TranslatedField? Slug,
+    TranslatedField? Description,
+    TranslatedField? Organizer,
+    TranslatedField? Location,
+    string Status,
+    int? CategoryId,
+    int? InnovationTypeId,
+    string? Difficulty,
+    string? ParticipationType,
+    string? SubmissionType,
+    string? WinnerSelectionMethod,
+    int? MaxParticipants,
+    int? TeamSizeMin,
+    int? TeamSizeMax,
+    int? MinEvaluatorsPerIdea,
+    string? Language,
+    string? ContactEmail,
+    string? ContactPhone,
+    bool Featured,
+    bool Urgent,
+    bool IsPublic,
+    bool EnableComments,
+    bool AutoTransitionEnabled,
+    string? StartDate,
+    string? EndDate,
+    string? SubmissionDeadline,
+    string? EvaluationStartDate,
+    string? EvaluationEndDate);

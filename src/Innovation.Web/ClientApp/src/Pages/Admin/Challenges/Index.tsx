@@ -1,64 +1,13 @@
+import type { IChallengeListResponse } from '@/types/generated';
+import type { PaginatedResponse } from '@/hooks/use-api-pagination';
 import { type SharedData } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { Eye, Edit, Trash2, Plus, ChevronLeft, ChevronRight, Star, Search, X } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-/** Matches ApiResource<ChallengeListAttributes> from the .NET backend */
-interface ChallengeResource {
-    id: number;
-    type: string;
-    attributes: {
-        slug: string | null;
-        title: string | null;
-        description: string | null;
-        organizer: string | null;
-        status: string;
-        difficulty: string | null;
-        startDate: string | null;
-        endDate: string | null;
-        featured: boolean;
-        urgent: boolean;
-        isPublic: boolean;
-        publicUlid: string | null;
-        maxParticipants: number | null;
-        timestamps: {
-            created: string | null;
-            updated: string | null;
-        };
-    };
-    meta: {
-        translations: {
-            title: { en: string | null; ar: string | null };
-            description: { en: string | null; ar: string | null };
-            [key: string]: { en: string | null; ar: string | null };
-        };
-    };
-}
-
-/** Matches SimpleCollection<T> from the .NET backend */
-interface SimpleCollection<T> {
-    results: T[];
-    links: {
-        self: string | null;
-        first: string | null;
-        prev: string | null;
-        next: string | null;
-        last: string | null;
-    };
-    meta: {
-        pagination: {
-            page: number;
-            size: number;
-            total: number;
-            totalPages: number;
-            morePages: boolean;
-        };
-    };
-}
-
 interface Props extends SharedData {
-    challenges: SimpleCollection<ChallengeResource> | null;
+    challenges: PaginatedResponse<IChallengeListResponse> | null;
 }
 
 const statusColors: Record<string, string> = {
@@ -87,11 +36,10 @@ export default function ChallengesIndex({ challenges }: Props) {
     const [searchInput, setSearchInput] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
 
-    const results = challenges?.results ?? [];
-    const pagination = challenges?.meta?.pagination;
-    const page = pagination?.page ?? 1;
-    const totalPages = pagination?.totalPages ?? 1;
-    const totalCount = pagination?.total ?? 0;
+    const items = challenges?.items ?? [];
+    const page = challenges?.page ?? 1;
+    const totalPages = challenges?.totalPages ?? 1;
+    const totalCount = challenges?.totalCount ?? 0;
 
     async function handleDelete(id: number) {
         if (!confirm(t('common:confirm_delete', 'Are you sure you want to delete this?'))) return;
@@ -115,11 +63,10 @@ export default function ChallengesIndex({ challenges }: Props) {
     function handleSearch() {
         const params = new URLSearchParams();
         params.set('page', '1');
-        if (searchInput) params.set('filter', `title=*${searchInput}`);
-        if (statusFilter) {
-            const existing = params.get('filter');
-            params.set('filter', existing ? `${existing},status=${statusFilter}` : `status=${statusFilter}`);
-        }
+        const filters: string[] = [];
+        if (searchInput) filters.push(`title=*${searchInput}`);
+        if (statusFilter) filters.push(`status=${statusFilter}`);
+        if (filters.length) params.set('filter', filters.join(','));
         router.visit(`/admin/challenges?${params.toString()}`);
     }
 
@@ -199,10 +146,7 @@ export default function ChallengesIndex({ challenges }: Props) {
                             <thead className="bg-gray-50">
                                 <tr>
                                     <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                        {t('models:challenge.title', 'Title')} (EN)
-                                    </th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                        {t('models:challenge.title', 'Title')} (AR)
+                                        {t('models:challenge.title', 'Title')}
                                     </th>
                                     <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                         {t('models:challenge.status', 'Status')}
@@ -222,43 +166,34 @@ export default function ChallengesIndex({ challenges }: Props) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {results.length === 0 && (
+                                {items.length === 0 && (
                                     <tr>
-                                        <td colSpan={7} className="px-4 py-12 text-center text-sm text-gray-500">
+                                        <td colSpan={6} className="px-4 py-12 text-center text-sm text-gray-500">
                                             {t('common:no_results', 'No results found.')}
                                         </td>
                                     </tr>
                                 )}
-                                {results.map((c) => (
+                                {items.map((c) => (
                                     <tr key={c.id} className="hover:bg-gray-50">
-                                        <td className="max-w-[200px] truncate px-4 py-3 text-sm font-medium text-gray-900">
+                                        <td className="max-w-[280px] truncate px-4 py-3 text-sm font-medium text-gray-900">
                                             <div className="flex items-center gap-1.5">
-                                                {c.attributes.featured && (
+                                                {c.featured && (
                                                     <Star className="h-3.5 w-3.5 shrink-0 fill-yellow-400 text-yellow-400" />
                                                 )}
-                                                <span className="truncate">
-                                                    {c.meta.translations.title.en || '---'}
-                                                </span>
+                                                <span className="truncate">{c.title || '---'}</span>
                                             </div>
                                         </td>
-                                        <td className="max-w-[200px] truncate px-4 py-3 text-sm text-gray-600" dir="rtl">
-                                            {c.meta.translations.title.ar || '---'}
-                                        </td>
                                         <td className="whitespace-nowrap px-4 py-3 text-sm">
-                                            <StatusBadge status={c.attributes.status} />
+                                            <StatusBadge status={c.status} />
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-3 text-sm text-gray-600">
-                                            {c.attributes.difficulty || '---'}
+                                            {c.difficulty || '---'}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-3 text-sm text-gray-600">
-                                            {c.attributes.startDate
-                                                ? new Date(c.attributes.startDate).toLocaleDateString()
-                                                : '---'}
+                                            {c.startDate ? new Date(c.startDate).toLocaleDateString() : '---'}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-3 text-sm text-gray-600">
-                                            {c.attributes.endDate
-                                                ? new Date(c.attributes.endDate).toLocaleDateString()
-                                                : '---'}
+                                            {c.endDate ? new Date(c.endDate).toLocaleDateString() : '---'}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-3 text-right text-sm">
                                             <div className="flex items-center justify-end gap-1">
@@ -300,7 +235,7 @@ export default function ChallengesIndex({ challenges }: Props) {
                                 <div className="flex items-center gap-2">
                                     <button
                                         onClick={() => goToPage(page - 1)}
-                                        disabled={page <= 1}
+                                        disabled={!challenges?.hasPreviousPage}
                                         className="inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                                     >
                                         <ChevronLeft className="h-4 w-4" />
@@ -308,7 +243,7 @@ export default function ChallengesIndex({ challenges }: Props) {
                                     </button>
                                     <button
                                         onClick={() => goToPage(page + 1)}
-                                        disabled={!pagination?.morePages}
+                                        disabled={!challenges?.hasNextPage}
                                         className="inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                                     >
                                         {t('common:next', 'Next')}

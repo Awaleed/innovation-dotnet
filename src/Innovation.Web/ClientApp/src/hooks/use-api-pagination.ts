@@ -21,25 +21,15 @@ interface UseApiPaginationOptions<TFilters extends Record<string, any>> {
     queryOptions?: Partial<Pick<UseQueryOptions, 'enabled' | 'staleTime' | 'gcTime'>>;
 }
 
-/** Matches .NET SimpleCollection<T> response shape */
-interface SimpleCollectionResponse<T> {
-    results: T[];
-    links: {
-        self: string | null;
-        first: string | null;
-        prev: string | null;
-        next: string | null;
-        last: string | null;
-    };
-    meta: {
-        pagination: {
-            page: number;
-            size: number;
-            total: number;
-            totalPages: number;
-            morePages: boolean;
-        };
-    };
+/** Matches .NET PaginatedResponse<T> */
+export interface PaginatedResponse<T> {
+    items: T[];
+    page: number;
+    pageSize: number;
+    totalCount: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
 }
 
 interface UseApiPaginationReturn<TData, TFilters extends Record<string, any>> {
@@ -53,9 +43,10 @@ interface UseApiPaginationReturn<TData, TFilters extends Record<string, any>> {
     pageSize: number;
     totalPages: number;
     totalItems: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
 
     orderBy: string;
-
     filter: TFilters;
 
     setPage: (page: number) => void;
@@ -75,8 +66,7 @@ function buildGridifyFilter(filters: Record<string, any>): string {
     const parts: string[] = [];
     for (const [key, value] of Object.entries(filters)) {
         if (value !== undefined && value !== null && value !== '') {
-            if (typeof value === 'string' && value.includes(' ')) {
-                // Contains operator (e.g., "=*search term")
+            if (typeof value === 'string' && value.includes('=')) {
                 parts.push(`${key}${value}`);
             } else {
                 parts.push(`${key}=${value}`);
@@ -94,38 +84,28 @@ export function useApiPagination<TData, TFilters extends Record<string, any> = R
     initialFilters = {} as Partial<TFilters>,
     queryOptions = {},
 }: UseApiPaginationOptions<TFilters>): UseApiPaginationReturn<TData, TFilters> {
-    // URL state via nuqs (shallow: true = no Inertia navigation)
     const [queryState, setQueryState] = useQueryStates(
         {
             orderBy: parseAsString.withDefault(defaultOrderBy),
             page: parseAsInteger.withDefault(1),
             pageSize: parseAsInteger.withDefault(defaultPageSize),
         },
-        {
-            clearOnDefault: true,
-            shallow: true,
-        },
+        { clearOnDefault: true, shallow: true },
     );
 
     const [localFilters, setLocalFilters] = useState<TFilters>(initialFilters as TFilters);
 
-    // Build query params for Gridify
     const queryParams = useMemo(() => {
         const params: Record<string, string | number> = {
             page: queryState.page,
             pageSize: queryState.pageSize,
             orderBy: queryState.orderBy,
         };
-
         const filterStr = buildGridifyFilter(localFilters);
-        if (filterStr) {
-            params.filter = filterStr;
-        }
-
+        if (filterStr) params.filter = filterStr;
         return params;
     }, [queryState, localFilters]);
 
-    // React Query
     const {
         data: response,
         isLoading,
@@ -135,24 +115,14 @@ export function useApiPagination<TData, TFilters extends Record<string, any> = R
     } = useQuery({
         queryKey: [...queryKeyBase, 'list', queryParams],
         queryFn: async () => {
-            const res = await axios.get<SimpleCollectionResponse<TData>>(endpoint, {
-                params: queryParams,
-            });
+            const res = await axios.get<PaginatedResponse<TData>>(endpoint, { params: queryParams });
             return res.data;
         },
         ...queryOptions,
     });
 
-    // Setters
-    const setPage = useCallback(
-        (page: number) => setQueryState({ page }),
-        [setQueryState],
-    );
-
-    const setPageSize = useCallback(
-        (pageSize: number) => setQueryState({ pageSize, page: 1 }),
-        [setQueryState],
-    );
+    const setPage = useCallback((page: number) => setQueryState({ page }), [setQueryState]);
+    const setPageSize = useCallback((pageSize: number) => setQueryState({ pageSize, page: 1 }), [setQueryState]);
 
     const setOrderBy = useCallback(
         (field: string, direction?: 'asc' | 'desc') => {
@@ -178,48 +148,24 @@ export function useApiPagination<TData, TFilters extends Record<string, any> = R
         [localFilters, setQueryState],
     );
 
-    const removeFilter = useCallback(
-        <K extends keyof TFilters>(key: K) => setFilter(key, null),
-        [setFilter],
-    );
-
-    const clearFilter = useCallback(() => {
-        setLocalFilters({} as TFilters);
-        setQueryState({ page: 1 });
-    }, [setQueryState]);
-
-    const reset = useCallback(() => {
-        setLocalFilters({} as TFilters);
-        setQueryState({ orderBy: null, page: null, pageSize: null });
-    }, [setQueryState]);
-
-    // Extract from SimpleCollection response
-    const data = response?.results ?? [];
-    const totalPages = response?.meta?.pagination?.totalPages ?? 1;
-    const totalItems = response?.meta?.pagination?.total ?? 0;
+    const removeFilter = useCallback(<K extends keyof TFilters>(key: K) => setFilter(key, null), [setFilter]);
+    const clearFilter = useCallback(() => { setLocalFilters({} as TFilters); setQueryState({ page: 1 }); }, [setQueryState]);
+    const reset = useCallback(() => { setLocalFilters({} as TFilters); setQueryState({ orderBy: null, page: null, pageSize: null }); }, [setQueryState]);
 
     return {
-        data,
+        data: response?.items ?? [],
         isLoading,
         isFetching,
         error: error as Error | null,
         refetch,
-
         page: queryState.page,
         pageSize: queryState.pageSize,
-        totalPages,
-        totalItems,
-
+        totalPages: response?.totalPages ?? 1,
+        totalItems: response?.totalCount ?? 0,
+        hasNextPage: response?.hasNextPage ?? false,
+        hasPreviousPage: response?.hasPreviousPage ?? false,
         orderBy: queryState.orderBy,
-
         filter: localFilters,
-
-        setPage,
-        setPageSize,
-        setOrderBy,
-        setFilter,
-        removeFilter,
-        clearFilter,
-        reset,
+        setPage, setPageSize, setOrderBy, setFilter, removeFilter, clearFilter, reset,
     };
 }

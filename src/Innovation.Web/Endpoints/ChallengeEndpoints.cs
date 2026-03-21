@@ -1,6 +1,6 @@
 using ErrorOr;
-using Innovation.Application.Common.Models;
-using Innovation.Application.Features.Challenges;
+using Innovation.Application.Features.Challenges.Commands;
+using Innovation.Application.Features.Challenges.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,21 +26,26 @@ public static class ChallengeEndpoints
             [FromQuery] int pageSize,
             [FromQuery] string? filter,
             [FromQuery] string? orderBy,
+            [FromHeader(Name = "Accept-Language")] string? locale,
             IMediator mediator) =>
         {
             var query = new ListChallengesQuery(
                 page > 0 ? page : 1,
                 pageSize > 0 ? pageSize : 15,
-                filter, orderBy);
+                filter, orderBy,
+                locale ?? "en");
             var result = await mediator.Send(query);
             return result.Match(
-                value => Results.Ok(value.ToSimpleCollection("/api/v1/challenges")),
+                value => Results.Ok(value),
                 errors => ToProblems(errors));
         });
 
-        group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
+        group.MapGet("/{id:int}", async (
+            int id,
+            [FromHeader(Name = "Accept-Language")] string? locale,
+            IMediator mediator) =>
         {
-            var result = await mediator.Send(new GetChallengeQuery(id));
+            var result = await mediator.Send(new GetChallengeQuery(id, locale ?? "en"));
             return result.Match(
                 value => Results.Ok(value),
                 errors => ToProblems(errors));

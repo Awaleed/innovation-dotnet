@@ -1,6 +1,5 @@
 using InertiaCore;
-using Innovation.Application.Common.Models;
-using Innovation.Application.Features.Challenges;
+using Innovation.Application.Features.Challenges.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +10,9 @@ namespace Innovation.Web.Controllers.Admin;
 [Route("admin/challenges")]
 public class ChallengeController(IMediator mediator) : Controller
 {
+    private string GetLocale() =>
+        Request.Headers.AcceptLanguage.FirstOrDefault()?.Split(',').FirstOrDefault() ?? "en";
+
     [HttpGet("")]
     public async Task<IActionResult> Index(
         [FromQuery] int page = 1,
@@ -18,11 +20,11 @@ public class ChallengeController(IMediator mediator) : Controller
         [FromQuery] string? filter = null,
         [FromQuery] string? orderBy = null)
     {
-        var result = await mediator.Send(new ListChallengesQuery(page, pageSize, filter, orderBy));
+        var result = await mediator.Send(new ListChallengesQuery(page, pageSize, filter, orderBy, GetLocale()));
 
         return Inertia.Render("Admin/Challenges/Index", new
         {
-            challenges = result.IsError ? null : result.Value.ToSimpleCollection("/admin/challenges"),
+            challenges = result.IsError ? null : result.Value,
         });
     }
 
@@ -35,7 +37,7 @@ public class ChallengeController(IMediator mediator) : Controller
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Show(int id)
     {
-        var result = await mediator.Send(new GetChallengeQuery(id));
+        var result = await mediator.Send(new GetChallengeQuery(id, GetLocale()));
 
         if (result.IsError)
             return NotFound();
@@ -49,7 +51,7 @@ public class ChallengeController(IMediator mediator) : Controller
     [HttpGet("{id:int}/edit")]
     public async Task<IActionResult> Edit(int id)
     {
-        var result = await mediator.Send(new GetChallengeQuery(id));
+        var result = await mediator.Send(new GetChallengeQuery(id, GetLocale()));
 
         if (result.IsError)
             return NotFound();

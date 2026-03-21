@@ -1,18 +1,18 @@
 using ErrorOr;
 using Innovation.Application.Common.Interfaces;
-using Innovation.Application.Common.Models;
-using Innovation.Application.Features.Challenges.Shared;
+using Innovation.Application.Features.Challenges.Mappings;
+using Innovation.Application.Features.Challenges.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Innovation.Application.Features.Challenges;
+namespace Innovation.Application.Features.Challenges.Commands;
 
-public record AdvanceChallengeStageCommand(int Id) : ICommand<ErrorOr<ApiResource<ChallengeDetailAttributes>>>;
+public record AdvanceChallengeStageCommand(int Id) : ICommand<ErrorOr<ChallengeDetailResponse>>;
 
 public class AdvanceChallengeStageHandler(IAppDbContext db)
-    : IRequestHandler<AdvanceChallengeStageCommand, ErrorOr<ApiResource<ChallengeDetailAttributes>>>
+    : IRequestHandler<AdvanceChallengeStageCommand, ErrorOr<ChallengeDetailResponse>>
 {
-    public async Task<ErrorOr<ApiResource<ChallengeDetailAttributes>>> Handle(AdvanceChallengeStageCommand cmd, CancellationToken ct)
+    public async Task<ErrorOr<ChallengeDetailResponse>> Handle(AdvanceChallengeStageCommand cmd, CancellationToken ct)
     {
         var challenge = await db.Challenges
             .Include(c => c.Awards)
@@ -30,6 +30,6 @@ public class AdvanceChallengeStageHandler(IAppDbContext db)
 
         await db.SaveChangesAsync(ct);
 
-        return challenge.ToDetailResource();
+        return challenge.ToDetailResponse();
     }
 }
