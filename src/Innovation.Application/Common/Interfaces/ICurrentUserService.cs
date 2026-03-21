@@ -2,6 +2,7 @@ namespace Innovation.Application.Common.Interfaces;
 
 public interface ICurrentUserService
 {
+    int? LocalUserId { get; }
     string? UserId { get; }
     string? UserName { get; }
     string? Email { get; }

@@ -10,6 +10,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.ToTable("users");
         builder.HasKey(e => e.Id);
+        builder.Property(e => e.KeycloakId).HasMaxLength(255).IsRequired();
+        builder.HasIndex(e => e.KeycloakId).IsUnique();
         builder.Property(e => e.Name).HasMaxLength(255).IsRequired();
         builder.Property(e => e.Email).HasMaxLength(255).IsRequired();
         builder.HasIndex(e => e.Email).IsUnique();

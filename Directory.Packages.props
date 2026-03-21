@@ -16,7 +16,6 @@
     <PackageVersion Include="Aspire.StackExchange.Redis.DistributedCaching" Version="$(AspireVersion)" />
     <!-- ASP.NET -->
     <PackageVersion Include="CommunityToolkit.Aspire.Hosting.NodeJS.Extensions" Version="9.9.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
@@ -34,6 +33,9 @@
     <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.14.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.14.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.14.0" />
+    <!-- Keycloak -->
+    <PackageVersion Include="Keycloak.AuthServices.Authentication" Version="2.8.0" />
+    <PackageVersion Include="Keycloak.AuthServices.Authorization" Version="2.8.0" />
     <!-- Inertia -->
     <PackageVersion Include="AspNetCore.InertiaCore" Version="0.0.9" />
     <!-- Miscellaneous -->

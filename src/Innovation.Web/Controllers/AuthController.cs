@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using InertiaCore;
@@ -16,7 +17,7 @@ public class AuthController : Controller
 
         return Challenge(
             new AuthenticationProperties { RedirectUri = returnUrl },
-            "keycloak-oidc");
+            OpenIdConnectDefaults.AuthenticationScheme);
     }
 
     [HttpGet("/register")]
@@ -28,7 +29,7 @@ public class AuthController : Controller
         // Keycloak's login page shows a "Register" link when registrationAllowed=true
         return Challenge(
             new AuthenticationProperties { RedirectUri = "/dashboard" },
-            "keycloak-oidc");
+            OpenIdConnectDefaults.AuthenticationScheme);
     }
 
     [Authorize]
@@ -44,6 +45,6 @@ public class AuthController : Controller
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return SignOut(
             new AuthenticationProperties { RedirectUri = "/" },
-            "keycloak-oidc");
+            OpenIdConnectDefaults.AuthenticationScheme);
     }
 }
