@@ -80,11 +80,13 @@ createInertiaApp({
 
         const Component = page.default;
 
-        // Wrap each page component with providers
+        // Wrap each page component with providers and per-page error boundary
         const WrappedComponent = (props: SharedData) => (
             <ThemeProvider>
                 <RTLProvider>
-                    <Component {...props} />
+                    <ErrorBoundary>
+                        <Component {...props} />
+                    </ErrorBoundary>
                     <FlashToaster />
                 </RTLProvider>
             </ThemeProvider>

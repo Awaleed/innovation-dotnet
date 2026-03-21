@@ -34,21 +34,12 @@ export class ErrorBoundary extends Component<Props, State> {
             errorInfo,
         });
 
-        // Log error to console in development
-        if (process.env.NODE_ENV === 'development') {
-            console.error('ErrorBoundary caught an error:', error, errorInfo);
-        }
+        // Log error (always — in production, integrate with Sentry/LogRocket)
+        console.error('ErrorBoundary caught an error:', error, errorInfo);
 
         // Call custom error handler if provided
         if (this.props.onError) {
             this.props.onError(error, errorInfo);
-        }
-
-        // Log error to external service in production
-        if (process.env.NODE_ENV === 'production') {
-            // You can integrate with error reporting services here
-            // Example: Sentry, LogRocket, etc.
-            console.error('ErrorBoundary caught an error:', error, errorInfo);
         }
     }
 
@@ -91,7 +82,7 @@ export class ErrorBoundary extends Component<Props, State> {
                                 </AlertDescription>
                             </Alert>
 
-                            {process.env.NODE_ENV === 'development' && this.state.error && (
+                            {import.meta.env.DEV && this.state.error && (
                                 <div className="space-y-2">
                                     <details className="text-sm">
                                         <summary className="cursor-pointer font-medium text-gray-700">
@@ -155,16 +146,7 @@ export class ErrorBoundary extends Component<Props, State> {
 // Hook for functional components to catch errors
 export function useErrorHandler() {
     const handleError = (error: Error, errorInfo?: ErrorInfo) => {
-        // Log error to console in development
-        if (process.env.NODE_ENV === 'development') {
-            console.error('useErrorHandler caught an error:', error, errorInfo);
-        }
-
-        // Log error to external service in production
-        if (process.env.NODE_ENV === 'production') {
-            // You can integrate with error reporting services here
-            console.error('useErrorHandler caught an error:', error, errorInfo);
-        }
+        console.error('useErrorHandler caught an error:', error, errorInfo);
     };
 
     return { handleError };
