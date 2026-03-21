@@ -12,7 +12,8 @@ public static class ChallengeEndpoints
     {
         var group = app.MapGroup("/api/v1/challenges")
             .WithTags("Challenges")
-            .RequireAuthorization();
+            .RequireAuthorization()
+            .RequireRateLimiting("api");
 
         group.MapPost("/", async ([FromBody] CreateChallengeCommand command, IMediator mediator) =>
         {
