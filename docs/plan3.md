@@ -132,17 +132,11 @@ router.post(admin.challenges.store().url, data)
 
 **Action**: When copying a page, search for route calls and replace with TsGen equivalents. The route structure is similar enough that this is mechanical.
 
-**2. Resource/DTO shape** -- PHP returns JSON:API-like `{ id, type, attributes: {}, meta: { translations: {} }, relationships: {} }`. The .NET backend currently returns flat DTOs from `ChallengeResponse` records.
-
-**Decision**: **Match PHP format exactly.** Standardize the .NET API response shape to use `{ id, type, attributes, meta, relationships }` (see Section 5 below). This means frontend code needs **zero changes** to data access patterns.
+**2. Resource/DTO shape** -- PHP returns JSON:API-like `{ id, type, attributes, meta, relationships }`. The .NET backend uses **flat DTOs** instead (no envelope). Frontend accesses `challenge.title` not `challenge.attributes.title`. This is a one-time adaptation per feature during the port. See `docs/API_RESPONSE_DESIGN.md` for conventions.
 
 **3. Inertia shared data** -- Both projects share auth/localization/flash through Inertia middleware. The shape is already aligned in `HandleInertiaRequests.cs` (auth.user, auth.roles, auth.permissions, localization, flash).
 
-**Edit pattern**: Verify `SharedData` TypeScript interface matches what `HandleInertiaRequests` sends. Already done for Challenges.
-
-**4. API pagination response** -- PHP uses `SimpleCollection` returning `{ results: [], meta: { pagination: { page, size, total, totalPages } } }`. The .NET `PaginatedList<T>` returns `{ items: [], pageIndex, totalPages, totalCount }`.
-
-**Decision**: Add a `SimpleCollection<T>` response wrapper in .NET to match the PHP shape. The `use-api-pagination` hook will be updated once to use Gridify's native filter syntax (see below), but the response shape stays identical.
+**4. API pagination response** -- .NET uses `PaginatedResponse<T>` returning `{ items, page, pageSize, totalCount, totalPages, hasNextPage, hasPreviousPage }`. The `use-api-pagination` hook is updated for Gridify native filter syntax.
 
 ### What Needs Rewriting (Page-Specific Logic)
 
@@ -170,187 +164,26 @@ When porting a feature (e.g., Ideas):
 
 To maximize reuse, the .NET backend MUST follow these conventions:
 
-1. **API response shape**: Match PHP's `SimpleCollection` format (`{ results, links, meta: { pagination } }`) for all paginated endpoints
-2. **Resource shape**: Match PHP's `{ id, type, attributes, meta: { translations }, relationships }` format
-3. **Filter query string format**: Use Gridify native syntax (`?filter=status=draft&orderBy=createdAt desc`). Update `use-api-pagination` hook once -- it encapsulates all filtering logic exclusively.
+1. **Flat DTOs**: `challenge.title` not `challenge.attributes.title`. See `docs/API_RESPONSE_DESIGN.md`.
+2. **PaginatedResponse<T>**: `{ items, page, pageSize, totalCount, totalPages, hasNextPage, hasPreviousPage }`
+3. **Gridify filter syntax**: `?filter=status=Draft&orderBy=createdAt desc&page=1&pageSize=15`
 4. **Shared Inertia props**: Keep the same `SharedData` structure (auth, localization, flash, theme)
 5. **Route naming**: Keep route structure consistent (`/admin/challenges/`, `/api/v1/ideas/`)
+6. **TypeScript types auto-generated**: Reinforced.Typings exports all response records to `generated.ts`
 
 ---
 
-## 5. .NET Equivalents: PHP Resources, Collections & Lookups
+## 5. .NET API Response Design
 
-### 5A. API Resource Pattern (Replacing Laravel Resources)
+**Superseded by `docs/API_RESPONSE_DESIGN.md`** -- see that document for the full flat DTO conventions.
 
-PHP uses `JsonResource` classes with `{ id, type, attributes, meta, relationships }`. We need a .NET equivalent.
-
-**Create a base response wrapper:**
-
-```csharp
-// Application/Common/Models/ApiResource.cs
-public record ApiResource<TAttributes>(
-    int Id,
-    string Type,
-    TAttributes Attributes,
-    Dictionary<string, object?>? Meta = null,
-    Dictionary<string, object?>? Relationships = null
-);
-
-// Usage in mapping:
-public static ApiResource<ChallengeAttributes> ToResource(this Challenge c) => new(
-    Id: c.Id,
-    Type: "challenge",
-    Attributes: new ChallengeAttributes(c.Title, c.Status, ...),
-    Meta: new Dictionary<string, object?> {
-        ["translations"] = new {
-            title = new { en = c.Title.En, ar = c.Title.Ar },
-            description = new { en = c.Description?.En, ar = c.Description?.Ar }
-        },
-        ["counts"] = new { ideas = c.Ideas?.Count ?? 0 }
-    },
-    Relationships: new Dictionary<string, object?> {
-        ["innovationType"] = c.InnovationType != null ? c.InnovationType.ToResource() : null
-    }
-);
-```
-
-This means **frontend resource access patterns stay identical**:
-```typescript
-// Works the same in both PHP and .NET frontends
-challenge.attributes.title
-challenge.meta.translations.title.ar
-challenge.relationships.innovationType
-```
-
-### 5B. SimpleCollection Pattern (Replacing Laravel Pagination)
-
-PHP's `SimpleCollection` wraps paginated results. Create an equivalent:
-
-```csharp
-// Application/Common/Models/SimpleCollection.cs
-public record SimpleCollection<T>(
-    IReadOnlyList<T> Results,
-    PaginationLinks Links,
-    PaginationMeta Meta
-);
-
-public record PaginationLinks(string Self, string? First, string? Prev, string? Next, string? Last);
-
-public record PaginationMeta(PaginationInfo Pagination);
-
-public record PaginationInfo(int Page, int Size, int Total, int TotalPages, bool MorePages);
-
-// Extension method to convert PaginatedList<T> → SimpleCollection<T>
-public static SimpleCollection<T> ToSimpleCollection<T>(
-    this PaginatedList<T> list, string baseUrl) => new(
-    Results: list.Items,
-    Links: new PaginationLinks(...),
-    Meta: new PaginationMeta(new PaginationInfo(
-        Page: list.PageIndex,
-        Size: list.Items.Count,
-        Total: list.TotalCount,
-        TotalPages: list.TotalPages,
-        MorePages: list.HasNextPage
-    ))
-);
-```
-
-**Frontend `use-api-pagination` hook works unchanged** because the response shape matches.
-
-### 5C. Lookup System (Replacing PHP Lookup Module)
-
-PHP has a generic lookup system with hierarchical categories, translations, and config-driven CRUD. Port to .NET:
-
-**Domain:**
-```csharp
-// Domain/Entities/Lookup.cs (already exists, enhance)
-public class Lookup : BaseEntity
-{
-    public string Type { get; set; }           // e.g., "IDEA_CATEGORY", "DEPARTMENT"
-    public TranslatableString Name { get; set; }
-    public TranslatableString? Description { get; set; }
-    public int? LookupId { get; set; }         // Parent (hierarchy)
-    public Lookup? ParentLookup { get; set; }
-    public ICollection<Lookup> SubLookups { get; set; }
-    public bool IsActive { get; set; } = true;
-    public int OrderColumn { get; set; }
-    public JsonDocument? Metadata { get; set; } // Flexible extra data
-}
-```
-
-**Endpoint -- generic lookup controller:**
-```csharp
-// Web/Endpoints/LookupEndpoints.cs
-app.MapGet("/api/v1/lookups/{type}", async (
-    string type,
-    [AsParameters] LookupQueryParams query,
-    IMediator mediator) =>
-{
-    var result = await mediator.Send(new ListLookups.Query(type, query));
-    return result.Match(
-        onValue: v => Results.Ok(v),
-        onError: e => Results.NotFound()
-    );
-});
-
-// Supports: ?filter[search]=...&forSelect=true&paginate=false
-// forSelect returns [{value: id, label: name}] for dropdowns
-```
-
-**forSelect optimization** (critical for dropdowns):
-```csharp
-public record LookupSelectItem(int Value, string Label);
-
-// When ?forSelect=true, return minimal data for <Select> components
-if (query.ForSelect)
-    return lookups.Select(l => new LookupSelectItem(l.Id, l.Name.GetTranslation(locale)));
-```
-
-### 5D. Gridify as Spatie Query Builder Replacement
-
-PHP's Spatie Query Builder uses `?filter[status]=draft&sort=-created_at`. Gridify uses a different default syntax but can be customized.
-
-**Option A: Use Gridify's native syntax:**
-```
-?filter=status=draft&orderBy=createdAt desc&page=1&pageSize=15
-```
-
-**Option B: Build a thin adapter to accept PHP-style query strings:**
-```csharp
-// Application/Common/QueryStringAdapter.cs
-public static GridifyQuery FromPhpStyle(HttpRequest request)
-{
-    var filters = request.Query
-        .Where(q => q.Key.StartsWith("filter["))
-        .Select(q => $"{q.Key.TrimStart("filter[").TrimEnd("]")}={q.Value}");
-
-    var sort = request.Query["sort"].ToString();
-    // Convert "-created_at" → "createdAt desc"
-
-    return new GridifyQuery {
-        Filter = string.Join(",", filters),
-        OrderBy = convertedSort,
-        Page = int.Parse(request.Query["page"] ?? "1"),
-        PageSize = int.Parse(request.Query["per_page"] ?? "15")
-    };
-}
-```
-
-**Decision**: Use **Gridify native syntax**. Update the frontend `use-api-pagination` hook once to use Gridify's format. Since the hook encapsulates all pagination/filtering logic and is used exclusively across all features, this is a single change that propagates everywhere. No PHP compatibility adapter needed.
-
-**Custom filters (like FiltersNeedle for JSON search):**
-```csharp
-// Register custom Gridify filter for TranslatableString columns
-public class TranslatableSearchFilter : IGridifyFiltering<Challenge>
-{
-    public IQueryable<Challenge> ApplyFiltering(IQueryable<Challenge> query, string value)
-    {
-        // PostgreSQL: column::text ILIKE '%value%'
-        return query.Where(c =>
-            EF.Functions.ILike(EF.Property<string>(c, "Title"), $"%{value}%"));
-    }
-}
-```
+Key decisions implemented:
+- **Flat DTOs** (no envelope): `challenge.title` not `challenge.attributes.title`
+- **2-3 records per model**: `{Model}ListResponse`, `{Model}DetailResponse`, `{Model}EditResponse`
+- **`PaginatedResponse<T>`**: `{ items, page, pageSize, totalCount, totalPages, hasNextPage, hasPreviousPage }`
+- **Gridify native syntax**: `?filter=status=Draft&orderBy=createdAt desc&page=1&pageSize=15`
+- **TypeScript types auto-generated**: Reinforced.Typings → `types/generated.ts` on build
+- **Lookups**: Generic `GET /api/v1/lookups/{type}` endpoint returning `SelectOption[]` for dropdowns
 
 ---
 

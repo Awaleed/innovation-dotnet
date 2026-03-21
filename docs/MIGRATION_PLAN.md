@@ -14,7 +14,8 @@ The source project (`/Users/mac/Documents/GitHub/innovation/`) is a production-g
 - Cross-cutting concerns handled via MediatR pipeline behaviors
 - Domain entities live in `Innovation.Domain`
 - Feature slices live in `Innovation.Application/Features/`
-- Feature-local shared logic lives in `Features/{Domain}/Shared/`
+- Feature-local subfolders: `Commands/`, `Queries/`, `Models/`, `Filters/`, `Mappings/`
+- See `docs/API_RESPONSE_DESIGN.md` for DTO conventions (flat DTOs, 2-3 records per model)
 
 ### 4-Project Architecture
 ```
@@ -118,13 +119,22 @@ Innovation.Application/
 
   Features/                         (VERTICAL SLICES)
     Challenges/
-      CreateChallenge.cs            (Command + Validator + Handler in one file)
-      UpdateChallenge.cs
-      GetChallenge.cs
-      ListChallenges.cs
-      DeleteChallenge.cs
-      AdvanceChallengeStage.cs
-      Shared/ -> ChallengeResponse.cs, ChallengeMapping.cs
+      Commands/
+        CreateChallenge.cs          (Command + Validator + Handler in one file)
+        UpdateChallenge.cs
+        DeleteChallenge.cs
+        AdvanceChallengeStage.cs
+      Queries/
+        ListChallenges.cs           (Gridify + EF projection → ChallengeListResponse)
+        GetChallenge.cs             (Include + map → ChallengeDetailResponse)
+      Models/
+        ChallengeListResponse.cs    (flat, 15 fields)
+        ChallengeDetailResponse.cs  (flat, full + relation sub-records)
+        ChallengeEditResponse.cs    (TranslatedField properties for forms)
+      Filters/
+        ChallengeGridifyMapper.cs
+      Mappings/
+        ChallengeMappings.cs        (ToDetailResponse, ToEditResponse)
 
     Ideas/
       CreateIdea.cs, UpdateIdea.cs, GetIdea.cs, ListIdeas.cs,
