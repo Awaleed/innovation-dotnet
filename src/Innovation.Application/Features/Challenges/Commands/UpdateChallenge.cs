@@ -40,6 +40,17 @@ public class UpdateChallengeValidator : AbstractValidator<UpdateChallengeCommand
     public UpdateChallengeValidator()
     {
         RuleFor(x => x.Id).GreaterThan(0);
+        RuleFor(x => x.Title!.En).NotEmpty().MaximumLength(200).When(x => x.Title != null);
+        RuleFor(x => x.Title!.Ar).MaximumLength(200).When(x => x.Title != null);
+        RuleFor(x => x.Description!.En).MaximumLength(5000).When(x => x.Description != null);
+        RuleFor(x => x.Description!.Ar).MaximumLength(5000).When(x => x.Description != null);
+        RuleFor(x => x.ContactEmail).EmailAddress().When(x => !string.IsNullOrEmpty(x.ContactEmail));
+        RuleFor(x => x.ContactPhone).MaximumLength(20).When(x => !string.IsNullOrEmpty(x.ContactPhone));
+        RuleFor(x => x.MaxParticipants).GreaterThan(0).When(x => x.MaxParticipants.HasValue);
+        RuleFor(x => x.EndDate)
+            .GreaterThan(x => x.StartDate)
+            .When(x => x.StartDate.HasValue && x.EndDate.HasValue)
+            .WithMessage("End date must be after start date");
     }
 }
 

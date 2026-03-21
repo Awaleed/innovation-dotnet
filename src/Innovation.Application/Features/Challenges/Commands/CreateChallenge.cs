@@ -40,7 +40,21 @@ public class CreateChallengeValidator : AbstractValidator<CreateChallengeCommand
     public CreateChallengeValidator()
     {
         RuleFor(x => x.Title).NotNull();
-        RuleFor(x => x.Title.En).NotEmpty().When(x => x.Title != null);
+        RuleFor(x => x.Title.En).NotEmpty().MaximumLength(200).When(x => x.Title != null);
+        RuleFor(x => x.Title.Ar).MaximumLength(200).When(x => x.Title != null);
+        RuleFor(x => x.Description!.En).MaximumLength(5000).When(x => x.Description != null);
+        RuleFor(x => x.Description!.Ar).MaximumLength(5000).When(x => x.Description != null);
+        RuleFor(x => x.ContactEmail).EmailAddress().When(x => !string.IsNullOrEmpty(x.ContactEmail));
+        RuleFor(x => x.ContactPhone).MaximumLength(20).When(x => !string.IsNullOrEmpty(x.ContactPhone));
+        RuleFor(x => x.MaxParticipants).GreaterThan(0).When(x => x.MaxParticipants.HasValue);
+        RuleFor(x => x.TeamSizeMin).GreaterThan(0).When(x => x.TeamSizeMin.HasValue);
+        RuleFor(x => x.TeamSizeMax)
+            .GreaterThanOrEqualTo(x => x.TeamSizeMin ?? 0)
+            .When(x => x.TeamSizeMax.HasValue && x.TeamSizeMin.HasValue);
+        RuleFor(x => x.EndDate)
+            .GreaterThan(x => x.StartDate)
+            .When(x => x.StartDate.HasValue && x.EndDate.HasValue)
+            .WithMessage("End date must be after start date");
     }
 }
 
