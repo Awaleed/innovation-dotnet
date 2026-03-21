@@ -1,7 +1,6 @@
+using ErrorOr;
 using Innovation.Application.Common.Models;
 using Innovation.Application.Features.Challenges;
-using Innovation.Application.Features.Challenges.Shared;
-using Innovation.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,52 +16,74 @@ public static class ChallengeEndpoints
         group.MapPost("/", async ([FromBody] CreateChallengeCommand command, IMediator mediator) =>
         {
             var result = await mediator.Send(command);
-            return result.IsSuccess
-                ? Results.Created($"/api/v1/challenges/{result.Value!.Id}", result.Value)
-                : Results.BadRequest(result.Error);
+            return result.Match(
+                value => Results.Created($"/api/v1/challenges/{value.Id}", value),
+                errors => ToProblems(errors));
         });
 
         group.MapGet("/", async (
             [FromQuery] int page,
             [FromQuery] int pageSize,
             [FromQuery] string? search,
-            [FromQuery] ChallengeStatus? status,
+            [FromQuery] string? status,
             [FromQuery] bool? featured,
             IMediator mediator) =>
         {
+            var parsedStatus = Enum.TryParse<Innovation.Domain.Enums.ChallengeStatus>(status, true, out var s) ? s : (Innovation.Domain.Enums.ChallengeStatus?)null;
             var query = new ListChallengesQuery(
                 page > 0 ? page : 1,
                 pageSize > 0 ? pageSize : 15,
-                search, status, featured);
+                search, parsedStatus, featured);
             var result = await mediator.Send(query);
-            return result.IsSuccess
-                ? Results.Ok(result.Value!.ToSimpleCollection("/api/v1/challenges"))
-                : Results.BadRequest(result.Error);
+            return result.Match(
+                value => Results.Ok(value.ToSimpleCollection("/api/v1/challenges")),
+                errors => ToProblems(errors));
         });
 
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
         {
             var result = await mediator.Send(new GetChallengeQuery(id));
-            return result.IsSuccess ? Results.Ok(result.Value) : Results.NotFound(result.Error);
+            return result.Match(
+                value => Results.Ok(value),
+                errors => ToProblems(errors));
         });
 
         group.MapPut("/{id:int}", async (int id, [FromBody] UpdateChallengeCommand command, IMediator mediator) =>
         {
             var cmd = command with { Id = id };
             var result = await mediator.Send(cmd);
-            return result.IsSuccess ? Results.Ok(result.Value) : Results.NotFound(result.Error);
+            return result.Match(
+                value => Results.Ok(value),
+                errors => ToProblems(errors));
         });
 
         group.MapDelete("/{id:int}", async (int id, IMediator mediator) =>
         {
             var result = await mediator.Send(new DeleteChallengeCommand(id));
-            return result.IsSuccess ? Results.NoContent() : Results.NotFound(result.Error);
+            return result.Match(
+                _ => Results.NoContent(),
+                errors => ToProblems(errors));
         });
 
         group.MapPost("/{id:int}/advance", async (int id, IMediator mediator) =>
         {
             var result = await mediator.Send(new AdvanceChallengeStageCommand(id));
-            return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Error);
+            return result.Match(
+                value => Results.Ok(value),
+                errors => ToProblems(errors));
         });
+    }
+
+    private static IResult ToProblems(List<Error> errors)
+    {
+        var first = errors.First();
+        return first.Type switch
+        {
+            ErrorType.NotFound => Results.NotFound(new { error = first.Description }),
+            ErrorType.Validation => Results.BadRequest(new { errors = errors.Select(e => e.Description) }),
+            ErrorType.Conflict => Results.Conflict(new { error = first.Description }),
+            ErrorType.Forbidden => Results.Forbid(),
+            _ => Results.Problem(first.Description)
+        };
     }
 }

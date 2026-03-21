@@ -1,3 +1,4 @@
+using ErrorOr;
 using Innovation.Application.Common.Interfaces;
 using Innovation.Application.Common.Models;
 using Innovation.Application.Features.Challenges.Shared;
@@ -6,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Innovation.Application.Features.Challenges;
 
-public record GetChallengeQuery(int Id) : IQuery<Result<ApiResource<ChallengeDetailAttributes>>>;
+public record GetChallengeQuery(int Id) : IQuery<ErrorOr<ApiResource<ChallengeDetailAttributes>>>;
 
 public class GetChallengeHandler(IAppDbContext db)
-    : IRequestHandler<GetChallengeQuery, Result<ApiResource<ChallengeDetailAttributes>>>
+    : IRequestHandler<GetChallengeQuery, ErrorOr<ApiResource<ChallengeDetailAttributes>>>
 {
-    public async Task<Result<ApiResource<ChallengeDetailAttributes>>> Handle(GetChallengeQuery query, CancellationToken ct)
+    public async Task<ErrorOr<ApiResource<ChallengeDetailAttributes>>> Handle(GetChallengeQuery query, CancellationToken ct)
     {
         var challenge = await db.Challenges
             .Include(c => c.Awards.OrderBy(a => a.OrderIndex))
@@ -21,8 +22,9 @@ public class GetChallengeHandler(IAppDbContext db)
             .Include(c => c.Sponsors.OrderBy(s => s.OrderIndex))
             .FirstOrDefaultAsync(c => c.Id == query.Id, ct);
 
-        return challenge is null
-            ? Result<ApiResource<ChallengeDetailAttributes>>.NotFound($"Challenge {query.Id} not found")
-            : Result<ApiResource<ChallengeDetailAttributes>>.Success(challenge.ToDetailResource());
+        if (challenge is null)
+            return Error.NotFound(description: $"Challenge {query.Id} not found");
+
+        return challenge.ToDetailResource();
     }
 }

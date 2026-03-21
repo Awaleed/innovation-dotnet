@@ -1,3 +1,4 @@
+using ErrorOr;
 using Innovation.Application.Common.Interfaces;
 using Innovation.Application.Common.Models;
 using Innovation.Application.Features.Challenges.Shared;
@@ -13,12 +14,12 @@ public record ListChallengesQuery(
     string? Search = null,
     ChallengeStatus? Status = null,
     bool? Featured = null
-) : IQuery<Result<PaginatedList<ApiResource<ChallengeListAttributes>>>>;
+) : IQuery<ErrorOr<PaginatedList<ApiResource<ChallengeListAttributes>>>>;
 
 public class ListChallengesHandler(IAppDbContext db)
-    : IRequestHandler<ListChallengesQuery, Result<PaginatedList<ApiResource<ChallengeListAttributes>>>>
+    : IRequestHandler<ListChallengesQuery, ErrorOr<PaginatedList<ApiResource<ChallengeListAttributes>>>>
 {
-    public async Task<Result<PaginatedList<ApiResource<ChallengeListAttributes>>>> Handle(
+    public async Task<ErrorOr<PaginatedList<ApiResource<ChallengeListAttributes>>>> Handle(
         ListChallengesQuery query, CancellationToken ct)
     {
         var q = db.Challenges.AsNoTracking().AsQueryable();
@@ -38,7 +39,6 @@ public class ListChallengesHandler(IAppDbContext db)
 
         q = q.OrderByDescending(c => c.CreatedAt);
 
-        // Paginate entities first, then map to ApiResource (can't translate dictionaries to SQL)
         var count = await q.CountAsync(ct);
         var entities = await q
             .Skip((query.Page - 1) * query.PageSize)
@@ -46,9 +46,8 @@ public class ListChallengesHandler(IAppDbContext db)
             .ToListAsync(ct);
 
         var items = entities.Select(c => c.ToListResource()).ToList();
-        var paginatedList = new PaginatedList<ApiResource<ChallengeListAttributes>>(
-            items, count, query.Page, query.PageSize);
 
-        return Result<PaginatedList<ApiResource<ChallengeListAttributes>>>.Success(paginatedList);
+        return new PaginatedList<ApiResource<ChallengeListAttributes>>(
+            items, count, query.Page, query.PageSize);
     }
 }

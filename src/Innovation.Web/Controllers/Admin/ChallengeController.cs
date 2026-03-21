@@ -24,7 +24,7 @@ public class ChallengeController(IMediator mediator) : Controller
 
         return Inertia.Render("Admin/Challenges/Index", new
         {
-            challenges = result.Value?.ToSimpleCollection("/admin/challenges"),
+            challenges = result.IsError ? null : result.Value.ToSimpleCollection("/admin/challenges"),
         });
     }
 
@@ -39,7 +39,7 @@ public class ChallengeController(IMediator mediator) : Controller
     {
         var result = await mediator.Send(new GetChallengeQuery(id));
 
-        if (!result.IsSuccess)
+        if (result.IsError)
             return NotFound();
 
         return Inertia.Render("Admin/Challenges/Show", new
@@ -53,7 +53,7 @@ public class ChallengeController(IMediator mediator) : Controller
     {
         var result = await mediator.Send(new GetChallengeQuery(id));
 
-        if (!result.IsSuccess)
+        if (result.IsError)
             return NotFound();
 
         return Inertia.Render("Admin/Challenges/Edit", new

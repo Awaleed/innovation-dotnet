@@ -1,3 +1,4 @@
+using ErrorOr;
 using FluentValidation;
 using Innovation.Application.Common.Interfaces;
 using Innovation.Application.Common.Models;
@@ -33,7 +34,7 @@ public record CreateChallengeCommand(
     DateTime? StartDate,
     DateTime? EndDate,
     DateTime? SubmissionDeadline
-) : ICommand<Result<ApiResource<ChallengeDetailAttributes>>>;
+) : ICommand<ErrorOr<ApiResource<ChallengeDetailAttributes>>>;
 
 // Validator
 public class CreateChallengeValidator : AbstractValidator<CreateChallengeCommand>
@@ -47,9 +48,9 @@ public class CreateChallengeValidator : AbstractValidator<CreateChallengeCommand
 
 // Handler
 public class CreateChallengeHandler(IAppDbContext db)
-    : IRequestHandler<CreateChallengeCommand, Result<ApiResource<ChallengeDetailAttributes>>>
+    : IRequestHandler<CreateChallengeCommand, ErrorOr<ApiResource<ChallengeDetailAttributes>>>
 {
-    public async Task<Result<ApiResource<ChallengeDetailAttributes>>> Handle(CreateChallengeCommand cmd, CancellationToken ct)
+    public async Task<ErrorOr<ApiResource<ChallengeDetailAttributes>>> Handle(CreateChallengeCommand cmd, CancellationToken ct)
     {
         var challenge = new Challenge
         {
@@ -84,6 +85,6 @@ public class CreateChallengeHandler(IAppDbContext db)
         db.Challenges.Add(challenge);
         await db.SaveChangesAsync(ct);
 
-        return Result<ApiResource<ChallengeDetailAttributes>>.Success(challenge.ToDetailResource());
+        return challenge.ToDetailResource();
     }
 }
