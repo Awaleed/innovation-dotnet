@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Innovation.AppHost",
+      "type": "coreclr",
+      "request": "attach",
+      "preLaunchTask": "watch",
+      "processName": "Innovation.AppHost"
+    },
+    {
+      "name": "Attach to Process",
+      "type": "coreclr",
+      "request": "attach"
+    }
+  ]
+}

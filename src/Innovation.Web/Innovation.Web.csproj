@@ -16,6 +16,8 @@
   <ItemGroup>
     <Content Remove="ClientApp\**" />
     <None Include="ClientApp\**" Exclude="ClientApp\node_modules\**" />
+    <!-- Exclude Vite dev server hot-reload marker from publish -->
+    <Content Remove="wwwroot\hot" />
   </ItemGroup>
 
   <ItemGroup>

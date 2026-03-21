@@ -24,7 +24,6 @@ x86/
 
 ## IDE
 .vs/
-.vscode/
 .idea/
 *.swp
 *.swo
