@@ -3,29 +3,30 @@ using Innovation.Domain.Enums;
 
 namespace Innovation.Application.Features.Challenges.Shared;
 
-public record ChallengeListResponse(
-    int Id,
-    string? PublicUlid,
-    TranslatableString Title,
-    TranslatableString? Description,
+// --- List attributes (subset for index pages) ---
+public record ChallengeListAttributes(
+    string? Slug,
+    string? Title,
+    string? Description,
+    string? Organizer,
     ChallengeStatus Status,
     ChallengeDifficulty? Difficulty,
-    DateTime? StartDate,
-    DateTime? EndDate,
+    string? StartDate,
+    string? EndDate,
     bool Featured,
     bool Urgent,
     bool IsPublic,
-    int? MaxParticipants,
-    DateTime CreatedAt);
-
-public record ChallengeDetailResponse(
-    int Id,
     string? PublicUlid,
-    TranslatableString Slug,
-    TranslatableString Title,
-    TranslatableString Description,
-    TranslatableString? Organizer,
-    TranslatableString? Location,
+    int? MaxParticipants,
+    ChallengeTimestamps Timestamps);
+
+// --- Detail attributes (full entity for show/edit pages) ---
+public record ChallengeDetailAttributes(
+    string? Slug,
+    string? Title,
+    string? Description,
+    string? Organizer,
+    string? Location,
     ChallengeStatus Status,
     ChallengeDifficulty? Difficulty,
     ChallengeParticipationType? ParticipationType,
@@ -43,24 +44,23 @@ public record ChallengeDetailResponse(
     bool IsPublic,
     bool EnableComments,
     bool AutoTransitionEnabled,
-    DateTime? StartDate,
-    DateTime? EndDate,
-    DateTime? SubmissionDeadline,
-    DateTime? EvaluationStartDate,
-    DateTime? EvaluationEndDate,
-    DateTime? WinnersAnnouncedAt,
+    string? PublicUlid,
+    string? StartDate,
+    string? EndDate,
+    string? SubmissionDeadline,
+    string? EvaluationStartDate,
+    string? EvaluationEndDate,
+    string? WinnersAnnouncedAt,
     int? CategoryId,
     int? InnovationTypeId,
-    DateTime CreatedAt,
-    DateTime UpdatedAt,
-    IReadOnlyList<ChallengeAwardResponse> Awards,
-    IReadOnlyList<ChallengeObjectiveResponse> Objectives,
-    IReadOnlyList<ChallengeRequirementResponse> Requirements,
-    IReadOnlyList<ChallengeTimelineResponse> Timeline,
-    IReadOnlyList<ChallengeSponsorResponse> Sponsors);
+    ChallengeTimestamps Timestamps);
 
-public record ChallengeAwardResponse(int Id, TranslatableString Name, TranslatableString? Description, string? AwardType, decimal? Value, int OrderIndex);
-public record ChallengeObjectiveResponse(int Id, TranslatableString Objective, TranslatableString? Description, int OrderIndex);
-public record ChallengeRequirementResponse(int Id, TranslatableString Requirement, TranslatableString? Description, string? RequirementType, bool Mandatory, int OrderIndex);
-public record ChallengeTimelineResponse(int Id, TranslatableString MilestoneName, TranslatableString? Description, DateTime? MilestoneStartDate, DateTime? MilestoneEndDate, string? Status, int OrderIndex);
+// --- Shared sub-records ---
+public record ChallengeTimestamps(string? Created, string? Updated);
+
+// --- Relationship DTOs ---
+public record ChallengeAwardResponse(int Id, string? Name, string? Description, string? AwardType, decimal? Value, int OrderIndex);
+public record ChallengeObjectiveResponse(int Id, string? Objective, string? Description, int OrderIndex);
+public record ChallengeRequirementResponse(int Id, string? Requirement, string? Description, string? RequirementType, bool Mandatory, int OrderIndex);
+public record ChallengeTimelineResponse(int Id, string? MilestoneName, string? Description, string? MilestoneStartDate, string? MilestoneEndDate, string? Status, int OrderIndex);
 public record ChallengeSponsorResponse(int Id, string SponsorName, string? LogoUrl, string? WebsiteUrl, decimal? ContributionAmount, string? SponsorshipType, int OrderIndex);

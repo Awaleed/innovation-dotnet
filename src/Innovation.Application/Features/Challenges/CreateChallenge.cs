@@ -33,7 +33,7 @@ public record CreateChallengeCommand(
     DateTime? StartDate,
     DateTime? EndDate,
     DateTime? SubmissionDeadline
-) : ICommand<Result<ChallengeDetailResponse>>;
+) : ICommand<Result<ApiResource<ChallengeDetailAttributes>>>;
 
 // Validator
 public class CreateChallengeValidator : AbstractValidator<CreateChallengeCommand>
@@ -46,9 +46,10 @@ public class CreateChallengeValidator : AbstractValidator<CreateChallengeCommand
 }
 
 // Handler
-public class CreateChallengeHandler(IAppDbContext db) : IRequestHandler<CreateChallengeCommand, Result<ChallengeDetailResponse>>
+public class CreateChallengeHandler(IAppDbContext db)
+    : IRequestHandler<CreateChallengeCommand, Result<ApiResource<ChallengeDetailAttributes>>>
 {
-    public async Task<Result<ChallengeDetailResponse>> Handle(CreateChallengeCommand cmd, CancellationToken ct)
+    public async Task<Result<ApiResource<ChallengeDetailAttributes>>> Handle(CreateChallengeCommand cmd, CancellationToken ct)
     {
         var challenge = new Challenge
         {
@@ -83,6 +84,6 @@ public class CreateChallengeHandler(IAppDbContext db) : IRequestHandler<CreateCh
         db.Challenges.Add(challenge);
         await db.SaveChangesAsync(ct);
 
-        return Result<ChallengeDetailResponse>.Success(challenge.ToDetailResponse());
+        return Result<ApiResource<ChallengeDetailAttributes>>.Success(challenge.ToDetailResource());
     }
 }

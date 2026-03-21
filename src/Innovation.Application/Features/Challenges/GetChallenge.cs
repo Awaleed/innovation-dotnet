@@ -6,11 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Innovation.Application.Features.Challenges;
 
-public record GetChallengeQuery(int Id) : IQuery<Result<ChallengeDetailResponse>>;
+public record GetChallengeQuery(int Id) : IQuery<Result<ApiResource<ChallengeDetailAttributes>>>;
 
-public class GetChallengeHandler(IAppDbContext db) : IRequestHandler<GetChallengeQuery, Result<ChallengeDetailResponse>>
+public class GetChallengeHandler(IAppDbContext db)
+    : IRequestHandler<GetChallengeQuery, Result<ApiResource<ChallengeDetailAttributes>>>
 {
-    public async Task<Result<ChallengeDetailResponse>> Handle(GetChallengeQuery query, CancellationToken ct)
+    public async Task<Result<ApiResource<ChallengeDetailAttributes>>> Handle(GetChallengeQuery query, CancellationToken ct)
     {
         var challenge = await db.Challenges
             .Include(c => c.Awards.OrderBy(a => a.OrderIndex))
@@ -21,7 +22,7 @@ public class GetChallengeHandler(IAppDbContext db) : IRequestHandler<GetChalleng
             .FirstOrDefaultAsync(c => c.Id == query.Id, ct);
 
         return challenge is null
-            ? Result<ChallengeDetailResponse>.NotFound($"Challenge {query.Id} not found")
-            : Result<ChallengeDetailResponse>.Success(challenge.ToDetailResponse());
+            ? Result<ApiResource<ChallengeDetailAttributes>>.NotFound($"Challenge {query.Id} not found")
+            : Result<ApiResource<ChallengeDetailAttributes>>.Success(challenge.ToDetailResource());
     }
 }

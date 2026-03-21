@@ -1,4 +1,5 @@
 using InertiaCore;
+using Innovation.Application.Common.Models;
 using Innovation.Application.Features.Challenges;
 using Innovation.Domain.Enums;
 using MediatR;
@@ -23,7 +24,7 @@ public class ChallengeController(IMediator mediator) : Controller
 
         return Inertia.Render("Admin/Challenges/Index", new
         {
-            challenges = result.Value,
+            challenges = result.Value?.ToSimpleCollection("/admin/challenges"),
         });
     }
 

@@ -6,11 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Innovation.Application.Features.Challenges;
 
-public record AdvanceChallengeStageCommand(int Id) : ICommand<Result<ChallengeDetailResponse>>;
+public record AdvanceChallengeStageCommand(int Id) : ICommand<Result<ApiResource<ChallengeDetailAttributes>>>;
 
-public class AdvanceChallengeStageHandler(IAppDbContext db) : IRequestHandler<AdvanceChallengeStageCommand, Result<ChallengeDetailResponse>>
+public class AdvanceChallengeStageHandler(IAppDbContext db)
+    : IRequestHandler<AdvanceChallengeStageCommand, Result<ApiResource<ChallengeDetailAttributes>>>
 {
-    public async Task<Result<ChallengeDetailResponse>> Handle(AdvanceChallengeStageCommand cmd, CancellationToken ct)
+    public async Task<Result<ApiResource<ChallengeDetailAttributes>>> Handle(AdvanceChallengeStageCommand cmd, CancellationToken ct)
     {
         var challenge = await db.Challenges
             .Include(c => c.Awards)
@@ -21,14 +22,14 @@ public class AdvanceChallengeStageHandler(IAppDbContext db) : IRequestHandler<Ad
             .FirstOrDefaultAsync(c => c.Id == cmd.Id, ct);
 
         if (challenge is null)
-            return Result<ChallengeDetailResponse>.NotFound();
+            return Result<ApiResource<ChallengeDetailAttributes>>.NotFound();
 
         if (!challenge.TryAdvanceStage())
-            return Result<ChallengeDetailResponse>.Failure(
+            return Result<ApiResource<ChallengeDetailAttributes>>.Failure(
                 $"Cannot advance from status '{challenge.Status}'. It is a terminal state.");
 
         await db.SaveChangesAsync(ct);
 
-        return Result<ChallengeDetailResponse>.Success(challenge.ToDetailResponse());
+        return Result<ApiResource<ChallengeDetailAttributes>>.Success(challenge.ToDetailResource());
     }
 }

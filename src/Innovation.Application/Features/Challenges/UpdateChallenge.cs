@@ -32,7 +32,7 @@ public record UpdateChallengeCommand(
     DateTime? StartDate,
     DateTime? EndDate,
     DateTime? SubmissionDeadline
-) : ICommand<Result<ChallengeDetailResponse>>;
+) : ICommand<Result<ApiResource<ChallengeDetailAttributes>>>;
 
 public class UpdateChallengeValidator : AbstractValidator<UpdateChallengeCommand>
 {
@@ -42,9 +42,10 @@ public class UpdateChallengeValidator : AbstractValidator<UpdateChallengeCommand
     }
 }
 
-public class UpdateChallengeHandler(IAppDbContext db) : IRequestHandler<UpdateChallengeCommand, Result<ChallengeDetailResponse>>
+public class UpdateChallengeHandler(IAppDbContext db)
+    : IRequestHandler<UpdateChallengeCommand, Result<ApiResource<ChallengeDetailAttributes>>>
 {
-    public async Task<Result<ChallengeDetailResponse>> Handle(UpdateChallengeCommand cmd, CancellationToken ct)
+    public async Task<Result<ApiResource<ChallengeDetailAttributes>>> Handle(UpdateChallengeCommand cmd, CancellationToken ct)
     {
         var challenge = await db.Challenges
             .Include(c => c.Awards)
@@ -55,7 +56,7 @@ public class UpdateChallengeHandler(IAppDbContext db) : IRequestHandler<UpdateCh
             .FirstOrDefaultAsync(c => c.Id == cmd.Id, ct);
 
         if (challenge is null)
-            return Result<ChallengeDetailResponse>.NotFound();
+            return Result<ApiResource<ChallengeDetailAttributes>>.NotFound();
 
         if (cmd.Title is not null) challenge.Title = cmd.Title;
         if (cmd.Description is not null) challenge.Description = cmd.Description;
@@ -81,6 +82,6 @@ public class UpdateChallengeHandler(IAppDbContext db) : IRequestHandler<UpdateCh
 
         await db.SaveChangesAsync(ct);
 
-        return Result<ChallengeDetailResponse>.Success(challenge.ToDetailResponse());
+        return Result<ApiResource<ChallengeDetailAttributes>>.Success(challenge.ToDetailResource());
     }
 }

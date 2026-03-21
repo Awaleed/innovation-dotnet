@@ -1,4 +1,6 @@
+using Innovation.Application.Common.Models;
 using Innovation.Application.Features.Challenges;
+using Innovation.Application.Features.Challenges.Shared;
 using Innovation.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +17,9 @@ public static class ChallengeEndpoints
         group.MapPost("/", async ([FromBody] CreateChallengeCommand command, IMediator mediator) =>
         {
             var result = await mediator.Send(command);
-            return result.IsSuccess ? Results.Created($"/api/v1/challenges/{result.Value!.Id}", result.Value) : Results.BadRequest(result.Error);
+            return result.IsSuccess
+                ? Results.Created($"/api/v1/challenges/{result.Value!.Id}", result.Value)
+                : Results.BadRequest(result.Error);
         });
 
         group.MapGet("/", async (
@@ -31,7 +35,9 @@ public static class ChallengeEndpoints
                 pageSize > 0 ? pageSize : 15,
                 search, status, featured);
             var result = await mediator.Send(query);
-            return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Error);
+            return result.IsSuccess
+                ? Results.Ok(result.Value!.ToSimpleCollection("/api/v1/challenges"))
+                : Results.BadRequest(result.Error);
         });
 
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
