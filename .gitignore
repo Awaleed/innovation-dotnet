@@ -50,3 +50,4 @@ Desktop.ini
 
 ## Publish output
 dist/
+dist-local/

@@ -99,6 +99,20 @@ internal static class AuthenticationExtensions
                     options.RequireHttpsMetadata = false;
                 }
 
+                // When FrontendUrl differs from the backend URL, the token issuer will be
+                // the frontend URL (localhost:8080) but the OIDC metadata was fetched from
+                // the backend URL (keycloak:8080). Accept both as valid issuers.
+                var frontendUrl = builder.Configuration["Keycloak:FrontendUrl"];
+                var realm = builder.Configuration["Keycloak:realm"] ?? "innovation";
+                if (!string.IsNullOrEmpty(frontendUrl))
+                {
+                    options.TokenValidationParameters.ValidIssuers =
+                    [
+                        $"{keycloakUrl.TrimEnd('/')}/realms/{realm}",
+                        $"{frontendUrl.TrimEnd('/')}/realms/{realm}",
+                    ];
+                }
+
                 // Fix "Correlation failed" in development (HTTP without HTTPS)
                 options.CorrelationCookie.SameSite = SameSiteMode.Lax;
                 options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
@@ -110,11 +124,38 @@ internal static class AuthenticationExtensions
 
     private static void PostConfigureOidcEvents(WebApplicationBuilder builder)
     {
+        // When Keycloak runs inside Docker Compose, browser-facing redirects must use the
+        // host-mapped URL (e.g. localhost:8080) instead of the internal service name (keycloak:8080).
+        var frontendUrl = builder.Configuration["Keycloak:FrontendUrl"];
+        var backendUrl = builder.Configuration.GetConnectionString("keycloak") ?? "";
+
         // PostConfigure chains our event handlers AFTER the package's role mapping setup
         builder.Services.PostConfigure<OpenIdConnectOptions>(
             OpenIdConnectDefaults.AuthenticationScheme,
             options =>
             {
+                // Rewrite browser-facing redirect URLs for Docker Compose environments
+                if (!string.IsNullOrEmpty(frontendUrl) && !string.IsNullOrEmpty(backendUrl))
+                {
+                    var previousOnRedirect = options.Events.OnRedirectToIdentityProvider;
+                    options.Events.OnRedirectToIdentityProvider = async context =>
+                    {
+                        if (previousOnRedirect is not null)
+                            await previousOnRedirect(context);
+                        context.ProtocolMessage.IssuerAddress =
+                            context.ProtocolMessage.IssuerAddress.Replace(backendUrl, frontendUrl);
+                    };
+
+                    var previousOnSignOut = options.Events.OnRedirectToIdentityProviderForSignOut;
+                    options.Events.OnRedirectToIdentityProviderForSignOut = async context =>
+                    {
+                        if (previousOnSignOut is not null)
+                            await previousOnSignOut(context);
+                        context.ProtocolMessage.IssuerAddress =
+                            context.ProtocolMessage.IssuerAddress.Replace(backendUrl, frontendUrl);
+                    };
+                }
+
                 var previousOnTokenValidated = options.Events.OnTokenValidated;
 
                 options.Events.OnTokenValidated = async context =>

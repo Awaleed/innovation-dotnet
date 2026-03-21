@@ -62,8 +62,8 @@ if ($Target -ne "windows") {
     Write-Host "Building container image: $FullImage ..." -ForegroundColor Yellow
 
     dotnet publish src\Innovation.Web -c Release `
-        /t:PublishContainer `
-        -p:ContainerImageName=$ImageName `
+        -p:PublishProfile=DefaultContainer `
+        -p:ContainerRepository=$ImageName `
         -p:ContainerImageTag=$ImageTag `
         -p:ContainerRegistry=docker.io
 
@@ -96,9 +96,48 @@ if ($Target -eq "docker" -or $Target -eq "all") {
     # Keycloak: change 'start' to 'start-dev' (production mode requires HTTPS certs)
     $compose = $compose -replace '- "start"', '- "start-dev"'
 
+    # Keycloak: fix hostname so tokens always use localhost as issuer (prevents mismatch
+    # between browser-facing URL and internal Docker service name).
+    # KC_HOSTNAME_BACKCHANNEL_DYNAMIC allows backchannel endpoints (JWKS, userinfo) to use
+    # the request hostname, so internal Docker calls via keycloak:8080 still work.
+    $compose = $compose -replace '(KC_HEALTH_ENABLED: "true")', '$1
+      KC_HOSTNAME: "http://localhost:8080"
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"'
+
     # Postgres: add POSTGRES_DB so the database is created on first start
     $compose = $compose -replace '(POSTGRES_USER: "postgres")', 'POSTGRES_DB: "innovationdb"
       $1'
+
+    # Web: add ConnectionStrings__keycloak (Aspire generates service discovery vars but not the connection string)
+    # and Keycloak__FrontendUrl so browser redirects use localhost instead of the internal Docker service name
+    $compose = $compose -replace '(KEYCLOAK_HTTP: "http://keycloak:8080")', '$1
+      ConnectionStrings__keycloak: "http://keycloak:8080"
+      Keycloak__FrontendUrl: "http://localhost:8080"'
+
+    # Postgres: healthcheck so dependents can wait for readiness
+    $compose = $compose -replace '(image: "docker.io/ankane/pgvector:latest")', @'
+$1
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d innovationdb"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+'@
+
+    # Keycloak: healthcheck via management port (KC_HEALTH_ENABLED=true exposes /health on :9000)
+    $compose = $compose -replace '(image: "quay.io/keycloak/keycloak:[\d.]+")', @'
+$1
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/9000"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 15s
+'@
+
+    # Web: wait for healthy postgres and keycloak before starting
+    $compose = $compose -replace '(postgres:\s+condition: )"service_started"', '$1"service_healthy"'
+    $compose = $compose -replace '(keycloak:\s+condition: )"service_started"', '$1"service_healthy"'
 
     Set-Content -Path $composeFile -Value $compose -NoNewline
 
