@@ -9,6 +9,8 @@
     <Project Path="src/Innovation.TsGen/Innovation.TsGen.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Innovation.UnitTests/Innovation.UnitTests.csproj" />
+    <Project Path="tests/Innovation.IntegrationTests/Innovation.IntegrationTests.csproj" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path="Directory.Packages.props" />
