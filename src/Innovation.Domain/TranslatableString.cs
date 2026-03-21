@@ -1,4 +1,4 @@
-namespace Innovation.Domain;
+﻿namespace Innovation.Domain;
 
 /// <summary>
 /// Value object for bilingual (English/Arabic) translatable text.
@@ -17,11 +17,12 @@ public class TranslatableString
         Ar = ar;
     }
 
-    public string? GetTranslation(string locale) => locale switch
-    {
-        "ar" => Ar ?? En,
-        _ => En ?? Ar,
-    };
+    public string? GetTranslation(string locale) =>
+        locale switch
+        {
+            "ar" => Ar ?? En,
+            _ => En ?? Ar,
+        };
 
     public override string ToString() => En ?? Ar ?? string.Empty;
 }

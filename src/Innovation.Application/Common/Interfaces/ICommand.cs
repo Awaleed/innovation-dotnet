@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 
 namespace Innovation.Application.Common.Interfaces;
 

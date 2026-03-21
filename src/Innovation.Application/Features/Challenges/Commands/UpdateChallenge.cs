@@ -1,4 +1,4 @@
-using ErrorOr;
+﻿using ErrorOr;
 using FluentValidation;
 using Innovation.Application.Common.Interfaces;
 using Innovation.Application.Features.Challenges.Mappings;
@@ -44,8 +44,12 @@ public class UpdateChallengeValidator : AbstractValidator<UpdateChallengeCommand
         RuleFor(x => x.Title!.Ar).MaximumLength(200).When(x => x.Title != null);
         RuleFor(x => x.Description!.En).MaximumLength(5000).When(x => x.Description != null);
         RuleFor(x => x.Description!.Ar).MaximumLength(5000).When(x => x.Description != null);
-        RuleFor(x => x.ContactEmail).EmailAddress().When(x => !string.IsNullOrEmpty(x.ContactEmail));
-        RuleFor(x => x.ContactPhone).MaximumLength(20).When(x => !string.IsNullOrEmpty(x.ContactPhone));
+        RuleFor(x => x.ContactEmail)
+            .EmailAddress()
+            .When(x => !string.IsNullOrEmpty(x.ContactEmail));
+        RuleFor(x => x.ContactPhone)
+            .MaximumLength(20)
+            .When(x => !string.IsNullOrEmpty(x.ContactPhone));
         RuleFor(x => x.MaxParticipants).GreaterThan(0).When(x => x.MaxParticipants.HasValue);
         RuleFor(x => x.EndDate)
             .GreaterThan(x => x.StartDate)
@@ -57,10 +61,13 @@ public class UpdateChallengeValidator : AbstractValidator<UpdateChallengeCommand
 public class UpdateChallengeHandler(IAppDbContext db)
     : IRequestHandler<UpdateChallengeCommand, ErrorOr<ChallengeDetailResponse>>
 {
-    public async Task<ErrorOr<ChallengeDetailResponse>> Handle(UpdateChallengeCommand cmd, CancellationToken ct)
+    public async Task<ErrorOr<ChallengeDetailResponse>> Handle(
+        UpdateChallengeCommand cmd,
+        CancellationToken ct
+    )
     {
-        var challenge = await db.Challenges
-            .Include(c => c.Awards)
+        var challenge = await db
+            .Challenges.Include(c => c.Awards)
             .Include(c => c.Objectives)
             .Include(c => c.Requirements)
             .Include(c => c.Timeline)
@@ -70,27 +77,48 @@ public class UpdateChallengeHandler(IAppDbContext db)
         if (challenge is null)
             return Error.NotFound(description: $"Challenge {cmd.Id} not found");
 
-        if (cmd.Title is not null) challenge.Title = cmd.Title;
-        if (cmd.Description is not null) challenge.Description = cmd.Description;
-        if (cmd.Organizer is not null) challenge.Organizer = cmd.Organizer;
-        if (cmd.Location is not null) challenge.Location = cmd.Location;
-        if (cmd.CategoryId.HasValue) challenge.CategoryId = cmd.CategoryId;
-        if (cmd.InnovationTypeId.HasValue) challenge.InnovationTypeId = cmd.InnovationTypeId;
-        if (cmd.Difficulty.HasValue) challenge.Difficulty = cmd.Difficulty;
-        if (cmd.ParticipationType.HasValue) challenge.ParticipationType = cmd.ParticipationType;
-        if (cmd.SubmissionType.HasValue) challenge.SubmissionType = cmd.SubmissionType;
-        if (cmd.MaxParticipants.HasValue) challenge.MaxParticipants = cmd.MaxParticipants;
-        if (cmd.TeamSizeMin.HasValue) challenge.TeamSizeMin = cmd.TeamSizeMin;
-        if (cmd.TeamSizeMax.HasValue) challenge.TeamSizeMax = cmd.TeamSizeMax;
-        if (cmd.Language is not null) challenge.Language = cmd.Language;
-        if (cmd.ContactEmail is not null) challenge.ContactEmail = cmd.ContactEmail;
-        if (cmd.ContactPhone is not null) challenge.ContactPhone = cmd.ContactPhone;
-        if (cmd.Featured.HasValue) challenge.Featured = cmd.Featured.Value;
-        if (cmd.IsPublic.HasValue) challenge.IsPublic = cmd.IsPublic.Value;
-        if (cmd.EnableComments.HasValue) challenge.EnableComments = cmd.EnableComments.Value;
-        if (cmd.StartDate.HasValue) challenge.StartDate = cmd.StartDate;
-        if (cmd.EndDate.HasValue) challenge.EndDate = cmd.EndDate;
-        if (cmd.SubmissionDeadline.HasValue) challenge.SubmissionDeadline = cmd.SubmissionDeadline;
+        if (cmd.Title is not null)
+            challenge.Title = cmd.Title;
+        if (cmd.Description is not null)
+            challenge.Description = cmd.Description;
+        if (cmd.Organizer is not null)
+            challenge.Organizer = cmd.Organizer;
+        if (cmd.Location is not null)
+            challenge.Location = cmd.Location;
+        if (cmd.CategoryId.HasValue)
+            challenge.CategoryId = cmd.CategoryId;
+        if (cmd.InnovationTypeId.HasValue)
+            challenge.InnovationTypeId = cmd.InnovationTypeId;
+        if (cmd.Difficulty.HasValue)
+            challenge.Difficulty = cmd.Difficulty;
+        if (cmd.ParticipationType.HasValue)
+            challenge.ParticipationType = cmd.ParticipationType;
+        if (cmd.SubmissionType.HasValue)
+            challenge.SubmissionType = cmd.SubmissionType;
+        if (cmd.MaxParticipants.HasValue)
+            challenge.MaxParticipants = cmd.MaxParticipants;
+        if (cmd.TeamSizeMin.HasValue)
+            challenge.TeamSizeMin = cmd.TeamSizeMin;
+        if (cmd.TeamSizeMax.HasValue)
+            challenge.TeamSizeMax = cmd.TeamSizeMax;
+        if (cmd.Language is not null)
+            challenge.Language = cmd.Language;
+        if (cmd.ContactEmail is not null)
+            challenge.ContactEmail = cmd.ContactEmail;
+        if (cmd.ContactPhone is not null)
+            challenge.ContactPhone = cmd.ContactPhone;
+        if (cmd.Featured.HasValue)
+            challenge.Featured = cmd.Featured.Value;
+        if (cmd.IsPublic.HasValue)
+            challenge.IsPublic = cmd.IsPublic.Value;
+        if (cmd.EnableComments.HasValue)
+            challenge.EnableComments = cmd.EnableComments.Value;
+        if (cmd.StartDate.HasValue)
+            challenge.StartDate = cmd.StartDate;
+        if (cmd.EndDate.HasValue)
+            challenge.EndDate = cmd.EndDate;
+        if (cmd.SubmissionDeadline.HasValue)
+            challenge.SubmissionDeadline = cmd.SubmissionDeadline;
 
         await db.SaveChangesAsync(ct);
 

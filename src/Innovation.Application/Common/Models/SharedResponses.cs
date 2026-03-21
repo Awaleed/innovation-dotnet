@@ -1,9 +1,8 @@
-namespace Innovation.Application.Common.Models;
+﻿namespace Innovation.Application.Common.Models;
 
 /// <summary>
 /// Reusable sub-response records shared across features.
 /// </summary>
-
 // For dropdown/select components
 public record SelectOption(int Value, string Label);
 

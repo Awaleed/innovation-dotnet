@@ -1,4 +1,4 @@
-using Innovation.Application.Common.Models;
+﻿using Innovation.Application.Common.Models;
 
 namespace Innovation.Application.Features.Challenges.Models;
 
@@ -32,4 +32,5 @@ public record ChallengeEditResponse(
     string? EndDate,
     string? SubmissionDeadline,
     string? EvaluationStartDate,
-    string? EvaluationEndDate);
+    string? EvaluationEndDate
+);

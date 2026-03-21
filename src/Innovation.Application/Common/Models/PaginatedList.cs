@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Innovation.Application.Common.Models;
 
@@ -21,13 +21,14 @@ public class PaginatedList<T>
     public bool HasNextPage => PageIndex < TotalPages;
 
     public static async Task<PaginatedList<T>> CreateAsync(
-        IQueryable<T> source, int pageIndex, int pageSize, CancellationToken ct = default)
+        IQueryable<T> source,
+        int pageIndex,
+        int pageSize,
+        CancellationToken ct = default
+    )
     {
         var count = await source.CountAsync(ct);
-        var items = await source
-            .Skip((pageIndex - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync(ct);
+        var items = await source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync(ct);
 
         return new PaginatedList<T>(items, count, pageIndex, pageSize);
     }

@@ -1,4 +1,4 @@
-using Innovation.Application.Common.Interfaces;
+﻿using Innovation.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -11,14 +11,15 @@ namespace Innovation.Application.Behaviors;
 /// </summary>
 public class TransactionBehavior<TRequest, TResponse>(
     IAppDbContext db,
-    ILogger<TransactionBehavior<TRequest, TResponse>> logger)
-    : IPipelineBehavior<TRequest, TResponse>
+    ILogger<TransactionBehavior<TRequest, TResponse>> logger
+) : IPipelineBehavior<TRequest, TResponse>
     where TRequest : ICommand<TResponse>
 {
     public async Task<TResponse> Handle(
         TRequest request,
         RequestHandlerDelegate<TResponse> next,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         var typeName = typeof(TRequest).Name;
 
@@ -44,7 +45,11 @@ public class TransactionBehavior<TRequest, TResponse>(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error handling transaction for {CommandName}, rolling back", typeName);
+            logger.LogError(
+                ex,
+                "Error handling transaction for {CommandName}, rolling back",
+                typeName
+            );
             await transaction.RollbackAsync(cancellationToken);
             throw;
         }

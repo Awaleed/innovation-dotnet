@@ -12,7 +12,10 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Innovation.UnitTests/Innovation.UnitTests.csproj" Build="false" />
-    <Project Path="tests/Innovation.IntegrationTests/Innovation.IntegrationTests.csproj" Build="false" />
+    <Project
+      Path="tests/Innovation.IntegrationTests/Innovation.IntegrationTests.csproj"
+      Build="false"
+    />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path="Directory.Packages.props" />

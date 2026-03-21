@@ -1,4 +1,4 @@
-namespace Innovation.Domain.Enums;
+﻿namespace Innovation.Domain.Enums;
 
 public enum ChallengeStatus
 {
@@ -9,5 +9,5 @@ public enum ChallengeStatus
     Judging,
     Voting,
     Completed,
-    Cancelled
+    Cancelled,
 }

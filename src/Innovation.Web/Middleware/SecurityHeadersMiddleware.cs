@@ -1,4 +1,4 @@
-namespace Innovation.Web.Middleware;
+﻿namespace Innovation.Web.Middleware;
 
 public class SecurityHeadersMiddleware(RequestDelegate next)
 {

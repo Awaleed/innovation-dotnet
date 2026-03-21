@@ -1,4 +1,4 @@
-using ErrorOr;
+﻿using ErrorOr;
 using Innovation.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +7,8 @@ namespace Innovation.Application.Features.Challenges.Commands;
 
 public record DeleteChallengeCommand(int Id) : ICommand<ErrorOr<Deleted>>;
 
-public class DeleteChallengeHandler(IAppDbContext db) : IRequestHandler<DeleteChallengeCommand, ErrorOr<Deleted>>
+public class DeleteChallengeHandler(IAppDbContext db)
+    : IRequestHandler<DeleteChallengeCommand, ErrorOr<Deleted>>
 {
     public async Task<ErrorOr<Deleted>> Handle(DeleteChallengeCommand cmd, CancellationToken ct)
     {

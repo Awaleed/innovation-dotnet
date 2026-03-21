@@ -13,9 +13,15 @@
     <PackageVersion Include="Aspire.Hosting.Kubernetes" Version="13.1.3-preview.1.26166.8" />
     <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="$(AspireVersion)" />
     <PackageVersion Include="Aspire.Hosting.Redis" Version="$(AspireVersion)" />
-    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(AspireVersion)" />
+    <PackageVersion
+      Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL"
+      Version="$(AspireVersion)"
+    />
     <PackageVersion Include="Aspire.StackExchange.Redis" Version="$(AspireVersion)" />
-    <PackageVersion Include="Aspire.StackExchange.Redis.DistributedCaching" Version="$(AspireVersion)" />
+    <PackageVersion
+      Include="Aspire.StackExchange.Redis.DistributedCaching"
+      Version="$(AspireVersion)"
+    />
     <!-- ASP.NET -->
     <PackageVersion Include="CommunityToolkit.Aspire.Hosting.NodeJS.Extensions" Version="9.9.0" />
     <PackageVersion Include="ErrorOr" Version="2.0.1" />
@@ -28,7 +34,10 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.4" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.4" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.4" />
-    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion
+      Include="Microsoft.Extensions.ServiceDiscovery"
+      Version="$(MicrosoftExtensionsVersion)"
+    />
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.1.0" />
     <!-- EF Core -->
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />

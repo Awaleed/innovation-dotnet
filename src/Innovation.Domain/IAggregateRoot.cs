@@ -1,4 +1,4 @@
-namespace Innovation.Domain;
+﻿namespace Innovation.Domain;
 
 /// <summary>
 /// Marker interface for aggregate root entities.

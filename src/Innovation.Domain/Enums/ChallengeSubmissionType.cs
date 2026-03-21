@@ -1,4 +1,4 @@
-namespace Innovation.Domain.Enums;
+﻿namespace Innovation.Domain.Enums;
 
 public enum ChallengeSubmissionType
 {
@@ -6,5 +6,5 @@ public enum ChallengeSubmissionType
     Prototype,
     FullProject,
     Research,
-    FeasibilityStudy
+    FeasibilityStudy,
 }

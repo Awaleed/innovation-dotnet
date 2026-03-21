@@ -1,4 +1,4 @@
-using Innovation.Domain.Enums;
+﻿using Innovation.Domain.Enums;
 
 namespace Innovation.Domain.Entities.Challenge;
 

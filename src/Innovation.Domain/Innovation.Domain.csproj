@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <RootNamespace>Innovation.Domain</RootNamespace>
     <IsPublishable>false</IsPublishable>
@@ -8,6 +7,4 @@
   <ItemGroup>
     <PackageReference Include="MediatR.Contracts" />
   </ItemGroup>
-
-
 </Project>

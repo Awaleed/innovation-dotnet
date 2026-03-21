@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <RootNamespace>Innovation.KeycloakTheme</RootNamespace>
@@ -16,16 +15,19 @@
   </ItemGroup>
 
   <!-- Debug: only install node_modules if missing -->
-  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build"
-          Condition=" '$(Configuration)' == 'Debug' And !Exists('node_modules') ">
+  <Target
+    Name="DebugEnsureNodeEnv"
+    BeforeTargets="Build"
+    Condition=" '$(Configuration)' == 'Debug' And !Exists('node_modules') "
+  >
     <Exec Command="node --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
     </Exec>
-    <Error Condition="'$(ErrorCode)' != '0'"
-           Text="Node.js is required for the Keycloak theme project." />
-    <Message Importance="high"
-             Text="Restoring Keycloak theme dependencies using 'npm'..." />
+    <Error
+      Condition="'$(ErrorCode)' != '0'"
+      Text="Node.js is required for the Keycloak theme project."
+    />
+    <Message Importance="high" Text="Restoring Keycloak theme dependencies using 'npm'..." />
     <Exec Command="npm install" />
   </Target>
-
 </Project>

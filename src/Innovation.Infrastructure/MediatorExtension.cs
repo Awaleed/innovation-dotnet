@@ -1,4 +1,4 @@
-using Innovation.Domain;
+﻿using Innovation.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,14 +13,12 @@ public static class MediatorExtension
     /// </summary>
     public static async Task DispatchDomainEventsAsync(this IMediator mediator, DbContext ctx)
     {
-        var domainEntities = ctx.ChangeTracker
-            .Entries<BaseEntity>()
+        var domainEntities = ctx
+            .ChangeTracker.Entries<BaseEntity>()
             .Where(x => x.Entity.DomainEvents.Count != 0)
             .ToList();
 
-        var domainEvents = domainEntities
-            .SelectMany(x => x.Entity.DomainEvents)
-            .ToList();
+        var domainEvents = domainEntities.SelectMany(x => x.Entity.DomainEvents).ToList();
 
         domainEntities.ForEach(entity => entity.Entity.ClearDomainEvents());
 

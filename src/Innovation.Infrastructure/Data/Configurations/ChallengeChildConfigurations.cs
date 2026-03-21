@@ -1,4 +1,4 @@
-using Innovation.Domain.Entities.Challenge;
+﻿using Innovation.Domain.Entities.Challenge;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -66,7 +66,11 @@ public class ChallengeRiskConfiguration : IEntityTypeConfiguration<ChallengeRisk
         builder.OwnsOne(e => e.RiskName, b => b.ToJson());
         builder.OwnsOne(e => e.Description, b => b.ToJson());
         builder.OwnsOne(e => e.MitigationStrategy, b => b.ToJson());
-        builder.HasOne(e => e.Owner).WithMany().HasForeignKey(e => e.OwnerId).OnDelete(DeleteBehavior.SetNull);
+        builder
+            .HasOne(e => e.Owner)
+            .WithMany()
+            .HasForeignKey(e => e.OwnerId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }
 
@@ -79,7 +83,8 @@ public class ChallengeGroupConfiguration : IEntityTypeConfiguration<ChallengeGro
     }
 }
 
-public class ChallengeSustainabilityImpactConfiguration : IEntityTypeConfiguration<ChallengeSustainabilityImpact>
+public class ChallengeSustainabilityImpactConfiguration
+    : IEntityTypeConfiguration<ChallengeSustainabilityImpact>
 {
     public void Configure(EntityTypeBuilder<ChallengeSustainabilityImpact> builder)
     {
@@ -91,7 +96,8 @@ public class ChallengeSustainabilityImpactConfiguration : IEntityTypeConfigurati
     }
 }
 
-public class ChallengeIntellectualPropertyConfiguration : IEntityTypeConfiguration<ChallengeIntellectualProperty>
+public class ChallengeIntellectualPropertyConfiguration
+    : IEntityTypeConfiguration<ChallengeIntellectualProperty>
 {
     public void Configure(EntityTypeBuilder<ChallengeIntellectualProperty> builder)
     {
@@ -105,8 +111,17 @@ public class ChallengeUserConfiguration : IEntityTypeConfiguration<ChallengeUser
     public void Configure(EntityTypeBuilder<ChallengeUser> builder)
     {
         builder.ToTable("challenge_users");
-        builder.HasKey(e => new { e.ChallengeId, e.UserId, e.Role });
+        builder.HasKey(e => new
+        {
+            e.ChallengeId,
+            e.UserId,
+            e.Role,
+        });
         builder.Property(e => e.Role).HasMaxLength(50).IsRequired();
-        builder.HasOne(e => e.User).WithMany().HasForeignKey(e => e.UserId).OnDelete(DeleteBehavior.Cascade);
+        builder
+            .HasOne(e => e.User)
+            .WithMany()
+            .HasForeignKey(e => e.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

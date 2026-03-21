@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +20,13 @@ namespace Innovation.TsGen;
 /// </summary>
 public static class Program
 {
-    record RouteInfo(string Url, string Method, List<string> Parameters, string Controller, string Action);
+    record RouteInfo(
+        string Url,
+        string Method,
+        List<string> Parameters,
+        string Controller,
+        string Action
+    );
 
     public static void Main(string[] args)
     {
@@ -33,14 +39,16 @@ public static class Program
         // Step 1: Generate types via Reinforced.Typings
         Console.WriteLine("[1/2] Generating types (Reinforced.Typings)...");
         var webCsproj = Path.Combine(root, "src", "Innovation.Web", "Innovation.Web.csproj");
-        var buildResult = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-        {
-            FileName = "dotnet",
-            Arguments = $"build \"{webCsproj}\" -v q --nologo",
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-        });
+        var buildResult = System.Diagnostics.Process.Start(
+            new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "dotnet",
+                Arguments = $"build \"{webCsproj}\" -v q --nologo",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+            }
+        );
         buildResult?.WaitForExit();
         var typesFile = Path.Combine(clientAppSrc, "types", "generated.ts");
         if (File.Exists(typesFile))
@@ -85,26 +93,38 @@ public static class Program
         var routes = new List<RouteInfo>();
         var assembly = typeof(Innovation.Web.Controllers.HomeController).Assembly;
 
-        var controllerTypes = assembly.GetTypes()
-            .Where(t => !t.IsAbstract && (typeof(Controller).IsAssignableFrom(t) || typeof(ControllerBase).IsAssignableFrom(t)))
+        var controllerTypes = assembly
+            .GetTypes()
+            .Where(t =>
+                !t.IsAbstract
+                && (
+                    typeof(Controller).IsAssignableFrom(t)
+                    || typeof(ControllerBase).IsAssignableFrom(t)
+                )
+            )
             .Where(t => t.Namespace?.StartsWith("Innovation.Web") == true);
 
         foreach (var controller in controllerTypes)
         {
             var controllerRoute = controller.GetCustomAttribute<RouteAttribute>()?.Template ?? "";
-            var methods = controller.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            var methods = controller.GetMethods(
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly
+            );
 
             foreach (var method in methods)
             {
-                if (method.GetCustomAttribute<NonActionAttribute>() != null) continue;
+                if (method.GetCustomAttribute<NonActionAttribute>() != null)
+                    continue;
 
-                var httpAttrs = method.GetCustomAttributes()
+                var httpAttrs = method
+                    .GetCustomAttributes()
                     .Where(a => a is IRouteTemplateProvider)
                     .Cast<IRouteTemplateProvider>()
                     .ToList();
 
                 var routeAttr = method.GetCustomAttribute<RouteAttribute>();
-                if (httpAttrs.Count == 0 && routeAttr == null) continue;
+                if (httpAttrs.Count == 0 && routeAttr == null)
+                    continue;
 
                 string? routeTemplate = null;
                 string httpMethod = "get";
@@ -120,27 +140,31 @@ public static class Program
                         HttpPutAttribute => "put",
                         HttpDeleteAttribute => "delete",
                         HttpPatchAttribute => "patch",
-                        _ => "get"
+                        _ => "get",
                     };
                 }
 
                 routeTemplate ??= routeAttr?.Template;
-                if (routeTemplate == null) continue;
+                if (routeTemplate == null)
+                    continue;
 
                 var fullRoute = CombineRoutes(controllerRoute, routeTemplate);
                 var cleanRoute = Regex.Replace(fullRoute, @"\{(\w+)(:\w+)(\?)?}", "{$1$3}");
 
-                var parameters = Regex.Matches(cleanRoute, @"\{(\w+)\??}")
+                var parameters = Regex
+                    .Matches(cleanRoute, @"\{(\w+)\??}")
                     .Select(m => m.Groups[1].Value)
                     .ToList();
 
-                routes.Add(new RouteInfo(
-                    "/" + cleanRoute.TrimStart('/'),
-                    httpMethod,
-                    parameters,
-                    controller.Name.Replace("Controller", ""),
-                    method.Name
-                ));
+                routes.Add(
+                    new RouteInfo(
+                        "/" + cleanRoute.TrimStart('/'),
+                        httpMethod,
+                        parameters,
+                        controller.Name.Replace("Controller", ""),
+                        method.Name
+                    )
+                );
             }
         }
 
@@ -181,7 +205,8 @@ public static class Program
         // Matches: group.MapGet("/", ...) or group.MapGet("/{id:int}", ...) or app.MapGet("user/me", ...)
         var mapPattern = new Regex(
             @"(?:group|app)\s*\.\s*Map(Get|Post|Put|Delete|Patch)\s*\(\s*""([^""]+)""",
-            RegexOptions.Multiline);
+            RegexOptions.Multiline
+        );
 
         foreach (Match match in mapPattern.Matches(source))
         {
@@ -211,20 +236,17 @@ public static class Program
             var cleanRoute = Regex.Replace(fullRoute, @"\{(\w+)(:\w+)(\?)?}", "{$1$3}");
 
             // Extract parameters
-            var parameters = Regex.Matches(cleanRoute, @"\{(\w+)\??}")
+            var parameters = Regex
+                .Matches(cleanRoute, @"\{(\w+)\??}")
                 .Select(m => m.Groups[1].Value)
                 .ToList();
 
             // Derive action name from method + route
             var actionName = DeriveActionName(httpMethod, routeTemplate);
 
-            routes.Add(new RouteInfo(
-                cleanRoute,
-                httpMethod,
-                parameters,
-                controllerName,
-                actionName
-            ));
+            routes.Add(
+                new RouteInfo(cleanRoute, httpMethod, parameters, controllerName, actionName)
+            );
         }
 
         return routes;
@@ -244,7 +266,8 @@ public static class Program
         var route = routeTemplate.Trim('/');
 
         // Remove parameter segments for naming
-        var segments = route.Split('/', StringSplitOptions.RemoveEmptyEntries)
+        var segments = route
+            .Split('/', StringSplitOptions.RemoveEmptyEntries)
             .Where(s => !s.StartsWith('{'))
             .ToList();
 
@@ -261,7 +284,7 @@ public static class Program
             "put" => "update",
             "delete" => "remove",
             "patch" => "patch",
-            _ => method
+            _ => method,
         };
     }
 
@@ -312,7 +335,10 @@ public static class Program
         {
             var fullDir = string.IsNullOrEmpty(dirPath)
                 ? routesDir
-                : Path.Combine(routesDir, dirPath.Replace("/", Path.DirectorySeparatorChar.ToString()));
+                : Path.Combine(
+                    routesDir,
+                    dirPath.Replace("/", Path.DirectorySeparatorChar.ToString())
+                );
 
             Directory.CreateDirectory(fullDir);
 
@@ -324,7 +350,8 @@ public static class Program
         // Flatten: if a directory has only index.ts and no subdirectories,
         // replace it with {dirName}.ts in the parent directory.
         // Process bottom-up so nested flattening works correctly.
-        var allGeneratedDirs = Directory.GetDirectories(routesDir, "*", SearchOption.AllDirectories)
+        var allGeneratedDirs = Directory
+            .GetDirectories(routesDir, "*", SearchOption.AllDirectories)
             .OrderByDescending(d => d.Length) // deepest first
             .ToList();
 
@@ -334,7 +361,11 @@ public static class Program
             var files = Directory.GetFiles(dir);
 
             // Only flatten if: exactly 1 file (index.ts), no subdirectories
-            if (subDirs.Length == 0 && files.Length == 1 && Path.GetFileName(files[0]) == "index.ts")
+            if (
+                subDirs.Length == 0
+                && files.Length == 1
+                && Path.GetFileName(files[0]) == "index.ts"
+            )
             {
                 var dirName = new DirectoryInfo(dir).Name;
                 var parentDir = Directory.GetParent(dir)!.FullName;
@@ -358,7 +389,9 @@ public static class Program
     /// </summary>
     static string GetRouteDirectory(RouteInfo route)
     {
-        var segments = route.Url.Trim('/').Split('/', StringSplitOptions.RemoveEmptyEntries)
+        var segments = route
+            .Url.Trim('/')
+            .Split('/', StringSplitOptions.RemoveEmptyEntries)
             .Where(s => !s.StartsWith('{'))
             .ToList();
 
@@ -377,7 +410,11 @@ public static class Program
         return string.Join("/", segments);
     }
 
-    static string GenerateDirectoryIndexTs(string dirPath, List<RouteInfo> routes, Dictionary<string, List<RouteInfo>> allGroups)
+    static string GenerateDirectoryIndexTs(
+        string dirPath,
+        List<RouteInfo> routes,
+        Dictionary<string, List<RouteInfo>> allGroups
+    )
     {
         var sb = new StringBuilder();
 
@@ -387,8 +424,8 @@ public static class Program
         sb.AppendLine(" */");
         sb.AppendLine();
 
-        var childDirs = allGroups.Keys
-            .Where(k => k != dirPath && IsDirectChild(dirPath, k))
+        var childDirs = allGroups
+            .Keys.Where(k => k != dirPath && IsDirectChild(dirPath, k))
             .OrderBy(k => k)
             .ToList();
 
@@ -403,22 +440,31 @@ public static class Program
             var actionName = ToCamelCase(route.Action);
             var hasParams = route.Parameters.Count > 0;
 
-            sb.AppendLine($"/** @controller {route.Controller} @action {route.Action} @route '{route.Url}' @method {route.Method} */");
+            sb.AppendLine(
+                $"/** @controller {route.Controller} @action {route.Action} @route '{route.Url}' @method {route.Method} */"
+            );
 
             if (hasParams)
             {
-                var argsType = string.Join("; ", route.Parameters.Select(p =>
-                {
-                    var optional = route.Url.Contains($"{{{p}?}}") ? "?" : "";
-                    return $"{p}{optional}: string | number";
-                }));
+                var argsType = string.Join(
+                    "; ",
+                    route.Parameters.Select(p =>
+                    {
+                        var optional = route.Url.Contains($"{{{p}?}}") ? "?" : "";
+                        return $"{p}{optional}: string | number";
+                    })
+                );
                 var urlTemplate = BuildUrlTemplate(route);
-                sb.AppendLine($"export const {actionName} = (args: {{ {argsType} }}): RouteDefinition<'{route.Method}'> => ({{");
+                sb.AppendLine(
+                    $"export const {actionName} = (args: {{ {argsType} }}): RouteDefinition<'{route.Method}'> => ({{"
+                );
                 sb.AppendLine($"    url: `{urlTemplate}`,");
             }
             else
             {
-                sb.AppendLine($"export const {actionName} = (): RouteDefinition<'{route.Method}'> => ({{");
+                sb.AppendLine(
+                    $"export const {actionName} = (): RouteDefinition<'{route.Method}'> => ({{"
+                );
                 sb.AppendLine($"    url: '{route.Url}',");
             }
             sb.AppendLine($"    method: '{route.Method}',");
@@ -427,12 +473,17 @@ public static class Program
 
             if (hasParams)
             {
-                var argsType = string.Join("; ", route.Parameters.Select(p =>
-                {
-                    var optional = route.Url.Contains($"{{{p}?}}") ? "?" : "";
-                    return $"{p}{optional}: string | number";
-                }));
-                sb.AppendLine($"{actionName}.url = (args: {{ {argsType} }}) => `{BuildUrlTemplate(route)}`");
+                var argsType = string.Join(
+                    "; ",
+                    route.Parameters.Select(p =>
+                    {
+                        var optional = route.Url.Contains($"{{{p}?}}") ? "?" : "";
+                        return $"{p}{optional}: string | number";
+                    })
+                );
+                sb.AppendLine(
+                    $"{actionName}.url = (args: {{ {argsType} }}) => `{BuildUrlTemplate(route)}`"
+                );
             }
             else
             {
@@ -447,7 +498,12 @@ public static class Program
             foreach (var childDir in childDirs)
             {
                 var childName = childDir.Split('/').Last();
-                var importName = ToCamelCase(childName.Replace("-", " ").Split(' ').Aggregate((a, b) => a + char.ToUpper(b[0]) + b[1..]));
+                var importName = ToCamelCase(
+                    childName
+                        .Replace("-", " ")
+                        .Split(' ')
+                        .Aggregate((a, b) => a + char.ToUpper(b[0]) + b[1..])
+                );
                 sb.AppendLine($"export * as {importName} from './{childName}'");
             }
             sb.AppendLine();
@@ -461,8 +517,8 @@ public static class Program
         if (string.IsNullOrEmpty(parent))
             return !candidate.Contains('/') && candidate.Length > 0;
 
-        return candidate.StartsWith(parent + "/") &&
-               !candidate[(parent.Length + 1)..].Contains('/');
+        return candidate.StartsWith(parent + "/")
+            && !candidate[(parent.Length + 1)..].Contains('/');
     }
 
     static string BuildUrlTemplate(RouteInfo route)
@@ -478,27 +534,31 @@ public static class Program
 
     static string CombineRoutes(string prefix, string template)
     {
-        if (string.IsNullOrEmpty(prefix)) return template.TrimStart('/');
-        if (template.StartsWith("/")) return template.TrimStart('/');
+        if (string.IsNullOrEmpty(prefix))
+            return template.TrimStart('/');
+        if (template.StartsWith("/"))
+            return template.TrimStart('/');
         return $"{prefix.TrimEnd('/')}/{template.TrimStart('/')}".TrimStart('/');
     }
 
     static string ToCamelCase(string name)
     {
-        if (string.IsNullOrEmpty(name)) return name;
+        if (string.IsNullOrEmpty(name))
+            return name;
 
         // 1. Split on any non-alphanumeric char (hyphens, underscores, dots, spaces, etc.)
         // 2. Capitalize first letter of each word except the first → camelCase
         // "backchannel-logout" → "backchannelLogout"
         // "some_value.here" → "someValueHere"
         // "already camelCase" → "alreadyCamelcase"
-        var words = Regex.Split(name, @"[^a-zA-Z0-9]+")
-            .Where(w => w.Length > 0)
-            .ToArray();
+        var words = Regex.Split(name, @"[^a-zA-Z0-9]+").Where(w => w.Length > 0).ToArray();
 
-        if (words.Length == 0) return name;
+        if (words.Length == 0)
+            return name;
 
         return words[0].ToLowerInvariant()
-             + string.Concat(words.Skip(1).Select(w => char.ToUpperInvariant(w[0]) + w[1..].ToLowerInvariant()));
+            + string.Concat(
+                words.Skip(1).Select(w => char.ToUpperInvariant(w[0]) + w[1..].ToLowerInvariant())
+            );
     }
 }

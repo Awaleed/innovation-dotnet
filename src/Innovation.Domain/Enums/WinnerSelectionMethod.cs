@@ -1,9 +1,9 @@
-namespace Innovation.Domain.Enums;
+﻿namespace Innovation.Domain.Enums;
 
 public enum WinnerSelectionMethod
 {
     JuryVoting,
     EvaluatorScores,
     CombinedScoring,
-    ManualSelection
+    ManualSelection,
 }

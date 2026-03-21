@@ -1,4 +1,4 @@
-using Innovation.Domain.Entities;
+﻿using Innovation.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

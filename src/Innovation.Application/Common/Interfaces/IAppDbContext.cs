@@ -1,4 +1,4 @@
-using Innovation.Domain.Entities;
+﻿using Innovation.Domain.Entities;
 using Innovation.Domain.Entities.Challenge;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;

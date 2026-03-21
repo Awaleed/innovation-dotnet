@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <RootNamespace>Innovation.Web</RootNamespace>
     <SpaRoot>ClientApp\</SpaRoot>
@@ -41,27 +40,42 @@
     <ProjectReference Include="..\Innovation.Infrastructure\Innovation.Infrastructure.csproj" />
   </ItemGroup>
 
-  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+  <Target
+    Name="DebugEnsureNodeEnv"
+    BeforeTargets="Build"
+    Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') "
+  >
     <Exec Command="node --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
     </Exec>
-    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project." />
-    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Error
+      Condition="'$(ErrorCode)' != '0'"
+      Text="Node.js is required to build and run this project."
+    />
+    <Message
+      Importance="high"
+      Text="Restoring dependencies using 'npm'. This may take several minutes..."
+    />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
   </Target>
 
-  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish"
-          Condition="'$(SkipFrontendBuild)' != 'true'">
+  <Target
+    Name="PublishRunWebpack"
+    AfterTargets="ComputeFilesToPublish"
+    Condition="'$(SkipFrontendBuild)' != 'true'"
+  >
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
     <ItemGroup>
       <DistFiles Include="wwwroot\build\**" />
-      <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <ResolvedFileToPublish
+        Include="@(DistFiles-&gt;'%(FullPath)')"
+        Exclude="@(ResolvedFileToPublish)"
+      >
         <RelativePath>wwwroot\build\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </ResolvedFileToPublish>
     </ItemGroup>
   </Target>
-
 </Project>

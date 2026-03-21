@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <ItemGroup>
     <ProjectReference Include="..\Innovation.Domain\Innovation.Domain.csproj" />
     <ProjectReference Include="..\Innovation.Application\Innovation.Application.csproj" />
@@ -23,5 +22,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
 </Project>

@@ -1,4 +1,4 @@
-namespace Innovation.Domain.Entities.Challenge;
+﻿namespace Innovation.Domain.Entities.Challenge;
 
 public class ChallengeRequirement : BaseEntity
 {

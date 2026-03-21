@@ -1,4 +1,4 @@
-namespace Innovation.Application.Features.Challenges.Models;
+﻿namespace Innovation.Application.Features.Challenges.Models;
 
 public record ChallengeListResponse(
     int Id,
@@ -14,4 +14,5 @@ public record ChallengeListResponse(
     bool Urgent,
     bool IsPublic,
     int? MaxParticipants,
-    string CreatedAt);
+    string CreatedAt
+);

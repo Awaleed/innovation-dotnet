@@ -1,5 +1,4 @@
 <Project Sdk="Aspire.AppHost.Sdk/13.1.0">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
@@ -19,5 +18,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Innovation.Web\Innovation.Web.csproj" />
   </ItemGroup>
-
 </Project>

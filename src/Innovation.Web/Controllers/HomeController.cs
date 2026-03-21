@@ -1,4 +1,4 @@
-using InertiaCore;
+﻿using InertiaCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Innovation.Web.Controllers;

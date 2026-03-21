@@ -1,4 +1,4 @@
-using ErrorOr;
+﻿using ErrorOr;
 using FluentValidation;
 using Innovation.Application.Common.Interfaces;
 using Innovation.Application.Features.Challenges.Mappings;
@@ -44,8 +44,12 @@ public class CreateChallengeValidator : AbstractValidator<CreateChallengeCommand
         RuleFor(x => x.Title.Ar).MaximumLength(200).When(x => x.Title != null);
         RuleFor(x => x.Description!.En).MaximumLength(5000).When(x => x.Description != null);
         RuleFor(x => x.Description!.Ar).MaximumLength(5000).When(x => x.Description != null);
-        RuleFor(x => x.ContactEmail).EmailAddress().When(x => !string.IsNullOrEmpty(x.ContactEmail));
-        RuleFor(x => x.ContactPhone).MaximumLength(20).When(x => !string.IsNullOrEmpty(x.ContactPhone));
+        RuleFor(x => x.ContactEmail)
+            .EmailAddress()
+            .When(x => !string.IsNullOrEmpty(x.ContactEmail));
+        RuleFor(x => x.ContactPhone)
+            .MaximumLength(20)
+            .When(x => !string.IsNullOrEmpty(x.ContactPhone));
         RuleFor(x => x.MaxParticipants).GreaterThan(0).When(x => x.MaxParticipants.HasValue);
         RuleFor(x => x.TeamSizeMin).GreaterThan(0).When(x => x.TeamSizeMin.HasValue);
         RuleFor(x => x.TeamSizeMax)
@@ -61,7 +65,10 @@ public class CreateChallengeValidator : AbstractValidator<CreateChallengeCommand
 public class CreateChallengeHandler(IAppDbContext db)
     : IRequestHandler<CreateChallengeCommand, ErrorOr<ChallengeDetailResponse>>
 {
-    public async Task<ErrorOr<ChallengeDetailResponse>> Handle(CreateChallengeCommand cmd, CancellationToken ct)
+    public async Task<ErrorOr<ChallengeDetailResponse>> Handle(
+        CreateChallengeCommand cmd,
+        CancellationToken ct
+    )
     {
         var challenge = new Challenge
         {
@@ -69,7 +76,8 @@ public class CreateChallengeHandler(IAppDbContext db)
             Title = cmd.Title,
             Slug = new TranslatableString(
                 cmd.Title.En?.ToLowerInvariant().Replace(" ", "-"),
-                cmd.Title.Ar),
+                cmd.Title.Ar
+            ),
             Description = cmd.Description ?? new(),
             Organizer = cmd.Organizer,
             Location = cmd.Location,

@@ -1,4 +1,4 @@
-namespace Innovation.Application.Common.Constants;
+﻿namespace Innovation.Application.Common.Constants;
 
 public static class ClaimConstants
 {

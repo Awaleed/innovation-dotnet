@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <ItemGroup>
     <ProjectReference Include="..\Innovation.Web\Innovation.Web.csproj" />
   </ItemGroup>
@@ -11,5 +10,4 @@
     <!-- Exclude from solution-wide build/watch — run explicitly via scripts/generate-ts.ps1 -->
     <ExcludeFromSolutionBuild>true</ExcludeFromSolutionBuild>
   </PropertyGroup>
-
 </Project>

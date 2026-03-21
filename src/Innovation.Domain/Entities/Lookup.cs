@@ -1,4 +1,4 @@
-namespace Innovation.Domain.Entities;
+﻿namespace Innovation.Domain.Entities;
 
 public class Lookup : BaseEntity
 {

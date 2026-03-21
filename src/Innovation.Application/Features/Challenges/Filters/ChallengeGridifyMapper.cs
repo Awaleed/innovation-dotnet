@@ -1,4 +1,4 @@
-using Gridify;
+﻿using Gridify;
 using Innovation.Domain.Entities.Challenge;
 
 namespace Innovation.Application.Features.Challenges.Filters;

@@ -1,4 +1,4 @@
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using InertiaCore;
 using Innovation.Application.Common.Constants;
 
@@ -23,7 +23,10 @@ public class HandleInertiaRequests(IConfiguration configuration) : IMiddleware
             };
 
             roles = context.User.FindAll(ClaimTypes.Role).Select(c => c.Value).ToArray();
-            permissions = context.User.FindAll(ClaimConstants.Permission).Select(c => c.Value).ToArray();
+            permissions = context
+                .User.FindAll(ClaimConstants.Permission)
+                .Select(c => c.Value)
+                .ToArray();
         }
 
         // Localization
@@ -33,28 +36,30 @@ public class HandleInertiaRequests(IConfiguration configuration) : IMiddleware
 
         // Share all props (matches Laravel HandleInertiaRequests)
         Inertia.Share("name", configuration.GetValue("AppName", "Innovation Platform"));
-        Inertia.Share("auth", new
-        {
-            user = authUser,
-            roles = roles ?? Array.Empty<string>(),
-            permissions = permissions ?? Array.Empty<string>(),
-        });
-        Inertia.Share("sidebarOpen", true);
-        Inertia.Share("localization", new
-        {
-            currentLocale,
-            currentLocaleDirection = currentLocale == "ar" ? "rtl" : "ltr",
-            supportedLocales = new Dictionary<string, object>
+        Inertia.Share(
+            "auth",
+            new
             {
-                ["en"] = new { name = "English", native = "English" },
-                ["ar"] = new { name = "Arabic", native = "العربية" },
-            },
-        });
-        Inertia.Share("flash", new
-        {
-            success = (string?)null,
-            error = (string?)null,
-        });
+                user = authUser,
+                roles = roles ?? Array.Empty<string>(),
+                permissions = permissions ?? Array.Empty<string>(),
+            }
+        );
+        Inertia.Share("sidebarOpen", true);
+        Inertia.Share(
+            "localization",
+            new
+            {
+                currentLocale,
+                currentLocaleDirection = currentLocale == "ar" ? "rtl" : "ltr",
+                supportedLocales = new Dictionary<string, object>
+                {
+                    ["en"] = new { name = "English", native = "English" },
+                    ["ar"] = new { name = "Arabic", native = "العربية" },
+                },
+            }
+        );
+        Inertia.Share("flash", new { success = (string?)null, error = (string?)null });
 
         await next(context);
     }

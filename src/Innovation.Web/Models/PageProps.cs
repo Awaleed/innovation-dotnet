@@ -1,4 +1,4 @@
-namespace Innovation.Web.Models;
+﻿namespace Innovation.Web.Models;
 
 /// <summary>
 /// User info shared with every Inertia page via HandleInertiaRequests middleware.

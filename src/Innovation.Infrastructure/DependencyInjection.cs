@@ -1,4 +1,4 @@
-using Innovation.Application.Common.Interfaces;
+﻿using Innovation.Application.Common.Interfaces;
 using Innovation.Infrastructure.Data;
 using Innovation.Infrastructure.Data.Interceptors;
 using Innovation.Infrastructure.Services;

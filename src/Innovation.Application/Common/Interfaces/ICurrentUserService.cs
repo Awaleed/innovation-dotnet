@@ -1,4 +1,4 @@
-namespace Innovation.Application.Common.Interfaces;
+﻿namespace Innovation.Application.Common.Interfaces;
 
 public interface ICurrentUserService
 {
