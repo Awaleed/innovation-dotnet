@@ -3,7 +3,6 @@ import { createContext, forwardRef, useContext, useId } from 'react';
 import { Controller, type ControllerProps, type FieldPath, type FieldValues, FormProvider, useFormContext } from 'react-hook-form';
 import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
-import { useThemeContext } from '@/providers/theme-provider';
 
 const Form = FormProvider;
 
@@ -72,17 +71,14 @@ FormItem.displayName = 'FormItem';
 const FormLabel = forwardRef<
     React.ElementRef<typeof Label>,
     React.ComponentPropsWithoutRef<typeof Label>
->(({ className, style, ...props }, ref) => {
+>(({ className, ...props }, ref) => {
     const { error, formItemId } = useFormField();
-    const { getColor } = useThemeContext();
-    const destructive = getColor('destructive');
 
     return (
         <Label
             ref={ref}
-            className={className}
+            className={cn(error && 'text-destructive', className)}
             htmlFor={formItemId}
-            style={error ? { color: destructive, ...style } : style}
             {...props}
         />
     );
@@ -124,10 +120,8 @@ const FormDescription = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HT
 FormDescription.displayName = 'FormDescription';
 
 const FormMessage = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
-    ({ className, children, style, ...props }, ref) => {
+    ({ className, children, ...props }, ref) => {
         const { error, formMessageId } = useFormField();
-        const { getColor } = useThemeContext();
-        const destructive = getColor('destructive');
         const body = error ? String(error?.message) : children;
 
         if (!body) {
@@ -138,8 +132,7 @@ const FormMessage = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLPa
             <p
                 ref={ref}
                 id={formMessageId}
-                className={cn('text-sm font-medium', className)}
-                style={{ color: destructive, ...style }}
+                className={cn('text-sm font-medium text-destructive', className)}
                 {...props}
             >
                 {body}
@@ -149,5 +142,4 @@ const FormMessage = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLPa
 );
 FormMessage.displayName = 'FormMessage';
 
-// eslint-disable-next-line react-refresh/only-export-components
 export { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, useFormField };
