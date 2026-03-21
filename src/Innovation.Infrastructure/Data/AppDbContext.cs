@@ -2,11 +2,12 @@ using Innovation.Application.Common.Interfaces;
 using Innovation.Domain;
 using Innovation.Domain.Entities;
 using Innovation.Domain.Entities.Challenge;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Innovation.Infrastructure.Data;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IAppDbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options, IMediator mediator) : DbContext(options), IAppDbContext
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<Lookup> Lookups => Set<Lookup>();
@@ -22,6 +23,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<ChallengeSustainabilityImpact> ChallengeSustainabilityImpacts => Set<ChallengeSustainabilityImpact>();
     public DbSet<ChallengeIntellectualProperty> ChallengeIntellectualProperties => Set<ChallengeIntellectualProperty>();
     public DbSet<ChallengeUser> ChallengeUsers => Set<ChallengeUser>();
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        // Dispatch domain events before saving (within the same transaction)
+        await mediator.DispatchDomainEventsAsync(this);
+        return await base.SaveChangesAsync(cancellationToken);
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,11 +1,13 @@
 using Innovation.Domain.Entities;
 using Innovation.Domain.Entities.Challenge;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Innovation.Application.Common.Interfaces;
 
 public interface IAppDbContext
 {
+    DatabaseFacade Database { get; }
     DbSet<User> Users { get; }
     DbSet<Lookup> Lookups { get; }
     DbSet<InnovationType> InnovationTypes { get; }

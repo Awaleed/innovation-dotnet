@@ -5,5 +5,9 @@
     <IsPublishable>false</IsPublishable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MediatR.Contracts" />
+  </ItemGroup>
+
 
 </Project>
