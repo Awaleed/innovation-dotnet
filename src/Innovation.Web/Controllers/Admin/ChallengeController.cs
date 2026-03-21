@@ -1,8 +1,12 @@
-﻿using InertiaCore;
+﻿using ErrorOr;
+using InertiaCore;
+using Innovation.Application.Features.Challenges.Commands;
 using Innovation.Application.Features.Challenges.Queries;
+using Innovation.Web.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace Innovation.Web.Controllers.Admin;
 
@@ -25,6 +29,9 @@ public class ChallengeController(IMediator mediator) : Controller
             new ListChallengesQuery(page, pageSize, filter, orderBy, GetLocale())
         );
 
+        if (Request.ExpectsJson())
+            return result.ToActionResult();
+
         return Inertia.Render(
             "Admin/Challenges/Index",
             new { challenges = result.IsError ? null : result.Value }
@@ -37,10 +44,32 @@ public class ChallengeController(IMediator mediator) : Controller
         return Inertia.Render("Admin/Challenges/Create");
     }
 
+    [HttpPost("")]
+    [EnableRateLimiting("api")]
+    public async Task<IActionResult> Store([FromBody] CreateChallengeCommand command)
+    {
+        var result = await mediator.Send(command);
+
+        if (Request.ExpectsJson())
+        {
+            return result.ToActionResult(value =>
+                CreatedAtAction(nameof(Show), new { id = value.Id }, value)
+            );
+        }
+
+        return result.Match<IActionResult>(
+            value => RedirectToAction(nameof(Show), new { id = value.Id }),
+            _ => RedirectToAction(nameof(Create))
+        );
+    }
+
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Show(int id)
     {
         var result = await mediator.Send(new GetChallengeQuery(id, GetLocale()));
+
+        if (Request.ExpectsJson())
+            return result.ToActionResult();
 
         if (result.IsError)
             return NotFound();
@@ -57,5 +86,44 @@ public class ChallengeController(IMediator mediator) : Controller
             return NotFound();
 
         return Inertia.Render("Admin/Challenges/Edit", new { challenge = result.Value });
+    }
+
+    [HttpPut("{id:int}")]
+    [EnableRateLimiting("api")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateChallengeCommand command)
+    {
+        var cmd = command with { Id = id };
+        var result = await mediator.Send(cmd);
+
+        if (Request.ExpectsJson())
+            return result.ToActionResult();
+
+        return result.Match<IActionResult>(
+            _ => RedirectToAction(nameof(Show), new { id }),
+            _ => RedirectToAction(nameof(Edit), new { id })
+        );
+    }
+
+    [HttpDelete("{id:int}")]
+    [EnableRateLimiting("api")]
+    public async Task<IActionResult> Destroy(int id)
+    {
+        var result = await mediator.Send(new DeleteChallengeCommand(id));
+
+        if (Request.ExpectsJson())
+            return result.ToActionResult(_ => NoContent());
+
+        return result.Match<IActionResult>(
+            _ => RedirectToAction(nameof(Index)),
+            _ => RedirectToAction(nameof(Index))
+        );
+    }
+
+    [HttpPost("{id:int}/advance")]
+    [EnableRateLimiting("api")]
+    public async Task<IActionResult> Advance(int id)
+    {
+        var result = await mediator.Send(new AdvanceChallengeStageCommand(id));
+        return result.ToActionResult();
     }
 }

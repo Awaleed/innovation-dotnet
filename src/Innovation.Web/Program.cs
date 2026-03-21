@@ -1,3 +1,4 @@
+﻿using System.Threading.RateLimiting;
 using FluentValidation;
 using InertiaCore;
 using InertiaCore.Extensions;
@@ -13,7 +14,6 @@ using Innovation.Web.Middleware;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,24 +25,35 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 
 // EF Core with PostgreSQL via Aspire
-builder.Services.AddDbContext<AppDbContext>((sp, options) =>
-{
-    options.UseNpgsql(builder.Configuration.GetConnectionString("innovationdb") ?? "Host=localhost;Database=innovation;");
-    options.AddInterceptors(
-        sp.GetRequiredService<AuditableInterceptor>(),
-        sp.GetRequiredService<SoftDeleteInterceptor>());
-});
+builder.Services.AddDbContext<AppDbContext>(
+    (sp, options) =>
+    {
+        options.UseNpgsql(
+            builder.Configuration.GetConnectionString("innovationdb")
+                ?? "Host=localhost;Database=innovation;"
+        );
+        options.AddInterceptors(
+            sp.GetRequiredService<AuditableInterceptor>(),
+            sp.GetRequiredService<SoftDeleteInterceptor>()
+        );
+    }
+);
 
 builder.Services.AddHttpClient();
 builder.Services.AddProblemDetails();
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
-    options.SerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    options.SerializerOptions.Converters.Add(
+        new System.Text.Json.Serialization.JsonStringEnumConverter()
+    );
 });
-builder.Services.AddControllersWithViews()
+builder
+    .Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+        options.JsonSerializerOptions.Converters.Add(
+            new System.Text.Json.Serialization.JsonStringEnumConverter()
+        );
     });
 
 builder.Services.AddInertia(options =>
@@ -62,16 +73,20 @@ builder.AddKeycloakAuth();
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-    options.AddPolicy("api", httpContext =>
-        RateLimitPartition.GetFixedWindowLimiter(
-            partitionKey: httpContext.User.Identity?.Name
-                ?? httpContext.Connection.RemoteIpAddress?.ToString()
-                ?? "anonymous",
-            factory: _ => new FixedWindowRateLimiterOptions
-            {
-                PermitLimit = 60,
-                Window = TimeSpan.FromMinutes(1),
-            }));
+    options.AddPolicy(
+        "api",
+        httpContext =>
+            RateLimitPartition.GetFixedWindowLimiter(
+                partitionKey: httpContext.User.Identity?.Name
+                    ?? httpContext.Connection.RemoteIpAddress?.ToString()
+                    ?? "anonymous",
+                factory: _ => new FixedWindowRateLimiterOptions
+                {
+                    PermitLimit = 60,
+                    Window = TimeSpan.FromMinutes(1),
+                }
+            )
+    );
 });
 builder.Services.AddAntiforgery(options =>
 {
@@ -106,7 +121,7 @@ app.UseExceptionHandler(exceptionApp =>
             ValidationException => (400, "Validation Failed"),
             NotFoundException => (404, "Not Found"),
             BusinessRuleException => (422, "Business Rule Violation"),
-            _ => (500, "Internal Server Error")
+            _ => (500, "Internal Server Error"),
         };
         context.Response.StatusCode = statusCode;
         await context.Response.WriteAsJsonAsync(new { status = statusCode, title });
@@ -129,8 +144,6 @@ app.UseRateLimiter();
 app.UseMiddleware<HandleInertiaRequests>();
 
 app.MapControllers();
-app.MapChallengeEndpoints();
-app.MapAuthEndpoints();
 app.MapAntiforgeryEndpoints();
 
 if (app.Environment.IsDevelopment())

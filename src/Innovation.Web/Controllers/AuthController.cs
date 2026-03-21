@@ -1,13 +1,23 @@
+﻿using System.Security.Claims;
+using InertiaCore;
+using Innovation.Application.Common.Constants;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using InertiaCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Innovation.Web.Controllers;
 
-public class AuthController : Controller
+public class AuthController(
+    IDistributedCache cache,
+    IConfiguration configuration,
+    IHttpClientFactory httpClientFactory,
+    ILoggerFactory loggerFactory
+) : Controller
 {
     [HttpGet("/login")]
     public IActionResult Login(string? returnUrl = "/dashboard")
@@ -17,7 +27,8 @@ public class AuthController : Controller
 
         return Challenge(
             new AuthenticationProperties { RedirectUri = returnUrl },
-            OpenIdConnectDefaults.AuthenticationScheme);
+            OpenIdConnectDefaults.AuthenticationScheme
+        );
     }
 
     [HttpGet("/register")]
@@ -29,7 +40,8 @@ public class AuthController : Controller
         // Keycloak's login page shows a "Register" link when registrationAllowed=true
         return Challenge(
             new AuthenticationProperties { RedirectUri = "/dashboard" },
-            OpenIdConnectDefaults.AuthenticationScheme);
+            OpenIdConnectDefaults.AuthenticationScheme
+        );
     }
 
     [Authorize]
@@ -45,6 +57,95 @@ public class AuthController : Controller
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return SignOut(
             new AuthenticationProperties { RedirectUri = "/" },
-            OpenIdConnectDefaults.AuthenticationScheme);
+            OpenIdConnectDefaults.AuthenticationScheme
+        );
+    }
+
+    [AllowAnonymous]
+    [HttpPost("/auth/backchannel-logout")]
+    public async Task<IActionResult> BackchannelLogout()
+    {
+        var logger = loggerFactory.CreateLogger("Innovation.Web.Auth.BackchannelLogout");
+
+        if (!Request.HasFormContentType)
+            return BadRequest("Expected form content type");
+
+        var form = await Request.ReadFormAsync();
+        var logoutToken = form["logout_token"].FirstOrDefault();
+
+        if (string.IsNullOrEmpty(logoutToken))
+            return BadRequest("Missing logout_token");
+
+        // Validate the JWT signature, issuer, and audience
+        var keycloakAuthority =
+            $"{configuration["Keycloak:auth-server-url"]}/realms/{configuration["Keycloak:realm"]}";
+        var jwksUrl = $"{keycloakAuthority}/protocol/openid-connect/certs";
+
+        using var httpClient = httpClientFactory.CreateClient();
+        var jwksJson = await httpClient.GetStringAsync(jwksUrl);
+        var jwks = new JsonWebKeySet(jwksJson);
+
+        var validationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = keycloakAuthority,
+            ValidAudience = configuration["Keycloak:resource"],
+            IssuerSigningKeys = jwks.GetSigningKeys(),
+            ValidateLifetime = false, // Keycloak logout tokens may omit exp
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            RequireSignedTokens = true,
+        };
+
+        var tokenHandler = new JsonWebTokenHandler();
+
+        TokenValidationResult result;
+        try
+        {
+            result = await tokenHandler.ValidateTokenAsync(logoutToken, validationParameters);
+            if (!result.IsValid)
+                throw result.Exception
+                    ?? new SecurityTokenValidationException("Token validation failed");
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Backchannel logout token validation failed");
+            return BadRequest("Invalid logout_token");
+        }
+
+        var jwt = (JsonWebToken)result.SecurityToken;
+
+        // Validate events claim (OIDC Back-Channel Logout spec)
+        var eventsClaim = jwt.Claims.FirstOrDefault(c => c.Type == "events")?.Value;
+        if (
+            eventsClaim is null
+            || !eventsClaim.Contains("http://schemas.openid.net/event/backchannel-logout")
+        )
+            return BadRequest("Missing or invalid events claim");
+
+        // Spec: logout token MUST NOT contain a nonce
+        if (jwt.Claims.Any(c => c.Type == "nonce"))
+            return BadRequest("Logout token must not contain nonce");
+
+        var sid = jwt.Claims.FirstOrDefault(c => c.Type == ClaimConstants.SessionId)?.Value;
+        var sub = jwt.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+
+        if (sid is null && sub is null)
+            return BadRequest("Token must contain sid or sub");
+
+        // Mark session as revoked in distributed cache
+        var ttlHours = configuration.GetValue("SessionRevocation:CacheTtlHours", 24);
+        var cacheOptions = new DistributedCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(ttlHours),
+        };
+
+        if (sid is not null)
+            await cache.SetStringAsync($"revoked-session:{sid}", "revoked", cacheOptions);
+
+        if (sub is not null)
+            await cache.SetStringAsync($"revoked-user:{sub}", "revoked", cacheOptions);
+
+        return Ok();
     }
 }
