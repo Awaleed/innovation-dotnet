@@ -1,8 +1,9 @@
 using ErrorOr;
+using Gridify;
+using Gridify.EntityFramework;
 using Innovation.Application.Common.Interfaces;
 using Innovation.Application.Common.Models;
 using Innovation.Application.Features.Challenges.Shared;
-using Innovation.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,43 +12,43 @@ namespace Innovation.Application.Features.Challenges;
 public record ListChallengesQuery(
     int Page = 1,
     int PageSize = 15,
-    string? Search = null,
-    ChallengeStatus? Status = null,
-    bool? Featured = null
+    string? Filter = null,
+    string? OrderBy = null
 ) : IQuery<ErrorOr<PaginatedList<ApiResource<ChallengeListAttributes>>>>;
 
 public class ListChallengesHandler(IAppDbContext db)
     : IRequestHandler<ListChallengesQuery, ErrorOr<PaginatedList<ApiResource<ChallengeListAttributes>>>>
 {
+    private static readonly IGridifyMapper<Innovation.Domain.Entities.Challenge.Challenge> Mapper = new GridifyMapper<Innovation.Domain.Entities.Challenge.Challenge>()
+        .AddMap("status", c => c.Status)
+        .AddMap("difficulty", c => c.Difficulty)
+        .AddMap("featured", c => c.Featured)
+        .AddMap("urgent", c => c.Urgent)
+        .AddMap("isPublic", c => c.IsPublic)
+        .AddMap("startDate", c => c.StartDate)
+        .AddMap("endDate", c => c.EndDate)
+        .AddMap("createdAt", c => c.CreatedAt)
+        .AddMap("title", c => c.Title.En!)
+        .AddMap("titleAr", c => c.Title.Ar!);
+
     public async Task<ErrorOr<PaginatedList<ApiResource<ChallengeListAttributes>>>> Handle(
         ListChallengesQuery query, CancellationToken ct)
     {
         var q = db.Challenges.AsNoTracking().AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(query.Search))
+        var gridifyQuery = new GridifyQuery
         {
-            var search = query.Search.ToLower();
-            q = q.Where(c => c.Title.En != null && c.Title.En.ToLower().Contains(search)
-                           || c.Title.Ar != null && c.Title.Ar.ToLower().Contains(search));
-        }
+            Filter = query.Filter,
+            OrderBy = query.OrderBy ?? "createdAt desc",
+            Page = query.Page,
+            PageSize = query.PageSize
+        };
 
-        if (query.Status.HasValue)
-            q = q.Where(c => c.Status == query.Status.Value);
+        var paging = await q.GridifyAsync(gridifyQuery, Mapper);
 
-        if (query.Featured.HasValue)
-            q = q.Where(c => c.Featured == query.Featured.Value);
-
-        q = q.OrderByDescending(c => c.CreatedAt);
-
-        var count = await q.CountAsync(ct);
-        var entities = await q
-            .Skip((query.Page - 1) * query.PageSize)
-            .Take(query.PageSize)
-            .ToListAsync(ct);
-
-        var items = entities.Select(c => c.ToListResource()).ToList();
+        var items = paging.Data.Select(c => c.ToListResource()).ToList();
 
         return new PaginatedList<ApiResource<ChallengeListAttributes>>(
-            items, count, query.Page, query.PageSize);
+            items, paging.Count, query.Page, query.PageSize);
     }
 }

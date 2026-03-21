@@ -24,16 +24,14 @@ public static class ChallengeEndpoints
         group.MapGet("/", async (
             [FromQuery] int page,
             [FromQuery] int pageSize,
-            [FromQuery] string? search,
-            [FromQuery] string? status,
-            [FromQuery] bool? featured,
+            [FromQuery] string? filter,
+            [FromQuery] string? orderBy,
             IMediator mediator) =>
         {
-            var parsedStatus = Enum.TryParse<Innovation.Domain.Enums.ChallengeStatus>(status, true, out var s) ? s : (Innovation.Domain.Enums.ChallengeStatus?)null;
             var query = new ListChallengesQuery(
                 page > 0 ? page : 1,
                 pageSize > 0 ? pageSize : 15,
-                search, parsedStatus, featured);
+                filter, orderBy);
             var result = await mediator.Send(query);
             return result.Match(
                 value => Results.Ok(value.ToSimpleCollection("/api/v1/challenges")),

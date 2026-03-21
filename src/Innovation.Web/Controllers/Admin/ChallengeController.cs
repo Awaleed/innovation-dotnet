@@ -1,7 +1,6 @@
 using InertiaCore;
 using Innovation.Application.Common.Models;
 using Innovation.Application.Features.Challenges;
-using Innovation.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +15,10 @@ public class ChallengeController(IMediator mediator) : Controller
     public async Task<IActionResult> Index(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 15,
-        [FromQuery] string? search = null,
-        [FromQuery] ChallengeStatus? status = null,
-        [FromQuery] bool? featured = null)
+        [FromQuery] string? filter = null,
+        [FromQuery] string? orderBy = null)
     {
-        var result = await mediator.Send(new ListChallengesQuery(page, pageSize, search, status, featured));
+        var result = await mediator.Send(new ListChallengesQuery(page, pageSize, filter, orderBy));
 
         return Inertia.Render("Admin/Challenges/Index", new
         {
