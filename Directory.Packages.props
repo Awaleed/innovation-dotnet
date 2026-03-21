@@ -16,6 +16,8 @@
     <PackageVersion Include="Aspire.StackExchange.Redis.DistributedCaching" Version="$(AspireVersion)" />
     <!-- ASP.NET -->
     <PackageVersion Include="CommunityToolkit.Aspire.Hosting.NodeJS.Extensions" Version="9.9.0" />
+    <PackageVersion Include="ErrorOr" Version="2.0.1" />
+    <PackageVersion Include="Gridify.EntityFramework" Version="2.19.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
     <!-- Extensions -->
@@ -38,6 +40,7 @@
     <!-- Inertia -->
     <PackageVersion Include="AspNetCore.InertiaCore" Version="0.0.9" />
     <!-- Miscellaneous -->
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.13.13" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.5" />
     <PackageVersion Include="Reinforced.Typings" Version="1.6.7" />
     <PackageVersion Include="MediatR" Version="13.0.0" />
