@@ -12,44 +12,14 @@ import { ThemeProvider } from './providers/theme-provider';
 import { initializeTheme } from './hooks/use-appearance';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import axios from 'axios';
 import { NuqsAdapter } from 'nuqs/adapters/react';
 import './i18n'; // Initialize i18n
-// import './zod-setup'; // TODO: re-enable when zod-i18n-map supports Zod v4
+import './lib/api-client'; // Initialize axios defaults + CSRF
 import { AppWrapper } from './components/app-wrapper';
 import { ErrorBoundary } from './components/ui/error-boundary';
 import { FlashToaster } from './components/flash-toaster';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Innovation Platform';
-
-// Configure Axios defaults
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.headers.common['Accept'] = 'application/json';
-axios.defaults.headers.common['Content-Type'] = 'application/json';
-
-// Add CSRF token to all requests
-const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-if (csrfToken) {
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
-}
-
-// Add response interceptor for better error handling
-axios.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        // Handle common HTTP errors globally if needed
-        if (error.response?.status === 401) {
-            // Handle unauthorized - could redirect to login
-            console.warn('Unauthorized request detected');
-        } else if (error.response?.status === 403) {
-            console.warn('Forbidden request detected');
-        } else if (error.response?.status === 500) {
-            console.error('Server error detected');
-        }
-
-        return Promise.reject(error);
-    },
-);
 
 // Extend HTMLElement to include _reactRootContainer property
 declare global {

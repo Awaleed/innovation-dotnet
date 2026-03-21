@@ -1,3 +1,5 @@
+import { handleApiError } from '@/lib/api-error-handler';
+import http from '@/lib/api-client';
 import { admin, api } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
@@ -108,18 +110,10 @@ export default function ChallengeEdit({ challenge }: Props) {
         };
 
         try {
-            const res = await fetch(api.v1.update({ id: challenge.id }).url, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
-            });
-            if (!res.ok) {
-                const text = await res.text();
-                throw new Error(text || `HTTP ${res.status}`);
-            }
+            await http.put(api.v1.update({ id: challenge.id }).url, body);
             router.visit(admin.index.url());
         } catch (err: unknown) {
-            setErrors(err instanceof Error ? err.message : 'An error occurred');
+            setErrors(handleApiError(err, 'Update challenge'));
         } finally {
             setSubmitting(false);
         }

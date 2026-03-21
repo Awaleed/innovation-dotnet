@@ -1,5 +1,6 @@
 import type { IChallengeListResponse } from '@/types/generated';
 import type { PaginatedResponse } from '@/hooks/use-api-pagination';
+import http from '@/lib/api-client';
 import { admin, api } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
@@ -46,7 +47,7 @@ export default function ChallengesIndex({ challenges }: Props) {
         if (!confirm(t('common:confirm_delete', 'Are you sure you want to delete this?'))) return;
         setDeleting(id);
         try {
-            await fetch(api.v1.remove({ id }).url, { method: 'DELETE' });
+            await http.delete(api.v1.remove({ id }).url);
             router.reload();
         } catch {
             alert('Failed to delete challenge.');

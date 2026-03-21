@@ -1,3 +1,5 @@
+import { handleApiError } from '@/lib/api-error-handler';
+import http from '@/lib/api-client';
 import { admin, api } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
@@ -73,18 +75,10 @@ export default function ChallengeCreate(_props: SharedData) {
         };
 
         try {
-            const res = await fetch(api.v1.create().url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
-            });
-            if (!res.ok) {
-                const text = await res.text();
-                throw new Error(text || `HTTP ${res.status}`);
-            }
+            await http.post(api.v1.create().url, body);
             router.visit(admin.index.url());
         } catch (err: unknown) {
-            setErrors(err instanceof Error ? err.message : 'An error occurred');
+            setErrors(handleApiError(err, 'Create challenge'));
         } finally {
             setSubmitting(false);
         }

@@ -1,3 +1,4 @@
+import http from '@/lib/api-client';
 import { admin, api } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
@@ -88,8 +89,7 @@ export default function ChallengeShow({ challenge }: Props) {
         if (!confirm('Are you sure you want to advance this challenge to the next stage?')) return;
         setAdvancing(true);
         try {
-            const res = await fetch(api.v1.challenges.advance({ id: challenge.id }).url, { method: 'POST' });
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            await http.post(api.v1.challenges.advance({ id: challenge.id }).url);
             router.reload();
         } catch {
             alert('Failed to advance stage.');
