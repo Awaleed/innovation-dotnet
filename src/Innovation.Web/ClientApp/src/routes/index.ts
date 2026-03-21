@@ -16,6 +16,14 @@ export const home = (): RouteDefinition<'get'> => ({
 
 home.url = () => '/'
 
+/** @controller Antiforgery @action token @route '/antiforgery/token' @method get */
+export const token = (): RouteDefinition<'get'> => ({
+    url: '/antiforgery/token',
+    method: 'get',
+})
+
+token.url = () => '/antiforgery/token'
+
 /** @controller Auth @action Dashboard @route '/dashboard' @method get */
 export const dashboard = (): RouteDefinition<'get'> => ({
     url: '/dashboard',
@@ -48,9 +56,16 @@ export const register = (): RouteDefinition<'get'> => ({
 
 register.url = () => '/register'
 
+/** @controller Auth @action me @route '/user/me' @method get */
+export const me = (): RouteDefinition<'get'> => ({
+    url: '/user/me',
+    method: 'get',
+})
+
+me.url = () => '/user/me'
+
 // Sub-routes
 export * as admin from './admin'
 export * as api from './api'
 export * as auth from './auth'
-export * as user from './user'
 

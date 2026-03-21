@@ -8,46 +8,6 @@ export interface RouteDefinition<M extends string = string> {
     method: M;
 }
 
-/** @controller Challenge @action create @route '/api/v1/challenges' @method post */
-export const create = (): RouteDefinition<'post'> => ({
-    url: '/api/v1/challenges',
-    method: 'post',
-})
-
-create.url = () => '/api/v1/challenges'
-
-/** @controller Challenge @action list @route '/api/v1/challenges' @method get */
-export const list = (): RouteDefinition<'get'> => ({
-    url: '/api/v1/challenges',
-    method: 'get',
-})
-
-list.url = () => '/api/v1/challenges'
-
-/** @controller Challenge @action get @route '/api/v1/challenges/{id}' @method get */
-export const get = (args: { id: string | number }): RouteDefinition<'get'> => ({
-    url: `/api/v1/challenges/${args.id}`,
-    method: 'get',
-})
-
-get.url = (args: { id: string | number }) => `/api/v1/challenges/${args.id}`
-
-/** @controller Challenge @action update @route '/api/v1/challenges/{id}' @method put */
-export const update = (args: { id: string | number }): RouteDefinition<'put'> => ({
-    url: `/api/v1/challenges/${args.id}`,
-    method: 'put',
-})
-
-update.url = (args: { id: string | number }) => `/api/v1/challenges/${args.id}`
-
-/** @controller Challenge @action remove @route '/api/v1/challenges/{id}' @method delete */
-export const remove = (args: { id: string | number }): RouteDefinition<'delete'> => ({
-    url: `/api/v1/challenges/${args.id}`,
-    method: 'delete',
-})
-
-remove.url = (args: { id: string | number }) => `/api/v1/challenges/${args.id}`
-
 // Sub-routes
 export * as challenges from './challenges'
 

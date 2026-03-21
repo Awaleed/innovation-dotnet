@@ -280,7 +280,7 @@ public static class Program
 
         foreach (var route in routes)
         {
-            var dirPath = GetRouteDirectory(route.Url);
+            var dirPath = GetRouteDirectory(route);
             if (!dirGroups.ContainsKey(dirPath))
                 dirGroups[dirPath] = [];
             dirGroups[dirPath].Add(route);
@@ -349,16 +349,32 @@ public static class Program
         return fileCount;
     }
 
-    static string GetRouteDirectory(string url)
+    /// <summary>
+    /// Determines the directory path for a route.
+    /// Only drops the last non-param segment if it matches the action name
+    /// (e.g., "edit" in /admin/challenges/{id}/edit, "advance" in /api/v1/challenges/{id}/advance).
+    /// Keeps it when the action was derived from the HTTP method
+    /// (e.g., "challenges" stays for POST /api/v1/challenges → dir "api/v1/challenges").
+    /// </summary>
+    static string GetRouteDirectory(RouteInfo route)
     {
-        var segments = url.Trim('/').Split('/', StringSplitOptions.RemoveEmptyEntries)
+        var segments = route.Url.Trim('/').Split('/', StringSplitOptions.RemoveEmptyEntries)
             .Where(s => !s.StartsWith('{'))
             .ToList();
 
         if (segments.Count <= 1)
             return "";
 
-        return string.Join("/", segments.Take(segments.Count - 1));
+        // Only drop the last segment if it's an action segment in the URL (matches the action name).
+        // If the action was derived from the HTTP method (create/list/get/update/remove),
+        // the last segment is the resource name and should be kept as the directory.
+        if (segments.Last().Equals(route.Action, StringComparison.OrdinalIgnoreCase))
+            segments.RemoveAt(segments.Count - 1);
+
+        if (segments.Count <= 1)
+            return "";
+
+        return string.Join("/", segments);
     }
 
     static string GenerateDirectoryIndexTs(string dirPath, List<RouteInfo> routes, Dictionary<string, List<RouteInfo>> allGroups)
