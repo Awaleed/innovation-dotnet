@@ -98,7 +98,12 @@ internal static class AuthenticationExtensions
                     var hasLocalRoles = await db.UserRoles.AnyAsync(ur => ur.UserId == user.Id);
                     if (!hasLocalRoles)
                     {
-                        var keycloakRoles = identity.FindAll("roles").Select(c => c.Value).ToList();
+                        var keycloakRoles = identity
+                            .FindAll("roles")
+                            .Concat(identity.FindAll(ClaimTypes.Role))
+                            .Select(c => c.Value)
+                            .Distinct()
+                            .ToList();
                         if (keycloakRoles.Count > 0)
                         {
                             var permissionService =
