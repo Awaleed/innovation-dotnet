@@ -471,14 +471,18 @@ public static class Program
     {
         if (string.IsNullOrEmpty(name)) return name;
 
-        // Handle kebab-case and snake_case: "backchannel-logout" → "backchannelLogout"
-        if (name.Contains('-') || name.Contains('_'))
-        {
-            var parts = name.Split(['-', '_'], StringSplitOptions.RemoveEmptyEntries);
-            return parts[0].ToLowerInvariant() +
-                   string.Concat(parts.Skip(1).Select(p => char.ToUpperInvariant(p[0]) + p[1..].ToLowerInvariant()));
-        }
+        // 1. Split on any non-alphanumeric char (hyphens, underscores, dots, spaces, etc.)
+        // 2. Capitalize first letter of each word except the first → camelCase
+        // "backchannel-logout" → "backchannelLogout"
+        // "some_value.here" → "someValueHere"
+        // "already camelCase" → "alreadyCamelcase"
+        var words = Regex.Split(name, @"[^a-zA-Z0-9]+")
+            .Where(w => w.Length > 0)
+            .ToArray();
 
-        return char.ToLowerInvariant(name[0]) + name[1..];
+        if (words.Length == 0) return name;
+
+        return words[0].ToLowerInvariant()
+             + string.Concat(words.Skip(1).Select(w => char.ToUpperInvariant(w[0]) + w[1..].ToLowerInvariant()));
     }
 }
