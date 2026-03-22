@@ -115,6 +115,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 await Innovation.Infrastructure.Data.Seeders.PermissionSeeder.SeedAsync(app.Services);
+await Innovation.Infrastructure.Data.Seeders.ChallengeSeeder.SeedAsync(app.Services);
 
 app.MapDefaultEndpoints();
 

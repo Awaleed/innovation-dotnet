@@ -1,4 +1,4 @@
-﻿using Gridify;
+using Gridify;
 using Gridify.EntityFramework;
 using Innovation.Application.Common.Models;
 
@@ -8,10 +8,11 @@ public static class QueryableExtensions
 {
     public static async Task<Paging<TEntity>> ApplyFilteredAsync<TEntity>(
         this IQueryable<TEntity> queryable,
+        GridifyQuery gridifyQuery,
         FilteredQuery<TEntity> filteredQuery
     )
     {
-        filteredQuery.ApplyDefaults();
-        return await queryable.GridifyAsync(filteredQuery, filteredQuery.Mapper);
+        gridifyQuery.OrderBy ??= filteredQuery.DefaultOrderBy;
+        return await queryable.GridifyAsync(gridifyQuery, filteredQuery.Mapper);
     }
 }

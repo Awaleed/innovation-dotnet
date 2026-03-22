@@ -1,5 +1,6 @@
 import { type PaginatedResponse } from '@/hooks/use-api-pagination';
 import { type IChallengeListResponse, ChallengeStatus, ChallengeDifficulty } from '@/types/generated';
+import { challengeDefaultOrderBy, type ChallengeField } from '@/types/filters';
 import { type SharedData } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Badge } from '@/components/ui/badge';
@@ -29,8 +30,8 @@ export default function ChallengesIndex({ challenges }: Props) {
     const getStatusLabel = useChallengeStatusLabel();
     const getDifficultyLabel = useChallengeDifficultyLabel();
 
-    const pagination = usePagination({
-        defaultOrderBy: 'createdAt desc',
+    const pagination = usePagination<ChallengeField>({
+        defaultOrderBy: challengeDefaultOrderBy,
         defaultPageSize: 15,
     });
 

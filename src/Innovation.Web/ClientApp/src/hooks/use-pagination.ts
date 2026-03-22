@@ -5,8 +5,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 const DEFAULT_ORDER_BY = 'createdAt desc';
 const DEFAULT_PAGE_SIZE = 15;
 
-interface UsePaginationOptions {
-    defaultOrderBy?: string;
+interface UsePaginationOptions<TField extends string = string> {
+    defaultOrderBy?: `${TField} asc` | `${TField} desc` | string;
     defaultPageSize?: number;
 }
 
@@ -63,7 +63,7 @@ function getFiltersFromUrl(): Record<string, string> {
     return parseGridifyFilter(params.get('filter') ?? '');
 }
 
-export function usePagination({ defaultOrderBy = DEFAULT_ORDER_BY, defaultPageSize = DEFAULT_PAGE_SIZE }: UsePaginationOptions = {}) {
+export function usePagination<TField extends string = string>({ defaultOrderBy = DEFAULT_ORDER_BY, defaultPageSize = DEFAULT_PAGE_SIZE }: UsePaginationOptions<TField> = {}) {
     const [queryState, setQueryState] = useQueryStates(
         {
             orderBy: parseAsString.withDefault(defaultOrderBy),

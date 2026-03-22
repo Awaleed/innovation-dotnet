@@ -1,4 +1,5 @@
 using ErrorOr;
+using Gridify;
 using Innovation.Application.Common.Extensions;
 using Innovation.Application.Common.Interfaces;
 using Innovation.Application.Common.Models;
@@ -9,12 +10,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Innovation.Application.Features.Challenges.Queries;
 
-public record ListChallengesQuery(ChallengeFilteredQuery Query)
+public record ListChallengesQuery(GridifyQuery GridifyQuery)
     : IQuery<ErrorOr<PaginatedResponse<ChallengeListResponse>>>;
 
 public class ListChallengesHandler(IAppDbContext db, ICurrentUserService currentUser)
     : IRequestHandler<ListChallengesQuery, ErrorOr<PaginatedResponse<ChallengeListResponse>>>
 {
+    private static readonly ChallengeFilteredQuery _filter = new();
+
     public async Task<ErrorOr<PaginatedResponse<ChallengeListResponse>>> Handle(
         ListChallengesQuery request,
         CancellationToken ct
@@ -22,7 +25,9 @@ public class ListChallengesHandler(IAppDbContext db, ICurrentUserService current
     {
         var locale = currentUser.Locale;
 
-        var paging = await db.Challenges.AsNoTracking().ApplyFilteredAsync(request.Query);
+        var paging = await db
+            .Challenges.AsNoTracking()
+            .ApplyFilteredAsync(request.GridifyQuery, _filter);
 
         var items = paging
             .Data.Select(c => new ChallengeListResponse(
@@ -46,8 +51,8 @@ public class ListChallengesHandler(IAppDbContext db, ICurrentUserService current
         return PaginatedResponse<ChallengeListResponse>.Create(
             items,
             paging.Count,
-            request.Query.Page,
-            request.Query.PageSize
+            request.GridifyQuery.Page,
+            request.GridifyQuery.PageSize
         );
     }
 }

@@ -1,7 +1,7 @@
 ﻿using ErrorOr;
+using Gridify;
 using InertiaCore;
 using Innovation.Application.Features.Challenges.Commands;
-using Innovation.Application.Features.Challenges.Filters;
 using Innovation.Application.Features.Challenges.Queries;
 using Innovation.Web.Authorization;
 using Innovation.Web.Extensions;
@@ -15,7 +15,7 @@ namespace Innovation.Web.Controllers.Admin;
 public class ChallengeController(IMediator mediator) : Controller
 {
     [HttpGet("")]
-    public async Task<IActionResult> Index([FromQuery] ChallengeFilteredQuery gridifyQuery)
+    public async Task<IActionResult> Index([FromQuery] GridifyQuery gridifyQuery)
     {
         var result = await mediator.Send(new ListChallengesQuery(gridifyQuery));
 
