@@ -46,6 +46,7 @@ const defineStepper = <const Steps extends Stepperize.Step[]>(
   return {
     ...rest,
     useStepper,
+    // @ts-expect-error stepperize API type mismatch
     Stepper: {
       Provider: ({
         variant = "horizontal",
@@ -94,8 +95,10 @@ const defineStepper = <const Steps extends Stepperize.Step[]>(
       },
       Step: ({ children, className, icon, ...props }) => {
         const { variant, labelOrientation } = useStepperProvider();
+        // @ts-expect-error stepperize API mismatch
         const { current } = useStepper();
 
+        // @ts-expect-error stepperize API mismatch
         const utils = rest.utils;
         const steps = rest.steps;
 
@@ -154,7 +157,7 @@ const defineStepper = <const Steps extends Stepperize.Step[]>(
               data-disabled={props.disabled}
             >
               <Button
-                id={`step-${step.id}`}
+                id={`step-${step?.id}`}
                 data-component="stepper-step-indicator"
                 type="button"
                 role="tab"

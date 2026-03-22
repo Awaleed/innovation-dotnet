@@ -8,7 +8,7 @@ interface MockButtonProps extends BaseButtonProps {
     variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
 }
 
-const appendAlpha = (hex: string, alpha: number): string => {
+const _appendAlpha = (hex: string, alpha: number): string => {
     const normalizedHex = hex.replace('#', '');
     if (normalizedHex.length !== 6) {
         return hex;

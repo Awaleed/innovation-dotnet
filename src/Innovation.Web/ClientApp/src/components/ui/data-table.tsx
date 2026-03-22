@@ -49,6 +49,7 @@ export function DataTable<TData, TValue>({
     const direction = useDirection();
     const { t } = useTranslation('ui/data-table');
 
+    // eslint-disable-next-line react-hooks/incompatible-library
     const table = useReactTable({
         data,
         columns,

@@ -1,7 +1,17 @@
 import { Badge } from '@/components/ui/badge';
-import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '@/lib/formatters';
-import { AwardResource } from '@/types/generated.d';
+interface AwardResource {
+  id: number;
+  attributes: {
+    position: number;
+    title: string;
+    description?: string;
+    isMonetary: boolean;
+    isActive: boolean;
+    amount?: number;
+    currency?: string;
+  };
+}
 import { cn } from '@/lib/utils';
 import { Award, DollarSign, Gift } from 'lucide-react';
 

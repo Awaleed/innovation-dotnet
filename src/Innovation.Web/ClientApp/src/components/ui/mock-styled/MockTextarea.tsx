@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
-export interface MockTextareaProps extends React.ComponentProps<typeof Textarea> {}
+export type MockTextareaProps = React.ComponentProps<typeof Textarea>
 
 export const MockTextarea = React.forwardRef<HTMLTextAreaElement, MockTextareaProps>(
     ({ className, ...props }, ref) => {

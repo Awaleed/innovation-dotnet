@@ -225,7 +225,7 @@ const SlidingEaseVerticalBars = ({
         let bar1 = bars1[j]
         let bar2 = bars2[j]
 
-        if (!bar1) bar1 = { y: bar2.y - 100, height: 0, width: 0 }
+        if (!bar1) bar1 = { y: (bar2?.y ?? 0) - 100, height: 0, width: 0 }
         if (!bar2) bar2 = { y: bar1.y + 100, height: 0, width: 0 }
 
         const barMouseInfluence = getMouseInfluence(x, bar1.y)
@@ -278,6 +278,7 @@ const SlidingEaseVerticalBars = ({
     }
 
     animationFrameId.current = requestAnimationFrame(animate)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [backgroundColor, lineColor, removeWaveLine, barColor, lineWidth, animationSpeed])
 
   useEffect(() => {

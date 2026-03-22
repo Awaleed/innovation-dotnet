@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { BadgeProps } from '@/components/ui/badge';
+import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+
+type BadgeProps = React.ComponentProps<typeof Badge>;
 
 interface MockBadgeProps extends Omit<BadgeProps, 'variant'> {
     variant?: 'default' | 'secondary' | 'destructive' | 'outline' | 'success';

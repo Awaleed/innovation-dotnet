@@ -5,6 +5,7 @@ import { Check, ChevronDown, ChevronUp } from "lucide-react"
 import { cn } from "../../lib/utils"
 
 // Utility functions for value conversion
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const serializeValue = (value: any): string => {
   if (value === null || value === undefined) return "__NULL__"
   if (value === "") return "__EMPTY__"
@@ -13,6 +14,7 @@ const serializeValue = (value: any): string => {
   return String(value)
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const deserializeValue = (serialized: string): any => {
   if (serialized === "__NULL__") return null
   if (serialized === "__EMPTY__") return ""
@@ -22,13 +24,15 @@ const deserializeValue = (serialized: string): any => {
   return serialized
 }
 
-const Select = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Root>,
-  Omit<React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>, 'value' | 'onValueChange'> & {
-    value?: any
-    onValueChange?: (value: any) => void
-  }
->(({ value, onValueChange, ...props }, ref) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SelectValue = any
+
+type SelectProps = Omit<React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>, 'value' | 'onValueChange'> & {
+  value?: SelectValue
+  onValueChange?: (value: SelectValue) => void
+}
+
+function Select({ value, onValueChange, ...props }: SelectProps) {
   const handleValueChange = React.useCallback((serializedValue: string) => {
     const originalValue = deserializeValue(serializedValue)
     onValueChange?.(originalValue)
@@ -36,14 +40,12 @@ const Select = React.forwardRef<
 
   return (
     <SelectPrimitive.Root
-      ref={ref}
       value={value !== undefined ? serializeValue(value) : undefined}
       onValueChange={handleValueChange}
       {...props}
     />
   )
-})
-Select.displayName = SelectPrimitive.Root.displayName
+}
 
 const SelectGroup = SelectPrimitive.Group
 
@@ -158,7 +160,7 @@ SelectLabel.displayName = SelectPrimitive.Label.displayName
 const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
   Omit<React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>, 'value'> & {
-    value: any
+    value: SelectValue
   }
 >(({ className, children, value, ...props }, ref) => (
   <SelectPrimitive.Item

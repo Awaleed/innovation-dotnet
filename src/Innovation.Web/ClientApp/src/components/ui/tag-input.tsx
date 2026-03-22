@@ -14,11 +14,11 @@ interface TagInputProps {
     className?: string
     disabled?: boolean
     value?: string
-    onChange?: (e: any) => void
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
-    ({ tags, setTags, placeholder, className, disabled, value, onChange, ...props }, ref) => {
+    ({ tags, setTags, placeholder, className, disabled, value: _value, onChange: _onChange, ...props }, _ref) => {
         const [inputValue, setInputValue] = useState('')
         const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null)
         const inputRef = useRef<HTMLInputElement>(null)

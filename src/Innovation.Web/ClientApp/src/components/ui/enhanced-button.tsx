@@ -1,8 +1,7 @@
-import { Button, buttonVariants as shadcnButtonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { enhanceComponent, buttonVariants, hoverEffects, animations } from '@/lib/component-enhancements';
 import { cn } from '@/lib/utils';
 import { forwardRef } from 'react';
-import { type VariantProps } from 'class-variance-authority';
 
 interface EnhancedButtonProps extends React.ComponentProps<'button'> {
   /**
@@ -69,11 +68,11 @@ const EnhancedButton = forwardRef<HTMLButtonElement, EnhancedButtonProps>(
     ref
   ) => {
     // Build enhancement classes
-    const enhancementClasses = modern ? {
-      variant: enhancedVariant ? buttonVariants[enhancedVariant] : '',
-      size: buttonVariants.size[size as keyof typeof buttonVariants.size],
-      animation: animation !== 'none' ? animations[animation] : '',
-      hover: hoverEffect !== 'none' ? hoverEffects[hoverEffect] : '',
+    const enhancementClasses: Record<string, string> = modern ? {
+      variant: enhancedVariant ? (String(buttonVariants[enhancedVariant] ?? '')) : '',
+      size: buttonVariants.size[size as keyof typeof buttonVariants.size] ?? '',
+      animation: animation !== 'none' ? (animations[animation] ?? '') : '',
+      hover: hoverEffect !== 'none' ? (hoverEffects[hoverEffect] ?? '') : '',
       shadow: shadow !== 'none' ? `shadow-${shadow}` : '',
     } : {};
 

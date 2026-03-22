@@ -1,9 +1,9 @@
-import { ReactNode } from 'react';
-import { Button, ButtonProps } from '@/components/ui/button';
+import React, { ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { usePage } from '@inertiajs/react';
 
-interface ActionButtonProps extends Omit<ButtonProps, 'disabled'> {
+interface ActionButtonProps extends Omit<React.ComponentProps<typeof Button>, 'disabled'> {
   permission: string;
   children: ReactNode;
   fallbackText?: string;
@@ -20,7 +20,8 @@ export function ActionButton({
   className,
   ...props
 }: ActionButtonProps) {
-  const { user } = usePage().props;
+  const { auth } = usePage<{ auth: { permissions: string[] } }>().props;
+  const user = auth;
 
   const hasPermission = user && (requireAll
     ? permission.split('|').every(p => user.permissions?.includes(p))

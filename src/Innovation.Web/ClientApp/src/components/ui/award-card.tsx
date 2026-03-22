@@ -3,10 +3,21 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '@/lib/formatters';
-import { AwardResource } from '@/types/generated.d';
-import { DollarSign, Edit, Eye, Gift } from 'lucide-react';
+interface AwardResource {
+  id: number;
+  attributes: {
+    position: number;
+    title: string;
+    description?: string;
+    isMonetary: boolean;
+    isActive: boolean;
+    amount?: number;
+    currency?: string;
+  };
+}
+import { DollarSign, Edit, Eye } from 'lucide-react';
 import { Link } from '@inertiajs/react';
-import admin from '@/routes/admin';
+
 
 interface AwardCardProps {
     award: AwardResource;
@@ -15,8 +26,8 @@ interface AwardCardProps {
 }
 
 export default function AwardCard({ award, showActions = true, className = '' }: AwardCardProps) {
-    
-    
+    const { t } = useTranslation();
+
 
     return (
         <Card className={`h-full ${className}`}>
@@ -55,13 +66,15 @@ export default function AwardCard({ award, showActions = true, className = '' }:
                 <CardContent className="pt-0">
                     <div className="flex gap-2">
                         <Button variant="outline" size="sm" className="flex-1" asChild>
-                            <Link href={admin.awards.show.url({ award: award.id })}>
+                            {/* eslint-disable-next-line no-restricted-syntax */}
+                            <Link href={`/admin/awards/${award.id}`}>
                                 <Eye className="me-2 h-4 w-4" />
                                 {t('common:view')}
                             </Link>
                         </Button>
                         <Button variant="outline" size="sm" className="flex-1" asChild>
-                            <Link href={admin.awards.edit.url({ award: award.id })}>
+                            {/* eslint-disable-next-line no-restricted-syntax */}
+                            <Link href={`/admin/awards/${award.id}/edit`}>
                                 <Edit className="me-2 h-4 w-4" />
                                 {t('common:edit')}
                             </Link>

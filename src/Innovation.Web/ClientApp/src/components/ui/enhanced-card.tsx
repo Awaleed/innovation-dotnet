@@ -56,12 +56,12 @@ const EnhancedCard = forwardRef<HTMLDivElement, EnhancedCardProps>(
     ref
   ) => {
     // Build enhancement classes
-    const enhancementClasses = modern ? {
-      variant: cardVariants[variant],
-      animation: animation !== 'none' ? animations[animation] : '',
-      hover: hoverEffect !== 'none' ? hoverEffects[hoverEffect] : '',
-      shadow: shadow !== 'none' ? shadows[shadow] : '',
-      spacing: spacing[spacingVariant],
+    const enhancementClasses: Record<string, string> = modern ? {
+      variant: cardVariants[variant] ?? '',
+      animation: animation !== 'none' ? (animations[animation] ?? '') : '',
+      hover: hoverEffect !== 'none' ? (hoverEffects[hoverEffect] ?? '') : '',
+      shadow: shadow !== 'none' ? (shadows[shadow] ?? '') : '',
+      spacing: spacing[spacingVariant] ?? '',
     } : {};
 
     // Apply enhancements

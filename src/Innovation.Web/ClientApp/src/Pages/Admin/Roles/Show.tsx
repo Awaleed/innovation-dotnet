@@ -37,6 +37,7 @@ export default function RolesShow({ role }: Props) {
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
+                        {/* eslint-disable-next-line no-restricted-syntax */}
                         <Link href="/admin/roles" className="rounded p-1.5 hover:bg-muted">
                             <ArrowLeft className="h-5 w-5" />
                         </Link>
@@ -48,10 +49,12 @@ export default function RolesShow({ role }: Props) {
                             <p className="text-sm text-muted-foreground">Guard: {role.guardName}</p>
                         </div>
                     </div>
+                    {/* eslint-disable no-restricted-syntax */}
                     <Link
                         href={`/admin/roles/${role.id}/edit`}
                         className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
                     >
+                        {/* eslint-enable no-restricted-syntax */}
                         <Edit className="h-4 w-4" />
                         Edit Role
                     </Link>

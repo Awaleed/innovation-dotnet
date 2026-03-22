@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 
-export interface MockLabelProps extends React.ComponentProps<typeof Label> {}
+export type MockLabelProps = React.ComponentProps<typeof Label>
 
 export const MockLabel = React.forwardRef<HTMLLabelElement, MockLabelProps>(
     ({ className, ...props }, ref) => {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { IdeaPriority } from '@/types/generated.d';
+import type { IdeaPriority } from '@/lib/enums/idea-priority';
 import { getPriorityColor, getPriorityLabel } from '@/lib/enums/idea-priority';
 import { cn } from '@/lib/utils';
 

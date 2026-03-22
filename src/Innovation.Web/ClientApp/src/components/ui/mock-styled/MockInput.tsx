@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
-export interface MockInputProps extends React.ComponentProps<typeof Input> {}
+export type MockInputProps = React.ComponentProps<typeof Input>
 
 export const MockInput = React.forwardRef<HTMLInputElement, MockInputProps>(
     ({ className, ...props }, ref) => {

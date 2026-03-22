@@ -1,5 +1,15 @@
-import { useTranslation } from 'react-i18next';
-import { AwardResource } from '@/types/generated.d';
+interface AwardResource {
+  id: number;
+  attributes: {
+    position: number;
+    title: string;
+    description?: string;
+    isMonetary: boolean;
+    isActive: boolean;
+    amount?: number;
+    currency?: string;
+  };
+}
 import { Award } from 'lucide-react';
 import AwardCard from './award-card';
 import { Card, CardContent } from './card';

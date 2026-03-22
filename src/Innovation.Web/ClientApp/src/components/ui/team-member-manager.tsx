@@ -1,7 +1,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -31,7 +31,7 @@ interface TeamMemberManagerProps {
     maxMembers?: number;
 }
 
-const getMemberSchema = (t: any) => z.object({
+const getMemberSchema = (t: (key: string) => string) => z.object({
     member_name: z.string().min(1, t('ui/team-member-manager:member_name_required')),
     member_type: z.string().optional(),
     role: z.string().optional(),
@@ -39,7 +39,7 @@ const getMemberSchema = (t: any) => z.object({
 
 type MemberFormData = z.infer<ReturnType<typeof getMemberSchema>>;
 
-const getMemberTypes = (t: any) => [
+const getMemberTypes = (t: (key: string) => string) => [
     { value: 'internal', label: t('ui/team-member-manager:types.internal') },
     { value: 'external', label: t('ui/team-member-manager:types.external') },
     { value: 'customer', label: t('ui/team-member-manager:types.customer') },
@@ -97,6 +97,7 @@ export function TeamMemberManager({
         console.log('TeamMemberManager: Editing team member', { index, member: value[index] });
         setEditingIndex(index);
         const member = value[index];
+        if (!member) return;
         form.reset({
             member_name: member.member_name,
             member_type: member.member_type || '',
@@ -120,7 +121,8 @@ export function TeamMemberManager({
         });
 
         const member: TeamMember = {
-            id: editingIndex !== null ? value[editingIndex].id : `temp_${Date.now()}`,
+            // eslint-disable-next-line react-hooks/purity
+            id: editingIndex !== null ? (value[editingIndex]?.id ?? `temp_${Date.now()}`) : `temp_${Date.now()}`,
             ...data,
         };
 

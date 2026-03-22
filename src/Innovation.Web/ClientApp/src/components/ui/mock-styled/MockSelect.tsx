@@ -1,7 +1,4 @@
 import * as React from 'react';
-import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Check } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../select';
 
 interface SelectOption {
@@ -23,7 +20,7 @@ export const MockSelect: React.FC<MockSelectProps> = ({
     value,
     onChange,
     placeholder = 'Select...',
-    className = '',
+    className: _className = '',
     disabled = false,
 }) => {
 

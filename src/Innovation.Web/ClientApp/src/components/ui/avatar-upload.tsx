@@ -33,6 +33,7 @@ function getImageData(event: ChangeEvent<HTMLInputElement>) {
     }
     
     const file = event.target.files[0];
+    if (!file) return null;
     const displayUrl = URL.createObjectURL(file);
     
     return { file, displayUrl };
@@ -113,7 +114,8 @@ export function AvatarUpload({
         const files = e.dataTransfer.files;
         if (files.length > 0) {
             const file = files[0];
-            
+            if (!file) return;
+
             // Validate file type
             if (!file.type.startsWith('image/')) {
                 alert('يجب أن يكون الملف صورة');

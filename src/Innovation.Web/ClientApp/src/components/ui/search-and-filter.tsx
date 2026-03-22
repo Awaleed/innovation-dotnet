@@ -79,6 +79,7 @@ export function SearchAndFilter({
 
   // Update local search term when prop changes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLocalSearchTerm(searchTerm || '');
   }, [searchTerm]);
 

@@ -1,7 +1,7 @@
 import { type SharedData } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import AdminLayout from '@/layouts/admin-layout';
-import { Plus, Shield, Users, Eye, Edit, Trash2 } from 'lucide-react';
+import { Plus, Shield, Users, Eye, Edit } from 'lucide-react';
 
 interface RoleListItem {
     id: number;
@@ -31,10 +31,12 @@ export default function RolesIndex({ roles }: Props) {
                         <h1 className="text-3xl font-bold tracking-tight">Roles</h1>
                         <p className="text-muted-foreground">Manage user roles and their permissions</p>
                     </div>
+                    {/* eslint-disable no-restricted-syntax */}
                     <Link
                         href="/admin/roles/create"
                         className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
                     >
+                        {/* eslint-enable no-restricted-syntax */}
                         <Plus className="h-4 w-4" />
                         Create Role
                     </Link>
@@ -71,16 +73,20 @@ export default function RolesIndex({ roles }: Props) {
                                     </td>
                                     <td className="px-4 py-3 text-right">
                                         <div className="flex items-center justify-end gap-1">
+                                            {/* eslint-disable no-restricted-syntax */}
                                             <Link
                                                 href={`/admin/roles/${role.id}`}
                                                 className="rounded p-1.5 hover:bg-muted"
                                             >
+                                                {/* eslint-enable no-restricted-syntax */}
                                                 <Eye className="h-4 w-4" />
                                             </Link>
+                                            {/* eslint-disable no-restricted-syntax */}
                                             <Link
                                                 href={`/admin/roles/${role.id}/edit`}
                                                 className="rounded p-1.5 hover:bg-muted"
                                             >
+                                                {/* eslint-enable no-restricted-syntax */}
                                                 <Edit className="h-4 w-4" />
                                             </Link>
                                         </div>

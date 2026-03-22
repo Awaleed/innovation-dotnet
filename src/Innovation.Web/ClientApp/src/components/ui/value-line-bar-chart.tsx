@@ -53,7 +53,7 @@ export function ValueLineBarChart() {
   const maxValueIndex = React.useMemo(() => {
     // if user is moving mouse over bar then set value to the bar value
     if (activeIndex !== undefined) {
-      return { index: activeIndex, value: chartData[activeIndex].desktop };
+      return { index: activeIndex, value: chartData[activeIndex]?.desktop ?? 0 };
     }
     // if no active index then set value to max value
     return chartData.reduce(

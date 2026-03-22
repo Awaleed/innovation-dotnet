@@ -2,6 +2,8 @@
 
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
+import type { LegendPayload } from "recharts"
+import type { Payload as TooltipPayloadEntry } from "recharts/types/component/DefaultTooltipContent"
 
 import { cn } from "@/lib/utils"
 
@@ -118,8 +120,17 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
-}: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
-  React.ComponentProps<"div"> & {
+}: {
+  active?: boolean
+  payload?: TooltipPayloadEntry<string | number, string>[]
+  label?: string
+  labelFormatter?: (label: string, payload: TooltipPayloadEntry<string | number, string>[]) => React.ReactNode
+  formatter?: (value: string | number, name: string, item: TooltipPayloadEntry<string | number, string>, index: number, payload: Record<string, unknown>) => React.ReactNode
+  color?: string
+  nameKey?: string
+  labelKey?: string
+  labelClassName?: string
+} & React.ComponentProps<"div"> & {
     hideLabel?: boolean
     hideIndicator?: boolean
     indicator?: "line" | "dot" | "dashed"
@@ -144,7 +155,7 @@ function ChartTooltipContent({
     if (labelFormatter) {
       return (
         <div className={cn("font-medium", labelClassName)}>
-          {labelFormatter(value, payload)}
+          {labelFormatter(String(value ?? ""), payload)}
         </div>
       )
     }
@@ -186,7 +197,7 @@ function ChartTooltipContent({
 
           return (
             <div
-              key={item.dataKey}
+              key={String(item.dataKey)}
               className={cn(
                 "[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5",
                 indicator === "dot" && "items-center"
@@ -256,8 +267,10 @@ function ChartLegendContent({
   payload,
   verticalAlign = "bottom",
   nameKey,
-}: React.ComponentProps<"div"> &
-  Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
+}: React.ComponentProps<"div"> & {
+  payload?: LegendPayload[]
+  verticalAlign?: "top" | "middle" | "bottom"
+} & {
     hideIcon?: boolean
     nameKey?: string
   }) {

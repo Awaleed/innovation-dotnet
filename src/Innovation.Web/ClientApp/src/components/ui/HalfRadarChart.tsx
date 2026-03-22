@@ -42,7 +42,7 @@ export default function HalfRadarChart({
   const radius = Math.min(width / 2, height - 40) - 60;
 
   // Get number of axes from first series length
-  const numAxes = data.length > 0 ? data[0].length : 0;
+  const numAxes = data.length > 0 ? (data[0]?.length ?? 0) : 0;
   
   // Generate default labels if not provided
   const axisLabels = labels.length > 0 
@@ -64,11 +64,11 @@ export default function HalfRadarChart({
     : Array.from({ length: data.length }, (_, i) => defaultColors[i % defaultColors.length]);
 
   // Convert matrix to DataPoint arrays for each series
-  const dataSeries: DataPoint[][] = data.map((series, seriesIndex) => 
+  const dataSeries: DataPoint[][] = data.map((series, seriesIndex) =>
     series.map((value, axisIndex) => ({
-      label: axisLabels[axisIndex],
+      label: axisLabels[axisIndex] ?? `Axis ${axisIndex + 1}`,
       value,
-      color: seriesColors[seriesIndex],
+      color: seriesColors[seriesIndex] ?? defaultColors[0] ?? 'hsl(217, 91%, 60%)',
     }))
   );
 

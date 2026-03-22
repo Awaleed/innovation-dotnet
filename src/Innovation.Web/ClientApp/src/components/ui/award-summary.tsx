@@ -2,7 +2,18 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '@/lib/formatters';
-import { AwardResource } from '@/types/generated.d';
+interface AwardResource {
+  id: number;
+  attributes: {
+    position: number;
+    title: string;
+    description?: string;
+    isMonetary: boolean;
+    isActive: boolean;
+    amount?: number;
+    currency?: string;
+  };
+}
 import { Award, DollarSign, Gift, TrendingUp } from 'lucide-react';
 
 interface AwardSummaryProps {
@@ -13,8 +24,8 @@ interface AwardSummaryProps {
 }
 
 export default function AwardSummary({ awards, title, className = '', showDetails = true }: AwardSummaryProps) {
-    
-    
+    const { t } = useTranslation();
+
 
     const totalAwards = awards.length;
     const monetaryAwards = awards.filter(award => award.attributes.isMonetary);

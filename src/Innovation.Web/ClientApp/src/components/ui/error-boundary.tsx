@@ -28,7 +28,7 @@ export class ErrorBoundary extends Component<Props, State> {
         return { hasError: true, error };
     }
 
-    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         this.setState({
             error,
             errorInfo,
@@ -64,7 +64,7 @@ export class ErrorBoundary extends Component<Props, State> {
         window.history.back();
     };
 
-    render() {
+    override render() {
         if (this.state.hasError) {
             // Custom fallback UI
             if (this.props.fallback) {
