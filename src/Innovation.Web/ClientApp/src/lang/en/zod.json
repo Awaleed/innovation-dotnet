@@ -1,89 +1,89 @@
 {
-    "errors": {
-        "invalid_type": "Expected {{expected}}, received {{received}}",
-        "invalid_type_received_undefined": "Required",
-        "invalid_type_received_null": "Required",
-        "invalid_literal": "Invalid literal value, expected {{expected}}",
-        "custom": "Invalid value",
-        "invalid_union": "Invalid input",
-        "invalid_union_discriminator": "Invalid discriminator value",
-        "invalid_enum_value": "Invalid enum value. Expected {{expected}}",
-        "unrecognized_keys": "Unrecognized key(s) in object: {{keys}}",
-        "invalid_arguments": "Invalid function arguments",
-        "invalid_return_type": "Invalid function return type",
-        "invalid_date": "Invalid date",
-        "invalid_string": {
-            "email": "Invalid email",
-            "url": "Invalid url",
-            "emoji": "Invalid emoji",
-            "uuid": "Invalid uuid",
-            "nanoid": "Invalid nanoid",
-            "cuid": "Invalid cuid",
-            "cuid2": "Invalid cuid2",
-            "ulid": "Invalid ulid",
-            "regex": "Invalid",
-            "includes": "Must include \"{{includes}}\"",
-            "startsWith": "Must start with \"{{startsWith}}\"",
-            "endsWith": "Must end with \"{{endsWith}}\"",
-            "datetime": "Invalid datetime",
-            "ip": "Invalid ip"
-        },
-        "too_small": {
-            "array": {
-                "exact": "Must contain exactly {{minimum}} item(s)",
-                "inclusive": "Must contain at least {{minimum}} item(s)",
-                "not_inclusive": "Must contain more than {{minimum}} item(s)"
-            },
-            "string": {
-                "exact": "Must contain exactly {{minimum}} character(s)",
-                "inclusive": "Must contain at least {{minimum}} character(s)",
-                "not_inclusive": "Must contain more than {{minimum}} character(s)"
-            },
-            "number": {
-                "exact": "Must be {{minimum}}",
-                "inclusive": "Must be at least {{minimum}}",
-                "not_inclusive": "Must be greater than {{minimum}}"
-            },
-            "date": {
-                "exact": "Must be {{minimum}}",
-                "inclusive": "Must be at least {{minimum}}",
-                "not_inclusive": "Must be greater than {{minimum}}"
-            },
-            "bigint": {
-                "exact": "Must be {{minimum}}",
-                "inclusive": "Must be at least {{minimum}}",
-                "not_inclusive": "Must be greater than {{minimum}}"
-            }
-        },
-        "too_big": {
-            "array": {
-                "exact": "Must contain exactly {{maximum}} item(s)",
-                "inclusive": "Must contain at most {{maximum}} item(s)",
-                "not_inclusive": "Must contain fewer than {{maximum}} item(s)"
-            },
-            "string": {
-                "exact": "Must contain exactly {{maximum}} character(s)",
-                "inclusive": "Must contain at most {{maximum}} character(s)",
-                "not_inclusive": "Must contain fewer than {{maximum}} character(s)"
-            },
-            "number": {
-                "exact": "Must be {{maximum}}",
-                "inclusive": "Must be at most {{maximum}}",
-                "not_inclusive": "Must be less than {{maximum}}"
-            },
-            "date": {
-                "exact": "Must be {{maximum}}",
-                "inclusive": "Must be at most {{maximum}}",
-                "not_inclusive": "Must be less than {{maximum}}"
-            },
-            "bigint": {
-                "exact": "Must be {{maximum}}",
-                "inclusive": "Must be at most {{maximum}}",
-                "not_inclusive": "Must be less than {{maximum}}"
-            }
-        },
-        "invalid_intersection_types": "Intersection results could not be merged",
-        "not_multiple_of": "Must be a multiple of {{multipleOf}}",
-        "not_finite": "Must be finite"
-    }
+  "errors": {
+    "invalid_type": "Expected {{expected}}, received {{received}}",
+    "invalid_type_received_undefined": "Required",
+    "invalid_type_received_null": "Required",
+    "invalid_literal": "Invalid literal value, expected {{expected}}",
+    "custom": "Invalid value",
+    "invalid_union": "Invalid input",
+    "invalid_union_discriminator": "Invalid discriminator value",
+    "invalid_enum_value": "Invalid enum value. Expected {{expected}}",
+    "unrecognized_keys": "Unrecognized key(s) in object: {{keys}}",
+    "invalid_arguments": "Invalid function arguments",
+    "invalid_return_type": "Invalid function return type",
+    "invalid_date": "Invalid date",
+    "invalid_string": {
+      "email": "Invalid email",
+      "url": "Invalid url",
+      "emoji": "Invalid emoji",
+      "uuid": "Invalid uuid",
+      "nanoid": "Invalid nanoid",
+      "cuid": "Invalid cuid",
+      "cuid2": "Invalid cuid2",
+      "ulid": "Invalid ulid",
+      "regex": "Invalid",
+      "includes": "Must include \"{{includes}}\"",
+      "startsWith": "Must start with \"{{startsWith}}\"",
+      "endsWith": "Must end with \"{{endsWith}}\"",
+      "datetime": "Invalid datetime",
+      "ip": "Invalid ip"
+    },
+    "too_small": {
+      "array": {
+        "exact": "Must contain exactly {{minimum}} item(s)",
+        "inclusive": "Must contain at least {{minimum}} item(s)",
+        "not_inclusive": "Must contain more than {{minimum}} item(s)"
+      },
+      "string": {
+        "exact": "Must contain exactly {{minimum}} character(s)",
+        "inclusive": "Must contain at least {{minimum}} character(s)",
+        "not_inclusive": "Must contain more than {{minimum}} character(s)"
+      },
+      "number": {
+        "exact": "Must be {{minimum}}",
+        "inclusive": "Must be at least {{minimum}}",
+        "not_inclusive": "Must be greater than {{minimum}}"
+      },
+      "date": {
+        "exact": "Must be {{minimum}}",
+        "inclusive": "Must be at least {{minimum}}",
+        "not_inclusive": "Must be greater than {{minimum}}"
+      },
+      "bigint": {
+        "exact": "Must be {{minimum}}",
+        "inclusive": "Must be at least {{minimum}}",
+        "not_inclusive": "Must be greater than {{minimum}}"
+      }
+    },
+    "too_big": {
+      "array": {
+        "exact": "Must contain exactly {{maximum}} item(s)",
+        "inclusive": "Must contain at most {{maximum}} item(s)",
+        "not_inclusive": "Must contain fewer than {{maximum}} item(s)"
+      },
+      "string": {
+        "exact": "Must contain exactly {{maximum}} character(s)",
+        "inclusive": "Must contain at most {{maximum}} character(s)",
+        "not_inclusive": "Must contain fewer than {{maximum}} character(s)"
+      },
+      "number": {
+        "exact": "Must be {{maximum}}",
+        "inclusive": "Must be at most {{maximum}}",
+        "not_inclusive": "Must be less than {{maximum}}"
+      },
+      "date": {
+        "exact": "Must be {{maximum}}",
+        "inclusive": "Must be at most {{maximum}}",
+        "not_inclusive": "Must be less than {{maximum}}"
+      },
+      "bigint": {
+        "exact": "Must be {{maximum}}",
+        "inclusive": "Must be at most {{maximum}}",
+        "not_inclusive": "Must be less than {{maximum}}"
+      }
+    },
+    "invalid_intersection_types": "Intersection results could not be merged",
+    "not_multiple_of": "Must be a multiple of {{multipleOf}}",
+    "not_finite": "Must be finite"
+  }
 }

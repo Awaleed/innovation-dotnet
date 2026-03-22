@@ -1,82 +1,82 @@
 {
-    "lookupModelType": {
-        "userRoleLevel": {
-            "label": "User Role Level",
-            "description": "Different levels of user roles in the system"
-        },
-        "userSpecialtyLevel": {
-            "label": "User Specialty Level",
-            "description": "Different levels of user specialties in the system"
-        },
-        "userProfileDepartment": {
-            "label": "User Profile Department",
-            "description": "Organizational departments"
-        },
-        "userProfilePosition": {
-            "label": "User Profile Position",
-            "description": "Job positions and titles"
-        },
-        "ideaStage": {
-            "label": "Idea Stage",
-            "description": "Stages in the idea development lifecycle"
-        },
-        "ideaCategory": {
-            "label": "Idea Category",
-            "description": "Different categories for ideas in the system"
-        },
-        "challengeCategory": {
-            "label": "Challenge Category",
-            "description": "Different categories for challenges in the system"
-        },
-        "challengeRiskCategory": {
-            "label": "Challenge Risk Category",
-            "description": "Risk categories associated with challenges"
-        }
+  "lookupModelType": {
+    "userRoleLevel": {
+      "label": "User Role Level",
+      "description": "Different levels of user roles in the system"
     },
-    "ideaStatus": {
-        "label": "Idea Status",
-        "description": "Different statuses for ideas in the evaluation process",
-        "values": {
-            "draft": "Draft",
-            "submitted": "Submitted",
-            "pending_review": "Pending Review",
-            "approved": "Approved",
-            "in_evaluation": "In Evaluation",
-            "shortlisted": "Shortlisted",
-            "open_for_voting": "Open for Voting",
-            "winner": "Winner",
-            "finalist": "Finalist",
-            "rejected": "Rejected",
-            "ai_rejected": "AI Rejected",
-            "withdrawn": "Withdrawn",
-            "cancelled": "Cancelled",
-            "evaluation_failed": "Evaluation Failed"
-        }
+    "userSpecialtyLevel": {
+      "label": "User Specialty Level",
+      "description": "Different levels of user specialties in the system"
     },
-    "aiVerdict": {
-        "label": "AI Verdict",
-        "description": "AI evaluation verdict for ideas",
-        "values": {
-            "accept": "Accepted",
-            "reject": "Rejected",
-            "review": "Needs Review"
-        }
+    "userProfileDepartment": {
+      "label": "User Profile Department",
+      "description": "Organizational departments"
     },
-    "innovation_complexity": {
-        "low": "Low",
-        "medium": "Medium",
-        "high": "High",
-        "very_high": "Very High"
+    "userProfilePosition": {
+      "label": "User Profile Position",
+      "description": "Job positions and titles"
     },
-    "innovation_timeframe": {
-        "short_term": "Short Term",
-        "medium_term": "Medium Term",
-        "long_term": "Long Term"
+    "ideaStage": {
+      "label": "Idea Stage",
+      "description": "Stages in the idea development lifecycle"
     },
-    "innovation_risk_level": {
-        "low": "Low",
-        "medium": "Medium",
-        "high": "High",
-        "very_high": "Very High"
+    "ideaCategory": {
+      "label": "Idea Category",
+      "description": "Different categories for ideas in the system"
+    },
+    "challengeCategory": {
+      "label": "Challenge Category",
+      "description": "Different categories for challenges in the system"
+    },
+    "challengeRiskCategory": {
+      "label": "Challenge Risk Category",
+      "description": "Risk categories associated with challenges"
     }
+  },
+  "ideaStatus": {
+    "label": "Idea Status",
+    "description": "Different statuses for ideas in the evaluation process",
+    "values": {
+      "draft": "Draft",
+      "submitted": "Submitted",
+      "pending_review": "Pending Review",
+      "approved": "Approved",
+      "in_evaluation": "In Evaluation",
+      "shortlisted": "Shortlisted",
+      "open_for_voting": "Open for Voting",
+      "winner": "Winner",
+      "finalist": "Finalist",
+      "rejected": "Rejected",
+      "ai_rejected": "AI Rejected",
+      "withdrawn": "Withdrawn",
+      "cancelled": "Cancelled",
+      "evaluation_failed": "Evaluation Failed"
+    }
+  },
+  "aiVerdict": {
+    "label": "AI Verdict",
+    "description": "AI evaluation verdict for ideas",
+    "values": {
+      "accept": "Accepted",
+      "reject": "Rejected",
+      "review": "Needs Review"
+    }
+  },
+  "innovation_complexity": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "very_high": "Very High"
+  },
+  "innovation_timeframe": {
+    "short_term": "Short Term",
+    "medium_term": "Medium Term",
+    "long_term": "Long Term"
+  },
+  "innovation_risk_level": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "very_high": "Very High"
+  }
 }

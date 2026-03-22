@@ -21,9 +21,11 @@ interface AwardBadgeProps {
   className?: string;
 }
 
-export default function AwardBadge({ award, variant = 'default', className = '' }: AwardBadgeProps) {
-
-
+export default function AwardBadge({
+  award,
+  variant = 'default',
+  className = '',
+}: AwardBadgeProps) {
   const getPositionColor = (position: number) => {
     switch (position) {
       case 1:
@@ -43,12 +45,9 @@ export default function AwardBadge({ award, variant = 'default', className = '' 
         variant="outline"
         className={cn('gap-1', getPositionColor(award.attributes.position), className)}
       >
-        <Award className="h-3 w-3" />
-        #{award.attributes.position}
+        <Award className="h-3 w-3" />#{award.attributes.position}
         {award.attributes.isMonetary && award.attributes.amount && (
-          <>
-            • {formatCurrency(award.attributes.amount, award.attributes.currency)}
-          </>
+          <>• {formatCurrency(award.attributes.amount, award.attributes.currency)}</>
         )}
       </Badge>
     );
@@ -73,8 +72,7 @@ export default function AwardBadge({ award, variant = 'default', className = '' 
               <DollarSign className="h-3 w-3" />
               {award.attributes.amount
                 ? formatCurrency(award.attributes.amount, award.attributes.currency)
-                : 'Monetary award'
-              }
+                : 'Monetary award'}
             </div>
           ) : (
             <div className="flex items-center gap-1">
@@ -94,7 +92,7 @@ export default function AwardBadge({ award, variant = 'default', className = '' 
       className={cn(
         'flex items-center gap-2 text-sm px-3 py-1',
         getPositionColor(award.attributes.position),
-        className
+        className,
       )}
     >
       <Award className="h-4 w-4" />

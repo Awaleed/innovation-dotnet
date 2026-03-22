@@ -1,7 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   ChevronDown,
   ChevronUp,
@@ -67,14 +73,17 @@ export function SearchAndFilter({
   viewMode,
   onViewModeChange,
   onResetFilters,
-  searchPlaceholder = "البحث في التحديات، المنظمات، الكلمات المفتاحية...",
+  searchPlaceholder = 'البحث في التحديات، المنظمات، الكلمات المفتاحية...',
   className,
   advancedFilters,
   children,
   filterOptions,
 }: SearchAndFilterProps) {
   const { t } = useTranslation('ui/search-and-filter');
-  const [showFilters, setShowFilters] = useQueryState('showAdvancedFilters', parseAsBoolean.withDefault(false));
+  const [showFilters, setShowFilters] = useQueryState(
+    'showAdvancedFilters',
+    parseAsBoolean.withDefault(false),
+  );
   const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm || '');
 
   // Update local search term when prop changes
@@ -93,7 +102,6 @@ export function SearchAndFilter({
     setLocalSearchTerm('');
     onSearchChange('');
   };
-
 
   return (
     <Card className={className}>
@@ -124,20 +132,21 @@ export function SearchAndFilter({
               />
             </div>
 
-            {filterOptions && filterOptions.map(filter => (
-              <Select key={filter.key} value={filter.value} onValueChange={filter.onChange}>
-                <SelectTrigger className="w-48">
-                  <SelectValue placeholder={filter.label} />
-                </SelectTrigger>
-                <SelectContent>
-                  {filter.options.map((option) => (
-                    <SelectItem key={option.value} value={option.value!}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            ))}
+            {filterOptions &&
+              filterOptions.map((filter) => (
+                <Select key={filter.key} value={filter.value} onValueChange={filter.onChange}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder={filter.label} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {filter.options.map((option) => (
+                      <SelectItem key={option.value} value={option.value!}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ))}
 
             {advancedFilters && (
               <Button
@@ -187,16 +196,16 @@ export function SearchAndFilter({
 
             <div className="flex gap-1">
               <Button
-                variant={viewMode === "grid" ? "default" : "outline"}
+                variant={viewMode === 'grid' ? 'default' : 'outline'}
                 size="sm"
-                onClick={() => onViewModeChange?.("grid")}
+                onClick={() => onViewModeChange?.('grid')}
               >
                 <Grid className="w-4 h-4" />
               </Button>
               <Button
-                variant={viewMode === "list" ? "default" : "outline"}
+                variant={viewMode === 'list' ? 'default' : 'outline'}
                 size="sm"
-                onClick={() => onViewModeChange?.("list")}
+                onClick={() => onViewModeChange?.('list')}
               >
                 <List className="w-4 h-4" />
               </Button>
@@ -207,28 +216,19 @@ export function SearchAndFilter({
           {advancedFilters && showFilters && (
             <div className="border-t pt-4 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-         {advancedFilters}
-
+                {advancedFilters}
               </div>
 
-                {onResetFilters && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={onResetFilters}
-                  >
-                    <RefreshCw className="w-4 h-4 ml-2" />
-                    {t('reset_filters')}
-                  </Button>
-                )}
+              {onResetFilters && (
+                <Button variant="outline" size="sm" onClick={onResetFilters}>
+                  <RefreshCw className="w-4 h-4 ml-2" />
+                  {t('reset_filters')}
+                </Button>
+              )}
             </div>
           )}
 
-          {children && (
-            <div className="pt-4 border-t">
-              {children}
-            </div>
-          )}
+          {children && <div className="pt-4 border-t">{children}</div>}
         </div>
       </CardContent>
     </Card>

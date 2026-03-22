@@ -1,82 +1,82 @@
 {
-    "lookupModelType": {
-        "userRoleLevel": {
-            "label": "مستوى دور المستخدم",
-            "description": "مستويات مختلفة من أدوار المستخدمين في النظام"
-        },
-        "userSpecialtyLevel": {
-            "label": "مستوى تخصص المستخدم",
-            "description": "مستويات مختلفة من تخصصات المستخدمين في النظام"
-        },
-        "userProfileDepartment": {
-            "label": "قسم الملف الشخصي للمستخدم",
-            "description": "الأقسام التنظيمية"
-        },
-        "userProfilePosition": {
-            "label": "منصب الملف الشخصي للمستخدم",
-            "description": "المناصب والألقاب الوظيفية"
-        },
-        "ideaStage": {
-            "label": "مرحلة الفكرة",
-            "description": "مراحل دورة تطوير الفكرة"
-        },
-        "ideaCategory": {
-            "label": "فئة الفكرة",
-            "description": "التصنيفات المختلفة للأفكار في النظام"
-        },
-        "challengeCategory": {
-            "label": "فئة التحدي",
-            "description": "التصنيفات المختلفة للتحديات في النظام"
-        },
-        "challengeRiskCategory": {
-            "label": "فئة مخاطر التحدي",
-            "description": "تصنيفات المخاطر المرتبطة بالتحديات"
-        }
+  "lookupModelType": {
+    "userRoleLevel": {
+      "label": "مستوى دور المستخدم",
+      "description": "مستويات مختلفة من أدوار المستخدمين في النظام"
     },
-    "ideaStatus": {
-        "label": "حالة الفكرة",
-        "description": "الحالات المختلفة التي تمر بها الفكرة في مسار التقييم والاختيار",
-        "values": {
-            "draft": "مسودة",
-            "submitted": "تم الإرسال",
-            "pending_review": "بانتظار المراجعة",
-            "approved": "تمت الموافقة الأولية",
-            "in_evaluation": "قيد التقييم",
-            "shortlisted": "تم ترشيحها",
-            "open_for_voting": "مفتوحة للتصويت",
-            "winner": "فكرة فائزة",
-            "finalist": "بلغت النهائيات",
-            "rejected": "مرفوضة نهائيًا",
-            "ai_rejected": "مرفوضة آليًا (قابلة للمراجعة)",
-            "withdrawn": "تم سحبها من المشارك",
-            "cancelled": "ملغاة إداريًا",
-            "evaluation_failed": "لم تجتز التقييم"
-        }
+    "userSpecialtyLevel": {
+      "label": "مستوى تخصص المستخدم",
+      "description": "مستويات مختلفة من تخصصات المستخدمين في النظام"
     },
-    "aiVerdict": {
-        "label": "حكم التقييم الذكي",
-        "description": "قرار التقييم الذكي للأفكار",
-        "values": {
-            "accept": "مقبولة",
-            "reject": "مرفوضة",
-            "review": "تحتاج مراجعة"
-        }
+    "userProfileDepartment": {
+      "label": "قسم الملف الشخصي للمستخدم",
+      "description": "الأقسام التنظيمية"
     },
-    "innovation_complexity": {
-        "low": "منخفض",
-        "medium": "متوسط",
-        "high": "عالي",
-        "very_high": "عالي جداً"
+    "userProfilePosition": {
+      "label": "منصب الملف الشخصي للمستخدم",
+      "description": "المناصب والألقاب الوظيفية"
     },
-    "innovation_timeframe": {
-        "short_term": "قصير المدى",
-        "medium_term": "متوسط المدى",
-        "long_term": "طويل المدى"
+    "ideaStage": {
+      "label": "مرحلة الفكرة",
+      "description": "مراحل دورة تطوير الفكرة"
     },
-    "innovation_risk_level": {
-        "low": "منخفض",
-        "medium": "متوسط",
-        "high": "عالي",
-        "very_high": "عالي جداً"
+    "ideaCategory": {
+      "label": "فئة الفكرة",
+      "description": "التصنيفات المختلفة للأفكار في النظام"
+    },
+    "challengeCategory": {
+      "label": "فئة التحدي",
+      "description": "التصنيفات المختلفة للتحديات في النظام"
+    },
+    "challengeRiskCategory": {
+      "label": "فئة مخاطر التحدي",
+      "description": "تصنيفات المخاطر المرتبطة بالتحديات"
     }
+  },
+  "ideaStatus": {
+    "label": "حالة الفكرة",
+    "description": "الحالات المختلفة التي تمر بها الفكرة في مسار التقييم والاختيار",
+    "values": {
+      "draft": "مسودة",
+      "submitted": "تم الإرسال",
+      "pending_review": "بانتظار المراجعة",
+      "approved": "تمت الموافقة الأولية",
+      "in_evaluation": "قيد التقييم",
+      "shortlisted": "تم ترشيحها",
+      "open_for_voting": "مفتوحة للتصويت",
+      "winner": "فكرة فائزة",
+      "finalist": "بلغت النهائيات",
+      "rejected": "مرفوضة نهائيًا",
+      "ai_rejected": "مرفوضة آليًا (قابلة للمراجعة)",
+      "withdrawn": "تم سحبها من المشارك",
+      "cancelled": "ملغاة إداريًا",
+      "evaluation_failed": "لم تجتز التقييم"
+    }
+  },
+  "aiVerdict": {
+    "label": "حكم التقييم الذكي",
+    "description": "قرار التقييم الذكي للأفكار",
+    "values": {
+      "accept": "مقبولة",
+      "reject": "مرفوضة",
+      "review": "تحتاج مراجعة"
+    }
+  },
+  "innovation_complexity": {
+    "low": "منخفض",
+    "medium": "متوسط",
+    "high": "عالي",
+    "very_high": "عالي جداً"
+  },
+  "innovation_timeframe": {
+    "short_term": "قصير المدى",
+    "medium_term": "متوسط المدى",
+    "long_term": "طويل المدى"
+  },
+  "innovation_risk_level": {
+    "low": "منخفض",
+    "medium": "متوسط",
+    "high": "عالي",
+    "very_high": "عالي جداً"
+  }
 }

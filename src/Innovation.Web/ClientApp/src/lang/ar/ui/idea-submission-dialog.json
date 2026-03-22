@@ -1,40 +1,40 @@
 {
-    "title": "تقديم فكرة جديدة",
-    "description": "شارك فكرتك المبتكرة مع المجتمع",
-    "form": {
-        "idea_title": "عنوان الفكرة *",
-        "idea_title_placeholder": "أدخل عنواناً جذاباً لفكرتك",
-        "idea_description": "وصف الفكرة *",
-        "idea_description_placeholder": "اوصف فكرتك بالتفصيل...",
-        "expected_impact": "التأثير المتوقع",
-        "expected_impact_placeholder": "اوصف التأثير المتوقع لفكرتك",
-        "methodology": "المنهجية",
-        "methodology_placeholder": "اختر المنهجية",
-        "tags": "الوسوم",
-        "add_tag_placeholder": "أضف وسم",
-        "attachments": "المرفقات",
-        "drag_drop_files": "اسحب وأفلت الملفات هنا، أو انقر للاختيار",
-        "supported_formats": "الصيغ المدعومة: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPG, PNG, GIF (حد أقصى 10 ميجابايت لكل ملف)"
-    },
-    "buttons": {
-        "submit_idea": "تقديم الفكرة",
-        "cancel": "إلغاء",
-        "add_tag": "إضافة",
-        "remove": "إزالة"
-    },
-    "methodologies": {
-        "design_thinking": "التفكير التصميمي",
-        "lean_startup": "الشركة الناشئة الرشيقة",
-        "agile": "المرونة",
-        "scrum": "سكروم",
-        "kanban": "كانبان",
-        "six_sigma": "ستة سيجما",
-        "triz": "تريز",
-        "blue_ocean": "استراتيجية المحيط الأزرق"
-    },
-    "validation": {
-        "title_required": "العنوان مطلوب",
-        "description_required": "الوصف مطلوب",
-        "min_length": "يجب أن يكون 10 أحرف على الأقل"
-    }
+  "title": "تقديم فكرة جديدة",
+  "description": "شارك فكرتك المبتكرة مع المجتمع",
+  "form": {
+    "idea_title": "عنوان الفكرة *",
+    "idea_title_placeholder": "أدخل عنواناً جذاباً لفكرتك",
+    "idea_description": "وصف الفكرة *",
+    "idea_description_placeholder": "اوصف فكرتك بالتفصيل...",
+    "expected_impact": "التأثير المتوقع",
+    "expected_impact_placeholder": "اوصف التأثير المتوقع لفكرتك",
+    "methodology": "المنهجية",
+    "methodology_placeholder": "اختر المنهجية",
+    "tags": "الوسوم",
+    "add_tag_placeholder": "أضف وسم",
+    "attachments": "المرفقات",
+    "drag_drop_files": "اسحب وأفلت الملفات هنا، أو انقر للاختيار",
+    "supported_formats": "الصيغ المدعومة: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPG, PNG, GIF (حد أقصى 10 ميجابايت لكل ملف)"
+  },
+  "buttons": {
+    "submit_idea": "تقديم الفكرة",
+    "cancel": "إلغاء",
+    "add_tag": "إضافة",
+    "remove": "إزالة"
+  },
+  "methodologies": {
+    "design_thinking": "التفكير التصميمي",
+    "lean_startup": "الشركة الناشئة الرشيقة",
+    "agile": "المرونة",
+    "scrum": "سكروم",
+    "kanban": "كانبان",
+    "six_sigma": "ستة سيجما",
+    "triz": "تريز",
+    "blue_ocean": "استراتيجية المحيط الأزرق"
+  },
+  "validation": {
+    "title_required": "العنوان مطلوب",
+    "description_required": "الوصف مطلوب",
+    "min_length": "يجب أن يكون 10 أحرف على الأقل"
+  }
 }

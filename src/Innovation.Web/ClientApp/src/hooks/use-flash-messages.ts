@@ -14,14 +14,14 @@ import { toast } from 'sonner';
  * In .NET: Inertia.Share("flash", new { success = "...", error = "..." })
  */
 export function useFlashMessages() {
-    const { flash } = usePage<SharedData>().props;
+  const { flash } = usePage<SharedData>().props;
 
-    useEffect(() => {
-        if (flash?.success) {
-            toast.success(flash.success);
-        }
-        if (flash?.error) {
-            toast.error(flash.error);
-        }
-    }, [flash?.success, flash?.error]);
+  useEffect(() => {
+    if (flash?.success) {
+      toast.success(flash.success);
+    }
+    if (flash?.error) {
+      toast.error(flash.error);
+    }
+  }, [flash?.success, flash?.error]);
 }

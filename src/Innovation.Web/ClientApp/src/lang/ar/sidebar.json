@@ -1,25 +1,25 @@
 {
-    "main_navigation": "التنقل الرئيسي",
-    "projects": "المشاريع",
-    "help": "المساعدة",
-    "toggle_sidebar": "إخفاء/إظهار الشريط الجانبي",
-    "ui_sidebar": {
-        "overview": "نظرة عامة",
-        "challenges": "التحديات",
-        "ideas": "الأفكار",
-        "connector": "ربط التحديات والأفكار",
-        "evaluation": "تقييم الأفكار",
-        "evaluation_settings": "إعدادات التقييم",
-        "evaluation_criteria": "معايير التقييم",
-        "evaluation_phases": "مراحل التقييم",
-        "methodologies": "المنهجيات",
-        "member_settings": "إعداد الأعضاء",
-        "awards": "الجوائز والتقدير",
-        "analytics": "التحليلات",
-        "system_title": "نظام إدارة الابتكار",
-        "system_subtitle": "رحلة الابتكار الشاملة",
-        "version": "الإصدار 2.1.0",
-        "expand_sidebar": "فتح الشريط الجانبي",
-        "collapse_sidebar": "طي الشريط الجانبي"
-    }
+  "main_navigation": "التنقل الرئيسي",
+  "projects": "المشاريع",
+  "help": "المساعدة",
+  "toggle_sidebar": "إخفاء/إظهار الشريط الجانبي",
+  "ui_sidebar": {
+    "overview": "نظرة عامة",
+    "challenges": "التحديات",
+    "ideas": "الأفكار",
+    "connector": "ربط التحديات والأفكار",
+    "evaluation": "تقييم الأفكار",
+    "evaluation_settings": "إعدادات التقييم",
+    "evaluation_criteria": "معايير التقييم",
+    "evaluation_phases": "مراحل التقييم",
+    "methodologies": "المنهجيات",
+    "member_settings": "إعداد الأعضاء",
+    "awards": "الجوائز والتقدير",
+    "analytics": "التحليلات",
+    "system_title": "نظام إدارة الابتكار",
+    "system_subtitle": "رحلة الابتكار الشاملة",
+    "version": "الإصدار 2.1.0",
+    "expand_sidebar": "فتح الشريط الجانبي",
+    "collapse_sidebar": "طي الشريط الجانبي"
+  }
 }

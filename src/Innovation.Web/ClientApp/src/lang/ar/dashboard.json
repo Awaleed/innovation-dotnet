@@ -1,117 +1,117 @@
 {
-    "ideas_distribution_by_category": "توزيع الأفكار حسب الفئة",
-    "monthly_innovation_activity": "نشاط الابتكار الشهري",
-    "latest_activity": "النشاط الأخير",
-    "upcoming_deadlines": "المواعيد النهائية القادمة",
-    "quick_actions": "إجراءات سريعة",
-    "share_your_idea": "شارك فكرتك",
-    "join_challenges": "انضم للتحديات",
-    "total_ideas": "إجمالي الأفكار",
-    "active_challenges": "التحديات النشطة",
-    "active_participants": "المشاركون النشطون",
-    "implemented_ideas": "الأفكار المنفذة",
-    "new_idea": "فكرة جديدة",
-    "join_challenge": "انضم لتحدي",
-    "invite_members": "دعوة أعضاء",
-    "view_awards": "عرض الجوائز",
-    "submit_innovative_ideas": "قدم أفكارك المبتكرة واحصل على التقييم",
-    "start_now": "ابدأ الآن",
-    "participate_challenges": "شارك في التحديات واربح جوائز قيمة",
-    "explore": "استكشف",
-    "from_last_month": "من الشهر الماضي",
-    "new_challenges": "تحديات جديدة",
-    "weekly_growth": "نمو أسبوعي",
-    "this_month": "هذا الشهر",
-    "ideas": "الأفكار",
-    "challenges": "التحديات",
-    "implementations": "التنفيذ",
-    "by": "بواسطة",
-    "ends_on": "ينتهي في:",
-    "participants": "مشارك",
-    "months": {
-        "january": "يناير",
-        "february": "فبراير",
-        "march": "مارس",
-        "april": "أبريل",
-        "may": "مايو",
-        "june": "يونيو"
+  "ideas_distribution_by_category": "توزيع الأفكار حسب الفئة",
+  "monthly_innovation_activity": "نشاط الابتكار الشهري",
+  "latest_activity": "النشاط الأخير",
+  "upcoming_deadlines": "المواعيد النهائية القادمة",
+  "quick_actions": "إجراءات سريعة",
+  "share_your_idea": "شارك فكرتك",
+  "join_challenges": "انضم للتحديات",
+  "total_ideas": "إجمالي الأفكار",
+  "active_challenges": "التحديات النشطة",
+  "active_participants": "المشاركون النشطون",
+  "implemented_ideas": "الأفكار المنفذة",
+  "new_idea": "فكرة جديدة",
+  "join_challenge": "انضم لتحدي",
+  "invite_members": "دعوة أعضاء",
+  "view_awards": "عرض الجوائز",
+  "submit_innovative_ideas": "قدم أفكارك المبتكرة واحصل على التقييم",
+  "start_now": "ابدأ الآن",
+  "participate_challenges": "شارك في التحديات واربح جوائز قيمة",
+  "explore": "استكشف",
+  "from_last_month": "من الشهر الماضي",
+  "new_challenges": "تحديات جديدة",
+  "weekly_growth": "نمو أسبوعي",
+  "this_month": "هذا الشهر",
+  "ideas": "الأفكار",
+  "challenges": "التحديات",
+  "implementations": "التنفيذ",
+  "by": "بواسطة",
+  "ends_on": "ينتهي في:",
+  "participants": "مشارك",
+  "months": {
+    "january": "يناير",
+    "february": "فبراير",
+    "march": "مارس",
+    "april": "أبريل",
+    "may": "مايو",
+    "june": "يونيو"
+  },
+  "categories": {
+    "technology": "التقنية",
+    "sustainability": "الاستدامة",
+    "education": "التعليم",
+    "health": "الصحة",
+    "other": "أخرى"
+  },
+  "activities": {
+    "new_idea_smart_energy": "فكرة جديدة: تطبيق ذكي لإدارة الطاقة",
+    "new_joiner_ai_challenge": "انضمام جديد لتحدي الذكاء الاصطناعي",
+    "interactive_learning_implemented": "تم تنفيذ فكرة منصة التعلم التفاعلي"
+  },
+  "users": {
+    "ahmed_mohamed": "أحمد محمد",
+    "fatima_ali": "فاطمة علي",
+    "mohamed_salem": "محمد سالم"
+  },
+  "time_ago": {
+    "5_minutes": "منذ 5 دقائق",
+    "15_minutes": "منذ 15 دقيقة",
+    "1_hour": "منذ ساعة"
+  },
+  "challenge_titles": {
+    "environmental_sustainability": "تحدي الاستدامة البيئية",
+    "fintech": "تحدي التقنيات المالية"
+  },
+  "currency": "ريال",
+  "activity_description": "نشط",
+  "category_description": "نشط",
+  "no_recent_activities": "لا توجد أنشطة حديثة",
+  "no_upcoming_deadlines": "لا توجد مواعيد نهائية قادمة",
+  "innovation_journey": "رحلة الابتكار",
+  "innovation_journey_description": "متابعة شاملة لدورة حياة الابتكار عبر المراحل السبع من الاحتضان إلى الاستدامة",
+  "innovation_stages_map": "خريطة رحلة الابتكار - المراحل السبع",
+  "innovation_stages_map_description": "انقر على أي مرحلة لفتح الصفحة الكاملة والأدوات التفاعلية",
+  "notification_settings": "إعدادات الإشعارات",
+  "notification_settings_description": "إدارة إشعارات انتقال المراحل للأفكار والمشاريع",
+  "open_settings": "فتح الإعدادات",
+  "view_details": "عرض التفاصيل",
+  "projects_count": "المشاريع",
+  "status_label": "الحالة",
+  "stages": {
+    "discovery": {
+      "title": "الاكتشاف / تحديد الفرص",
+      "description": "تحديد الفرص والمشكلات من خلال بحث السوق وتحليل التوجهات",
+      "status": "مكتمل"
     },
-    "categories": {
-        "technology": "التقنية",
-        "sustainability": "الاستدامة",
-        "education": "التعليم",
-        "health": "الصحة",
-        "other": "أخرى"
+    "ideation": {
+      "title": "توليد الأفكار",
+      "description": "جلسات عصف ذهني وعمل عبر شراكة لتوليد أفكار مبتكرة",
+      "status": "قيد التنفيذ"
     },
-    "activities": {
-        "new_idea_smart_energy": "فكرة جديدة: تطبيق ذكي لإدارة الطاقة",
-        "new_joiner_ai_challenge": "انضمام جديد لتحدي الذكاء الاصطناعي",
-        "interactive_learning_implemented": "تم تنفيذ فكرة منصة التعلم التفاعلي"
+    "incubation": {
+      "title": "احتضان الفكرة",
+      "description": "نقع وتطوير الأفكار من خلال النماذج الأولية المتخصصة للجنة",
+      "status": "قيد التنفيذ"
     },
-    "users": {
-        "ahmed_mohamed": "أحمد محمد",
-        "fatima_ali": "فاطمة علي",
-        "mohamed_salem": "محمد سالم"
+    "development": {
+      "title": "تطوير المفهوم",
+      "description": "تصميم نموذج الحل برعاية لجنيي الفنية بالدقة والمصداقية",
+      "status": "قيد التنفيذ"
     },
-    "time_ago": {
-        "5_minutes": "منذ 5 دقائق",
-        "15_minutes": "منذ 15 دقيقة",
-        "1_hour": "منذ ساعة"
+    "testing": {
+      "title": "التحقق والاختبار",
+      "description": "اختبار النماذج الأولية بجمع آراء المستخدمين",
+      "status": "قيد التنفيذ"
     },
-    "challenge_titles": {
-        "environmental_sustainability": "تحدي الاستدامة البيئية",
-        "fintech": "تحدي التقنيات المالية"
+    "launch": {
+      "title": "التنفيذ / الإطلاق",
+      "description": "إطلاق إلى السوق مع التسويق وإطراء التحسين",
+      "status": "بدء التنفيذ"
     },
-    "currency": "ريال",
-    "activity_description": "نشط",
-    "category_description": "نشط",
-    "no_recent_activities": "لا توجد أنشطة حديثة",
-    "no_upcoming_deadlines": "لا توجد مواعيد نهائية قادمة",
-    "innovation_journey": "رحلة الابتكار",
-    "innovation_journey_description": "متابعة شاملة لدورة حياة الابتكار عبر المراحل السبع من الاحتضان إلى الاستدامة",
-    "innovation_stages_map": "خريطة رحلة الابتكار - المراحل السبع",
-    "innovation_stages_map_description": "انقر على أي مرحلة لفتح الصفحة الكاملة والأدوات التفاعلية",
-    "notification_settings": "إعدادات الإشعارات",
-    "notification_settings_description": "إدارة إشعارات انتقال المراحل للأفكار والمشاريع",
-    "open_settings": "فتح الإعدادات",
-    "view_details": "عرض التفاصيل",
-    "projects_count": "المشاريع",
-    "status_label": "الحالة",
-    "stages": {
-        "discovery": {
-            "title": "الاكتشاف / تحديد الفرص",
-            "description": "تحديد الفرص والمشكلات من خلال بحث السوق وتحليل التوجهات",
-            "status": "مكتمل"
-        },
-        "ideation": {
-            "title": "توليد الأفكار",
-            "description": "جلسات عصف ذهني وعمل عبر شراكة لتوليد أفكار مبتكرة",
-            "status": "قيد التنفيذ"
-        },
-        "incubation": {
-            "title": "احتضان الفكرة",
-            "description": "نقع وتطوير الأفكار من خلال النماذج الأولية المتخصصة للجنة",
-            "status": "قيد التنفيذ"
-        },
-        "development": {
-            "title": "تطوير المفهوم",
-            "description": "تصميم نموذج الحل برعاية لجنيي الفنية بالدقة والمصداقية",
-            "status": "قيد التنفيذ"
-        },
-        "testing": {
-            "title": "التحقق والاختبار",
-            "description": "اختبار النماذج الأولية بجمع آراء المستخدمين",
-            "status": "قيد التنفيذ"
-        },
-        "launch": {
-            "title": "التنفيذ / الإطلاق",
-            "description": "إطلاق إلى السوق مع التسويق وإطراء التحسين",
-            "status": "بدء التنفيذ"
-        },
-        "sustainability": {
-            "title": "الترسيخ والاستدامة",
-            "description": "مراقبة الأداء والتحسين المستمر وتحليط التوسيع",
-            "status": "مرحلة مبكرة"
-        }
+    "sustainability": {
+      "title": "الترسيخ والاستدامة",
+      "description": "مراقبة الأداء والتحسين المستمر وتحليط التوسيع",
+      "status": "مرحلة مبكرة"
     }
+  }
 }

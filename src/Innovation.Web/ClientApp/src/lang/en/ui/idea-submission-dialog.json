@@ -1,40 +1,40 @@
 {
-    "title": "Submit New Idea",
-    "description": "Share your innovative idea with the community",
-    "form": {
-        "idea_title": "Idea Title *",
-        "idea_title_placeholder": "Enter a compelling title for your idea",
-        "idea_description": "Idea Description *",
-        "idea_description_placeholder": "Describe your idea in detail...",
-        "expected_impact": "Expected Impact",
-        "expected_impact_placeholder": "Describe the expected impact of your idea",
-        "methodology": "Methodology",
-        "methodology_placeholder": "Select methodology",
-        "tags": "Tags",
-        "add_tag_placeholder": "Add tag",
-        "attachments": "Attachments",
-        "drag_drop_files": "Drag and drop files here, or click to select",
-        "supported_formats": "Supported formats: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPG, PNG, GIF (Max 10MB each)"
-    },
-    "buttons": {
-        "submit_idea": "Submit Idea",
-        "cancel": "Cancel",
-        "add_tag": "Add",
-        "remove": "Remove"
-    },
-    "methodologies": {
-        "design_thinking": "Design Thinking",
-        "lean_startup": "Lean Startup",
-        "agile": "Agile",
-        "scrum": "Scrum",
-        "kanban": "Kanban",
-        "six_sigma": "Six Sigma",
-        "triz": "TRIZ",
-        "blue_ocean": "Blue Ocean Strategy"
-    },
-    "validation": {
-        "title_required": "Title is required",
-        "description_required": "Description is required",
-        "min_length": "Must be at least 10 characters"
-    }
+  "title": "Submit New Idea",
+  "description": "Share your innovative idea with the community",
+  "form": {
+    "idea_title": "Idea Title *",
+    "idea_title_placeholder": "Enter a compelling title for your idea",
+    "idea_description": "Idea Description *",
+    "idea_description_placeholder": "Describe your idea in detail...",
+    "expected_impact": "Expected Impact",
+    "expected_impact_placeholder": "Describe the expected impact of your idea",
+    "methodology": "Methodology",
+    "methodology_placeholder": "Select methodology",
+    "tags": "Tags",
+    "add_tag_placeholder": "Add tag",
+    "attachments": "Attachments",
+    "drag_drop_files": "Drag and drop files here, or click to select",
+    "supported_formats": "Supported formats: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPG, PNG, GIF (Max 10MB each)"
+  },
+  "buttons": {
+    "submit_idea": "Submit Idea",
+    "cancel": "Cancel",
+    "add_tag": "Add",
+    "remove": "Remove"
+  },
+  "methodologies": {
+    "design_thinking": "Design Thinking",
+    "lean_startup": "Lean Startup",
+    "agile": "Agile",
+    "scrum": "Scrum",
+    "kanban": "Kanban",
+    "six_sigma": "Six Sigma",
+    "triz": "TRIZ",
+    "blue_ocean": "Blue Ocean Strategy"
+  },
+  "validation": {
+    "title_required": "Title is required",
+    "description_required": "Description is required",
+    "min_length": "Must be at least 10 characters"
+  }
 }

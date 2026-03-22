@@ -1,10 +1,10 @@
 import axios, { type AxiosError } from 'axios';
 
 interface ApiErrorData {
-    title?: string;
-    status?: number;
-    errors?: string[];
-    error?: string;
+  title?: string;
+  status?: number;
+  errors?: string[];
+  error?: string;
 }
 
 /**
@@ -12,31 +12,31 @@ interface ApiErrorData {
  * Logs structured error details for debugging.
  */
 export function handleApiError(error: unknown, operation: string): string {
-    if (!error) {
-        console.error(`${operation} failed: Unknown error`);
-        return 'An unknown error occurred';
+  if (!error) {
+    console.error(`${operation} failed: Unknown error`);
+    return 'An unknown error occurred';
+  }
+
+  if (axios.isAxiosError(error)) {
+    const axiosError = error as AxiosError<ApiErrorData>;
+    const status = axiosError.response?.status;
+    const data = axiosError.response?.data;
+    const message = data?.title ?? data?.error ?? axiosError.message;
+
+    console.error(`${operation} failed:`, { status, message, url: axiosError.config?.url });
+
+    if (data?.errors && Array.isArray(data.errors)) {
+      return data.errors.join('. ');
     }
 
-    if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<ApiErrorData>;
-        const status = axiosError.response?.status;
-        const data = axiosError.response?.data;
-        const message = data?.title ?? data?.error ?? axiosError.message;
+    return message ?? `HTTP ${status ?? 'unknown'}`;
+  }
 
-        console.error(`${operation} failed:`, { status, message, url: axiosError.config?.url });
+  if (error instanceof Error) {
+    console.error(`${operation} failed:`, error.message);
+    return error.message;
+  }
 
-        if (data?.errors && Array.isArray(data.errors)) {
-            return data.errors.join('. ');
-        }
-
-        return message ?? `HTTP ${status ?? 'unknown'}`;
-    }
-
-    if (error instanceof Error) {
-        console.error(`${operation} failed:`, error.message);
-        return error.message;
-    }
-
-    console.error(`${operation} failed:`, String(error));
-    return String(error);
+  console.error(`${operation} failed:`, String(error));
+  return String(error);
 }

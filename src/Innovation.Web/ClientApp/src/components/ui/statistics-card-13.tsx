@@ -1,4 +1,3 @@
-
 import { createContext, ReactNode, useContext } from 'react';
 import { cn } from '@/lib/utils';
 import { ColumnFiltersState, RowData, SortingState, Table } from '@tanstack/react-table';
@@ -183,11 +182,13 @@ function DataGridContainer({
   border?: boolean;
 }) {
   return (
-    <div data-slot="data-grid" className={cn('grid w-full', border && 'border border-border rounded-lg', className)}>
+    <div
+      data-slot="data-grid"
+      className={cn('grid w-full', border && 'border border-border rounded-lg', className)}
+    >
       {children}
     </div>
   );
 }
 
 export { useDataGrid, DataGridProvider, DataGrid, DataGridContainer };
-

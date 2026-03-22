@@ -1,168 +1,168 @@
 {
-    "dashboard_title": "Automation Monitoring",
-    "dashboard_description": "Monitor the AI-driven automation pipeline for idea processing",
-    "overview": "Overview",
-    "review_queue": "Review Queue",
-    "recent_activity": "Recent Activity",
-    "analytics": "Analytics",
-    "refresh": "Refresh",
-    "export": "Export",
-    "last_updated": "Last updated",
+  "dashboard_title": "Automation Monitoring",
+  "dashboard_description": "Monitor the AI-driven automation pipeline for idea processing",
+  "overview": "Overview",
+  "review_queue": "Review Queue",
+  "recent_activity": "Recent Activity",
+  "analytics": "Analytics",
+  "refresh": "Refresh",
+  "export": "Export",
+  "last_updated": "Last updated",
 
-    "pipeline_status": "Pipeline Status",
+  "pipeline_status": "Pipeline Status",
+  "processing": "Processing",
+  "completed": "Completed",
+  "failed": "Failed",
+  "paused_for_review": "Paused for Review",
+
+  "outcomes": "Outcomes",
+  "auto_approved": "Auto Approved",
+  "auto_rejected": "Auto Rejected",
+  "needs_review": "Needs Review",
+  "flagged_duplicates": "Flagged as Duplicate",
+
+  "performance_metrics": "Performance Metrics",
+  "automation_rate": "Automation Rate",
+  "avg_processing_time": "Avg Processing Time",
+  "total_ideas": "Total Ideas",
+  "ideas_processed": "Ideas Processed",
+
+  "stage_breakdown": "Stage Breakdown",
+  "rejected_at_stage_1": "Rejected at Stage 1",
+  "rejected_at_screening": "Rejected at Screening",
+  "stage_1_rejections": "Stage 1 Rejections",
+  "stage_2_duplicates": "Stage 2 Duplicates",
+  "stage_3_rejections": "Stage 3 Rejections",
+  "stage_3_uncertain": "Stage 3 Uncertain",
+  "stage_4_completed": "Stage 4 Completed",
+  "stage_4_failed": "Stage 4 Failed",
+  "stage_5_auto_approved": "Stage 5 Auto Approved",
+  "stage_5_auto_rejected": "Stage 5 Auto Rejected",
+  "stage_5_review": "Stage 5 Review",
+
+  "human_review_queue": "Human Review Queue",
+  "ideas_requiring_review": "Ideas requiring human review",
+  "review_reason": "Reason",
+  "triage_score": "Triage Score",
+  "overall_score": "Overall Score",
+  "flagged_at": "Flagged At",
+  "screening_confidence": "Screening Confidence",
+  "potential_duplicate": "Potential Duplicate",
+  "similar_ideas": "Similar Ideas",
+
+  "recent_ideas": "Recent Ideas",
+  "latest_processed_ideas": "Latest processed ideas",
+  "idea_title": "Idea",
+  "status": "Status",
+  "automation_status": "Automation Status",
+  "current_stage": "Current Stage",
+  "created_at": "Created",
+  "automation_completed_at": "Completed",
+
+  "statuses": {
+    "pending": "Pending",
+    "in_progress": "In Progress",
+    "completed": "Completed",
+    "needs_review": "Needs Review",
+    "accepted": "Accepted",
+    "rejected": "Rejected",
+    "failed": "Failed",
+    "cancelled": "Cancelled"
+  },
+
+  "verdicts": {
+    "accept": "Accept",
+    "reject": "Reject",
+    "review": "Review"
+  },
+
+  "stages": {
+    "screening": "Screening",
+    "evaluation": "Evaluation",
+    "unknown": "Unknown"
+  },
+
+  "automation_stages": {
+    "pending": "Pending",
+    "in_pipeline": "In Pipeline",
+    "screening_complete": "Screening Complete",
+    "full_evaluation_complete": "Full Evaluation Complete",
+    "awaiting_human_review": "Awaiting Human Review",
+    "rejected": "Rejected",
+    "failed": "Failed"
+  },
+
+  "automation_statuses": {
     "processing": "Processing",
     "completed": "Completed",
     "failed": "Failed",
-    "paused_for_review": "Paused for Review",
+    "paused_for_review": "Paused for Review"
+  },
 
-    "outcomes": "Outcomes",
-    "auto_approved": "Auto Approved",
-    "auto_rejected": "Auto Rejected",
-    "needs_review": "Needs Review",
-    "flagged_duplicates": "Flagged as Duplicate",
+  "review_reasons": {
+    "screening_uncertain": "Screening Uncertain",
+    "evaluation_failed": "Evaluation Failed",
+    "final_decision_uncertain": "Final Decision Uncertain",
+    "low_confidence": "Low Confidence",
+    "potential_duplicate": "Potential Duplicate"
+  },
 
-    "performance_metrics": "Performance Metrics",
-    "automation_rate": "Automation Rate",
-    "avg_processing_time": "Avg Processing Time",
-    "total_ideas": "Total Ideas",
-    "ideas_processed": "Ideas Processed",
+  "status_distribution": "Status Distribution",
+  "stage_distribution": "Stage Distribution",
 
-    "stage_breakdown": "Stage Breakdown",
-    "rejected_at_stage_1": "Rejected at Stage 1",
-    "rejected_at_screening": "Rejected at Screening",
-    "stage_1_rejections": "Stage 1 Rejections",
-    "stage_2_duplicates": "Stage 2 Duplicates",
-    "stage_3_rejections": "Stage 3 Rejections",
-    "stage_3_uncertain": "Stage 3 Uncertain",
-    "stage_4_completed": "Stage 4 Completed",
-    "stage_4_failed": "Stage 4 Failed",
-    "stage_5_auto_approved": "Stage 5 Auto Approved",
-    "stage_5_auto_rejected": "Stage 5 Auto Rejected",
-    "stage_5_review": "Stage 5 Review",
-
-    "human_review_queue": "Human Review Queue",
-    "ideas_requiring_review": "Ideas requiring human review",
-    "review_reason": "Reason",
-    "triage_score": "Triage Score",
-    "overall_score": "Overall Score",
-    "flagged_at": "Flagged At",
-    "screening_confidence": "Screening Confidence",
-    "potential_duplicate": "Potential Duplicate",
-    "similar_ideas": "Similar Ideas",
-
-    "recent_ideas": "Recent Ideas",
-    "latest_processed_ideas": "Latest processed ideas",
-    "idea_title": "Idea",
-    "status": "Status",
-    "automation_status": "Automation Status",
-    "current_stage": "Current Stage",
-    "created_at": "Created",
-    "automation_completed_at": "Completed",
-
-    "statuses": {
-        "pending": "Pending",
-        "in_progress": "In Progress",
-        "completed": "Completed",
-        "needs_review": "Needs Review",
-        "accepted": "Accepted",
-        "rejected": "Rejected",
-        "failed": "Failed",
-        "cancelled": "Cancelled"
-    },
-
-    "verdicts": {
-        "accept": "Accept",
-        "reject": "Reject",
-        "review": "Review"
-    },
-
-    "stages": {
-        "screening": "Screening",
-        "evaluation": "Evaluation",
-        "unknown": "Unknown"
-    },
-
-    "automation_stages": {
-        "pending": "Pending",
-        "in_pipeline": "In Pipeline",
-        "screening_complete": "Screening Complete",
-        "full_evaluation_complete": "Full Evaluation Complete",
-        "awaiting_human_review": "Awaiting Human Review",
-        "rejected": "Rejected",
-        "failed": "Failed"
-    },
-
-    "automation_statuses": {
-        "processing": "Processing",
-        "completed": "Completed",
-        "failed": "Failed",
-        "paused_for_review": "Paused for Review"
-    },
-
-    "review_reasons": {
-        "screening_uncertain": "Screening Uncertain",
-        "evaluation_failed": "Evaluation Failed",
-        "final_decision_uncertain": "Final Decision Uncertain",
-        "low_confidence": "Low Confidence",
-        "potential_duplicate": "Potential Duplicate"
-    },
-
+  "charts": {
+    "pipeline_flow": "Pipeline Flow",
+    "automation_trend": "Automation Trend",
     "status_distribution": "Status Distribution",
-    "stage_distribution": "Stage Distribution",
+    "outcome_distribution": "Outcome Distribution",
+    "processing_time": "Processing Time Distribution",
+    "stage_breakdown": "Stage Breakdown",
+    "over_time": "Automation rate over the last 7 days",
+    "by_stage": "Ideas distribution across pipeline stages",
+    "by_status": "Ideas distribution across pipeline statuses"
+  },
 
-    "charts": {
-        "pipeline_flow": "Pipeline Flow",
-        "automation_trend": "Automation Trend",
-        "status_distribution": "Status Distribution",
-        "outcome_distribution": "Outcome Distribution",
-        "processing_time": "Processing Time Distribution",
-        "stage_breakdown": "Stage Breakdown",
-        "over_time": "Automation rate over the last 7 days",
-        "by_stage": "Ideas distribution across pipeline stages",
-        "by_status": "Ideas distribution across pipeline statuses"
-    },
+  "filters": {
+    "filter_by": "Filter by",
+    "date_range": "Date Range",
+    "status": "Status",
+    "stage": "Stage",
+    "all": "All",
+    "apply": "Apply",
+    "clear": "Clear Filters",
+    "search_placeholder": "Search ideas..."
+  },
 
-    "filters": {
-        "filter_by": "Filter by",
-        "date_range": "Date Range",
-        "status": "Status",
-        "stage": "Stage",
-        "all": "All",
-        "apply": "Apply",
-        "clear": "Clear Filters",
-        "search_placeholder": "Search ideas..."
-    },
+  "actions": {
+    "view_details": "View Details",
+    "approve": "Approve",
+    "reject": "Reject",
+    "review": "Review",
+    "bulk_approve": "Bulk Approve",
+    "bulk_reject": "Bulk Reject",
+    "select_all": "Select All",
+    "clear_selection": "Clear Selection"
+  },
 
-    "actions": {
-        "view_details": "View Details",
-        "approve": "Approve",
-        "reject": "Reject",
-        "review": "Review",
-        "bulk_approve": "Bulk Approve",
-        "bulk_reject": "Bulk Reject",
-        "select_all": "Select All",
-        "clear_selection": "Clear Selection"
-    },
+  "stats": {
+    "increase": "increase",
+    "decrease": "decrease",
+    "no_change": "no change",
+    "from_last_period": "from last period",
+    "seconds": "seconds",
+    "minutes": "minutes",
+    "hours": "hours"
+  },
 
-    "stats": {
-        "increase": "increase",
-        "decrease": "decrease",
-        "no_change": "no change",
-        "from_last_period": "from last period",
-        "seconds": "seconds",
-        "minutes": "minutes",
-        "hours": "hours"
-    },
+  "empty_states": {
+    "no_ideas_in_review": "No ideas currently in review queue",
+    "no_recent_activity": "No recent automation activity",
+    "no_data": "No data available"
+  },
 
-    "empty_states": {
-        "no_ideas_in_review": "No ideas currently in review queue",
-        "no_recent_activity": "No recent automation activity",
-        "no_data": "No data available"
-    },
-
-    "tooltips": {
-        "automation_rate_help": "Percentage of ideas automatically processed without human intervention",
-        "processing_time_help": "Average time taken to complete the automation pipeline",
-        "review_queue_help": "Ideas flagged for human review due to uncertainty or edge cases"
-    }
+  "tooltips": {
+    "automation_rate_help": "Percentage of ideas automatically processed without human intervention",
+    "processing_time_help": "Average time taken to complete the automation pipeline",
+    "review_queue_help": "Ideas flagged for human review due to uncertainty or edge cases"
+  }
 }

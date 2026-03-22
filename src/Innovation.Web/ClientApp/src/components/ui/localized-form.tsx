@@ -1,15 +1,22 @@
-
-import { useState, createContext, useContext, useRef, KeyboardEvent } from "react";
-import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { X, Plus, Edit2, Loader2, Wand2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import axios from "axios";
+import { useState, createContext, useContext, useRef, KeyboardEvent } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { X, Plus, Edit2, Loader2, Wand2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import axios from 'axios';
 
 interface LocalizedText {
   [languageCode: string]: string;
@@ -40,7 +47,7 @@ const LocalizedFormContext = createContext<LocalizedFormContextType | null>(null
 const useLocalizedForm = () => {
   const context = useContext(LocalizedFormContext);
   if (!context) {
-    throw new Error("useLocalizedForm must be used within a LocalizedFormProvider");
+    throw new Error('useLocalizedForm must be used within a LocalizedFormProvider');
   }
   return context;
 };
@@ -52,7 +59,7 @@ interface LocalizedInputProps {
   required?: boolean;
   maxLength?: number;
   className?: string;
-  type?: "input" | "textarea";
+  type?: 'input' | 'textarea';
   languages?: Language[];
   defaultLanguage?: string;
   value?: LocalizedText;
@@ -61,8 +68,8 @@ interface LocalizedInputProps {
 }
 
 const DEFAULT_LANGUAGES: Language[] = [
-  { code: "ar", name: "Arabic", nativeName: "العربية", flag: "🇸🇦" },
-  { code: "en", name: "English", nativeName: "English", flag: "🇺🇸" },
+  { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦' },
+  { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
 ];
 
 function LocalizedInput({
@@ -72,9 +79,9 @@ function LocalizedInput({
   required: _required = false,
   maxLength,
   className,
-  type = "input",
+  type = 'input',
   languages = DEFAULT_LANGUAGES,
-  defaultLanguage = "ar",
+  defaultLanguage = 'ar',
   value = {},
   onChange,
   error,
@@ -83,15 +90,17 @@ function LocalizedInput({
   const defaultPlaceholder = placeholder || t('ui/localized-form:enter_text');
   const [currentLanguage, setCurrentLanguage] = useState(defaultLanguage);
   const [isTranslating, setIsTranslating] = useState(false);
-  const currentValue = value[currentLanguage] || "";
+  const currentValue = value[currentLanguage] || '';
 
   const getLanguageInfo = (code: string) => {
-    return languages.find(lang => lang.code === code) || {
-      code,
-      name: code.toUpperCase(),
-      nativeName: code.toUpperCase(),
-      flag: "🌐"
-    };
+    return (
+      languages.find((lang) => lang.code === code) || {
+        code,
+        name: code.toUpperCase(),
+        nativeName: code.toUpperCase(),
+        flag: '🌐',
+      }
+    );
   };
 
   const handleChange = (text: string) => {
@@ -99,10 +108,17 @@ function LocalizedInput({
     onChange?.(newValue);
   };
 
-  const sourceLanguage = languages.find(lang => lang.code !== currentLanguage && typeof value[lang.code] === 'string' && (value[lang.code] as string).trim());
+  const sourceLanguage = languages.find(
+    (lang) =>
+      lang.code !== currentLanguage &&
+      typeof value[lang.code] === 'string' &&
+      (value[lang.code] as string).trim(),
+  );
 
   const handleTranslate = async () => {
-    if (!sourceLanguage || isTranslating) { return; }
+    if (!sourceLanguage || isTranslating) {
+      return;
+    }
     setIsTranslating(true);
     try {
       // eslint-disable-next-line no-restricted-syntax
@@ -122,30 +138,27 @@ function LocalizedInput({
   };
 
   const currentLang = getLanguageInfo(currentLanguage);
-  const allLanguages = languages.map(lang => lang.code);
-  const inputtedLanguages = Object.keys(value).filter(lang => {
+  const allLanguages = languages.map((lang) => lang.code);
+  const inputtedLanguages = Object.keys(value).filter((lang) => {
     const langValue = value[lang];
     return typeof langValue === 'string' && langValue.trim();
   });
 
   return (
-    <div className={cn("space-y-3", className)}>
+    <div className={cn('space-y-3', className)}>
       {label && (
         <div className="flex items-center justify-between">
-          <Label className="text-sm font-medium flex items-center gap-2">
-            {label}
-          </Label>
-
+          <Label className="text-sm font-medium flex items-center gap-2">{label}</Label>
         </div>
       )}
 
       <div className="space-y-2">
-        {type === "textarea" ? (
+        {type === 'textarea' ? (
           <Textarea
             value={currentValue}
             onChange={(e) => handleChange(e.target.value)}
             placeholder={`${defaultPlaceholder} (${currentLang.name})`}
-            dir={currentLang.code === "ar" ? "rtl" : "ltr"}
+            dir={currentLang.code === 'ar' ? 'rtl' : 'ltr'}
             maxLength={maxLength}
             data-testid={`localized-textarea-${name}-${currentLanguage}`}
             name={`${name}-${currentLanguage}`}
@@ -156,7 +169,7 @@ function LocalizedInput({
             value={currentValue}
             onChange={(e) => handleChange(e.target.value)}
             placeholder={`${defaultPlaceholder} (${currentLang.name})`}
-            dir={currentLang.code === "ar" ? "rtl" : "ltr"}
+            dir={currentLang.code === 'ar' ? 'rtl' : 'ltr'}
             maxLength={maxLength}
             data-testid={`localized-input-${name}-${currentLanguage}`}
             name={`${name}-${currentLanguage}`}
@@ -174,14 +187,14 @@ function LocalizedInput({
                 key={langCode}
                 type="button"
                 className={cn(
-                  "inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200 relative",
-                  "border border-border/50 hover:border-border",
-                  "hover:scale-105 hover:shadow-sm",
-                  "whitespace-nowrap flex-shrink-0",
+                  'inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200 relative',
+                  'border border-border/50 hover:border-border',
+                  'hover:scale-105 hover:shadow-sm',
+                  'whitespace-nowrap flex-shrink-0',
                   isActive
-                    ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                    : "bg-secondary/50 text-secondary-foreground hover:bg-secondary/80",
-                  hasContent ? "opacity-100" : "opacity-60"
+                    ? 'bg-primary text-primary-foreground border-primary shadow-sm'
+                    : 'bg-secondary/50 text-secondary-foreground hover:bg-secondary/80',
+                  hasContent ? 'opacity-100' : 'opacity-60',
                 )}
                 onClick={() => setCurrentLanguage(langCode)}
                 data-testid={`localized-lang-tab-${name}-${langCode}`}
@@ -202,10 +215,10 @@ function LocalizedInput({
               onClick={handleTranslate}
               data-testid={`localized-translate-btn-${name}-${currentLanguage}`}
               className={cn(
-                "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200",
-                "border border-lavender/60 text-[#8b84d7] hover:bg-[#E7E5F7] hover:border-[#8b84d7]",
-                "whitespace-nowrap flex-shrink-0",
-                isTranslating && "opacity-60 cursor-not-allowed"
+                'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200',
+                'border border-lavender/60 text-[#8b84d7] hover:bg-[#E7E5F7] hover:border-[#8b84d7]',
+                'whitespace-nowrap flex-shrink-0',
+                isTranslating && 'opacity-60 cursor-not-allowed',
               )}
             >
               {isTranslating ? (
@@ -213,7 +226,11 @@ function LocalizedInput({
               ) : (
                 <Wand2 className="h-3.5 w-3.5 flex-shrink-0" />
               )}
-              <span>{isTranslating ? t('ui/localized-form:translating') : t('ui/localized-form:translate_from', { lang: sourceLanguage.nativeName })}</span>
+              <span>
+                {isTranslating
+                  ? t('ui/localized-form:translating')
+                  : t('ui/localized-form:translate_from', { lang: sourceLanguage.nativeName })}
+              </span>
             </button>
           )}
         </div>
@@ -249,7 +266,7 @@ function LocalizedChipInput({
   required = false,
   className,
   languages = DEFAULT_LANGUAGES,
-  defaultLanguage = "ar",
+  defaultLanguage = 'ar',
   value = {},
   onChange,
   maxTags = 10,
@@ -258,18 +275,20 @@ function LocalizedChipInput({
   const { t } = useTranslation();
   const defaultPlaceholder = placeholder || t('ui/localized-form:enter_item_and_press_enter');
   const [currentLanguage, setCurrentLanguage] = useState(defaultLanguage);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
   const currentItems = value[currentLanguage] || [];
 
   const getLanguageInfo = (code: string) => {
-    return languages.find(lang => lang.code === code) || {
-      code,
-      name: code.toUpperCase(),
-      nativeName: code.toUpperCase(),
-      flag: "🌐"
-    };
+    return (
+      languages.find((lang) => lang.code === code) || {
+        code,
+        name: code.toUpperCase(),
+        nativeName: code.toUpperCase(),
+        flag: '🌐',
+      }
+    );
   };
 
   const handleAddItem = (item: string) => {
@@ -281,10 +300,10 @@ function LocalizedChipInput({
 
     const newValue = {
       ...value,
-      [currentLanguage]: [...currentItems, trimmedItem]
+      [currentLanguage]: [...currentItems, trimmedItem],
     };
     onChange?.(newValue);
-    setInputValue("");
+    setInputValue('');
   };
 
   const handleRemoveItem = (indexToRemove: number) => {
@@ -294,10 +313,10 @@ function LocalizedChipInput({
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
       handleAddItem(inputValue);
-    } else if (e.key === "Backspace" && !inputValue && currentItems.length > 0) {
+    } else if (e.key === 'Backspace' && !inputValue && currentItems.length > 0) {
       handleRemoveItem(currentItems.length - 1);
     }
   };
@@ -307,11 +326,11 @@ function LocalizedChipInput({
   };
 
   const currentLang = getLanguageInfo(currentLanguage);
-  const allLanguages = languages.map(lang => lang.code);
-  const hasItemsLanguages = Object.keys(value).filter(lang => (value[lang] ?? []).length > 0);
+  const allLanguages = languages.map((lang) => lang.code);
+  const hasItemsLanguages = Object.keys(value).filter((lang) => (value[lang] ?? []).length > 0);
 
   return (
-    <div className={cn("space-y-3", className)}>
+    <div className={cn('space-y-3', className)}>
       {label && (
         <div className="flex items-center justify-between">
           <Label className="text-sm font-medium flex items-center gap-2">
@@ -323,19 +342,21 @@ function LocalizedChipInput({
 
       <div className="space-y-2">
         {/* Chip display area with input */}
-        <div className={cn(
-          "flex flex-wrap gap-1 min-h-[40px] p-2 border border-border rounded-md bg-background",
-          "focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
-          currentLang.code === "ar" ? "flex-row-reverse" : "flex-row"
-        )}>
+        <div
+          className={cn(
+            'flex flex-wrap gap-1 min-h-[40px] p-2 border border-border rounded-md bg-background',
+            'focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2',
+            currentLang.code === 'ar' ? 'flex-row-reverse' : 'flex-row',
+          )}
+        >
           {currentItems.map((item, index) => (
             <Badge
               key={index}
               variant="secondary"
               className={cn(
-                "flex items-center gap-1 px-2 py-1 text-xs",
-                "hover:bg-secondary/80 transition-colors",
-                currentLang.code === "ar" ? "flex-row-reverse" : "flex-row"
+                'flex items-center gap-1 px-2 py-1 text-xs',
+                'hover:bg-secondary/80 transition-colors',
+                currentLang.code === 'ar' ? 'flex-row-reverse' : 'flex-row',
               )}
             >
               <span>{item}</span>
@@ -357,9 +378,11 @@ function LocalizedChipInput({
               value={inputValue}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
-              placeholder={currentItems.length === 0 ? `${defaultPlaceholder} (${currentLang.name})` : ""}
+              placeholder={
+                currentItems.length === 0 ? `${defaultPlaceholder} (${currentLang.name})` : ''
+              }
               className="flex-1 min-w-[120px] border-none shadow-none focus-visible:ring-0 p-0 h-auto"
-              dir={currentLang.code === "ar" ? "rtl" : "ltr"}
+              dir={currentLang.code === 'ar' ? 'rtl' : 'ltr'}
               data-testid={`localized-chip-input-${name}`}
             />
           )}
@@ -390,14 +413,14 @@ function LocalizedChipInput({
                 key={langCode}
                 type="button"
                 className={cn(
-                  "inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200 relative",
-                  "border border-border/50 hover:border-border",
-                  "hover:scale-105 hover:shadow-sm",
-                  "whitespace-nowrap flex-shrink-0",
+                  'inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200 relative',
+                  'border border-border/50 hover:border-border',
+                  'hover:scale-105 hover:shadow-sm',
+                  'whitespace-nowrap flex-shrink-0',
                   isActive
-                    ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                    : "bg-secondary/50 text-secondary-foreground hover:bg-secondary/80",
-                  hasContent ? "opacity-100" : "opacity-60"
+                    ? 'bg-primary text-primary-foreground border-primary shadow-sm'
+                    : 'bg-secondary/50 text-secondary-foreground hover:bg-secondary/80',
+                  hasContent ? 'opacity-100' : 'opacity-60',
                 )}
                 onClick={() => setCurrentLanguage(langCode)}
               >
@@ -472,7 +495,7 @@ function LocalizedPairedArrayInput({
   const [formData, setFormData] = useState<LocalizedText>({});
 
   // Get the maximum number of items across all languages
-  const maxItemCount = Math.max(...languages.map(lang => value[lang.code]?.length || 0), 0);
+  const maxItemCount = Math.max(...languages.map((lang) => value[lang.code]?.length || 0), 0);
 
   const handleAddItem = () => {
     setEditingIndex(null);
@@ -484,7 +507,7 @@ function LocalizedPairedArrayInput({
     setEditingIndex(index);
     // Build form data from the item at this index across all languages
     const itemData: LocalizedText = {};
-    languages.forEach(lang => {
+    languages.forEach((lang) => {
       itemData[lang.code] = value[lang.code]?.[index] || '';
     });
     setFormData(itemData);
@@ -493,7 +516,7 @@ function LocalizedPairedArrayInput({
 
   const handleRemoveItem = (index: number) => {
     const newValue: LocalizedArray = {};
-    languages.forEach(lang => {
+    languages.forEach((lang) => {
       const langArray = value[lang.code] || [];
       newValue[lang.code] = langArray.filter((_, i) => i !== index);
     });
@@ -502,21 +525,23 @@ function LocalizedPairedArrayInput({
 
   const handleSaveItem = () => {
     // Validate that at least one language has content
-    const hasContent = languages.some(lang => formData[lang.code]?.trim());
+    const hasContent = languages.some((lang) => formData[lang.code]?.trim());
     if (!hasContent) return;
 
     const newValue: LocalizedArray = { ...value };
 
-    languages.forEach(lang => {
+    languages.forEach((lang) => {
       if (!newValue[lang.code]) {
         newValue[lang.code] = [];
       }
 
-      const itemText = formData[lang.code] || "";
+      const itemText = formData[lang.code] || '';
 
       if (editingIndex !== null) {
         // Update existing item at the same index across all languages
-        if (newValue[lang.code]) { newValue[lang.code]![editingIndex] = itemText; }
+        if (newValue[lang.code]) {
+          newValue[lang.code]![editingIndex] = itemText;
+        }
       } else {
         // Add new item to the end of each language array
         newValue[lang.code]?.push(itemText);
@@ -530,26 +555,32 @@ function LocalizedPairedArrayInput({
   };
 
   const handleInputChange = (langCode: string, text: string) => {
-    setFormData(prev => ({ ...prev, [langCode]: text }));
+    setFormData((prev) => ({ ...prev, [langCode]: text }));
   };
 
   const getDisplayText = (index: number) => {
     // Show the first available language text at this index, prefer Arabic then English
-    return value.ar?.[index] || value.en?.[index] ||
-      languages.map(lang => value[lang.code]?.[index]).find(text => text?.trim()) || "";
+    return (
+      value.ar?.[index] ||
+      value.en?.[index] ||
+      languages.map((lang) => value[lang.code]?.[index]).find((text) => text?.trim()) ||
+      ''
+    );
   };
 
   const _getLanguageInfo = (code: string) => {
-    return languages.find(lang => lang.code === code) || {
-      code,
-      name: code.toUpperCase(),
-      nativeName: code.toUpperCase(),
-      flag: "🌐"
-    };
+    return (
+      languages.find((lang) => lang.code === code) || {
+        code,
+        name: code.toUpperCase(),
+        nativeName: code.toUpperCase(),
+        flag: '🌐',
+      }
+    );
   };
 
   return (
-    <div className={cn("space-y-3", className)}>
+    <div className={cn('space-y-3', className)}>
       {label && (
         <div className="flex items-center justify-between">
           <Label className="text-sm font-medium flex items-center gap-2">
@@ -574,7 +605,7 @@ function LocalizedPairedArrayInput({
                 <div className="flex-1">
                   <p className="text-sm font-medium">{getDisplayText(index)}</p>
                   <div className="flex gap-2 mt-1">
-                    {languages.map(lang => {
+                    {languages.map((lang) => {
                       const text = value[lang.code]?.[index];
                       if (!text?.trim()) return null;
                       return (
@@ -630,7 +661,9 @@ function LocalizedPairedArrayInput({
             <DialogContent className="max-w-md">
               <DialogHeader>
                 <DialogTitle>
-                  {editingIndex !== null ? t('ui/localized-form:edit_item') : t('ui/localized-form:add_new_item')}
+                  {editingIndex !== null
+                    ? t('ui/localized-form:edit_item')
+                    : t('ui/localized-form:add_new_item')}
                 </DialogTitle>
                 <DialogDescription>
                   {t('ui/localized-form:enter_text_different_languages')}
@@ -638,34 +671,30 @@ function LocalizedPairedArrayInput({
               </DialogHeader>
 
               <div className="space-y-4 py-4">
-                {languages.map(lang => (
+                {languages.map((lang) => (
                   <div key={lang.code} className="space-y-2">
                     <Label className="flex items-center gap-2">
                       <span className="text-sm">{lang.flag}</span>
                       <span>{lang.name}</span>
                     </Label>
                     <Input
-                      value={formData[lang.code] || ""}
+                      value={formData[lang.code] || ''}
                       onChange={(e) => handleInputChange(lang.code, e.target.value)}
                       placeholder={`${defaultPlaceholder} (${lang.nativeName})`}
-                      dir={lang.code === "ar" ? "rtl" : "ltr"}
+                      dir={lang.code === 'ar' ? 'rtl' : 'ltr'}
                     />
                   </div>
                 ))}
               </div>
 
               <DialogFooter>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsDialogOpen(false)}
-                >
+                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                   {t('common:cancel')}
                 </Button>
                 <Button
                   type="button"
                   onClick={handleSaveItem}
-                  disabled={!languages.some(lang => formData[lang.code]?.trim())}
+                  disabled={!languages.some((lang) => formData[lang.code]?.trim())}
                 >
                   {editingIndex !== null ? t('common:update') : t('ui/localized-form:add_item')}
                 </Button>
@@ -678,4 +707,11 @@ function LocalizedPairedArrayInput({
   );
 }
 
-export { LocalizedInput, LocalizedChipInput, LocalizedPairedArrayInput, type LocalizedText, type LocalizedArray, type Language };
+export {
+  LocalizedInput,
+  LocalizedChipInput,
+  LocalizedPairedArrayInput,
+  type LocalizedText,
+  type LocalizedArray,
+  type Language,
+};

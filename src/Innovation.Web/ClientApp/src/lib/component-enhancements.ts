@@ -2,7 +2,9 @@ export function enhanceComponent(className: string, enhancements: Record<string,
   return [className, ...Object.values(enhancements).filter(Boolean)].join(' ').trim();
 }
 
-export const buttonVariants: Record<string, string | Record<string, string>> & { size: Record<string, string> } = {
+export const buttonVariants: Record<string, string | Record<string, string>> & {
+  size: Record<string, string>;
+} = {
   primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
   secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
   ghost: 'hover:bg-accent/10 hover:text-accent-foreground',

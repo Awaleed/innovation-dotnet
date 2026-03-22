@@ -1,22 +1,22 @@
 {
-    "page_title": "Error {{status}}",
-    "go_home": "Go to Home",
-    "go_back": "Go Back",
-    "need_help": "If the problem persists, please contact support.",
-    "403": {
-        "title": "Access Denied",
-        "description": "Sorry, you do not have permission to access this page."
-    },
-    "404": {
-        "title": "Page Not Found",
-        "description": "Sorry, the page you are looking for could not be found."
-    },
-    "500": {
-        "title": "Server Error",
-        "description": "Whoops, something went wrong on our servers. Please try again later."
-    },
-    "503": {
-        "title": "Service Unavailable",
-        "description": "Sorry, we are performing some maintenance. Please check back soon."
-    }
+  "page_title": "Error {{status}}",
+  "go_home": "Go to Home",
+  "go_back": "Go Back",
+  "need_help": "If the problem persists, please contact support.",
+  "403": {
+    "title": "Access Denied",
+    "description": "Sorry, you do not have permission to access this page."
+  },
+  "404": {
+    "title": "Page Not Found",
+    "description": "Sorry, the page you are looking for could not be found."
+  },
+  "500": {
+    "title": "Server Error",
+    "description": "Whoops, something went wrong on our servers. Please try again later."
+  },
+  "503": {
+    "title": "Service Unavailable",
+    "description": "Sorry, we are performing some maintenance. Please check back soon."
+  }
 }

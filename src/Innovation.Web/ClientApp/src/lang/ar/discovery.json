@@ -1,220 +1,219 @@
 {
-    "trends": {
-        "title": "الاتجاهات",
-        "description": "تحولات استراتيجية مجمعة في التكنولوجيا وسلوك المستهلك.",
-        "add_trend": "إضافة اتجاه",
-        "filter_placeholder": "تصفية الاتجاهات حسب الاسم أو الوصف...",
-        "global_domains": "المجالات العالمية",
-        "table": {
-            "strategic_trend": "الاتجاه الاستراتيجي",
-            "category": "الفئة",
-            "impact": "التأثير",
-            "horizon": "الأفق",
-            "priority": "الأولوية",
-            "status": "الحالة",
-            "evidence_links": "روابط الأدلة"
-        },
-        "detail": {
-            "edit_blueprint": "تعديل المخطط",
-            "blueprint_vision": "رؤية المخطط",
-            "validation_ecosystem": "نظام التحقق",
-            "evidence": "دليل",
-            "awaiting_validation": "في انتظار إشارات التحقق",
-            "strategic_matrix": "المصفوفة الاستراتيجية",
-            "impact_potential": "إمكانات التأثير",
-            "deployment_horizon": "أفق النشر",
-            "readiness_level": "مستوى الجاهزية",
-            "urgency_of_action": "إلحاح الإجراء",
-            "business_relevance": "الصلة التجارية",
-            "attach_docs": "إرفاق وثائق استراتيجية",
-            "purge_trend": "حذف الاتجاه",
-            "purge_confirm": "إزالة هذا الاتجاه نهائياً من المحفظة؟",
-            "no_description": "لا يوجد وصف تفصيلي متاح."
-        },
-        "modals": {
-            "new_trend": "اتجاه استراتيجي جديد",
-            "update_blueprint": "تحديث المخطط"
-        }
+  "trends": {
+    "title": "الاتجاهات",
+    "description": "تحولات استراتيجية مجمعة في التكنولوجيا وسلوك المستهلك.",
+    "add_trend": "إضافة اتجاه",
+    "filter_placeholder": "تصفية الاتجاهات حسب الاسم أو الوصف...",
+    "global_domains": "المجالات العالمية",
+    "table": {
+      "strategic_trend": "الاتجاه الاستراتيجي",
+      "category": "الفئة",
+      "impact": "التأثير",
+      "horizon": "الأفق",
+      "priority": "الأولوية",
+      "status": "الحالة",
+      "evidence_links": "روابط الأدلة"
     },
-    "signals": {
-        "title": "الإشارات",
-        "description": "التقاط أدلة المرحلة المبكرة للتغييرات المستقبلية المدمرة.",
-        "create_signal": "إنشاء إشارة",
-        "search_placeholder": "البحث في العنوان، الرابط، الكلمات المفتاحية...",
-        "all_statuses": "جميع الحالات",
-        "all_types": "جميع الأنواع",
-        "relevance": "الصلة",
-        "no_signals": "لم يتم العثور على إشارات تطابق المرشحات",
-        "detail": {
-            "edit": "تعديل",
-            "delete_confirm": "حذف إشارة الاستخبارات هذه نهائياً؟",
-            "signal_strength": "قوة الإشارة",
-            "priority_relevance": "صلة الأولوية",
-            "core_domains": "المجالات الأساسية",
-            "no_domains": "لا توجد مجالات مصنفة",
-            "analyst_assessment": "تقييم المحلل",
-            "pending_review": "في انتظار مراجعة المحلل الإضافية وتوثيق الرؤى التفصيلية.",
-            "launch_source": "فتح المصدر"
-        },
-        "modals": {
-            "intelligence_capture": "التقاط الاستخبارات",
-            "update_intelligence": "تحديث الاستخبارات"
-        }
+    "detail": {
+      "edit_blueprint": "تعديل المخطط",
+      "blueprint_vision": "رؤية المخطط",
+      "validation_ecosystem": "نظام التحقق",
+      "evidence": "دليل",
+      "awaiting_validation": "في انتظار إشارات التحقق",
+      "strategic_matrix": "المصفوفة الاستراتيجية",
+      "impact_potential": "إمكانات التأثير",
+      "deployment_horizon": "أفق النشر",
+      "readiness_level": "مستوى الجاهزية",
+      "urgency_of_action": "إلحاح الإجراء",
+      "business_relevance": "الصلة التجارية",
+      "attach_docs": "إرفاق وثائق استراتيجية",
+      "purge_trend": "حذف الاتجاه",
+      "purge_confirm": "إزالة هذا الاتجاه نهائياً من المحفظة؟",
+      "no_description": "لا يوجد وصف تفصيلي متاح."
     },
-    "radar": {
-        "title": "الرادار",
-        "description": "تصور راداري تفاعلي لتتبع الاكتشاف والابتكار",
-        "settings": "إعدادات الرادار",
-        "mode_180": "وضع 180°",
-        "network_view": "عرض الشبكة",
-        "show_labels": "إظهار التسميات",
-        "zoom_in": "تكبير",
-        "zoom_out": "تصغير",
-        "center_view": "توسيط العرض",
-        "zoom_on_scroll": "التكبير بالتمرير",
-        "segment_by": "التصنيف حسب",
-        "color_by": "التلوين حسب",
-        "distance_by": "المسافة",
-        "relations_filter": "العلاقات",
-        "add_dimension": "إضافة بُعد",
-        "legend": {
-            "title": "دليل الألوان",
-            "configure_hint": "قم بتكوين إعدادات العرض لرؤية دليل الألوان.",
-            "potential_impact": "التأثير المحتمل",
-            "trend_segmentation": "تصنيف الاتجاهات",
-            "time_to_market": "الوقت للوصول للسوق"
-        },
-        "impact": {
-            "none": "لا يوجد",
-            "very_low": "منخفض جداً",
-            "low": "منخفض",
-            "medium": "متوسط",
-            "high": "عالي",
-            "very_high": "عالي جداً"
-        },
-        "time_rings": {
-            "0-2y": "0-2 سنة",
-            "2-4y": "2-4 سنوات",
-            "4-6y": "4-6 سنوات",
-            "6-8y": "6-8 سنوات",
-            "8-10y": "8-10 سنوات",
-            "10+y": "+10 سنوات"
-        },
-        "segment_options": {
-            "category": "فئة المجال",
-            "trendSegmentation": "تصنيف الاتجاهات",
-            "adoptionStage": "مرحلة التبني",
-            "potentialImpact": "التأثير المحتمل",
-            "timeHorizon": "الأفق الزمني"
-        },
-        "color_options": {
-            "potentialImpact": "التأثير المحتمل",
-            "category": "فئة المجال",
-            "trendSegmentation": "تصنيف الاتجاهات",
-            "adoptionStage": "مرحلة التبني",
-            "needForAction": "الحاجة للتصرف"
-        },
-        "distance_options": {
-            "timeHorizon": "الأفق الزمني",
-            "potentialImpact": "التأثير المحتمل",
-            "businessRelevance": "الصلة التجارية"
-        },
-        "detail": {
-            "related_signals": "الإشارات ذات الصلة",
-            "no_signals": "لا توجد إشارات ذات صلة",
-            "view_details": "عرض التفاصيل",
-            "forces_shaping_future": "القوى المشكلة للمستقبل",
-            "snapshot_of_future": "لمحة عن المستقبل",
-            "implications_for_innovation": "الآثار على الابتكار",
-            "way_forward": "الطريق للأمام",
-            "ratings": "التقييمات",
-            "scope": "النطاق",
-            "strategic_fit": "الملاءمة الاستراتيجية",
-            "speed_of_change_90": "سرعة التغير [90 يوم]",
-            "speed_of_change_180": "سرعة التغير [180 يوم]",
-            "tags": "الوسوم",
-            "sources_links": "المصادر والروابط",
-            "attachments": "المرفقات",
-            "no_attachments": "لا توجد مرفقات",
-            "recommended_relations": "العلاقات الموصى بها",
-            "no_relations": "لا توجد اتجاهات ذات صلة"
-        }
-    },
-    "enums": {
-        "domain": {
-            "Mobility": "الحركة",
-            "Engineering": "الهندسة",
-            "Energy": "الطاقة",
-            "Resources": "الموارد",
-            "Chemicals": "الكيماويات",
-            "Materials": "المواد",
-            "Health Tech": "تقنية الصحة",
-            "Life Sciences": "علوم الحياة",
-            "ICT": "تقنية المعلومات والاتصالات"
-        },
-        "relevance": {
-            "Low": "منخفض",
-            "Medium": "متوسط",
-            "High": "عالي"
-        },
-        "potential_impact": {
-            "None": "لا يوجد",
-            "Very Low": "منخفض جداً",
-            "Low": "منخفض",
-            "Medium": "متوسط",
-            "High": "عالي",
-            "Very High": "عالي جداً"
-        },
-        "status": {
-            "New": "جديد",
-            "Under Review": "قيد المراجعة",
-            "Accepted": "مقبول",
-            "Rejected": "مرفوض",
-            "Archived": "مؤرشف",
-            "Draft": "مسودة",
-            "Active": "نشط"
-        },
-        "time_horizon": {
-            "Short-term": "قصير الأجل",
-            "Mid-term": "متوسط الأجل",
-            "Long-term": "طويل الأجل"
-        },
-        "maturity": {
-            "Early": "مبكر",
-            "Growing": "نمو",
-            "Mature": "ناضج"
-        },
-        "strength": {
-            "Weak": "ضعيف",
-            "Emerging": "ناشئ",
-            "Strong": "قوي"
-        },
-        "source_type": {
-            "News": "أخبار",
-            "Article": "مقال",
-            "Patent": "براءة اختراع",
-            "Report": "تقرير",
-            "Social": "اجتماعي",
-            "Event": "حدث",
-            "Internal": "داخلي",
-            "Other": "أخرى"
-        },
-        "trend_segmentation": {
-            "Society & Individuals": "المجتمع والأفراد",
-            "Economy & Business": "الاقتصاد والأعمال",
-            "Environment": "البيئة",
-            "Politics & Law": "السياسة والقانون"
-        },
-        "adoption_stage": {
-            "Early": "مبكر",
-            "Growing": "نمو",
-            "Mature": "ناضج"
-        },
-        "relation_type": {
-            "Drives": "يدفع",
-            "Hinders": "يعيق",
-            "Relates to": "يرتبط بـ"
-        }
+    "modals": {
+      "new_trend": "اتجاه استراتيجي جديد",
+      "update_blueprint": "تحديث المخطط"
     }
+  },
+  "signals": {
+    "title": "الإشارات",
+    "description": "التقاط أدلة المرحلة المبكرة للتغييرات المستقبلية المدمرة.",
+    "create_signal": "إنشاء إشارة",
+    "search_placeholder": "البحث في العنوان، الرابط، الكلمات المفتاحية...",
+    "all_statuses": "جميع الحالات",
+    "all_types": "جميع الأنواع",
+    "relevance": "الصلة",
+    "no_signals": "لم يتم العثور على إشارات تطابق المرشحات",
+    "detail": {
+      "edit": "تعديل",
+      "delete_confirm": "حذف إشارة الاستخبارات هذه نهائياً؟",
+      "signal_strength": "قوة الإشارة",
+      "priority_relevance": "صلة الأولوية",
+      "core_domains": "المجالات الأساسية",
+      "no_domains": "لا توجد مجالات مصنفة",
+      "analyst_assessment": "تقييم المحلل",
+      "pending_review": "في انتظار مراجعة المحلل الإضافية وتوثيق الرؤى التفصيلية.",
+      "launch_source": "فتح المصدر"
+    },
+    "modals": {
+      "intelligence_capture": "التقاط الاستخبارات",
+      "update_intelligence": "تحديث الاستخبارات"
+    }
+  },
+  "radar": {
+    "title": "الرادار",
+    "description": "تصور راداري تفاعلي لتتبع الاكتشاف والابتكار",
+    "settings": "إعدادات الرادار",
+    "mode_180": "وضع 180°",
+    "network_view": "عرض الشبكة",
+    "show_labels": "إظهار التسميات",
+    "zoom_in": "تكبير",
+    "zoom_out": "تصغير",
+    "center_view": "توسيط العرض",
+    "zoom_on_scroll": "التكبير بالتمرير",
+    "segment_by": "التصنيف حسب",
+    "color_by": "التلوين حسب",
+    "distance_by": "المسافة",
+    "relations_filter": "العلاقات",
+    "add_dimension": "إضافة بُعد",
+    "legend": {
+      "title": "دليل الألوان",
+      "configure_hint": "قم بتكوين إعدادات العرض لرؤية دليل الألوان.",
+      "potential_impact": "التأثير المحتمل",
+      "trend_segmentation": "تصنيف الاتجاهات",
+      "time_to_market": "الوقت للوصول للسوق"
+    },
+    "impact": {
+      "none": "لا يوجد",
+      "very_low": "منخفض جداً",
+      "low": "منخفض",
+      "medium": "متوسط",
+      "high": "عالي",
+      "very_high": "عالي جداً"
+    },
+    "time_rings": {
+      "0-2y": "0-2 سنة",
+      "2-4y": "2-4 سنوات",
+      "4-6y": "4-6 سنوات",
+      "6-8y": "6-8 سنوات",
+      "8-10y": "8-10 سنوات",
+      "10+y": "+10 سنوات"
+    },
+    "segment_options": {
+      "category": "فئة المجال",
+      "trendSegmentation": "تصنيف الاتجاهات",
+      "adoptionStage": "مرحلة التبني",
+      "potentialImpact": "التأثير المحتمل",
+      "timeHorizon": "الأفق الزمني"
+    },
+    "color_options": {
+      "potentialImpact": "التأثير المحتمل",
+      "category": "فئة المجال",
+      "trendSegmentation": "تصنيف الاتجاهات",
+      "adoptionStage": "مرحلة التبني",
+      "needForAction": "الحاجة للتصرف"
+    },
+    "distance_options": {
+      "timeHorizon": "الأفق الزمني",
+      "potentialImpact": "التأثير المحتمل",
+      "businessRelevance": "الصلة التجارية"
+    },
+    "detail": {
+      "related_signals": "الإشارات ذات الصلة",
+      "no_signals": "لا توجد إشارات ذات صلة",
+      "view_details": "عرض التفاصيل",
+      "forces_shaping_future": "القوى المشكلة للمستقبل",
+      "snapshot_of_future": "لمحة عن المستقبل",
+      "implications_for_innovation": "الآثار على الابتكار",
+      "way_forward": "الطريق للأمام",
+      "ratings": "التقييمات",
+      "scope": "النطاق",
+      "strategic_fit": "الملاءمة الاستراتيجية",
+      "speed_of_change_90": "سرعة التغير [90 يوم]",
+      "speed_of_change_180": "سرعة التغير [180 يوم]",
+      "tags": "الوسوم",
+      "sources_links": "المصادر والروابط",
+      "attachments": "المرفقات",
+      "no_attachments": "لا توجد مرفقات",
+      "recommended_relations": "العلاقات الموصى بها",
+      "no_relations": "لا توجد اتجاهات ذات صلة"
+    }
+  },
+  "enums": {
+    "domain": {
+      "Mobility": "الحركة",
+      "Engineering": "الهندسة",
+      "Energy": "الطاقة",
+      "Resources": "الموارد",
+      "Chemicals": "الكيماويات",
+      "Materials": "المواد",
+      "Health Tech": "تقنية الصحة",
+      "Life Sciences": "علوم الحياة",
+      "ICT": "تقنية المعلومات والاتصالات"
+    },
+    "relevance": {
+      "Low": "منخفض",
+      "Medium": "متوسط",
+      "High": "عالي"
+    },
+    "potential_impact": {
+      "None": "لا يوجد",
+      "Very Low": "منخفض جداً",
+      "Low": "منخفض",
+      "Medium": "متوسط",
+      "High": "عالي",
+      "Very High": "عالي جداً"
+    },
+    "status": {
+      "New": "جديد",
+      "Under Review": "قيد المراجعة",
+      "Accepted": "مقبول",
+      "Rejected": "مرفوض",
+      "Archived": "مؤرشف",
+      "Draft": "مسودة",
+      "Active": "نشط"
+    },
+    "time_horizon": {
+      "Short-term": "قصير الأجل",
+      "Mid-term": "متوسط الأجل",
+      "Long-term": "طويل الأجل"
+    },
+    "maturity": {
+      "Early": "مبكر",
+      "Growing": "نمو",
+      "Mature": "ناضج"
+    },
+    "strength": {
+      "Weak": "ضعيف",
+      "Emerging": "ناشئ",
+      "Strong": "قوي"
+    },
+    "source_type": {
+      "News": "أخبار",
+      "Article": "مقال",
+      "Patent": "براءة اختراع",
+      "Report": "تقرير",
+      "Social": "اجتماعي",
+      "Event": "حدث",
+      "Internal": "داخلي",
+      "Other": "أخرى"
+    },
+    "trend_segmentation": {
+      "Society & Individuals": "المجتمع والأفراد",
+      "Economy & Business": "الاقتصاد والأعمال",
+      "Environment": "البيئة",
+      "Politics & Law": "السياسة والقانون"
+    },
+    "adoption_stage": {
+      "Early": "مبكر",
+      "Growing": "نمو",
+      "Mature": "ناضج"
+    },
+    "relation_type": {
+      "Drives": "يدفع",
+      "Hinders": "يعيق",
+      "Relates to": "يرتبط بـ"
+    }
+  }
 }
-

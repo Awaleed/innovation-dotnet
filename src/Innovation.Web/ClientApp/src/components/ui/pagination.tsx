@@ -1,127 +1,112 @@
-import * as React from "react"
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  MoreHorizontalIcon,
-} from "lucide-react"
+import * as React from 'react';
+import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from 'lucide-react';
 
-import { cn } from "@/lib/utils"
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
-import { useMemo } from "react";
+import { cn } from '@/lib/utils';
+import { Button, buttonVariants } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRTL } from '@/components/rtl-provider';
 
-function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
+function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
   return (
     <nav
       role="navigation"
       aria-label="pagination"
       data-slot="pagination"
-      className={cn("flex justify-center mx-auto w-full", className)}
+      className={cn('flex justify-center mx-auto w-full', className)}
       {...props}
     />
-  )
+  );
 }
 
-function PaginationContent({
-  className,
-  ...props
-}: React.ComponentProps<"ul">) {
+function PaginationContent({ className, ...props }: React.ComponentProps<'ul'>) {
   return (
     <ul
       data-slot="pagination-content"
-      className={cn("flex flex-row gap-1 items-center", className)}
+      className={cn('flex flex-row gap-1 items-center', className)}
       {...props}
     />
-  )
+  );
 }
 
-function PaginationItem({ ...props }: React.ComponentProps<"li">) {
-  return <li data-slot="pagination-item" {...props} />
+function PaginationItem({ ...props }: React.ComponentProps<'li'>) {
+  return <li data-slot="pagination-item" {...props} />;
 }
 
 type PaginationLinkProps = {
-  isActive?: boolean
-} & Pick<React.ComponentProps<typeof Button>, "size"> &
-  React.ComponentProps<"a">
+  isActive?: boolean;
+} & Pick<React.ComponentProps<typeof Button>, 'size'> &
+  React.ComponentProps<'a'>;
 
-function PaginationLink({
-  className,
-  isActive,
-  size = "icon",
-  ...props
-}: PaginationLinkProps) {
+function PaginationLink({ className, isActive, size = 'icon', ...props }: PaginationLinkProps) {
   return (
     <a
-      aria-current={isActive ? "page" : undefined}
+      aria-current={isActive ? 'page' : undefined}
       data-slot="pagination-link"
       data-active={isActive}
       className={cn(
         buttonVariants({
-          variant: isActive ? "outline" : "ghost",
+          variant: isActive ? 'outline' : 'ghost',
           size,
         }),
-        className
+        className,
       )}
       {...props}
     />
-  )
+  );
 }
 
-function PaginationPrevious({
-  className,
-  ...props
-}: React.ComponentProps<typeof PaginationLink>) {
+function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
   const { t } = useTranslation('ui/pagination');
   return (
     <PaginationLink
       aria-label={t('go_to_previous_page', 'Go to previous page')}
       size="default"
-      className={cn("gap-1 px-2.5 sm:ps-2.5", className)}
+      className={cn('gap-1 px-2.5 sm:ps-2.5', className)}
       {...props}
     >
       <ChevronLeftIcon />
       <span className="hidden sm:block">{t('previous', 'Previous')}</span>
     </PaginationLink>
-  )
+  );
 }
 
-function PaginationNext({
-  className,
-  ...props
-}: React.ComponentProps<typeof PaginationLink>) {
+function PaginationNext({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
   const { t } = useTranslation('ui/pagination');
   return (
     <PaginationLink
       aria-label={t('go_to_next_page', 'Go to next page')}
       size="default"
-      className={cn("gap-1 px-2.5 sm:pe-2.5", className)}
+      className={cn('gap-1 px-2.5 sm:pe-2.5', className)}
       {...props}
     >
       <span className="hidden sm:block">{t('next', 'Next')}</span>
       <ChevronRightIcon />
     </PaginationLink>
-  )
+  );
 }
 
-function PaginationEllipsis({
-  className,
-  ...props
-}: React.ComponentProps<"span">) {
+function PaginationEllipsis({ className, ...props }: React.ComponentProps<'span'>) {
   const { t } = useTranslation('ui/pagination');
   return (
     <span
       aria-hidden
       data-slot="pagination-ellipsis"
-      className={cn("flex justify-center items-center size-9", className)}
+      className={cn('flex justify-center items-center size-9', className)}
       {...props}
     >
       <MoreHorizontalIcon className="size-4" />
       <span className="sr-only">{t('more_pages', 'More pages')}</span>
     </span>
-  )
+  );
 }
 
 function getPageRange(current: number, total: number, siblingCount = 1) {
@@ -134,7 +119,8 @@ function getPageRange(current: number, total: number, siblingCount = 1) {
   const rightSibling = Math.min(current + siblingCount, total);
   const showLeftDots = leftSibling > 2;
   const showRightDots = rightSibling < total - 1;
-  const range = (start: number, end: number) => Array.from({ length: end - start + 1 }, (_, i) => i + start);
+  const range = (start: number, end: number) =>
+    Array.from({ length: end - start + 1 }, (_, i) => i + start);
   if (!showLeftDots && showRightDots) {
     return [...range(1, 3 + 2 * siblingCount), DOTS, total];
   }
@@ -181,29 +167,23 @@ export function PaginationBar({
   const defaultTotalLabel = totalLabel || t('page_size_label', 'Items per page');
 
   return (
-    <div className={cn(
-      "relative flex flex-wrap items-center justify-between gap-4 rounded-md border bg-card px-4 py-3 transition-opacity",
-      isLoading && "opacity-60"
-    )}>
+    <div
+      className={cn(
+        'relative flex flex-wrap items-center justify-between gap-4 rounded-md border bg-card px-4 py-3 transition-opacity',
+        isLoading && 'opacity-60',
+      )}
+    >
       {/* Left Section: Items Info and Page Size */}
       <div className="flex flex-wrap items-center gap-4">
         {/* Items Count Display */}
         <div className="flex items-center gap-1.5 text-sm">
-          <span className="text-muted-foreground">
-            {t('showing_label', 'Showing')}
-          </span>
-          <span className="font-semibold text-foreground" dir={isRtl? 'rtl' : 'ltr'}>
+          <span className="text-muted-foreground">{t('showing_label', 'Showing')}</span>
+          <span className="font-semibold text-foreground" dir={isRtl ? 'rtl' : 'ltr'}>
             {startItem.toLocaleString()} - {endItem.toLocaleString()}
           </span>
-          <span className="text-muted-foreground">
-            {t('of_label', 'of')}
-          </span>
-          <span className="font-semibold text-primary">
-            {totalItems.toLocaleString()}
-          </span>
-          <span className="text-muted-foreground">
-            {t('items_label', 'items')}
-          </span>
+          <span className="text-muted-foreground">{t('of_label', 'of')}</span>
+          <span className="font-semibold text-primary">{totalItems.toLocaleString()}</span>
+          <span className="text-muted-foreground">{t('items_label', 'items')}</span>
         </div>
 
         {/* Divider */}
@@ -211,9 +191,7 @@ export function PaginationBar({
 
         {/* Page Size Selector */}
         <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">
-            {defaultTotalLabel}:
-          </span>
+          <span className="text-sm text-muted-foreground">{defaultTotalLabel}:</span>
           <Select
             value={String(pageSize)}
             onValueChange={(value) => onPageSizeChange(Number(value))}
@@ -237,18 +215,10 @@ export function PaginationBar({
       <div className="flex items-center gap-3">
         {/* Page Info */}
         <div className="flex items-center gap-1.5 text-sm">
-          <span className="text-muted-foreground">
-            {t('page_label', 'Page')}
-          </span>
-          <span className="font-semibold">
-            {page.toLocaleString()}
-          </span>
-          <span className="text-muted-foreground">
-            {t('of_label', 'of')}
-          </span>
-          <span className="font-semibold">
-            {totalPages.toLocaleString()}
-          </span>
+          <span className="text-muted-foreground">{t('page_label', 'Page')}</span>
+          <span className="font-semibold">{page.toLocaleString()}</span>
+          <span className="text-muted-foreground">{t('of_label', 'of')}</span>
+          <span className="font-semibold">{totalPages.toLocaleString()}</span>
         </div>
 
         {/* Divider */}
@@ -296,8 +266,8 @@ export function PaginationBar({
                   variant={p === page ? 'secondary' : 'ghost'}
                   size="sm"
                   className={cn(
-                    "h-8 w-8 p-0 font-medium relative",
-                    isLoading && p === page && "ring-2 ring-primary ring-offset-1"
+                    'h-8 w-8 p-0 font-medium relative',
+                    isLoading && p === page && 'ring-2 ring-primary ring-offset-1',
                   )}
                   onClick={() => onPageChange(Number(p))}
                   disabled={isLoading}
@@ -311,7 +281,7 @@ export function PaginationBar({
                     </span>
                   )}
                 </Button>
-              )
+              ),
             )}
           </div>
 
@@ -352,4 +322,4 @@ export {
   PaginationPrevious,
   PaginationNext,
   PaginationEllipsis,
-}
+};

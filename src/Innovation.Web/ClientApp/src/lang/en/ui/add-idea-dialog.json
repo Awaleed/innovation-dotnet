@@ -1,62 +1,62 @@
 {
-    "title": "Add New Idea",
-    "description": "Enter details for the new idea. All fields are required.",
-    "form": {
-        "idea_title": "Idea Title *",
-        "idea_title_placeholder": "Enter idea title",
-        "author_name": "Author Name *",
-        "author_name_placeholder": "Enter author name",
-        "idea_description": "Idea Description *",
-        "idea_description_placeholder": "Write a detailed description of the idea",
-        "category": "Category *",
-        "category_placeholder": "Choose category",
-        "status": "Status",
-        "priority": "Priority",
-        "risk_level": "Risk Level",
-        "tags": "Tags",
-        "add_tag_placeholder": "Add tag",
-        "add": "Add",
-        "competitive_advantage": "Competitive Advantage",
-        "competitive_advantage_placeholder": "Write the competitive advantage of the idea",
-        "market_potential": "Market Potential",
-        "market_potential_placeholder": "Write market potential analysis",
-        "resource_requirements": "Resource Requirements",
-        "human_resources": "Human Resources",
-        "human_resources_placeholder": "Example: Team of 10 people",
-        "financial_resources": "Financial Resources",
-        "financial_resources_placeholder": "Example: $500,000",
-        "technical_resources": "Technical Resources",
-        "technical_resources_placeholder": "Example: Cloud servers, mobile apps"
-    },
-    "buttons": {
-        "add_new_idea": "Add New Idea",
-        "cancel": "Cancel",
-        "add_idea": "Add Idea"
-    },
-    "categories": {
-        "environment_sustainability": "Environment & Sustainability",
-        "education_training": "Education & Training",
-        "energy_environment": "Energy & Environment",
-        "business_commerce": "Business & Commerce",
-        "health_care": "Health & Care",
-        "transportation": "Transportation",
-        "agriculture_food": "Agriculture & Food"
-    },
-    "statuses": {
-        "new_idea": "New Idea",
-        "research_phase": "Research Phase",
-        "in_development": "In Development",
-        "testing_phase": "Testing Phase",
-        "completed": "Completed"
-    },
-    "priorities": {
-        "low": "Low",
-        "medium": "Medium",
-        "high": "High"
-    },
-    "risk_levels": {
-        "low": "Low",
-        "medium": "Medium",
-        "high": "High"
-    }
+  "title": "Add New Idea",
+  "description": "Enter details for the new idea. All fields are required.",
+  "form": {
+    "idea_title": "Idea Title *",
+    "idea_title_placeholder": "Enter idea title",
+    "author_name": "Author Name *",
+    "author_name_placeholder": "Enter author name",
+    "idea_description": "Idea Description *",
+    "idea_description_placeholder": "Write a detailed description of the idea",
+    "category": "Category *",
+    "category_placeholder": "Choose category",
+    "status": "Status",
+    "priority": "Priority",
+    "risk_level": "Risk Level",
+    "tags": "Tags",
+    "add_tag_placeholder": "Add tag",
+    "add": "Add",
+    "competitive_advantage": "Competitive Advantage",
+    "competitive_advantage_placeholder": "Write the competitive advantage of the idea",
+    "market_potential": "Market Potential",
+    "market_potential_placeholder": "Write market potential analysis",
+    "resource_requirements": "Resource Requirements",
+    "human_resources": "Human Resources",
+    "human_resources_placeholder": "Example: Team of 10 people",
+    "financial_resources": "Financial Resources",
+    "financial_resources_placeholder": "Example: $500,000",
+    "technical_resources": "Technical Resources",
+    "technical_resources_placeholder": "Example: Cloud servers, mobile apps"
+  },
+  "buttons": {
+    "add_new_idea": "Add New Idea",
+    "cancel": "Cancel",
+    "add_idea": "Add Idea"
+  },
+  "categories": {
+    "environment_sustainability": "Environment & Sustainability",
+    "education_training": "Education & Training",
+    "energy_environment": "Energy & Environment",
+    "business_commerce": "Business & Commerce",
+    "health_care": "Health & Care",
+    "transportation": "Transportation",
+    "agriculture_food": "Agriculture & Food"
+  },
+  "statuses": {
+    "new_idea": "New Idea",
+    "research_phase": "Research Phase",
+    "in_development": "In Development",
+    "testing_phase": "Testing Phase",
+    "completed": "Completed"
+  },
+  "priorities": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High"
+  },
+  "risk_levels": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High"
+  }
 }

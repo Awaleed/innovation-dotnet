@@ -1,18 +1,18 @@
 {
-    "metrics": {
-        "rating": "التقييم",
-        "votes": "الأصوات",
-        "views": "المشاهدة"
-    },
-    "progress": {
-        "environmental_impact": "الأثر البيئي"
-    },
-    "buttons": {
-        "view_details": "عرض التفاصيل"
-    },
-    "risk_levels": {
-        "low": "منخفض",
-        "medium": "متوسط",
-        "high": "عالٍ"
-    }
+  "metrics": {
+    "rating": "التقييم",
+    "votes": "الأصوات",
+    "views": "المشاهدة"
+  },
+  "progress": {
+    "environmental_impact": "الأثر البيئي"
+  },
+  "buttons": {
+    "view_details": "عرض التفاصيل"
+  },
+  "risk_levels": {
+    "low": "منخفض",
+    "medium": "متوسط",
+    "high": "عالٍ"
+  }
 }

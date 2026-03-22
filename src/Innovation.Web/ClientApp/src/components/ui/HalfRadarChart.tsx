@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -43,25 +42,25 @@ export default function HalfRadarChart({
 
   // Get number of axes from first series length
   const numAxes = data.length > 0 ? (data[0]?.length ?? 0) : 0;
-  
+
   // Generate default labels if not provided
-  const axisLabels = labels.length > 0 
-    ? labels 
-    : Array.from({ length: numAxes }, (_, i) => `Axis ${i + 1}`);
-  
+  const axisLabels =
+    labels.length > 0 ? labels : Array.from({ length: numAxes }, (_, i) => `Axis ${i + 1}`);
+
   // Generate default colors if not provided
   const defaultColors = [
-    'hsl(217, 91%, 60%)',  // Blue
-    'hsl(142, 71%, 45%)',  // Green
-    'hsl(0, 84%, 60%)',    // Red
-    'hsl(38, 92%, 50%)',   // Orange
-    'hsl(271, 81%, 56%)',  // Purple
-    'hsl(199, 89%, 48%)',  // Cyan
+    'hsl(217, 91%, 60%)', // Blue
+    'hsl(142, 71%, 45%)', // Green
+    'hsl(0, 84%, 60%)', // Red
+    'hsl(38, 92%, 50%)', // Orange
+    'hsl(271, 81%, 56%)', // Purple
+    'hsl(199, 89%, 48%)', // Cyan
   ];
-  
-  const seriesColors = colors.length > 0
-    ? colors
-    : Array.from({ length: data.length }, (_, i) => defaultColors[i % defaultColors.length]);
+
+  const seriesColors =
+    colors.length > 0
+      ? colors
+      : Array.from({ length: data.length }, (_, i) => defaultColors[i % defaultColors.length]);
 
   // Convert matrix to DataPoint arrays for each series
   const dataSeries: DataPoint[][] = data.map((series, seriesIndex) =>
@@ -69,7 +68,7 @@ export default function HalfRadarChart({
       label: axisLabels[axisIndex] ?? `Axis ${axisIndex + 1}`,
       value,
       color: seriesColors[seriesIndex] ?? defaultColors[0] ?? 'hsl(217, 91%, 60%)',
-    }))
+    })),
   );
 
   // Calculate angle for each data point (spread across 180 degrees)
@@ -82,8 +81,8 @@ export default function HalfRadarChart({
   const toDegrees = (radians: number) => Math.round(radians * (180 / Math.PI));
 
   // Generate value labels for the horizontal axis
-  const valueLabels = Array.from({ length: levels + 1 }, (_, i) => 
-    Math.round((i / levels) * maxValue)
+  const valueLabels = Array.from({ length: levels + 1 }, (_, i) =>
+    Math.round((i / levels) * maxValue),
   );
 
   // Calculate position for a point - INVERTED: 100% at center, 0% at edge
@@ -107,19 +106,19 @@ export default function HalfRadarChart({
   const generateArcPath = (level: number) => {
     const r = radius * level;
     const path = [];
-    
+
     for (let i = 0; i <= numAxes - 1; i++) {
       const angle = i * angleStep;
       const x = centerX + r * Math.cos(Math.PI - angle);
       const y = centerY - r * Math.sin(Math.PI - angle);
-      
+
       if (i === 0) {
         path.push(`M ${x} ${y}`);
       } else {
         path.push(`L ${x} ${y}`);
       }
     }
-    
+
     return path.join(' ');
   };
 
@@ -135,21 +134,21 @@ export default function HalfRadarChart({
           {/* Glow filters for points */}
           {dataSeries.flatMap((series, seriesIndex) =>
             series.map((_, pointIndex) => (
-              <filter 
-                key={`glow-${seriesIndex}-${pointIndex}`} 
-                id={`glow-${seriesIndex}-${pointIndex}`} 
-                x="-50%" 
-                y="-50%" 
-                width="200%" 
+              <filter
+                key={`glow-${seriesIndex}-${pointIndex}`}
+                id={`glow-${seriesIndex}-${pointIndex}`}
+                x="-50%"
+                y="-50%"
+                width="200%"
                 height="200%"
               >
-                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feGaussianBlur stdDeviation="2" result="coloredBlur" />
                 <feMerge>
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
-            ))
+            )),
           )}
         </defs>
 
@@ -157,10 +156,10 @@ export default function HalfRadarChart({
         {groups.map((group, groupIndex) => {
           const startAngle = group.startIndex * angleStep;
           const endAngle = group.endIndex * angleStep;
-          
+
           // Create a filled area for the group
           const groupPath = [];
-          
+
           // Outer arc
           for (let i = group.startIndex; i <= group.endIndex; i++) {
             const angle = i * angleStep;
@@ -168,12 +167,12 @@ export default function HalfRadarChart({
             const y = centerY - radius * Math.sin(Math.PI - angle);
             groupPath.push(i === group.startIndex ? `M ${x} ${y}` : `L ${x} ${y}`);
           }
-          
+
           // Line to center area
           const endX = centerX + 20 * Math.cos(Math.PI - endAngle);
           const endY = centerY - 20 * Math.sin(Math.PI - endAngle);
           groupPath.push(`L ${endX} ${endY}`);
-          
+
           // Inner arc back
           for (let i = group.endIndex; i >= group.startIndex; i--) {
             const angle = i * angleStep;
@@ -181,9 +180,9 @@ export default function HalfRadarChart({
             const y = centerY - 20 * Math.sin(Math.PI - angle);
             groupPath.push(`L ${x} ${y}`);
           }
-          
+
           groupPath.push('Z');
-          
+
           return (
             <motion.g key={`group-${groupIndex}`}>
               {/* Background fill */}
@@ -195,7 +194,7 @@ export default function HalfRadarChart({
                 animate={{ opacity: 0.08 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               />
-              
+
               {/* Group boundary lines */}
               <motion.line
                 x1={centerX}
@@ -210,7 +209,7 @@ export default function HalfRadarChart({
                 animate={{ pathLength: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               />
-              
+
               <motion.line
                 x1={centerX}
                 y1={centerY}
@@ -224,7 +223,7 @@ export default function HalfRadarChart({
                 animate={{ pathLength: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               />
-              
+
               {/* Group label */}
               <motion.text
                 x={centerX + (radius + 40) * Math.cos(Math.PI - (startAngle + endAngle) / 2)}
@@ -281,7 +280,7 @@ export default function HalfRadarChart({
         {Array.from({ length: numAxes }).map((_, i) => {
           const angle = i * angleStep;
           const { x: edgeX, y: edgeY } = getEdgePosition(angle);
-          
+
           return (
             <motion.line
               key={i}
@@ -303,12 +302,12 @@ export default function HalfRadarChart({
         {Array.from({ length: numAxes }).map((_, i) => {
           const angle = i * angleStep;
           const degrees = toDegrees(angle);
-          
+
           // Position label on outer edge
           const labelOffset = 15;
           const labelX = centerX + (radius + labelOffset) * Math.cos(Math.PI - angle);
           const labelY = centerY - (radius + labelOffset) * Math.sin(Math.PI - angle);
-          
+
           return (
             <text
               key={`degree-${i}`}
@@ -329,7 +328,7 @@ export default function HalfRadarChart({
           const r = radius * (i / levels);
           const x = centerX - radius + r * 2;
           const y = centerY + 20;
-          
+
           return (
             <text
               key={`value-${i}`}
@@ -346,31 +345,33 @@ export default function HalfRadarChart({
         })}
 
         {/* Data labels at the outer edge (if there are labels) */}
-        {axisLabels.length > 0 && axisLabels.length < 30 && axisLabels.map((label, i) => {
-          const angle = i * angleStep;
-          
-          // Position label slightly beyond the edge, outside the degree labels
-          const labelOffset = 40;
-          const labelX = centerX + (radius + labelOffset) * Math.cos(Math.PI - angle);
-          const labelY = centerY - (radius + labelOffset) * Math.sin(Math.PI - angle);
-          
-          return (
-            <motion.text
-              key={`label-${i}`}
-              x={labelX}
-              y={labelY}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              className="text-[9px] font-semibold"
-              fill="hsl(var(--foreground))"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.8 }}
-              transition={{ duration: 0.5, delay: 0.8 + i * 0.01 }}
-            >
-              {label}
-            </motion.text>
-          );
-        })}
+        {axisLabels.length > 0 &&
+          axisLabels.length < 30 &&
+          axisLabels.map((label, i) => {
+            const angle = i * angleStep;
+
+            // Position label slightly beyond the edge, outside the degree labels
+            const labelOffset = 40;
+            const labelX = centerX + (radius + labelOffset) * Math.cos(Math.PI - angle);
+            const labelY = centerY - (radius + labelOffset) * Math.sin(Math.PI - angle);
+
+            return (
+              <motion.text
+                key={`label-${i}`}
+                x={labelX}
+                y={labelY}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="text-[9px] font-semibold"
+                fill="hsl(var(--foreground))"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.8 }}
+                transition={{ duration: 0.5, delay: 0.8 + i * 0.01 }}
+              >
+                {label}
+              </motion.text>
+            );
+          })}
 
         {/* Render each series */}
         {dataSeries.map((series, seriesIndex) => (
@@ -380,7 +381,7 @@ export default function HalfRadarChart({
               const angle = i * angleStep;
               const { x: edgeX, y: edgeY } = getEdgePosition(angle);
               const { x: pointX, y: pointY } = getPointPosition(angle, point.value);
-              
+
               return (
                 <motion.line
                   key={`connect-${seriesIndex}-${i}`}
@@ -395,8 +396,8 @@ export default function HalfRadarChart({
                   animate={{ x2: pointX, y2: pointY }}
                   transition={{
                     duration: 1,
-                    delay: 0.6 + (seriesIndex * 0.1) + i * 0.02,
-                    ease: "easeOut"
+                    delay: 0.6 + seriesIndex * 0.1 + i * 0.02,
+                    ease: 'easeOut',
                   }}
                 />
               );
@@ -407,22 +408,22 @@ export default function HalfRadarChart({
               const angle = i * angleStep;
               const { x: edgeX, y: edgeY } = getEdgePosition(angle);
               const { x: pointX, y: pointY } = getPointPosition(angle, point.value);
-              
+
               return (
                 <motion.g
                   key={`point-${seriesIndex}-${i}`}
                   initial={{ x: edgeX - centerX, y: edgeY - centerY, scale: 0, opacity: 0 }}
-                  animate={{ 
-                    x: pointX - centerX, 
-                    y: pointY - centerY, 
-                    scale: 1, 
-                    opacity: 1 
+                  animate={{
+                    x: pointX - centerX,
+                    y: pointY - centerY,
+                    scale: 1,
+                    opacity: 1,
                   }}
                   transition={{
-                    type: "spring",
+                    type: 'spring',
                     stiffness: 200,
                     damping: 15,
-                    delay: 0.6 + (seriesIndex * 0.1) + i * 0.02
+                    delay: 0.6 + seriesIndex * 0.1 + i * 0.02,
                   }}
                 >
                   {/* Outer glow circle */}
@@ -437,11 +438,11 @@ export default function HalfRadarChart({
                     transition={{
                       duration: 2,
                       repeat: Infinity,
-                      repeatType: "reverse",
-                      delay: (seriesIndex * 0.05) + i * 0.05
+                      repeatType: 'reverse',
+                      delay: seriesIndex * 0.05 + i * 0.05,
                     }}
                   />
-                  
+
                   {/* Main point - smaller */}
                   <motion.circle
                     cx={centerX}
@@ -452,12 +453,12 @@ export default function HalfRadarChart({
                     strokeWidth="1.5"
                     filter={`url(#glow-${seriesIndex}-${i})`}
                     style={{ cursor: 'pointer' }}
-                    whileHover={{ 
+                    whileHover={{
                       scale: 2,
-                      transition: { duration: 0.2 }
+                      transition: { duration: 0.2 },
                     }}
                   />
-                  
+
                   {/* Inner white dot */}
                   <circle
                     cx={centerX}

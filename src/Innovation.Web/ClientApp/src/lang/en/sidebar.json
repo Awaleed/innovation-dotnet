@@ -1,25 +1,25 @@
 {
-    "main_navigation": "Main Navigation",
-    "projects": "Projects",
-    "help": "Help",
-    "toggle_sidebar": "Toggle Sidebar",
-    "ui_sidebar": {
-        "overview": "Overview",
-        "challenges": "Challenges",
-        "ideas": "Ideas",
-        "connector": "Connect Challenges & Ideas",
-        "evaluation": "Idea Evaluation",
-        "evaluation_settings": "Evaluation Settings",
-        "evaluation_criteria": "Evaluation Criteria",
-        "evaluation_phases": "Evaluation Phases",
-        "methodologies": "Methodologies",
-        "member_settings": "Member Settings",
-        "awards": "Awards & Recognition",
-        "analytics": "Analytics",
-        "system_title": "Innovation Management System",
-        "system_subtitle": "Comprehensive Innovation Journey",
-        "version": "Version 2.1.0",
-        "expand_sidebar": "Expand sidebar",
-        "collapse_sidebar": "Collapse sidebar"
-    }
+  "main_navigation": "Main Navigation",
+  "projects": "Projects",
+  "help": "Help",
+  "toggle_sidebar": "Toggle Sidebar",
+  "ui_sidebar": {
+    "overview": "Overview",
+    "challenges": "Challenges",
+    "ideas": "Ideas",
+    "connector": "Connect Challenges & Ideas",
+    "evaluation": "Idea Evaluation",
+    "evaluation_settings": "Evaluation Settings",
+    "evaluation_criteria": "Evaluation Criteria",
+    "evaluation_phases": "Evaluation Phases",
+    "methodologies": "Methodologies",
+    "member_settings": "Member Settings",
+    "awards": "Awards & Recognition",
+    "analytics": "Analytics",
+    "system_title": "Innovation Management System",
+    "system_subtitle": "Comprehensive Innovation Journey",
+    "version": "Version 2.1.0",
+    "expand_sidebar": "Expand sidebar",
+    "collapse_sidebar": "Collapse sidebar"
+  }
 }

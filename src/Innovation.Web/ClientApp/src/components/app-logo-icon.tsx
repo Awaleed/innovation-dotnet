@@ -2,7 +2,7 @@ import { HTMLAttributes } from 'react';
 import LogoIcon from './brand/LogoIcon';
 
 interface AppLogoIconProps extends HTMLAttributes<HTMLDivElement> {
-    variant?: 'light' | 'dark';
+  variant?: 'light' | 'dark';
 }
 
 /**
@@ -12,5 +12,5 @@ interface AppLogoIconProps extends HTMLAttributes<HTMLDivElement> {
  * This component wraps the brand LogoIcon component.
  */
 export default function AppLogoIcon({ variant = 'light', ...props }: AppLogoIconProps) {
-    return <LogoIcon size={32} variant={variant} {...props} />;
+  return <LogoIcon size={32} variant={variant} {...props} />;
 }

@@ -1,143 +1,142 @@
 {
-    "title": "Plugins Marketplace",
-    "description": "Discover and install powerful plugins to extend your application's functionality",
-    "stats": {
-        "total": "Total Plugins",
-        "available_plugins": "Available plugins",
-        "featured": "Featured",
-        "premium_plugins": "Premium plugins",
-        "free": "Free",
-        "free_plugins": "Free plugins",
-        "downloads": "Downloads",
-        "total_downloads": "Total downloads"
-    },
-    "tabs": {
-        "all": "All",
-        "featured": "Featured",
-        "free": "Free"
-    },
-    "categories": {
-        "all": "All Categories",
-        "productivity": "Productivity",
-        "analytics": "Analytics",
-        "automation": "Automation",
-        "security": "Security",
-        "integration": "Integration",
-        "customization": "Customization",
-        "management": "Management",
-        "design": "Design",
-        "finance": "Finance"
-    },
-    "search": {
-        "placeholder": "Search plugins..."
-    },
-    "filter": {
-        "category": "Category",
-        "price": "Price",
-        "all_prices": "All Prices",
-        "free_only": "Free Only",
-        "paid_only": "Paid Only"
-    },
-    "sort": {
-        "placeholder": "Sort by",
-        "popular": "Most Popular",
-        "rating": "Highest Rated",
-        "newest": "Newest",
-        "price_low": "Price: Low to High",
-        "price_high": "Price: High to Low"
-    },
-    "actions": {
-        "install": "Install",
-        "buy": "Buy",
-        "details": "Details",
-        "install_now": "Install Now",
-        "installing": "Installing...",
-        "share": "Share with team",
-        "reset_filters": "Reset Filters"
-    },
-    "verified": "Verified",
-    "downloads": "Downloads",
+  "title": "Plugins Marketplace",
+  "description": "Discover and install powerful plugins to extend your application's functionality",
+  "stats": {
+    "total": "Total Plugins",
+    "available_plugins": "Available plugins",
+    "featured": "Featured",
+    "premium_plugins": "Premium plugins",
     "free": "Free",
-    "featured": {
-        "title": "Featured Plugins",
-        "view_all": "View All"
+    "free_plugins": "Free plugins",
+    "downloads": "Downloads",
+    "total_downloads": "Total downloads"
+  },
+  "tabs": {
+    "all": "All",
+    "featured": "Featured",
+    "free": "Free"
+  },
+  "categories": {
+    "all": "All Categories",
+    "productivity": "Productivity",
+    "analytics": "Analytics",
+    "automation": "Automation",
+    "security": "Security",
+    "integration": "Integration",
+    "customization": "Customization",
+    "management": "Management",
+    "design": "Design",
+    "finance": "Finance"
+  },
+  "search": {
+    "placeholder": "Search plugins..."
+  },
+  "filter": {
+    "category": "Category",
+    "price": "Price",
+    "all_prices": "All Prices",
+    "free_only": "Free Only",
+    "paid_only": "Paid Only"
+  },
+  "sort": {
+    "placeholder": "Sort by",
+    "popular": "Most Popular",
+    "rating": "Highest Rated",
+    "newest": "Newest",
+    "price_low": "Price: Low to High",
+    "price_high": "Price: High to Low"
+  },
+  "actions": {
+    "install": "Install",
+    "buy": "Buy",
+    "details": "Details",
+    "install_now": "Install Now",
+    "installing": "Installing...",
+    "share": "Share with team",
+    "reset_filters": "Reset Filters"
+  },
+  "verified": "Verified",
+  "downloads": "Downloads",
+  "free": "Free",
+  "featured": {
+    "title": "Featured Plugins",
+    "view_all": "View All"
+  },
+  "badge": "New plugins added weekly",
+  "cards": {
+    "installed": "Installed",
+    "users": "{{value}} users",
+    "by": "by {{author}}"
+  },
+  "tags": {
+    "ai": "AI",
+    "productivity": "Productivity",
+    "analytics": "Analytics",
+    "reporting": "Reporting",
+    "management": "Management",
+    "agile": "Agile",
+    "design": "Design",
+    "collaboration": "Collaboration",
+    "finance": "Finance",
+    "web3": "Web3",
+    "security": "Security",
+    "devops": "DevOps"
+  },
+  "dialog": {
+    "price_suffix": "per user / month",
+    "about": "About this plugin",
+    "tags": "Tags",
+    "verified_title": "Verified Secure",
+    "verified_description": "This plugin has passed our automated security audit and manual review process.",
+    "rating": "Rating",
+    "downloads": "Downloads",
+    "updated": "Updated",
+    "version": "Version",
+    "uninstall": "Uninstall Plugin",
+    "share": "Share with team",
+    "about_description": "This plugin integrates seamlessly with your existing workspace, providing real-time data synchronization and enhanced visualization capabilities suitable for enterprise teams.",
+    "details_title": "{{name}} details"
+  },
+  "data": {
+    "ai_brainstorm": {
+      "name": "AI Brainstorm Assistant",
+      "description": "Uses generative AI to suggest feature improvements based on user feedback.",
+      "author": "Nexus Labs"
     },
-    "badge": "New plugins added weekly",
-    "cards": {
-        "installed": "Installed",
-        "users": "{{value}} users",
-        "by": "by {{author}}"
+    "analytics_pro": {
+      "name": "Analytics Pro",
+      "description": "Advanced dashboards and heatmaps for your innovation funnel.",
+      "author": "DataViz Inc."
     },
-    "tags": {
-        "ai": "AI",
-        "productivity": "Productivity",
-        "analytics": "Analytics",
-        "reporting": "Reporting",
-        "management": "Management",
-        "agile": "Agile",
-        "design": "Design",
-        "collaboration": "Collaboration",
-        "finance": "Finance",
-        "web3": "Web3",
-        "security": "Security",
-        "devops": "DevOps"
+    "team_velocity": {
+      "name": "Team Velocity Tracker",
+      "description": "Gamified metrics to track innovation sprint velocity.",
+      "author": "AgileMasters"
     },
-    "dialog": {
-        "price_suffix": "per user / month",
-        "about": "About this plugin",
-        "tags": "Tags",
-        "verified_title": "Verified Secure",
-        "verified_description": "This plugin has passed our automated security audit and manual review process.",
-        "rating": "Rating",
-        "downloads": "Downloads",
-        "updated": "Updated",
-        "version": "Version",
-        "uninstall": "Uninstall Plugin",
-        "share": "Share with team",
-        "about_description": "This plugin integrates seamlessly with your existing workspace, providing real-time data synchronization and enhanced visualization capabilities suitable for enterprise teams.",
-        "details_title": "{{name}} details"
+    "figma_connector": {
+      "name": "Figma Connector",
+      "description": "Embed live Figma prototypes directly into project cards.",
+      "author": "DesignOps"
     },
-    "data": {
-        "ai_brainstorm": {
-            "name": "AI Brainstorm Assistant",
-            "description": "Uses generative AI to suggest feature improvements based on user feedback.",
-            "author": "Nexus Labs"
-        },
-        "analytics_pro": {
-            "name": "Analytics Pro",
-            "description": "Advanced dashboards and heatmaps for your innovation funnel.",
-            "author": "DataViz Inc."
-        },
-        "team_velocity": {
-            "name": "Team Velocity Tracker",
-            "description": "Gamified metrics to track innovation sprint velocity.",
-            "author": "AgileMasters"
-        },
-        "figma_connector": {
-            "name": "Figma Connector",
-            "description": "Embed live Figma prototypes directly into project cards.",
-            "author": "DesignOps"
-        },
-        "crypto_payments": {
-            "name": "Crypto Payments",
-            "description": "Accept crypto for your innovation bounties.",
-            "author": "BlockSoft"
-        },
-        "security_audit": {
-            "name": "Security Audit Tool",
-            "description": "Automated dependency scanning for your innovation projects.",
-            "author": "SecGuard"
-        }
+    "crypto_payments": {
+      "name": "Crypto Payments",
+      "description": "Accept crypto for your innovation bounties.",
+      "author": "BlockSoft"
     },
-    "toast": {
-        "installed_title": "Plugin Installed",
-        "installed_message": "{{name}} is now ready to use.",
-        "removed_title": "Plugin Removed",
-        "removed_message": "{{name}} has been uninstalled."
-    },
-    "empty": {
-        "title": "No plugins found",
-        "description": "Try adjusting your search or filter criteria to find what you're looking for."
+    "security_audit": {
+      "name": "Security Audit Tool",
+      "description": "Automated dependency scanning for your innovation projects.",
+      "author": "SecGuard"
     }
+  },
+  "toast": {
+    "installed_title": "Plugin Installed",
+    "installed_message": "{{name}} is now ready to use.",
+    "removed_title": "Plugin Removed",
+    "removed_message": "{{name}} has been uninstalled."
+  },
+  "empty": {
+    "title": "No plugins found",
+    "description": "Try adjusting your search or filter criteria to find what you're looking for."
+  }
 }
-

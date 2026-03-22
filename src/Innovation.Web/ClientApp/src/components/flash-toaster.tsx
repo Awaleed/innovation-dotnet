@@ -6,14 +6,7 @@ import { useFlashMessages } from '@/hooks/use-flash-messages';
  * Add this component once in the app setup (App.tsx or layout).
  */
 export function FlashToaster() {
-    useFlashMessages();
+  useFlashMessages();
 
-    return (
-        <Toaster
-            position="top-right"
-            richColors
-            closeButton
-            duration={5000}
-        />
-    );
+  return <Toaster position="top-right" richColors closeButton duration={5000} />;
 }

@@ -1,274 +1,274 @@
 {
-    "version_history": {
-        "title": "Version History",
-        "versions": "versions",
-        "no_version_history": "No version history",
-        "version_history_description": "All changes and modifications will appear here",
-        "current": "current",
-        "compare_with_previous": "compare_with_previous",
-        "more": "more",
-        "total_versions": "total_versions",
-        "edit_requests": "edit_requests",
-        "total_changes": "total_changes",
+  "version_history": {
+    "title": "Version History",
+    "versions": "versions",
+    "no_version_history": "No version history",
+    "version_history_description": "All changes and modifications will appear here",
+    "current": "current",
+    "compare_with_previous": "compare_with_previous",
+    "more": "more",
+    "total_versions": "total_versions",
+    "edit_requests": "edit_requests",
+    "total_changes": "total_changes",
 
-        "change_types": {
-            "created": "Created",
-            "updated": "Updated",
-            "edit_request_submitted": "Edit Request Completed",
-            "admin_edit": "Admin Edit",
-            "rollback": "Rolled Back"
-        },
-
-        "summaries": {
-            "initial_creation": "Initial idea creation",
-            "enhanced_description": "Enhanced description and added competitive advantage",
-            "admin_request_completed": "Addressed admin edit request - added timeline and technical resources"
-        },
-
-        "fields": {
-            "description": "Description",
-            "competitive_advantage": "Competitive Advantage",
-            "duration": "Duration",
-            "resource_technical": "Technical Resources",
-            "budget": "Budget",
-            "market_potential": "Market Potential",
-            "timeline": "Timeline",
-            "resource_human": "Human Resources",
-            "resource_financial": "Financial Resources"
-        }
+    "change_types": {
+      "created": "Created",
+      "updated": "Updated",
+      "edit_request_submitted": "Edit Request Completed",
+      "admin_edit": "Admin Edit",
+      "rollback": "Rolled Back"
     },
 
-    "version_comparison": {
-        "title": "Version Comparison",
-        "comparing": "Comparing version {{from}} with version {{to}}",
-        "close": "Close",
-        "restore_version": "Restore this version",
-        "changes_summary": "Changes Summary",
-        "added_fields": "Added Fields",
-        "modified_fields": "Modified Fields",
-        "removed_fields": "Removed Fields",
-        "total_changes": "Total Changes",
-        "field_changes": "Field Changes",
-        "no_changes": "No changes",
-
-        "change_types": {
-            "added": "Added",
-            "modified": "Modified",
-            "removed": "Removed"
-        },
-
-        "labels": {
-            "field": "Field",
-            "old_value": "Old Value",
-            "new_value": "New Value",
-            "change_type": "Change Type"
-        }
+    "summaries": {
+      "initial_creation": "Initial idea creation",
+      "enhanced_description": "Enhanced description and added competitive advantage",
+      "admin_request_completed": "Addressed admin edit request - added timeline and technical resources"
     },
 
-    "conversations": {
-        "title": "Conversations",
-        "new_conversation": "New Conversation",
-        "no_conversations": "No conversations",
-        "no_conversations_description": "Start a new conversation to communicate",
-        "unread_messages": "unread messages",
-        "last_message": "Last message",
-        "active": "Active",
-        "resolved": "Resolved",
-        "archived": "Archived",
-
-        "types": {
-            "admin_feedback": "Admin Feedback",
-            "evaluator_qa": "Evaluator Q&A",
-            "mentor_guidance": "Mentor Guidance",
-            "general": "General",
-            "ai_insights": "AI Insights"
-        }
-    },
-
-    "messages": {
-        "type_your_message": "Type your message...",
-        "send": "Send",
-        "sending": "Sending...",
-        "attach_file": "Attach file",
-        "no_messages": "No messages",
-        "no_messages_description": "Start the conversation by sending a message",
-        "system_message": "System message",
-        "ai_message": "AI message",
-        "edited": "Edited",
-        "read": "Read",
-        "unread": "Unread",
-
-        "types": {
-            "text": "Text",
-            "system": "System",
-            "edit_request": "Edit Request",
-            "ai_suggestion": "AI Suggestion",
-            "evaluator_question": "Evaluator Question",
-            "file_attachment": "File Attachment"
-        }
-    },
-
-    "edit_requests": {
-        "title": "Edit Requests",
-        "new_request": "New Edit Request",
-        "no_requests": "No edit requests",
-        "requested_by": "Requested by",
-        "deadline": "Deadline",
-        "priority": "Priority",
-        "fields_to_edit": "Fields to Edit",
-        "request_message": "Request Message",
-        "admin_notes": "Admin Notes",
-        "start_editing": "Start Editing",
-        "view_details": "View Details",
-        "mark_completed": "Mark Completed",
-        "reject": "Reject",
-
-        "status": {
-            "pending": "Pending",
-            "in_progress": "In Progress",
-            "completed": "Completed",
-            "rejected": "Rejected"
-        },
-
-        "priority_levels": {
-            "low": "Low",
-            "medium": "Medium",
-            "high": "High"
-        },
-
-        "banner": {
-            "title": "Edit Request Required",
-            "description": "The admin needs additional information to complete the evaluation of your idea",
-            "fields_count": "{{count}} fields required",
-            "deadline_text": "Deadline: {{date}}",
-            "view_details_button": "View Details",
-            "start_editing_button": "Start Editing"
-        }
-    },
-
-    "changes_requested": "Changes Requested",
-    "edit_request_overdue": "Edit Request Overdue",
-    "priority_low": "Low Priority",
-    "priority_medium": "Medium Priority",
-    "priority_high": "High Priority",
-    "fields_to_update": "fields to update",
-    "required_updates": "Required Updates",
-    "requested": "requested",
-    "due": "due",
-    "deadline_passed": "Deadline Passed",
-    "dismiss": "Dismiss",
-
-    "participants": {
-        "title": "Participants",
-        "add_participant": "Add Participant",
-        "remove_participant": "Remove Participant",
-        "role": "Role",
-        "joined_at": "Joined at",
-        "last_read": "Last read",
-
-        "roles": {
-            "owner": "Owner",
-            "admin": "Admin",
-            "evaluator": "Evaluator",
-            "mentor": "Mentor",
-            "participant": "Participant"
-        }
-    },
-
-    "attachments": {
-        "title": "Attachments",
-        "attach_files": "Attach Files",
-        "drop_files": "Drop files here",
-        "or": "or",
-        "browse": "Browse",
-        "file_size_limit": "Max file size: {{size}}",
-        "file_type_allowed": "Allowed types: {{types}}",
-        "uploading": "Uploading...",
-        "upload_failed": "Upload failed",
-        "download": "Download",
-        "delete": "Delete"
-    },
-
-    "notifications": {
-        "new_message": "New message from {{sender}}",
-        "edit_request_received": "New edit request from {{requester}}",
-        "edit_request_completed": "Edit request completed",
-        "conversation_resolved": "Conversation resolved",
-        "new_participant_added": "New participant added: {{participant}}"
-    },
-
-    "errors": {
-        "load_conversations_failed": "Failed to load conversations",
-        "load_messages_failed": "Failed to load messages",
-        "send_message_failed": "Failed to send message",
-        "upload_attachment_failed": "Failed to upload attachment",
-        "invalid_file_type": "Invalid file type",
-        "file_too_large": "File too large"
-    },
-
-    "success": {
-        "message_sent": "Message sent",
-        "edit_request_submitted": "Edit request submitted",
-        "conversation_created": "Conversation created",
-        "participant_added": "Participant added",
-        "attachment_uploaded": "Attachment uploaded"
-    },
-
-    "message_input": {
-        "failed_to_send_message": "Failed to send message",
-        "max_attachment_size_exceeded": "Maximum attachment size exceeded (10MB)",
-        "type_your_message": "Type your message...",
-        "message_input": "Message input",
-        "press_ctrl_enter_to_send": "Press Ctrl+Enter to send",
-        "attach_files": "Attach files",
-        "send_message": "Send message"
-    },
-
-    "conversation_list": {
-        "conversations": "Conversations",
-        "unread": "unread",
-        "new": "New",
-        "all": "All",
-        "no_unread_conversations": "No unread conversations",
-        "no_conversations": "No conversations",
-        "all_caught_up": "You're all caught up!",
-        "conversations_will_appear_here": "Conversations will appear here when you start communicating",
-        "conversation_types": "Conversation Types"
-    },
-
-    "message_thread": {
-        "unknown_user": "Unknown User",
-        "loading_messages": "Loading messages...",
-        "no_messages_yet": "No messages yet",
-        "start_conversation_description": "Start the conversation by sending a message",
-        "message_types": {
-            "text": "Message",
-            "system": "System",
-            "edit_request": "Edit Request",
-            "ai_suggestion": "AI Suggestion",
-            "evaluator_question": "Evaluator Question",
-            "file_attachment": "File Attachment"
-        }
-    },
-
-    "version_comparison_dialog": {
-        "version_comparison": "Version Comparison",
-        "previous_version": "Previous Version",
-        "new_version": "New Version",
-        "empty": "Empty",
-        "before": "Before",
-        "after": "After",
-        "detailed_changes": "Detailed Changes",
-        "no_changes_detected": "No changes detected",
-        "restore_previous_version": "Restore Previous Version",
-        "close": "Close",
-        "added": "Added",
-        "modified": "Modified",
-        "removed": "Removed",
-        "change_types": {
-            "added": "Added",
-            "modified": "Modified",
-            "removed": "Removed"
-        }
+    "fields": {
+      "description": "Description",
+      "competitive_advantage": "Competitive Advantage",
+      "duration": "Duration",
+      "resource_technical": "Technical Resources",
+      "budget": "Budget",
+      "market_potential": "Market Potential",
+      "timeline": "Timeline",
+      "resource_human": "Human Resources",
+      "resource_financial": "Financial Resources"
     }
+  },
+
+  "version_comparison": {
+    "title": "Version Comparison",
+    "comparing": "Comparing version {{from}} with version {{to}}",
+    "close": "Close",
+    "restore_version": "Restore this version",
+    "changes_summary": "Changes Summary",
+    "added_fields": "Added Fields",
+    "modified_fields": "Modified Fields",
+    "removed_fields": "Removed Fields",
+    "total_changes": "Total Changes",
+    "field_changes": "Field Changes",
+    "no_changes": "No changes",
+
+    "change_types": {
+      "added": "Added",
+      "modified": "Modified",
+      "removed": "Removed"
+    },
+
+    "labels": {
+      "field": "Field",
+      "old_value": "Old Value",
+      "new_value": "New Value",
+      "change_type": "Change Type"
+    }
+  },
+
+  "conversations": {
+    "title": "Conversations",
+    "new_conversation": "New Conversation",
+    "no_conversations": "No conversations",
+    "no_conversations_description": "Start a new conversation to communicate",
+    "unread_messages": "unread messages",
+    "last_message": "Last message",
+    "active": "Active",
+    "resolved": "Resolved",
+    "archived": "Archived",
+
+    "types": {
+      "admin_feedback": "Admin Feedback",
+      "evaluator_qa": "Evaluator Q&A",
+      "mentor_guidance": "Mentor Guidance",
+      "general": "General",
+      "ai_insights": "AI Insights"
+    }
+  },
+
+  "messages": {
+    "type_your_message": "Type your message...",
+    "send": "Send",
+    "sending": "Sending...",
+    "attach_file": "Attach file",
+    "no_messages": "No messages",
+    "no_messages_description": "Start the conversation by sending a message",
+    "system_message": "System message",
+    "ai_message": "AI message",
+    "edited": "Edited",
+    "read": "Read",
+    "unread": "Unread",
+
+    "types": {
+      "text": "Text",
+      "system": "System",
+      "edit_request": "Edit Request",
+      "ai_suggestion": "AI Suggestion",
+      "evaluator_question": "Evaluator Question",
+      "file_attachment": "File Attachment"
+    }
+  },
+
+  "edit_requests": {
+    "title": "Edit Requests",
+    "new_request": "New Edit Request",
+    "no_requests": "No edit requests",
+    "requested_by": "Requested by",
+    "deadline": "Deadline",
+    "priority": "Priority",
+    "fields_to_edit": "Fields to Edit",
+    "request_message": "Request Message",
+    "admin_notes": "Admin Notes",
+    "start_editing": "Start Editing",
+    "view_details": "View Details",
+    "mark_completed": "Mark Completed",
+    "reject": "Reject",
+
+    "status": {
+      "pending": "Pending",
+      "in_progress": "In Progress",
+      "completed": "Completed",
+      "rejected": "Rejected"
+    },
+
+    "priority_levels": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+
+    "banner": {
+      "title": "Edit Request Required",
+      "description": "The admin needs additional information to complete the evaluation of your idea",
+      "fields_count": "{{count}} fields required",
+      "deadline_text": "Deadline: {{date}}",
+      "view_details_button": "View Details",
+      "start_editing_button": "Start Editing"
+    }
+  },
+
+  "changes_requested": "Changes Requested",
+  "edit_request_overdue": "Edit Request Overdue",
+  "priority_low": "Low Priority",
+  "priority_medium": "Medium Priority",
+  "priority_high": "High Priority",
+  "fields_to_update": "fields to update",
+  "required_updates": "Required Updates",
+  "requested": "requested",
+  "due": "due",
+  "deadline_passed": "Deadline Passed",
+  "dismiss": "Dismiss",
+
+  "participants": {
+    "title": "Participants",
+    "add_participant": "Add Participant",
+    "remove_participant": "Remove Participant",
+    "role": "Role",
+    "joined_at": "Joined at",
+    "last_read": "Last read",
+
+    "roles": {
+      "owner": "Owner",
+      "admin": "Admin",
+      "evaluator": "Evaluator",
+      "mentor": "Mentor",
+      "participant": "Participant"
+    }
+  },
+
+  "attachments": {
+    "title": "Attachments",
+    "attach_files": "Attach Files",
+    "drop_files": "Drop files here",
+    "or": "or",
+    "browse": "Browse",
+    "file_size_limit": "Max file size: {{size}}",
+    "file_type_allowed": "Allowed types: {{types}}",
+    "uploading": "Uploading...",
+    "upload_failed": "Upload failed",
+    "download": "Download",
+    "delete": "Delete"
+  },
+
+  "notifications": {
+    "new_message": "New message from {{sender}}",
+    "edit_request_received": "New edit request from {{requester}}",
+    "edit_request_completed": "Edit request completed",
+    "conversation_resolved": "Conversation resolved",
+    "new_participant_added": "New participant added: {{participant}}"
+  },
+
+  "errors": {
+    "load_conversations_failed": "Failed to load conversations",
+    "load_messages_failed": "Failed to load messages",
+    "send_message_failed": "Failed to send message",
+    "upload_attachment_failed": "Failed to upload attachment",
+    "invalid_file_type": "Invalid file type",
+    "file_too_large": "File too large"
+  },
+
+  "success": {
+    "message_sent": "Message sent",
+    "edit_request_submitted": "Edit request submitted",
+    "conversation_created": "Conversation created",
+    "participant_added": "Participant added",
+    "attachment_uploaded": "Attachment uploaded"
+  },
+
+  "message_input": {
+    "failed_to_send_message": "Failed to send message",
+    "max_attachment_size_exceeded": "Maximum attachment size exceeded (10MB)",
+    "type_your_message": "Type your message...",
+    "message_input": "Message input",
+    "press_ctrl_enter_to_send": "Press Ctrl+Enter to send",
+    "attach_files": "Attach files",
+    "send_message": "Send message"
+  },
+
+  "conversation_list": {
+    "conversations": "Conversations",
+    "unread": "unread",
+    "new": "New",
+    "all": "All",
+    "no_unread_conversations": "No unread conversations",
+    "no_conversations": "No conversations",
+    "all_caught_up": "You're all caught up!",
+    "conversations_will_appear_here": "Conversations will appear here when you start communicating",
+    "conversation_types": "Conversation Types"
+  },
+
+  "message_thread": {
+    "unknown_user": "Unknown User",
+    "loading_messages": "Loading messages...",
+    "no_messages_yet": "No messages yet",
+    "start_conversation_description": "Start the conversation by sending a message",
+    "message_types": {
+      "text": "Message",
+      "system": "System",
+      "edit_request": "Edit Request",
+      "ai_suggestion": "AI Suggestion",
+      "evaluator_question": "Evaluator Question",
+      "file_attachment": "File Attachment"
+    }
+  },
+
+  "version_comparison_dialog": {
+    "version_comparison": "Version Comparison",
+    "previous_version": "Previous Version",
+    "new_version": "New Version",
+    "empty": "Empty",
+    "before": "Before",
+    "after": "After",
+    "detailed_changes": "Detailed Changes",
+    "no_changes_detected": "No changes detected",
+    "restore_previous_version": "Restore Previous Version",
+    "close": "Close",
+    "added": "Added",
+    "modified": "Modified",
+    "removed": "Removed",
+    "change_types": {
+      "added": "Added",
+      "modified": "Modified",
+      "removed": "Removed"
+    }
+  }
 }

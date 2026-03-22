@@ -1,484 +1,484 @@
 {
-    "trends": {
-        "title": "الاتجاهات",
-        "description": "التغييرات المجمعة استراتيجياً في التكنولوجيا وسلوك المستهلكين.",
-        "add_trend": "إضافة اتجاه",
-        "filter_placeholder": "تصفية الاتجاهات بالاسم أو الوصف...",
-        "global_domains": "المجالات العالمية",
-        "table": {
-            "strategic_trend": "الاتجاه الاستراتيجي",
-            "category": "الفئة",
-            "impact": "التأثير",
-            "horizon": "الأفق الزمني",
-            "priority": "الأولوية",
-            "status": "الحالة",
-            "evidence_links": "روابط الأدلة"
-        },
-        "detail": {
-            "edit_blueprint": "تحرير المخطط",
-            "blueprint_vision": "رؤية المخطط",
-            "validation_ecosystem": "نظام التحقق البيئي",
-            "evidence": "الأدلة",
-            "awaiting_validation": "في انتظار إشارات التحقق",
-            "strategic_matrix": "المصفوفة الاستراتيجية",
-            "impact_potential": "إمكانية التأثير",
-            "deployment_horizon": "أفق النشر",
-            "readiness_level": "مستوى الجاهزية",
-            "urgency_of_action": "إلحاح العمل",
-            "business_relevance": "الصلة التجارية",
-            "attach_docs": "إرفاق الوثائق الاستراتيجية",
-            "purge_trend": "إزالة الاتجاه",
-            "purge_confirm": "إزالة هذا الاتجاه نهائياً من المحفظة؟",
-            "no_description": "لا يوجد وصف مفصل متاح."
-        },
-        "modals": {
-            "new_trend": "اتجاه استراتيجي جديد",
-            "update_blueprint": "تحديث المخطط"
-        }
+  "trends": {
+    "title": "الاتجاهات",
+    "description": "التغييرات المجمعة استراتيجياً في التكنولوجيا وسلوك المستهلكين.",
+    "add_trend": "إضافة اتجاه",
+    "filter_placeholder": "تصفية الاتجاهات بالاسم أو الوصف...",
+    "global_domains": "المجالات العالمية",
+    "table": {
+      "strategic_trend": "الاتجاه الاستراتيجي",
+      "category": "الفئة",
+      "impact": "التأثير",
+      "horizon": "الأفق الزمني",
+      "priority": "الأولوية",
+      "status": "الحالة",
+      "evidence_links": "روابط الأدلة"
     },
-    "signals": {
-        "title": "الإشارات",
-        "description": "التقاط الأدلة المبكرة للتغييرات المعطلة المستقبلية.",
-        "create_signal": "إنشاء إشارة",
-        "search_placeholder": "البحث في العنوان، الرابط، الكلمات المفتاحية...",
-        "all_statuses": "جميع الحالات",
-        "all_types": "جميع الأنواع",
-        "relevance": "الصلة",
-        "no_signals": "لم يتم العثور على إشارات تطابق المرشحات",
-        "detail": {
-            "edit": "تحرير",
-            "delete_confirm": "حذف إشارة الذكاء هذه نهائياً؟",
-            "signal_strength": "قوة الإشارة",
-            "priority_relevance": "الصلة بالأولوية",
-            "core_domains": "المجالات الأساسية",
-            "no_domains": "لا توجد مجالات مصنفة",
-            "analyst_assessment": "تقييم المحلل",
-            "pending_review": "في انتظار مراجعة إضافية من المحلل وجمع رؤى مفصلة.",
-            "launch_source": "مصدر الإطلاق"
-        },
-        "modals": {
-            "intelligence_capture": "جمع الذكاء",
-            "update_intelligence": "تحديث الذكاء"
-        }
+    "detail": {
+      "edit_blueprint": "تحرير المخطط",
+      "blueprint_vision": "رؤية المخطط",
+      "validation_ecosystem": "نظام التحقق البيئي",
+      "evidence": "الأدلة",
+      "awaiting_validation": "في انتظار إشارات التحقق",
+      "strategic_matrix": "المصفوفة الاستراتيجية",
+      "impact_potential": "إمكانية التأثير",
+      "deployment_horizon": "أفق النشر",
+      "readiness_level": "مستوى الجاهزية",
+      "urgency_of_action": "إلحاح العمل",
+      "business_relevance": "الصلة التجارية",
+      "attach_docs": "إرفاق الوثائق الاستراتيجية",
+      "purge_trend": "إزالة الاتجاه",
+      "purge_confirm": "إزالة هذا الاتجاه نهائياً من المحفظة؟",
+      "no_description": "لا يوجد وصف مفصل متاح."
     },
-    "radar": {
-        "title": "الرادار",
-        "description": "تصور تفاعلي للرادار للتنبؤ وتتبع الاتجاهات",
-        "settings": "إعدادات الرادار",
-        "controls_panel": "التحكم في الرادار",
-        "customize_view": "تخصيص عرض الرادار",
-        "view_controls": "عناصر التحكم في العرض",
-        "scroll_zoom": "التكبير بالتمرير",
-        "display_options": "خيارات العرض",
-        "dimensions": "الأبعاد",
-        "filters": "المرشحات",
-        "mode_180": "وضع 180°",
-        "network_view": "عرض الشبكة",
-        "show_labels": "إظهار التسميات",
-        "zoom_in": "تكبير",
-        "zoom_out": "تصغير",
-        "center_view": "توسيط العرض",
-        "zoom_on_scroll": "التكبير بالتمرير",
-        "segment_by": "تقسيم حسب",
-        "color_by": "تلوين حسب",
-        "distance_by": "المسافة",
-        "relations_filter": "العلاقات",
-        "add_dimension": "إضافة بعد",
-        "legend": {
-            "title": "المفتاح",
-            "configure_hint": "قم بتكوين إعدادات العرض لرؤية المفتاح.",
-            "potential_impact": "التأثير المحتمل",
-            "trend_segmentation": "تقسيم الاتجاهات",
-            "time_to_market": "التأثير على وقت الوصول للسوق"
-        },
-        "impact": {
-            "none": "لا يوجد",
-            "very_low": "منخفض جداً",
-            "low": "منخفض",
-            "medium": "متوسط",
-            "high": "عالي",
-            "very_high": "عالي جداً"
-        },
-        "time_rings": {
-            "0-2y": "0-2 سنة",
-            "2-4y": "2-4 سنوات",
-            "4-6y": "4-6 سنوات",
-            "6-8y": "6-8 سنوات",
-            "8-10y": "8-10 سنوات",
-            "10+y": "10+ سنة"
-        },
-        "segment_options": {
-            "category": "فئة المجال",
-            "trendSegmentation": "تقسيم الاتجاهات",
-            "adoptionStage": "مرحلة التبني",
-            "potentialImpact": "التأثير المحتمل",
-            "timeHorizon": "الأفق الزمني"
-        },
-        "color_options": {
-            "potentialImpact": "التأثير المحتمل",
-            "category": "فئة المجال",
-            "trendSegmentation": "تقسيم الاتجاهات",
-            "adoptionStage": "مرحلة التبني",
-            "needForAction": "الحاجة للعمل"
-        },
-        "distance_options": {
-            "timeHorizon": "الأفق الزمني",
-            "potentialImpact": "التأثير المحتمل",
-            "businessRelevance": "الصلة التجارية"
-        },
-        "quadrant_adopt": "تبني",
-        "quadrant_watch": "مراقبة",
-        "quadrant_hold": "انتظار",
-        "quadrant_assess": "تقييم",
-        "x_position": "الموضع X",
-        "y_position": "الموضع Y",
-        "quadrant": "الربع",
-        "detail": {
-            "related_signals": "الإشارات ذات الصلة",
-            "no_signals": "لا توجد إشارات ذات صلة",
-            "view_details": "عرض التفاصيل",
-            "forces_shaping_future": "القوى المشكلة للمستقبل",
-            "snapshot_of_future": "لقطة للمستقبل",
-            "implications_for_innovation": "التأثيرات على الابتكار",
-            "way_forward": "الطريق إلى الأمام",
-            "ratings": "التقييمات",
-            "scope": "النطاق",
-            "strategic_fit": "التوافق الاستراتيجي",
-            "speed_of_change_90": "سرعة التغيير [90 يوماً]",
-            "speed_of_change_180": "سرعة التغيير [180 يوماً]",
-            "tags": "العلامات",
-            "sources_links": "المصادر والروابط",
-            "attachments": "المرفقات",
-            "no_attachments": "لا توجد مرفقات",
-            "recommended_relations": "العلاقات الموصى بها",
-            "no_relations": "لا توجد اتجاهات ذات صلة"
-        }
-    },
-    "dashboard": {
-        "description": "نظرة عامة على أنشطة التنبؤ والإتجاهات والإشارات",
-        "positioned_on_radar": "مُوضع على الرادار",
-        "challenges_generated": "التحديات المُنشأة من الاتجاهات",
-        "eligible_for_generation": "مؤهل للإنشاء",
-        "radar_configurations": "تكوينات الرادار",
-        "activity_timeline": "الجدول الزمني للنشاط",
-        "activity_last_14_days": "نشاط الإشارات والإتجاهات خلال آخر 14 يوماً",
-        "quadrant_distribution": "توزيع الأرباع",
-        "trends_by_quadrant": "كيفية توزيع الاتجاهات عبر أرباع الرادار",
-        "high_impact_trends": "الاتجاهات عالية التأثير",
-        "top_trends_by_impact": "أعلى الاتجاهات مرتبة حسب درجة التأثير",
-        "recent_signals": "الإشارات الحديثة",
-        "latest_collected_signals": "آخر الإشارات المجمعة من مصادر البيانات",
-        "no_trends": "لا توجد اتجاهات متاحة بعد",
-        "no_signals": "لم يتم جمع إشارات بعد"
-    },
-    "signal": {
-        "description": "الوصف",
-        "entities": "الكيانات المستخرجة",
-        "entities_description": "الكيانات الرئيسية المُحددة من محتوى الإشارة",
-        "technologies": "التقنيات",
-        "organizations": "المنظمات",
-        "locations": "المواقع",
-        "full_content": "المحتوى الكامل",
-        "no_content": "لا يوجد محتوى متاح لهذه الإشارة",
-        "related_trends": "الاتجاهات ذات الصلة",
-        "related_trends_description": "الاتجاهات التي تساهم فيها هذه الإشارة",
-        "no_related_trends": "هذه الإشارة غير مرتبطة بأي اتجاهات بعد",
-        "published_at": "تاريخ النشر",
-        "source": "المصدر",
-        "source_link": "رابط المصدر",
-        "processed_at": "تاريخ المعالجة",
-        "duplicate": "مكرر",
-        "processed": "مُعالج",
-        "pending": "في الانتظار",
-        "has_embedding": "تم إنشاء التضمين"
-    },
-    "trend": {
-        "description": "الوصف",
-        "impact_score": "درجة التأثير",
-        "maturity": "مستوى النضج",
-        "signals_count": "عدد الإشارات",
-        "business_relevance": "الصلة التجارية",
-        "need_for_action": "الحاجة للعمل",
-        "segmentation": "التقسيم",
-        "timeline": "الجدول الزمني",
-        "adoption_stage": "مرحلة التبني",
-        "radar_position": "موضع الرادار",
-        "additional_info": "معلومات إضافية",
-        "related_signals": "الإشارات ذات الصلة",
-        "related_signals_description": "الإشارات التي تساهم في هذا الاتجاه",
-        "no_related_signals": "لا توجد إشارات مرتبطة بهذا الاتجاه",
-        "generated_challenges": "التحديات المُنشأة",
-        "generated_challenges_description": "التحديات المُنشأة من هذا الاتجاه",
-        "no_generated_challenges": "لم يتم إنشاء أي تحديات من هذا الاتجاه بعد",
-        "generate_challenge": "إنشاء تحدي",
-        "ai_enhanced": "محسن بالذكاء الاصطناعي",
-        "ai_enhancement": "التحسين بالذكاء الاصطناعي",
-        "ai_enhanced_description": "تم تحسين هذا الاتجاه برؤى مُنشأة بالذكاء الاصطناعي"
-    },
-    "challenge_generation": {
-        "title": "إنشاء التحديات",
-        "description": "إنشاء تحديات الابتكار من الاتجاهات عالية التأثير باستخدام الذكاء الاصطناعي",
-        "eligible_trends": "الاتجاهات المؤهلة",
-        "total_generated": "إجمالي المُنشأ",
-        "pending_review": "في انتظار المراجعة",
-        "trends_with_challenges": "الاتجاهات مع التحديات",
-        "min_score": "الحد الأدنى لدرجة التأثير",
-        "high_impact_trends": "الاتجاهات عالية التأثير",
-        "high_impact_trends_description": "اختر اتجاهاً لإنشاء اقتراح تحدي",
-        "no_eligible_trends": "لا توجد اتجاهات مؤهلة متاحة لإنشاء التحديات",
-        "generated_challenges": "التحديات المُنشأة",
-        "recently_generated": "التحديات المُنشأة مؤخراً",
-        "recently_generated_description": "التحديات المُنشأة من الاتجاهات",
-        "no_generated_challenges": "لم يتم إنشاء أي تحديات بعد",
-        "from_trend": "من اتجاه",
-        "generate": "إنشاء تحدي",
-        "review": "مراجعة الاقتراح",
-        "review_suggestion": "مراجعة اقتراح التحدي",
-        "review_description": "راجع وقم بتحرير التحدي المُنشأ بالذكاء الاصطناعي قبل التأكيد",
-        "source_trend": "الاتجاه المصدر",
-        "suggested_challenge": "التحدي المقترح",
-        "edit_before_confirm": "راجع الاقتراح وقم بتحريره إذا لزم الأمر قبل إنشاء التحدي",
-        "ai_confidence": "ثقة الذكاء الاصطناعي",
-        "ai_confidence_description": "مدى ثقة الذكاء الاصطناعي في هذا الاقتراح",
-        "objectives": "الأهداف",
-        "objectives_placeholder": "أدخل أهداف التحدي (واحد في كل سطر)",
-        "requirements": "المتطلبات",
-        "requirements_placeholder": "أدخل متطلبات التحدي (واحد في كل سطر)",
-        "one_per_line": "أدخل عنصراً واحداً في كل سطر",
-        "confirm_create": "تأكيد وإنشاء التحدي"
-    },
-    "settings": {
-        "title": "إعدادات التنبؤ",
-        "description": "تكوين الأتمتة والمراقبة وإعدادات جمع البيانات للتنبؤ",
-        "configuration": "التكوين",
-        "automation": "الأتمتة",
-        "monitor": "المراقبة",
-        "save_button": "حفظ الإعدادات",
-        "save_success": "تم حفظ الإعدادات",
-        "save_success_description": "تم تحديث إعدادات التنبؤ بنجاح",
-        "save_error": "فشل الحفظ",
-        "save_error_description": "فشل حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
-        "focus_topics": {
-            "title": "المواضيع المركزة والفلاتر",
-            "description": "حدد المواضيع المراد تتبعها والكلمات المفتاحية المراد استبعادها من جمع الإشارات",
-            "label": "المواضيع المراد تتبعها",
-            "placeholder": "أدخل موضوعاً واضغط Enter",
-            "help": "أضف المواضيع لتوجيه الذكاء الاصطناعي في جمع الإشارات ذات الصلة. اضغط Enter أو فاصلة بعد كل موضوع."
-        },
-        "exclude_keywords": {
-            "label": "الكلمات المستبعدة",
-            "placeholder": "أدخل كلمة واضغط Enter",
-            "help": "أضف الكلمات المفتاحية المراد تصفيتها من الإشارات. اضغط Enter أو فاصلة بعد كل كلمة. سيتم استبعاد الإشارات التي تحتوي على هذه الكلمات."
-        },
-        "collection": {
-            "title": "إعدادات الجمع",
-            "description": "التحكم في عدد مرات جمع ومعالجة الإشارات",
-            "interval_label": "فترة الجمع",
-            "interval_placeholder": "اختر الفترة",
-            "interval_help": "عدد المرات التي يجب أن يجمع فيها النظام إشارات جديدة من مصادر البيانات",
-            "hourly": "كل ساعة",
-            "daily": "مرة يومياً",
-            "twicedaily": "مرتين يومياً",
-            "min_relevance_label": "الحد الأدنى لدرجة الصلة",
-            "min_relevance_help": "سيتم تصفية الإشارات التي تقل عن هذه الدرجة (0-100)",
-            "max_signals_label": "الحد الأقصى للإشارات لكل عملية",
-            "max_signals_help": "الحد الأقصى لعدد الإشارات المراد جمعها في كل عملية (1-500)"
-        },
-        "synthesis": {
-            "title": "إعدادات التوليف",
-            "description": "تكوين كيفية تحويل الإشارات إلى اتجاهات",
-            "time_label": "وقت التوليف اليومي",
-            "time_help": "الوقت من اليوم الذي يتم فيه إنشاء الاتجاهات من الإشارات المجمعة",
-            "threshold_label": "عتبة التشابه",
-            "threshold_help": "مدى تشابه الإشارات لتجميعها في اتجاهات (0-1، أعلى = أكثر تشابهاً)",
-            "scheduler_label": "تمكين الجمع المجدول",
-            "scheduler_help": "جمع الإشارات تلقائياً بناءً على إعداد الفترة",
-            "synthesis_label": "تمكين توليف الاتجاهات",
-            "synthesis_help": "إنشاء الاتجاهات تلقائياً من الإشارات يومياً"
-        },
-        "challenge_auto_generate": {
-            "label": "إنشاء التحديات تلقائياً",
-            "help": "إنشاء التحديات تلقائياً بناءً على الاتجاهات والإشارات المكتشفة"
-        },
-        "data_sources": {
-            "title": "مصادر البيانات",
-            "description": "إعداد مصادر البيانات الخارجية لاكتشاف الاتجاهات وجمع الإشارات",
-            "rss": {
-                "title": "موجزات RSS",
-                "description": "مراقبة موجزات RSS للأخبار والتحديثات ذات الصلة",
-                "url_placeholder": "رابط الموجز",
-                "name_placeholder": "اسم الموجز",
-                "category_placeholder": "الفئة",
-                "add_feed": "إضافة موجز RSS"
-            },
-            "arxiv": {
-                "title": "أرخايف",
-                "description": "تتبع الأوراق الأكاديمية والمنشورات البحثية من أرخايف",
-                "categories_placeholder": "أدخل الفئات (مثال: cs.AI, cs.LG)"
-            },
-            "google_news": {
-                "title": "أخبار جوجل",
-                "description": "جمع المقالات الإخبارية من أخبار جوجل المتعلقة بمواضيعك",
-                "topics_placeholder": "أدخل المواضيع المراد مراقبتها"
-            },
-            "reddit": {
-                "title": "ريديت",
-                "description": "مراقبة مجتمعات ريديت والمناقشات للاتجاهات الناشئة",
-                "subreddits_placeholder": "أدخل أسماء المجتمعات (مثال: technology, futurology)"
-            }
-        },
-        "automation_details": {
-            "how_it_works": {
-                "title": "كيف تعمل الأتمتة",
-                "subtitle": "فهم نظام التنبؤ",
-                "description": "يعمل نظام التنبؤ الخاص بك تلقائياً في الخلفية، مراقبة مصادر البيانات باستمرار، وجمع الإشارات ذات الصلة، وتحويلها إلى اتجاهات قابلة للتنفيذ. لا حاجة لتدخل يدوي."
-            },
-            "workflow": {
-                "step1_title": "جمع الإشارات",
-                "hourly": "جمع إشارات جديدة كل ساعة",
-                "daily": "جمع إشارات جديدة مرة واحدة يومياً",
-                "twicedaily": "جمع إشارات جديدة مرتين يومياً",
-                "step2_title": "معالجة البيانات",
-                "step2_description": "معالج الخلفية يعالج كل إشارة",
-                "step3_title": "إنشاء الاتجاهات",
-                "step3_description": "يومياً في {{time}}، إنشاء اتجاهات من الإشارات"
-            },
-            "schedule_status": {
-                "title": "حالة الجدولة",
-                "description": "مراقبة مكونات النظام الآلي",
-                "cron_job": "مهمة Cron",
-                "cron_description": "يتحقق كل دقيقة إذا حان الوقت لتشغيل المهام المجدولة",
-                "scheduler": "المجدول",
-                "scheduler_description": "يدير جمع الإشارات التلقائي وتوليف الاتجاهات",
-                "last_run": "آخر تشغيل",
-                "next_run": "التشغيل التالي"
-            },
-            "what_happens": {
-                "title": "ماذا يحدث ومتى",
-                "description": "الجدول الزمني للعمليات التلقائية",
-                "step1_title": "مستمر: معالجة المهام",
-                "step1_description": "معالج الخلفية يعالج الإشارات، ويولد التضمينات، ويعد البيانات للتحليل",
-                "step2_title": "يومياً في {{time}}: توليف الاتجاهات",
-                "step2_description": "تحليل جميع الإشارات من الفترة الماضية وتجميع المتشابهة منها في اتجاهات استراتيجية",
-                "step3_title": "حسب الجدول: جمع إشارات جديدة",
-                "step3_description": "جلب إشارات جديدة تلقائياً من مصادر البيانات المكونة بناءً على مواضيعك المركزة"
-            }
-        },
-        "status": {
-            "queue_worker": "معالج الطابور",
-            "running": "قيد التشغيل",
-            "stopped": "متوقف",
-            "enabled": "مفعّل",
-            "disabled": "معطّل",
-            "never": "أبداً",
-            "pending_tasks": "المهام المعلقة",
-            "completed_today": "تم إنجازها اليوم",
-            "total_data": "إجمالي البيانات",
-            "signals": "إشارات",
-            "trends": "اتجاهات",
-            "current_activity": "النشاط الحالي",
-            "current_activity_description": "عرض في الوقت الفعلي لما يحدث الآن",
-            "processing_tasks": "معالجة المهام",
-            "remaining": "متبقية",
-            "processing_signals": "معالجة الإشارات",
-            "processing_trends": "إنشاء الاتجاهات",
-            "in_queue": "في الطابور",
-            "recent_tasks": "المهام الأخيرة",
-            "recent_tasks_description": "المهام المكتملة أو المعلقة في الساعات القليلة الماضية",
-            "no_recent_tasks": "لا يوجد نشاط حديث للمهام",
-            "completed": "مكتمل",
-            "pending": "معلق",
-            "last_collection": "آخر جمع"
-        }
-    },
-    "enums": {
-        "domain": {
-            "Mobility": "التنقل",
-            "Engineering": "الهندسة",
-            "Energy": "الطاقة",
-            "Resources": "الموارد",
-            "Chemicals": "المواد الكيميائية",
-            "Materials": "المواد",
-            "Health Tech": "تقنية الصحة",
-            "Life Sciences": "علوم الحياة",
-            "ICT": "تكنولوجيا المعلومات والاتصالات",
-            "Sustainability": "الاستدامة",
-            "AI & Machine Learning": "الذكاء الاصطناعي والتعلم الآلي",
-            "Fintech": "التقنية المالية",
-            "Healthcare": "الرعاية الصحية",
-            "Cybersecurity": "الأمن السيبراني",
-            "Cloud Infrastructure": "البنية التحتية السحابية",
-            "Other": "أخرى"
-        },
-        "relevance": {
-            "None": "لا يوجد",
-            "Very Low": "منخفض جداً",
-            "Low": "منخفض",
-            "Medium": "متوسط",
-            "High": "عالي",
-            "Very High": "عالي جداً"
-        },
-        "potential_impact": {
-            "None": "لا يوجد",
-            "Very Low": "منخفض جداً",
-            "Low": "منخفض",
-            "Medium": "متوسط",
-            "High": "عالي",
-            "Very High": "عالي جداً"
-        },
-        "status": {
-            "New": "جديد",
-            "Under Review": "قيد المراجعة",
-            "Accepted": "مقبول",
-            "Rejected": "مرفوض",
-            "Archived": "مؤرشف",
-            "Draft": "مسودة",
-            "Active": "نشط"
-        },
-        "time_horizon": {
-            "Short-term": "قصير المدى",
-            "Mid-term": "متوسط المدى",
-            "Long-term": "طويل المدى",
-            "1-3 years": "1-3 سنوات",
-            "3-5 years": "3-5 سنوات",
-            "5+ years": "5+ سنوات",
-            "Unknown": "غير معروف"
-        },
-        "maturity": {
-            "Early": "مبكر",
-            "Growing": "نامي",
-            "Mature": "ناضج"
-        },
-        "strength": {
-            "Weak": "ضعيف",
-            "Emerging": "ناشئ",
-            "Strong": "قوي"
-        },
-        "source_type": {
-            "News": "أخبار",
-            "Article": "مقالة",
-            "Patent": "براءة اختراع",
-            "Report": "تقرير",
-            "Social": "اجتماعي",
-            "Event": "حدث",
-            "Internal": "داخلي",
-            "Other": "أخرى"
-        },
-        "trend_segmentation": {
-            "Society & Individuals": "المجتمع والأفراد",
-            "Economy & Business": "الاقتصاد والأعمال",
-            "Environment": "البيئة",
-            "Politics & Law": "السياسة والقانون"
-        },
-        "adoption_stage": {
-            "Early": "مبكر",
-            "Growing": "نامي",
-            "Mature": "ناضج"
-        },
-        "relation_type": {
-            "Drives": "يدفع",
-            "Hinders": "يعيق",
-            "Relates to": "يتعلق بـ"
-        }
+    "modals": {
+      "new_trend": "اتجاه استراتيجي جديد",
+      "update_blueprint": "تحديث المخطط"
     }
+  },
+  "signals": {
+    "title": "الإشارات",
+    "description": "التقاط الأدلة المبكرة للتغييرات المعطلة المستقبلية.",
+    "create_signal": "إنشاء إشارة",
+    "search_placeholder": "البحث في العنوان، الرابط، الكلمات المفتاحية...",
+    "all_statuses": "جميع الحالات",
+    "all_types": "جميع الأنواع",
+    "relevance": "الصلة",
+    "no_signals": "لم يتم العثور على إشارات تطابق المرشحات",
+    "detail": {
+      "edit": "تحرير",
+      "delete_confirm": "حذف إشارة الذكاء هذه نهائياً؟",
+      "signal_strength": "قوة الإشارة",
+      "priority_relevance": "الصلة بالأولوية",
+      "core_domains": "المجالات الأساسية",
+      "no_domains": "لا توجد مجالات مصنفة",
+      "analyst_assessment": "تقييم المحلل",
+      "pending_review": "في انتظار مراجعة إضافية من المحلل وجمع رؤى مفصلة.",
+      "launch_source": "مصدر الإطلاق"
+    },
+    "modals": {
+      "intelligence_capture": "جمع الذكاء",
+      "update_intelligence": "تحديث الذكاء"
+    }
+  },
+  "radar": {
+    "title": "الرادار",
+    "description": "تصور تفاعلي للرادار للتنبؤ وتتبع الاتجاهات",
+    "settings": "إعدادات الرادار",
+    "controls_panel": "التحكم في الرادار",
+    "customize_view": "تخصيص عرض الرادار",
+    "view_controls": "عناصر التحكم في العرض",
+    "scroll_zoom": "التكبير بالتمرير",
+    "display_options": "خيارات العرض",
+    "dimensions": "الأبعاد",
+    "filters": "المرشحات",
+    "mode_180": "وضع 180°",
+    "network_view": "عرض الشبكة",
+    "show_labels": "إظهار التسميات",
+    "zoom_in": "تكبير",
+    "zoom_out": "تصغير",
+    "center_view": "توسيط العرض",
+    "zoom_on_scroll": "التكبير بالتمرير",
+    "segment_by": "تقسيم حسب",
+    "color_by": "تلوين حسب",
+    "distance_by": "المسافة",
+    "relations_filter": "العلاقات",
+    "add_dimension": "إضافة بعد",
+    "legend": {
+      "title": "المفتاح",
+      "configure_hint": "قم بتكوين إعدادات العرض لرؤية المفتاح.",
+      "potential_impact": "التأثير المحتمل",
+      "trend_segmentation": "تقسيم الاتجاهات",
+      "time_to_market": "التأثير على وقت الوصول للسوق"
+    },
+    "impact": {
+      "none": "لا يوجد",
+      "very_low": "منخفض جداً",
+      "low": "منخفض",
+      "medium": "متوسط",
+      "high": "عالي",
+      "very_high": "عالي جداً"
+    },
+    "time_rings": {
+      "0-2y": "0-2 سنة",
+      "2-4y": "2-4 سنوات",
+      "4-6y": "4-6 سنوات",
+      "6-8y": "6-8 سنوات",
+      "8-10y": "8-10 سنوات",
+      "10+y": "10+ سنة"
+    },
+    "segment_options": {
+      "category": "فئة المجال",
+      "trendSegmentation": "تقسيم الاتجاهات",
+      "adoptionStage": "مرحلة التبني",
+      "potentialImpact": "التأثير المحتمل",
+      "timeHorizon": "الأفق الزمني"
+    },
+    "color_options": {
+      "potentialImpact": "التأثير المحتمل",
+      "category": "فئة المجال",
+      "trendSegmentation": "تقسيم الاتجاهات",
+      "adoptionStage": "مرحلة التبني",
+      "needForAction": "الحاجة للعمل"
+    },
+    "distance_options": {
+      "timeHorizon": "الأفق الزمني",
+      "potentialImpact": "التأثير المحتمل",
+      "businessRelevance": "الصلة التجارية"
+    },
+    "quadrant_adopt": "تبني",
+    "quadrant_watch": "مراقبة",
+    "quadrant_hold": "انتظار",
+    "quadrant_assess": "تقييم",
+    "x_position": "الموضع X",
+    "y_position": "الموضع Y",
+    "quadrant": "الربع",
+    "detail": {
+      "related_signals": "الإشارات ذات الصلة",
+      "no_signals": "لا توجد إشارات ذات صلة",
+      "view_details": "عرض التفاصيل",
+      "forces_shaping_future": "القوى المشكلة للمستقبل",
+      "snapshot_of_future": "لقطة للمستقبل",
+      "implications_for_innovation": "التأثيرات على الابتكار",
+      "way_forward": "الطريق إلى الأمام",
+      "ratings": "التقييمات",
+      "scope": "النطاق",
+      "strategic_fit": "التوافق الاستراتيجي",
+      "speed_of_change_90": "سرعة التغيير [90 يوماً]",
+      "speed_of_change_180": "سرعة التغيير [180 يوماً]",
+      "tags": "العلامات",
+      "sources_links": "المصادر والروابط",
+      "attachments": "المرفقات",
+      "no_attachments": "لا توجد مرفقات",
+      "recommended_relations": "العلاقات الموصى بها",
+      "no_relations": "لا توجد اتجاهات ذات صلة"
+    }
+  },
+  "dashboard": {
+    "description": "نظرة عامة على أنشطة التنبؤ والإتجاهات والإشارات",
+    "positioned_on_radar": "مُوضع على الرادار",
+    "challenges_generated": "التحديات المُنشأة من الاتجاهات",
+    "eligible_for_generation": "مؤهل للإنشاء",
+    "radar_configurations": "تكوينات الرادار",
+    "activity_timeline": "الجدول الزمني للنشاط",
+    "activity_last_14_days": "نشاط الإشارات والإتجاهات خلال آخر 14 يوماً",
+    "quadrant_distribution": "توزيع الأرباع",
+    "trends_by_quadrant": "كيفية توزيع الاتجاهات عبر أرباع الرادار",
+    "high_impact_trends": "الاتجاهات عالية التأثير",
+    "top_trends_by_impact": "أعلى الاتجاهات مرتبة حسب درجة التأثير",
+    "recent_signals": "الإشارات الحديثة",
+    "latest_collected_signals": "آخر الإشارات المجمعة من مصادر البيانات",
+    "no_trends": "لا توجد اتجاهات متاحة بعد",
+    "no_signals": "لم يتم جمع إشارات بعد"
+  },
+  "signal": {
+    "description": "الوصف",
+    "entities": "الكيانات المستخرجة",
+    "entities_description": "الكيانات الرئيسية المُحددة من محتوى الإشارة",
+    "technologies": "التقنيات",
+    "organizations": "المنظمات",
+    "locations": "المواقع",
+    "full_content": "المحتوى الكامل",
+    "no_content": "لا يوجد محتوى متاح لهذه الإشارة",
+    "related_trends": "الاتجاهات ذات الصلة",
+    "related_trends_description": "الاتجاهات التي تساهم فيها هذه الإشارة",
+    "no_related_trends": "هذه الإشارة غير مرتبطة بأي اتجاهات بعد",
+    "published_at": "تاريخ النشر",
+    "source": "المصدر",
+    "source_link": "رابط المصدر",
+    "processed_at": "تاريخ المعالجة",
+    "duplicate": "مكرر",
+    "processed": "مُعالج",
+    "pending": "في الانتظار",
+    "has_embedding": "تم إنشاء التضمين"
+  },
+  "trend": {
+    "description": "الوصف",
+    "impact_score": "درجة التأثير",
+    "maturity": "مستوى النضج",
+    "signals_count": "عدد الإشارات",
+    "business_relevance": "الصلة التجارية",
+    "need_for_action": "الحاجة للعمل",
+    "segmentation": "التقسيم",
+    "timeline": "الجدول الزمني",
+    "adoption_stage": "مرحلة التبني",
+    "radar_position": "موضع الرادار",
+    "additional_info": "معلومات إضافية",
+    "related_signals": "الإشارات ذات الصلة",
+    "related_signals_description": "الإشارات التي تساهم في هذا الاتجاه",
+    "no_related_signals": "لا توجد إشارات مرتبطة بهذا الاتجاه",
+    "generated_challenges": "التحديات المُنشأة",
+    "generated_challenges_description": "التحديات المُنشأة من هذا الاتجاه",
+    "no_generated_challenges": "لم يتم إنشاء أي تحديات من هذا الاتجاه بعد",
+    "generate_challenge": "إنشاء تحدي",
+    "ai_enhanced": "محسن بالذكاء الاصطناعي",
+    "ai_enhancement": "التحسين بالذكاء الاصطناعي",
+    "ai_enhanced_description": "تم تحسين هذا الاتجاه برؤى مُنشأة بالذكاء الاصطناعي"
+  },
+  "challenge_generation": {
+    "title": "إنشاء التحديات",
+    "description": "إنشاء تحديات الابتكار من الاتجاهات عالية التأثير باستخدام الذكاء الاصطناعي",
+    "eligible_trends": "الاتجاهات المؤهلة",
+    "total_generated": "إجمالي المُنشأ",
+    "pending_review": "في انتظار المراجعة",
+    "trends_with_challenges": "الاتجاهات مع التحديات",
+    "min_score": "الحد الأدنى لدرجة التأثير",
+    "high_impact_trends": "الاتجاهات عالية التأثير",
+    "high_impact_trends_description": "اختر اتجاهاً لإنشاء اقتراح تحدي",
+    "no_eligible_trends": "لا توجد اتجاهات مؤهلة متاحة لإنشاء التحديات",
+    "generated_challenges": "التحديات المُنشأة",
+    "recently_generated": "التحديات المُنشأة مؤخراً",
+    "recently_generated_description": "التحديات المُنشأة من الاتجاهات",
+    "no_generated_challenges": "لم يتم إنشاء أي تحديات بعد",
+    "from_trend": "من اتجاه",
+    "generate": "إنشاء تحدي",
+    "review": "مراجعة الاقتراح",
+    "review_suggestion": "مراجعة اقتراح التحدي",
+    "review_description": "راجع وقم بتحرير التحدي المُنشأ بالذكاء الاصطناعي قبل التأكيد",
+    "source_trend": "الاتجاه المصدر",
+    "suggested_challenge": "التحدي المقترح",
+    "edit_before_confirm": "راجع الاقتراح وقم بتحريره إذا لزم الأمر قبل إنشاء التحدي",
+    "ai_confidence": "ثقة الذكاء الاصطناعي",
+    "ai_confidence_description": "مدى ثقة الذكاء الاصطناعي في هذا الاقتراح",
+    "objectives": "الأهداف",
+    "objectives_placeholder": "أدخل أهداف التحدي (واحد في كل سطر)",
+    "requirements": "المتطلبات",
+    "requirements_placeholder": "أدخل متطلبات التحدي (واحد في كل سطر)",
+    "one_per_line": "أدخل عنصراً واحداً في كل سطر",
+    "confirm_create": "تأكيد وإنشاء التحدي"
+  },
+  "settings": {
+    "title": "إعدادات التنبؤ",
+    "description": "تكوين الأتمتة والمراقبة وإعدادات جمع البيانات للتنبؤ",
+    "configuration": "التكوين",
+    "automation": "الأتمتة",
+    "monitor": "المراقبة",
+    "save_button": "حفظ الإعدادات",
+    "save_success": "تم حفظ الإعدادات",
+    "save_success_description": "تم تحديث إعدادات التنبؤ بنجاح",
+    "save_error": "فشل الحفظ",
+    "save_error_description": "فشل حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
+    "focus_topics": {
+      "title": "المواضيع المركزة والفلاتر",
+      "description": "حدد المواضيع المراد تتبعها والكلمات المفتاحية المراد استبعادها من جمع الإشارات",
+      "label": "المواضيع المراد تتبعها",
+      "placeholder": "أدخل موضوعاً واضغط Enter",
+      "help": "أضف المواضيع لتوجيه الذكاء الاصطناعي في جمع الإشارات ذات الصلة. اضغط Enter أو فاصلة بعد كل موضوع."
+    },
+    "exclude_keywords": {
+      "label": "الكلمات المستبعدة",
+      "placeholder": "أدخل كلمة واضغط Enter",
+      "help": "أضف الكلمات المفتاحية المراد تصفيتها من الإشارات. اضغط Enter أو فاصلة بعد كل كلمة. سيتم استبعاد الإشارات التي تحتوي على هذه الكلمات."
+    },
+    "collection": {
+      "title": "إعدادات الجمع",
+      "description": "التحكم في عدد مرات جمع ومعالجة الإشارات",
+      "interval_label": "فترة الجمع",
+      "interval_placeholder": "اختر الفترة",
+      "interval_help": "عدد المرات التي يجب أن يجمع فيها النظام إشارات جديدة من مصادر البيانات",
+      "hourly": "كل ساعة",
+      "daily": "مرة يومياً",
+      "twicedaily": "مرتين يومياً",
+      "min_relevance_label": "الحد الأدنى لدرجة الصلة",
+      "min_relevance_help": "سيتم تصفية الإشارات التي تقل عن هذه الدرجة (0-100)",
+      "max_signals_label": "الحد الأقصى للإشارات لكل عملية",
+      "max_signals_help": "الحد الأقصى لعدد الإشارات المراد جمعها في كل عملية (1-500)"
+    },
+    "synthesis": {
+      "title": "إعدادات التوليف",
+      "description": "تكوين كيفية تحويل الإشارات إلى اتجاهات",
+      "time_label": "وقت التوليف اليومي",
+      "time_help": "الوقت من اليوم الذي يتم فيه إنشاء الاتجاهات من الإشارات المجمعة",
+      "threshold_label": "عتبة التشابه",
+      "threshold_help": "مدى تشابه الإشارات لتجميعها في اتجاهات (0-1، أعلى = أكثر تشابهاً)",
+      "scheduler_label": "تمكين الجمع المجدول",
+      "scheduler_help": "جمع الإشارات تلقائياً بناءً على إعداد الفترة",
+      "synthesis_label": "تمكين توليف الاتجاهات",
+      "synthesis_help": "إنشاء الاتجاهات تلقائياً من الإشارات يومياً"
+    },
+    "challenge_auto_generate": {
+      "label": "إنشاء التحديات تلقائياً",
+      "help": "إنشاء التحديات تلقائياً بناءً على الاتجاهات والإشارات المكتشفة"
+    },
+    "data_sources": {
+      "title": "مصادر البيانات",
+      "description": "إعداد مصادر البيانات الخارجية لاكتشاف الاتجاهات وجمع الإشارات",
+      "rss": {
+        "title": "موجزات RSS",
+        "description": "مراقبة موجزات RSS للأخبار والتحديثات ذات الصلة",
+        "url_placeholder": "رابط الموجز",
+        "name_placeholder": "اسم الموجز",
+        "category_placeholder": "الفئة",
+        "add_feed": "إضافة موجز RSS"
+      },
+      "arxiv": {
+        "title": "أرخايف",
+        "description": "تتبع الأوراق الأكاديمية والمنشورات البحثية من أرخايف",
+        "categories_placeholder": "أدخل الفئات (مثال: cs.AI, cs.LG)"
+      },
+      "google_news": {
+        "title": "أخبار جوجل",
+        "description": "جمع المقالات الإخبارية من أخبار جوجل المتعلقة بمواضيعك",
+        "topics_placeholder": "أدخل المواضيع المراد مراقبتها"
+      },
+      "reddit": {
+        "title": "ريديت",
+        "description": "مراقبة مجتمعات ريديت والمناقشات للاتجاهات الناشئة",
+        "subreddits_placeholder": "أدخل أسماء المجتمعات (مثال: technology, futurology)"
+      }
+    },
+    "automation_details": {
+      "how_it_works": {
+        "title": "كيف تعمل الأتمتة",
+        "subtitle": "فهم نظام التنبؤ",
+        "description": "يعمل نظام التنبؤ الخاص بك تلقائياً في الخلفية، مراقبة مصادر البيانات باستمرار، وجمع الإشارات ذات الصلة، وتحويلها إلى اتجاهات قابلة للتنفيذ. لا حاجة لتدخل يدوي."
+      },
+      "workflow": {
+        "step1_title": "جمع الإشارات",
+        "hourly": "جمع إشارات جديدة كل ساعة",
+        "daily": "جمع إشارات جديدة مرة واحدة يومياً",
+        "twicedaily": "جمع إشارات جديدة مرتين يومياً",
+        "step2_title": "معالجة البيانات",
+        "step2_description": "معالج الخلفية يعالج كل إشارة",
+        "step3_title": "إنشاء الاتجاهات",
+        "step3_description": "يومياً في {{time}}، إنشاء اتجاهات من الإشارات"
+      },
+      "schedule_status": {
+        "title": "حالة الجدولة",
+        "description": "مراقبة مكونات النظام الآلي",
+        "cron_job": "مهمة Cron",
+        "cron_description": "يتحقق كل دقيقة إذا حان الوقت لتشغيل المهام المجدولة",
+        "scheduler": "المجدول",
+        "scheduler_description": "يدير جمع الإشارات التلقائي وتوليف الاتجاهات",
+        "last_run": "آخر تشغيل",
+        "next_run": "التشغيل التالي"
+      },
+      "what_happens": {
+        "title": "ماذا يحدث ومتى",
+        "description": "الجدول الزمني للعمليات التلقائية",
+        "step1_title": "مستمر: معالجة المهام",
+        "step1_description": "معالج الخلفية يعالج الإشارات، ويولد التضمينات، ويعد البيانات للتحليل",
+        "step2_title": "يومياً في {{time}}: توليف الاتجاهات",
+        "step2_description": "تحليل جميع الإشارات من الفترة الماضية وتجميع المتشابهة منها في اتجاهات استراتيجية",
+        "step3_title": "حسب الجدول: جمع إشارات جديدة",
+        "step3_description": "جلب إشارات جديدة تلقائياً من مصادر البيانات المكونة بناءً على مواضيعك المركزة"
+      }
+    },
+    "status": {
+      "queue_worker": "معالج الطابور",
+      "running": "قيد التشغيل",
+      "stopped": "متوقف",
+      "enabled": "مفعّل",
+      "disabled": "معطّل",
+      "never": "أبداً",
+      "pending_tasks": "المهام المعلقة",
+      "completed_today": "تم إنجازها اليوم",
+      "total_data": "إجمالي البيانات",
+      "signals": "إشارات",
+      "trends": "اتجاهات",
+      "current_activity": "النشاط الحالي",
+      "current_activity_description": "عرض في الوقت الفعلي لما يحدث الآن",
+      "processing_tasks": "معالجة المهام",
+      "remaining": "متبقية",
+      "processing_signals": "معالجة الإشارات",
+      "processing_trends": "إنشاء الاتجاهات",
+      "in_queue": "في الطابور",
+      "recent_tasks": "المهام الأخيرة",
+      "recent_tasks_description": "المهام المكتملة أو المعلقة في الساعات القليلة الماضية",
+      "no_recent_tasks": "لا يوجد نشاط حديث للمهام",
+      "completed": "مكتمل",
+      "pending": "معلق",
+      "last_collection": "آخر جمع"
+    }
+  },
+  "enums": {
+    "domain": {
+      "Mobility": "التنقل",
+      "Engineering": "الهندسة",
+      "Energy": "الطاقة",
+      "Resources": "الموارد",
+      "Chemicals": "المواد الكيميائية",
+      "Materials": "المواد",
+      "Health Tech": "تقنية الصحة",
+      "Life Sciences": "علوم الحياة",
+      "ICT": "تكنولوجيا المعلومات والاتصالات",
+      "Sustainability": "الاستدامة",
+      "AI & Machine Learning": "الذكاء الاصطناعي والتعلم الآلي",
+      "Fintech": "التقنية المالية",
+      "Healthcare": "الرعاية الصحية",
+      "Cybersecurity": "الأمن السيبراني",
+      "Cloud Infrastructure": "البنية التحتية السحابية",
+      "Other": "أخرى"
+    },
+    "relevance": {
+      "None": "لا يوجد",
+      "Very Low": "منخفض جداً",
+      "Low": "منخفض",
+      "Medium": "متوسط",
+      "High": "عالي",
+      "Very High": "عالي جداً"
+    },
+    "potential_impact": {
+      "None": "لا يوجد",
+      "Very Low": "منخفض جداً",
+      "Low": "منخفض",
+      "Medium": "متوسط",
+      "High": "عالي",
+      "Very High": "عالي جداً"
+    },
+    "status": {
+      "New": "جديد",
+      "Under Review": "قيد المراجعة",
+      "Accepted": "مقبول",
+      "Rejected": "مرفوض",
+      "Archived": "مؤرشف",
+      "Draft": "مسودة",
+      "Active": "نشط"
+    },
+    "time_horizon": {
+      "Short-term": "قصير المدى",
+      "Mid-term": "متوسط المدى",
+      "Long-term": "طويل المدى",
+      "1-3 years": "1-3 سنوات",
+      "3-5 years": "3-5 سنوات",
+      "5+ years": "5+ سنوات",
+      "Unknown": "غير معروف"
+    },
+    "maturity": {
+      "Early": "مبكر",
+      "Growing": "نامي",
+      "Mature": "ناضج"
+    },
+    "strength": {
+      "Weak": "ضعيف",
+      "Emerging": "ناشئ",
+      "Strong": "قوي"
+    },
+    "source_type": {
+      "News": "أخبار",
+      "Article": "مقالة",
+      "Patent": "براءة اختراع",
+      "Report": "تقرير",
+      "Social": "اجتماعي",
+      "Event": "حدث",
+      "Internal": "داخلي",
+      "Other": "أخرى"
+    },
+    "trend_segmentation": {
+      "Society & Individuals": "المجتمع والأفراد",
+      "Economy & Business": "الاقتصاد والأعمال",
+      "Environment": "البيئة",
+      "Politics & Law": "السياسة والقانون"
+    },
+    "adoption_stage": {
+      "Early": "مبكر",
+      "Growing": "نامي",
+      "Mature": "ناضج"
+    },
+    "relation_type": {
+      "Drives": "يدفع",
+      "Hinders": "يعيق",
+      "Relates to": "يتعلق بـ"
+    }
+  }
 }

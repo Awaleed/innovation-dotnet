@@ -19,7 +19,7 @@ export function LoadingSpinner({ size = 'md', className, text }: LoadingSpinnerP
         <div
           className={cn(
             'animate-spin rounded-full border-2 border-current border-t-transparent',
-            sizeClasses[size]
+            sizeClasses[size],
           )}
           role="status"
           aria-label="Loading"

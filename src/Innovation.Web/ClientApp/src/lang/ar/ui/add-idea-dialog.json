@@ -1,62 +1,62 @@
 {
-    "title": "إضافة فكرة جديدة",
-    "description": "أدخل تفاصيل الفكرة الجديدة. جميع الحقول مطلوبة.",
-    "form": {
-        "idea_title": "عنوان الفكرة *",
-        "idea_title_placeholder": "أدخل عنوان الفكرة",
-        "author_name": "اسم المستخدم *",
-        "author_name_placeholder": "أدخل اسم المستخدم",
-        "idea_description": "وصف الفكرة *",
-        "idea_description_placeholder": "اكتب وصفاً تفصيلياً للفكرة",
-        "category": "الفئة *",
-        "category_placeholder": "اختر الفئة",
-        "status": "الحالة",
-        "priority": "الأولوية",
-        "risk_level": "مستوى المخاطر",
-        "tags": "الوسوم",
-        "add_tag_placeholder": "أضف وسم",
-        "add": "إضافة",
-        "competitive_advantage": "الميزة التنافسية",
-        "competitive_advantage_placeholder": "اكتب الميزة التنافسية للفكرة",
-        "market_potential": "إمكانات السوق",
-        "market_potential_placeholder": "اكتب تحليل إمكانات السوق",
-        "resource_requirements": "متطلبات الموارد",
-        "human_resources": "الموارد البشرية",
-        "human_resources_placeholder": "مثال: فريق من 10 أشخاص",
-        "financial_resources": "الموارد المالية",
-        "financial_resources_placeholder": "مثال: 500,000 دولار",
-        "technical_resources": "الموارد التقنية",
-        "technical_resources_placeholder": "مثال: خوادم سحابية، تطبيقات موبايل"
-    },
-    "buttons": {
-        "add_new_idea": "إضافة فكرة جديدة",
-        "cancel": "إلغاء",
-        "add_idea": "إضافة الفكرة"
-    },
-    "categories": {
-        "environment_sustainability": "البيئة والاستدامة",
-        "education_training": "التعليم والتدريب",
-        "energy_environment": "الطاقة والبيئة",
-        "business_commerce": "التجارة والأعمال",
-        "health_care": "الصحة والرعاية",
-        "transportation": "النقل والمواصلات",
-        "agriculture_food": "الزراعة والغذاء"
-    },
-    "statuses": {
-        "new_idea": "فكرة جديدة",
-        "research_phase": "مرحلة البحث",
-        "in_development": "قيد التطوير",
-        "testing_phase": "مرحلة الاختبار",
-        "completed": "مكتملة"
-    },
-    "priorities": {
-        "low": "منخفضة",
-        "medium": "متوسطة",
-        "high": "عالية"
-    },
-    "risk_levels": {
-        "low": "منخفض",
-        "medium": "متوسط",
-        "high": "عالٍ"
-    }
+  "title": "إضافة فكرة جديدة",
+  "description": "أدخل تفاصيل الفكرة الجديدة. جميع الحقول مطلوبة.",
+  "form": {
+    "idea_title": "عنوان الفكرة *",
+    "idea_title_placeholder": "أدخل عنوان الفكرة",
+    "author_name": "اسم المستخدم *",
+    "author_name_placeholder": "أدخل اسم المستخدم",
+    "idea_description": "وصف الفكرة *",
+    "idea_description_placeholder": "اكتب وصفاً تفصيلياً للفكرة",
+    "category": "الفئة *",
+    "category_placeholder": "اختر الفئة",
+    "status": "الحالة",
+    "priority": "الأولوية",
+    "risk_level": "مستوى المخاطر",
+    "tags": "الوسوم",
+    "add_tag_placeholder": "أضف وسم",
+    "add": "إضافة",
+    "competitive_advantage": "الميزة التنافسية",
+    "competitive_advantage_placeholder": "اكتب الميزة التنافسية للفكرة",
+    "market_potential": "إمكانات السوق",
+    "market_potential_placeholder": "اكتب تحليل إمكانات السوق",
+    "resource_requirements": "متطلبات الموارد",
+    "human_resources": "الموارد البشرية",
+    "human_resources_placeholder": "مثال: فريق من 10 أشخاص",
+    "financial_resources": "الموارد المالية",
+    "financial_resources_placeholder": "مثال: 500,000 دولار",
+    "technical_resources": "الموارد التقنية",
+    "technical_resources_placeholder": "مثال: خوادم سحابية، تطبيقات موبايل"
+  },
+  "buttons": {
+    "add_new_idea": "إضافة فكرة جديدة",
+    "cancel": "إلغاء",
+    "add_idea": "إضافة الفكرة"
+  },
+  "categories": {
+    "environment_sustainability": "البيئة والاستدامة",
+    "education_training": "التعليم والتدريب",
+    "energy_environment": "الطاقة والبيئة",
+    "business_commerce": "التجارة والأعمال",
+    "health_care": "الصحة والرعاية",
+    "transportation": "النقل والمواصلات",
+    "agriculture_food": "الزراعة والغذاء"
+  },
+  "statuses": {
+    "new_idea": "فكرة جديدة",
+    "research_phase": "مرحلة البحث",
+    "in_development": "قيد التطوير",
+    "testing_phase": "مرحلة الاختبار",
+    "completed": "مكتملة"
+  },
+  "priorities": {
+    "low": "منخفضة",
+    "medium": "متوسطة",
+    "high": "عالية"
+  },
+  "risk_levels": {
+    "low": "منخفض",
+    "medium": "متوسط",
+    "high": "عالٍ"
+  }
 }

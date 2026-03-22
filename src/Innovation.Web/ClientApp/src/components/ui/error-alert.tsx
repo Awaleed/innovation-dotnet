@@ -16,7 +16,7 @@ export function ErrorAlert({
   message,
   onRetry,
   className,
-  variant = 'destructive'
+  variant = 'destructive',
 }: ErrorAlertProps) {
   return (
     <Alert variant={variant} className={cn('border-red-200 bg-red-50', className)}>

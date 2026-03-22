@@ -10,7 +10,19 @@ export interface GridifyQuery {
   filter?: string | null;
 }
 
-export type FilterOperator = '=' | '!=' | '<' | '>' | '<=' | '>=' | '=*' | '!*' | '^' | '!^' | '$' | '!$';
+export type FilterOperator =
+  | '='
+  | '!='
+  | '<'
+  | '>'
+  | '<='
+  | '>='
+  | '=*'
+  | '!*'
+  | '^'
+  | '!^'
+  | '$'
+  | '!$';
 
 // Challenge filterable/sortable fields
 export const challengeFields = [
@@ -27,14 +39,18 @@ export const challengeFields = [
   'categoryId',
 ] as const;
 
-export type ChallengeField = typeof challengeFields[number];
+export type ChallengeField = (typeof challengeFields)[number];
 
 export type ChallengeOrderBy = `${ChallengeField} asc` | `${ChallengeField} desc`;
 
 export const challengeDefaultOrderBy = 'createdAt desc';
 
 // Filter builder helpers
-export function filter<F extends string>(field: F, op: FilterOperator, value: string | number | boolean): string {
+export function filter<F extends string>(
+  field: F,
+  op: FilterOperator,
+  value: string | number | boolean,
+): string {
   return `${field}${op}${value}`;
 }
 
@@ -65,6 +81,8 @@ export function sortOption<F extends string>(
 export function parseSortValue<F extends string>(value: string): SortValue<F> {
   const idx = value.lastIndexOf(' ');
   if (idx === -1) return { field: value as F, direction: 'desc' };
-  return { field: value.substring(0, idx) as F, direction: value.substring(idx + 1) as SortDirection };
+  return {
+    field: value.substring(0, idx) as F,
+    direction: value.substring(idx + 1) as SortDirection,
+  };
 }
-

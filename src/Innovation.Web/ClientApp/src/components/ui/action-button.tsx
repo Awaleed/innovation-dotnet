@@ -23,9 +23,11 @@ export function ActionButton({
   const { auth } = usePage<{ auth: { permissions: string[] } }>().props;
   const user = auth;
 
-  const hasPermission = user && (requireAll
-    ? permission.split('|').every(p => user.permissions?.includes(p))
-    : permission.split('|').some(p => user.permissions?.includes(p)));
+  const hasPermission =
+    user &&
+    (requireAll
+      ? permission.split('|').every((p) => user.permissions?.includes(p))
+      : permission.split('|').some((p) => user.permissions?.includes(p)));
 
   const isDisabled = disabled || !hasPermission;
 
@@ -33,10 +35,7 @@ export function ActionButton({
     <Button
       {...props}
       disabled={isDisabled}
-      className={cn(
-        !hasPermission && 'opacity-50 cursor-not-allowed',
-        className
-      )}
+      className={cn(!hasPermission && 'opacity-50 cursor-not-allowed', className)}
       title={!hasPermission ? fallbackText : undefined}
     >
       {children}

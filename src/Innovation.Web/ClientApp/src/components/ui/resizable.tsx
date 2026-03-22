@@ -1,30 +1,21 @@
+import * as React from 'react';
+import { GripVerticalIcon } from 'lucide-react';
+import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from 'react-resizable-panels';
 
-import * as React from 'react'
-import { GripVerticalIcon } from 'lucide-react'
-import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from 'react-resizable-panels'
+import { cn } from '@/lib/utils';
 
-import { cn } from '@/lib/utils'
-
-function ResizablePanelGroup({
-  className,
-  ...props
-}: React.ComponentProps<typeof PanelGroup>) {
+function ResizablePanelGroup({ className, ...props }: React.ComponentProps<typeof PanelGroup>) {
   return (
     <PanelGroup
       data-slot="resizable-panel-group"
-      className={cn(
-        'flex h-full w-full data-[panel-group-direction=vertical]:flex-col',
-        className,
-      )}
+      className={cn('flex h-full w-full data-[panel-group-direction=vertical]:flex-col', className)}
       {...props}
     />
-  )
+  );
 }
 
-function ResizablePanel({
-  ...props
-}: React.ComponentProps<typeof Panel>) {
-  return <Panel data-slot="resizable-panel" {...props} />
+function ResizablePanel({ ...props }: React.ComponentProps<typeof Panel>) {
+  return <Panel data-slot="resizable-panel" {...props} />;
 }
 
 function ResizableHandle({
@@ -32,7 +23,7 @@ function ResizableHandle({
   className,
   ...props
 }: React.ComponentProps<typeof PanelResizeHandle> & {
-  withHandle?: boolean
+  withHandle?: boolean;
 }) {
   return (
     <PanelResizeHandle
@@ -49,7 +40,7 @@ function ResizableHandle({
         </div>
       )}
     </PanelResizeHandle>
-  )
+  );
 }
 
-export { ResizablePanelGroup, ResizablePanel, ResizableHandle }
+export { ResizablePanelGroup, ResizablePanel, ResizableHandle };

@@ -7,7 +7,7 @@ import api from '@/lib/api-client';
 type RouteHelper = { url(): string } | { url: string };
 
 function resolveUrl(route: RouteHelper): string {
-    return typeof route.url === 'function' ? route.url() : route.url;
+  return typeof route.url === 'function' ? route.url() : route.url;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,22 +20,22 @@ type RouteFactory = (...args: any[]) => RouteHelper;
  * const { data, isLoading } = useRouteQuery<IChallengeListResponse[]>(api.v1.challenges.index);
  */
 export function useRouteQuery<TData>(
-    routeFn: RouteFactory,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    args: any[] = [],
-    options?: { enabled?: boolean; staleTime?: number },
+  routeFn: RouteFactory,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  args: any[] = [],
+  options?: { enabled?: boolean; staleTime?: number },
 ) {
-    const route = routeFn(...args);
-    const url = resolveUrl(route);
+  const route = routeFn(...args);
+  const url = resolveUrl(route);
 
-    return useQuery<TData>({
-        queryKey: [url, ...args],
-        queryFn: async () => {
-            const response = await api.get<TData>(url);
-            return response.data;
-        },
-        ...options,
-    });
+  return useQuery<TData>({
+    queryKey: [url, ...args],
+    queryFn: async () => {
+      const response = await api.get<TData>(url);
+      return response.data;
+    },
+    ...options,
+  });
 }
 
 /**
@@ -49,50 +49,50 @@ export function useRouteQuery<TData>(
  * mutation.mutate(formData);
  */
 export function useRouteMutation<TData = unknown, TVariables = unknown>(
-    routeFn: RouteFactory,
-    options?: {
-        onSuccess?: (data: TData) => void;
-        onError?: (error: Error) => void;
-        invalidate?: string[];
-    },
+  routeFn: RouteFactory,
+  options?: {
+    onSuccess?: (data: TData) => void;
+    onError?: (error: Error) => void;
+    invalidate?: string[];
+  },
 ) {
-    return useRouteMutationWithMethod<TData, TVariables>(routeFn, 'POST', options);
+  return useRouteMutationWithMethod<TData, TVariables>(routeFn, 'POST', options);
 }
 
 /**
  * React Query mutation hook with configurable HTTP method.
  */
 export function useRouteMutationWithMethod<TData = unknown, TVariables = unknown>(
-    routeFn: RouteFactory,
-    method: 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'POST',
-    options?: {
-        onSuccess?: (data: TData) => void;
-        onError?: (error: Error) => void;
-        invalidate?: string[];
-    },
+  routeFn: RouteFactory,
+  method: 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'POST',
+  options?: {
+    onSuccess?: (data: TData) => void;
+    onError?: (error: Error) => void;
+    invalidate?: string[];
+  },
 ) {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return useMutation<TData, Error, TVariables & { args?: any[] }>({
-        mutationFn: async ({ args = [], ...data }) => {
-            const route = routeFn(...args);
-            const url = resolveUrl(route);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return useMutation<TData, Error, TVariables & { args?: any[] }>({
+    mutationFn: async ({ args = [], ...data }) => {
+      const route = routeFn(...args);
+      const url = resolveUrl(route);
 
-            const response = await api.request<TData>({
-                method: method.toLowerCase(),
-                url,
-                data,
-            });
+      const response = await api.request<TData>({
+        method: method.toLowerCase(),
+        url,
+        data,
+      });
 
-            return response.data;
-        },
-        onSuccess: (data) => {
-            options?.invalidate?.forEach((key) => {
-                void queryClient.invalidateQueries({ queryKey: [key] });
-            });
-            options?.onSuccess?.(data);
-        },
-        onError: options?.onError,
-    });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      options?.invalidate?.forEach((key) => {
+        void queryClient.invalidateQueries({ queryKey: [key] });
+      });
+      options?.onSuccess?.(data);
+    },
+    onError: options?.onError,
+  });
 }

@@ -46,10 +46,7 @@ export function PriorityBadge({
 
   return (
     <Badge
-      className={cn(
-        variant === 'default' ? colorClasses.default : colorClasses.outline,
-        className
-      )}
+      className={cn(variant === 'default' ? colorClasses.default : colorClasses.outline, className)}
     >
       {showLabel && label}
     </Badge>
