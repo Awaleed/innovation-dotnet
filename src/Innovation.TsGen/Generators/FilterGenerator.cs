@@ -155,6 +155,31 @@ public static class FilterGenerator
         sb.AppendLine("}");
         sb.AppendLine();
 
+
+        // Sort option helpers
+        sb.AppendLine("// Sort option helpers");
+        sb.AppendLine("export type SortDirection = 'asc' | 'desc';");
+        sb.AppendLine();
+        sb.AppendLine("export interface SortValue<F extends string = string> {");
+        sb.AppendLine("  field: F;");
+        sb.AppendLine("  direction: SortDirection;");
+        sb.AppendLine("}");
+        sb.AppendLine();
+        sb.AppendLine("export function sortOption<F extends string>(");
+        sb.AppendLine("  field: F,");
+        sb.AppendLine("  direction: SortDirection,");
+        sb.AppendLine("  label: string,");
+        sb.AppendLine("): { value: string; label: string; sort: SortValue<F> } {");
+        sb.AppendLine("  return { value: `${field} ${direction}`, label, sort: { field, direction } };");
+        sb.AppendLine("}");
+        sb.AppendLine();
+        sb.AppendLine("export function parseSortValue<F extends string>(value: string): SortValue<F> {");
+        sb.AppendLine("  const idx = value.lastIndexOf(' ');");
+        sb.AppendLine("  if (idx === -1) return { field: value as F, direction: 'desc' };");
+        sb.AppendLine("  return { field: value.substring(0, idx) as F, direction: value.substring(idx + 1) as SortDirection };");
+        sb.AppendLine("}");
+        sb.AppendLine();
+
         return sb.ToString();
     }
 }

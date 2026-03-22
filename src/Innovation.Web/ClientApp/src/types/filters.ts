@@ -46,3 +46,25 @@ export function or(...filters: string[]): string {
   return filters.join('|');
 }
 
+// Sort option helpers
+export type SortDirection = 'asc' | 'desc';
+
+export interface SortValue<F extends string = string> {
+  field: F;
+  direction: SortDirection;
+}
+
+export function sortOption<F extends string>(
+  field: F,
+  direction: SortDirection,
+  label: string,
+): { value: string; label: string; sort: SortValue<F> } {
+  return { value: `${field} ${direction}`, label, sort: { field, direction } };
+}
+
+export function parseSortValue<F extends string>(value: string): SortValue<F> {
+  const idx = value.lastIndexOf(' ');
+  if (idx === -1) return { field: value as F, direction: 'desc' };
+  return { field: value.substring(0, idx) as F, direction: value.substring(idx + 1) as SortDirection };
+}
+

@@ -1,4 +1,5 @@
 import { router } from '@inertiajs/react';
+import { parseSortValue } from '@/types/filters';
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -140,7 +141,7 @@ export function usePagination<TField extends string = string>({ defaultOrderBy =
     );
 
     const setSort = useCallback(
-        (field: string, direction?: 'asc' | 'desc') => {
+        (field: TField, direction?: 'asc' | 'desc') => {
             const dir = direction || (sortField === field && sortDirection === 'asc' ? 'desc' : 'asc');
             setQueryState({
                 orderBy: `${field} ${dir}`,
@@ -151,7 +152,7 @@ export function usePagination<TField extends string = string>({ defaultOrderBy =
     );
 
     const setFilter = useCallback(
-        (key: string, value: unknown) => {
+        (key: TField, value: unknown) => {
             const currentFilters = { ...localFilters };
 
             if (value === null || value === undefined || value === '') {
@@ -174,7 +175,48 @@ export function usePagination<TField extends string = string>({ defaultOrderBy =
         [queryState.orderBy, queryState.pageSize, localFilters, navigateToServer, setQueryState],
     );
 
-    const removeFilter = useCallback((key: string) => setFilter(key, null), [setFilter]);
+    const removeFilter = useCallback((key: TField) => setFilter(key, null), [setFilter]);
+
+    const searchFilter = useCallback(
+        (field: TField, term: string) => {
+            if (term) {
+                setFilter(field, `=*${term}`);
+            } else {
+                setFilter(field, null);
+            }
+        },
+        [setFilter],
+    );
+
+    const enumFilter = useCallback(
+        (field: TField, value: string) => {
+            if (value === 'all' || value === '') {
+                setFilter(field, null);
+            } else {
+                setFilter(field, value);
+            }
+        },
+        [setFilter],
+    );
+
+    const sortBy = useCallback(
+        (value: string) => {
+            const { field, direction } = parseSortValue<TField>(value);
+            setSort(field, direction);
+        },
+        [setSort],
+    );
+
+    const getFilter = useCallback(
+        (field: TField): string => {
+            const raw = localFilters[field];
+            if (raw === undefined || raw === null) return '';
+            const str = String(raw);
+            // Strip operator prefixes like =* for display
+            return str.replace(/^=\*/, '');
+        },
+        [localFilters],
+    );
 
     const clearFilter = useCallback(() => {
         setLocalFilters({});
@@ -213,5 +255,9 @@ export function usePagination<TField extends string = string>({ defaultOrderBy =
         setFilter,
         removeFilter,
         clearFilter,
+        searchFilter,
+        enumFilter,
+        sortBy,
+        getFilter,
     };
 }
