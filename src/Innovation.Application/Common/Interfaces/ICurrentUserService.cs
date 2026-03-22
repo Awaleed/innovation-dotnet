@@ -16,4 +16,5 @@ public interface ICurrentUserService
     bool IsEvaluator();
     bool IsJury();
     bool IsMentor();
+    string Locale { get; }
 }

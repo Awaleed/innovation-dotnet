@@ -7,10 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Innovation.Application.Features.Challenges.Queries;
 
-public record GetChallengeQuery(int Id, string Locale = "en")
-    : IQuery<ErrorOr<ChallengeDetailResponse>>;
+public record GetChallengeQuery(int Id) : IQuery<ErrorOr<ChallengeDetailResponse>>;
 
-public class GetChallengeHandler(IAppDbContext db)
+public class GetChallengeHandler(IAppDbContext db, ICurrentUserService currentUser)
     : IRequestHandler<GetChallengeQuery, ErrorOr<ChallengeDetailResponse>>
 {
     public async Task<ErrorOr<ChallengeDetailResponse>> Handle(
@@ -31,6 +30,6 @@ public class GetChallengeHandler(IAppDbContext db)
         if (challenge is null)
             return Error.NotFound(description: $"Challenge {query.Id} not found");
 
-        return challenge.ToDetailResponse(query.Locale);
+        return challenge.ToDetailResponse(currentUser.Locale);
     }
 }

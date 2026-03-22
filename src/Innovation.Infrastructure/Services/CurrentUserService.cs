@@ -58,6 +58,13 @@ public class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICur
 
     public bool IsMentor() => HasRole("mentor");
 
+    public string Locale =>
+        httpContextAccessor
+            .HttpContext?.Request.Headers.AcceptLanguage.FirstOrDefault()
+            ?.Split(',')
+            .FirstOrDefault()
+        ?? "en";
+
     private bool HasRole(string role) =>
         Roles.Any(r => string.Equals(r, role, StringComparison.OrdinalIgnoreCase));
 }

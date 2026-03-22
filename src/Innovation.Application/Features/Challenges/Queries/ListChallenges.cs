@@ -1,6 +1,5 @@
-﻿using ErrorOr;
-using Gridify;
-using Gridify.EntityFramework;
+using ErrorOr;
+using Innovation.Application.Common.Extensions;
 using Innovation.Application.Common.Interfaces;
 using Innovation.Application.Common.Models;
 using Innovation.Application.Features.Challenges.Filters;
@@ -10,38 +9,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Innovation.Application.Features.Challenges.Queries;
 
-public record ListChallengesQuery(
-    int Page = 1,
-    int PageSize = 15,
-    string? Filter = null,
-    string? OrderBy = null,
-    string Locale = "en"
-) : IQuery<ErrorOr<PaginatedResponse<ChallengeListResponse>>>;
+public record ListChallengesQuery(ChallengeFilteredQuery Query)
+    : IQuery<ErrorOr<PaginatedResponse<ChallengeListResponse>>>;
 
-public class ListChallengesHandler(IAppDbContext db)
+public class ListChallengesHandler(IAppDbContext db, ICurrentUserService currentUser)
     : IRequestHandler<ListChallengesQuery, ErrorOr<PaginatedResponse<ChallengeListResponse>>>
 {
-    private static readonly ChallengeGridifyMapper _mapper = new();
-
     public async Task<ErrorOr<PaginatedResponse<ChallengeListResponse>>> Handle(
         ListChallengesQuery request,
         CancellationToken ct
     )
     {
-        var locale = request.Locale;
-        var query = db.Challenges.AsNoTracking();
+        var locale = currentUser.Locale;
 
-        var gridifyQuery = new GridifyQuery
-        {
-            Filter = request.Filter,
-            OrderBy = request.OrderBy ?? "createdAt desc",
-            Page = request.Page,
-            PageSize = request.PageSize,
-        };
+        var paging = await db.Challenges.AsNoTracking().ApplyFilteredAsync(request.Query);
 
-        var paging = await query.GridifyAsync(gridifyQuery, _mapper);
-
-        // Map entities to flat DTOs after materialization
         var items = paging
             .Data.Select(c => new ChallengeListResponse(
                 c.Id,
@@ -64,8 +46,8 @@ public class ListChallengesHandler(IAppDbContext db)
         return PaginatedResponse<ChallengeListResponse>.Create(
             items,
             paging.Count,
-            request.Page,
-            request.PageSize
+            request.Query.Page,
+            request.Query.PageSize
         );
     }
 }

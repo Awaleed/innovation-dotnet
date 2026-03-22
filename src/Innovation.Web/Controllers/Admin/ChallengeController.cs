@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using InertiaCore;
 using Innovation.Application.Features.Challenges.Commands;
+using Innovation.Application.Features.Challenges.Filters;
 using Innovation.Application.Features.Challenges.Queries;
 using Innovation.Web.Authorization;
 using Innovation.Web.Extensions;
@@ -13,20 +14,10 @@ namespace Innovation.Web.Controllers.Admin;
 [Route("admin/challenges")]
 public class ChallengeController(IMediator mediator) : Controller
 {
-    private string GetLocale() =>
-        Request.Headers.AcceptLanguage.FirstOrDefault()?.Split(',').FirstOrDefault() ?? "en";
-
     [HttpGet("")]
-    public async Task<IActionResult> Index(
-        [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 15,
-        [FromQuery] string? filter = null,
-        [FromQuery] string? orderBy = null
-    )
+    public async Task<IActionResult> Index([FromQuery] ChallengeFilteredQuery gridifyQuery)
     {
-        var result = await mediator.Send(
-            new ListChallengesQuery(page, pageSize, filter, orderBy, GetLocale())
-        );
+        var result = await mediator.Send(new ListChallengesQuery(gridifyQuery));
 
         if (Request.ExpectsJson())
             return result.ToActionResult();
@@ -64,7 +55,7 @@ public class ChallengeController(IMediator mediator) : Controller
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Show(int id)
     {
-        var result = await mediator.Send(new GetChallengeQuery(id, GetLocale()));
+        var result = await mediator.Send(new GetChallengeQuery(id));
 
         if (Request.ExpectsJson())
             return result.ToActionResult();
@@ -78,7 +69,7 @@ public class ChallengeController(IMediator mediator) : Controller
     [HttpGet("{id:int}/edit")]
     public async Task<IActionResult> Edit(int id)
     {
-        var result = await mediator.Send(new GetChallengeQuery(id, GetLocale()));
+        var result = await mediator.Send(new GetChallengeQuery(id));
 
         if (result.IsError)
             return NotFound();
