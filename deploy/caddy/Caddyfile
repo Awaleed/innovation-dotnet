@@ -15,9 +15,6 @@
     @dotnet {
         path /dotnet-build/*
         path /dashboard*
-        path /login*
-        path /register*
-        path /logout*
         path /admin/challenges*
         path /admin/roles*
         path /api/challenges*
