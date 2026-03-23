@@ -16,6 +16,7 @@
         path /admin/roles*
         path /api/challenges*
         path /api/roles*
+        path /antiforgery/*
         path /api/antiforgery*
         path /auth/backchannel-logout*
         path /signin-oidc*
