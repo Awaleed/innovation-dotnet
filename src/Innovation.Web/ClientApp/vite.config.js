@@ -34,8 +34,9 @@ export default defineConfig({
         tailwindcss(),
         react(),
     ],
+    base: '/dotnet-build/',
     build: {
-        outDir: path.resolve(__dirname, '../wwwroot/build'),
+        outDir: path.resolve(__dirname, '../wwwroot/dotnet-build'),
         emptyOutDir: true,
         manifest: true,
         rollupOptions: {

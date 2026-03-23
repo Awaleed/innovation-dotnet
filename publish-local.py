@@ -32,7 +32,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 APPHOST_PROJECT = "src/Innovation.AppHost"
 
 sys.path.insert(0, str(ROOT))
-from publish import generate_password, run, header, info, success, warn, _log_config
+from publish import generate_password, run, header, info, success, warn, _log_config, PHP_CONTEXT
 
 
 def main() -> None:
@@ -45,6 +45,8 @@ def main() -> None:
     docker_out = ROOT / args.output / "docker-compose"
     image_name = "innovation-web"
     full_image = f"{image_name}:{args.image_tag}"
+    php_image_name = "innovation-php"
+    php_full_image = f"{php_image_name}:{args.image_tag}"
 
     os.chdir(str(ROOT))
 
@@ -66,6 +68,15 @@ def main() -> None:
         f"-p:ContainerImageTag={args.image_tag}",
     ])
     success(f"Image built: {full_image}")
+
+    # --- Build PHP image ---
+    header(f"Building PHP image: {php_full_image}")
+    if PHP_CONTEXT.is_dir():
+        run(["docker", "build", "-t", php_full_image, "-f", "Dockerfile", "."],
+            cwd=str(PHP_CONTEXT))
+        success(f"PHP image built: {php_full_image}")
+    else:
+        warn(f"PHP project not found at {PHP_CONTEXT}, skipping")
 
     # --- Generate compose via Aspire ---
     header("Generating Docker Compose")
@@ -112,6 +123,10 @@ def main() -> None:
     lines = [
         f"WEB_IMAGE={full_image}",
         "WEB_PORT=8080",
+        f"PHP_IMAGE={php_full_image}",
+        "PHP_PORT=8080",
+        "APP_KEY=base64:L8lLlZZp8Ir4N4i5Yi5Htr1sOXYdVBQSTEq1eW5OupU=",
+        "KEYCLOAK_PHP_SECRET=innovation-php-secret",
         f"POSTGRES_PASSWORD={passwords['POSTGRES_PASSWORD']}",
         f"REDIS_PASSWORD={passwords['REDIS_PASSWORD']}",
         f"KEYCLOAK_PASSWORD={passwords['KEYCLOAK_PASSWORD']}",
@@ -131,7 +146,8 @@ def main() -> None:
     print(f"\n{'='*60}")
     print(f"  Local dev environment ready")
     print(f"{'='*60}")
-    print(f"  App:       http://localhost:5200")
+    print(f"  .NET app:  http://localhost:5200")
+    print(f"  PHP app:   http://localhost:8000")
     print(f"  Keycloak:  http://localhost:8080")
     print(f"  Dashboard: http://localhost:18888")
     print(f"")
@@ -222,6 +238,44 @@ def _transform_local(compose: dict) -> None:
     for dep in ("postgres", "keycloak", "redis"):
         if dep in web_deps:
             web_deps[dep] = {"condition": "service_healthy"}
+
+    # --- PHP Legacy App (Laravel) ---
+    services.pop("php", None)
+    services["php"] = {
+        "image": "${PHP_IMAGE}",
+        "ports": ["8000:${PHP_PORT}"],
+        "environment": {
+            "APP_ENV": "local",
+            "APP_DEBUG": "true",
+            "APP_KEY": "${APP_KEY}",
+            "APP_URL": "http://localhost:8000",
+            "APP_TIMEZONE": "Asia/Riyadh",
+            "APP_LOCALE": "ar",
+            "DB_CONNECTION": "pgsql",
+            "DB_HOST": "postgres",
+            "DB_PORT": "5432",
+            "DB_DATABASE": "innovation",
+            "DB_USERNAME": "postgres",
+            "DB_PASSWORD": "${POSTGRES_PASSWORD}",
+            "REDIS_HOST": "redis",
+            "REDIS_PORT": "6379",
+            "REDIS_PASSWORD": "${REDIS_PASSWORD}",
+            "SESSION_DRIVER": "redis",
+            "CACHE_STORE": "redis",
+            "QUEUE_CONNECTION": "redis",
+            "KEYCLOAK_BASE_URL": "http://keycloak:8080",
+            "KEYCLOAK_REALM": "innovation",
+            "KEYCLOAK_CLIENT_ID": "innovation-php",
+            "KEYCLOAK_CLIENT_SECRET": "${KEYCLOAK_PHP_SECRET}",
+            "KEYCLOAK_REDIRECT_URI": "http://localhost:8000/sso/callback",
+            "CURRENT_THEME": "custom",
+        },
+        "depends_on": {
+            "postgres": {"condition": "service_healthy"},
+            "redis": {"condition": "service_healthy"},
+            "keycloak": {"condition": "service_healthy"},
+        },
+    }
 
     # --- Named volumes ---
     compose["volumes"] = {

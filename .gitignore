@@ -46,9 +46,15 @@ Desktop.ini
 
 ## Vite
 **/wwwroot/build/
+**/wwwroot/dotnet-build/
 **/wwwroot/hot
+
+## Python
+__pycache__/
+*.pyc
 
 ## Publish output
 dist/
 dist-local/
+dist.zip
 dist-local-k8s/

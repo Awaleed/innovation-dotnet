@@ -8,6 +8,9 @@ public class HandleInertiaRequests(IConfiguration configuration) : IMiddleware
 {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
+        // Asset version prefix — forces full-page reload on cross-backend navigation (strangler fig)
+        Inertia.Version("dotnet-" + Environment.GetEnvironmentVariable("APP_VERSION") ?? "1");
+
         // Auth
         object? authUser = null;
         string[]? roles = null;

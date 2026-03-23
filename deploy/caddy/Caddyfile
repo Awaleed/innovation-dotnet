@@ -1,13 +1,41 @@
 # Innovation Platform — Reverse Proxy Configuration
 #
+# Strangler Fig Pattern: routes traffic between .NET (migrated) and PHP (legacy).
+# As features are migrated from PHP to .NET, add their paths to the @dotnet matcher.
+#
 # TLS Modes:
 #   1. Auto (Let's Encrypt) — default, just set DOMAIN and AUTH_DOMAIN in .env
 #   2. Custom certs — place cert.pem + key.pem in ./certs/, uncomment tls lines below
 #   3. Self-signed  — replace tls lines with: tls internal
 
 {$DOMAIN} {
-    reverse_proxy web:{$WEB_PORT}
     encode gzip
+
+    # .NET — migrated features (add paths here as you migrate from PHP)
+    @dotnet {
+        path /dotnet-build/*
+        path /dashboard*
+        path /login*
+        path /register*
+        path /logout*
+        path /admin/challenges*
+        path /admin/roles*
+        path /api/challenges*
+        path /api/roles*
+        path /api/antiforgery*
+        path /auth/backchannel-logout*
+        path /signin-oidc*
+        path /signout-callback-oidc*
+        path /signout-oidc*
+        path /health*
+    }
+    reverse_proxy @dotnet web:8080
+
+    # PHP — everything else (legacy catch-all)
+    reverse_proxy php:8080 {
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-Host {host}
+    }
 
     # For custom certs, uncomment:
     # tls /etc/caddy/certs/cert.pem /etc/caddy/certs/key.pem

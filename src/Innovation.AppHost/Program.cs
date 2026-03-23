@@ -25,6 +25,7 @@ var postgres = builder
     );
 
 var innovationDb = postgres.AddDatabase("innovationdb");
+var phpDb = postgres.AddDatabase("phpdb", "innovation"); // PHP Laravel database
 
 // Fake Active Directory (OpenLDAP)
 var ldap = builder
@@ -76,13 +77,71 @@ var web = builder
     .WaitFor(keycloak)
     .WaitFor(redis);
 
-// Vite dev server — only for local development, not needed in published deployments
+// PHP Legacy App (Laravel) — Strangler Fig migration
+var phpContextPath = "../../../innovation";
+var php = builder
+    .AddDockerfile("php", phpContextPath,
+        builder.ExecutionContext.IsPublishMode ? "Dockerfile" : "Dockerfile.dev")
+    .WithHttpEndpoint(port: 8000, targetPort: 8080, name: "http")
+    .WithExternalHttpEndpoints()
+    .WithLifetime(ContainerLifetime.Persistent)
+    // Aspire references (for health checks + dependency ordering)
+    .WithReference(phpDb)
+    .WithReference(redis)
+    .WithReference(keycloak)
+    .WaitFor(postgres)
+    .WaitFor(keycloak)
+    .WaitFor(redis)
+    // Laravel app config
+    .WithEnvironment("APP_NAME", "Innovation Lab")
+    .WithEnvironment("APP_ENV", builder.ExecutionContext.IsPublishMode ? "production" : "local")
+    .WithEnvironment("APP_DEBUG", builder.ExecutionContext.IsPublishMode ? "false" : "true")
+    .WithEnvironment("APP_KEY", "base64:L8lLlZZp8Ir4N4i5Yi5Htr1sOXYdVBQSTEq1eW5OupU=")
+    .WithEnvironment("APP_URL", "http://localhost:8000")
+    .WithEnvironment("APP_TIMEZONE", "Asia/Riyadh")
+    .WithEnvironment("APP_LOCALE", "ar")
+    .WithEnvironment("APP_FALLBACK_LOCALE", "en")
+    // Database — map Aspire references to Laravel env var names
+    .WithEnvironment("DB_CONNECTION", "pgsql")
+    .WithEnvironment(ctx => ctx.EnvironmentVariables["DB_HOST"] = phpDb.Resource.Parent.PrimaryEndpoint.Property(EndpointProperty.Host))
+    .WithEnvironment(ctx => ctx.EnvironmentVariables["DB_PORT"] = phpDb.Resource.Parent.PrimaryEndpoint.Property(EndpointProperty.Port))
+    .WithEnvironment(ctx => ctx.EnvironmentVariables["DB_DATABASE"] = phpDb.Resource.DatabaseName)
+    .WithEnvironment(ctx => ctx.EnvironmentVariables["DB_USERNAME"] = phpDb.Resource.Parent.UserNameReference)
+    .WithEnvironment(ctx => ctx.EnvironmentVariables["DB_PASSWORD"] = phpDb.Resource.Parent.PasswordParameter)
+    // Redis
+    .WithEnvironment(ctx => ctx.EnvironmentVariables["REDIS_HOST"] = redis.Resource.PrimaryEndpoint.Property(EndpointProperty.Host))
+    .WithEnvironment(ctx => ctx.EnvironmentVariables["REDIS_PORT"] = redis.Resource.PrimaryEndpoint.Property(EndpointProperty.Port))
+    .WithEnvironment(ctx => ctx.EnvironmentVariables["REDIS_PASSWORD"] = redis.Resource.PasswordParameter!)
+    // Session/Cache/Queue
+    .WithEnvironment("SESSION_DRIVER", "redis")
+    .WithEnvironment("CACHE_STORE", "redis")
+    .WithEnvironment("QUEUE_CONNECTION", "redis")
+    // Keycloak SSO
+    .WithEnvironment("KEYCLOAK_BASE_URL", "http://localhost:8080")
+    .WithEnvironment("KEYCLOAK_REDIRECT_URI", "http://localhost:3000/sso/callback")
+    .WithEnvironment("KEYCLOAK_REALM", "innovation")
+    .WithEnvironment("KEYCLOAK_CLIENT_ID", "innovation-php")
+    .WithEnvironment("KEYCLOAK_CLIENT_SECRET", "innovation-php-secret")
+    // Theme
+    .WithEnvironment("CURRENT_THEME", "custom");
+
+// Dev-only: bind mount source code + Vite HMR servers
 if (!builder.ExecutionContext.IsPublishMode)
 {
+    // PHP source mounted for live editing
+    php.WithBindMount(phpContextPath, "/var/www/html");
+
+    // .NET Vite dev server
     var vite = builder
         .AddViteApp("vite", "../Innovation.Web/ClientApp")
         .WithNpmPackageInstallation();
     web.WithEnvironment("VITE_DEV_SERVER_URL", vite.GetEndpoint("http"));
+
+    // PHP Vite dev server
+    var phpVite = builder
+        .AddViteApp("php-vite", phpContextPath)
+        .WithNpmPackageInstallation();
+    php.WithEnvironment("VITE_DEV_SERVER_URL", phpVite.GetEndpoint("http"));
 }
 
 builder.Build().Run();

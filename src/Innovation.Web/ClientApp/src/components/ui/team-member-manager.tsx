@@ -142,12 +142,9 @@ export function TeamMemberManager({
       isEditing: editingIndex !== null,
     });
 
+    const tempId = crypto.randomUUID();
     const member: TeamMember = {
-      // eslint-disable-next-line react-hooks/purity
-      id:
-        editingIndex !== null
-          ? (value[editingIndex]?.id ?? `temp_${Date.now()}`)
-          : `temp_${Date.now()}`,
+      id: editingIndex !== null ? (value[editingIndex]?.id ?? tempId) : tempId,
       ...data,
     };
 

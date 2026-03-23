@@ -67,12 +67,12 @@
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
     <ItemGroup>
-      <DistFiles Include="wwwroot\build\**" />
+      <DistFiles Include="wwwroot\dotnet-build\**" />
       <ResolvedFileToPublish
         Include="@(DistFiles-&gt;'%(FullPath)')"
         Exclude="@(ResolvedFileToPublish)"
       >
-        <RelativePath>wwwroot\build\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
+        <RelativePath>wwwroot\dotnet-build\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </ResolvedFileToPublish>

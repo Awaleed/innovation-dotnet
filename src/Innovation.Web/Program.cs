@@ -141,8 +141,8 @@ app.UseExceptionHandler(exceptionApp =>
 if (!app.Environment.IsDevelopment())
 {
     app.UseHsts();
+    app.UseHttpsRedirection();
 }
-app.UseHttpsRedirection();
 app.UseMiddleware<SecurityHeadersMiddleware>();
 app.UseStaticFiles();
 app.UseInertia();

@@ -13,7 +13,7 @@
     string? manifestJs = null;
     if (!isHot)
     {
-        var manifestPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "build", ".vite", "manifest.json");
+        var manifestPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "dotnet-build", ".vite", "manifest.json");
         if (System.IO.File.Exists(manifestPath))
         {
             var json = System.IO.File.ReadAllText(manifestPath);
@@ -47,7 +47,7 @@
     @await Inertia.Head(Model)
     @if (!isHot && manifestCss != null)
     {
-        <link rel="stylesheet" href="/build/@manifestCss" />
+        <link rel="stylesheet" href="/dotnet-build/@manifestCss" />
     }
 </head>
 <body class="font-sans antialiased">
@@ -71,7 +71,7 @@
     }
     else if (manifestJs != null)
     {
-        <script type="module" src="/build/@manifestJs"></script>
+        <script type="module" src="/dotnet-build/@manifestJs"></script>
     }
 </body>
 </html>

@@ -17,6 +17,7 @@ Requires: pip install pyyaml
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import pathlib
 import random
@@ -38,6 +39,7 @@ except ImportError:
 
 ROOT = pathlib.Path(__file__).resolve().parent
 APPHOST_PROJECT = "src/Innovation.AppHost"
+PHP_CONTEXT = ROOT.parent / "innovation"  # Sibling directory
 
 
 def generate_password(length: int = 24) -> str:
@@ -99,11 +101,30 @@ def build_container_image(full_image: str, image_name: str, image_tag: str,
     success(f"Container image ready: {full_image}")
 
 
+def build_php_image(full_image: str, skip_push: bool) -> None:
+    """Build the PHP Laravel production image."""
+    header(f"Building PHP image: {full_image}")
+
+    if not PHP_CONTEXT.is_dir():
+        warn(f"PHP project not found at {PHP_CONTEXT}, skipping PHP image build")
+        return
+
+    run(["docker", "build", "-t", full_image, "-f", "Dockerfile", "."],
+        cwd=str(PHP_CONTEXT))
+
+    if not skip_push:
+        info(f"Pushing {full_image} to registry...")
+        run(["docker", "push", full_image])
+
+    success(f"PHP image ready: {full_image}")
+
+
 # ---------------------------------------------------------------------------
 # Docker Compose
 # ---------------------------------------------------------------------------
 
-def generate_docker_compose(output: pathlib.Path, full_image: str) -> None:
+def generate_docker_compose(output: pathlib.Path, full_image: str,
+                            php_image: str = "") -> None:
     header("Generating Docker Compose artifacts")
     docker_out = output / "docker-compose"
     docker_out.mkdir(parents=True, exist_ok=True)
@@ -140,7 +161,7 @@ def generate_docker_compose(output: pathlib.Path, full_image: str) -> None:
     _copy_deploy_artifacts(docker_out, passwords)
 
     # 6. Generate .env
-    _generate_env(docker_out, full_image, passwords)
+    _generate_env(docker_out, full_image, passwords, php_image)
 
     success(f"Docker Compose artifacts: {docker_out}")
 
@@ -157,7 +178,8 @@ def _transform_compose(compose: dict) -> None:
         "environment": {
             "DOMAIN": "${DOMAIN}",
             "AUTH_DOMAIN": "${AUTH_DOMAIN}",
-            "WEB_PORT": "${WEB_PORT}",
+            "WEB_PORT": "8080",
+            "PHP_PORT": "8080",
         },
         "volumes": [
             "./Caddyfile:/etc/caddy/Caddyfile:ro",
@@ -275,7 +297,7 @@ def _transform_compose(compose: dict) -> None:
     web_env["Keycloak__FrontendUrl"] = "https://${AUTH_DOMAIN}"
     # ports -> expose
     if "ports" in web:
-        web["expose"] = ["${WEB_PORT}"]
+        web["expose"] = ["8080"]
         del web["ports"]
     # Dependencies: service_started -> service_healthy
     web_deps = web.setdefault("depends_on", {})
@@ -284,6 +306,63 @@ def _transform_compose(compose: dict) -> None:
             web_deps[dep] = {"condition": "service_healthy"}
     web["restart"] = "unless-stopped"
     web["logging"] = _log_config()
+
+    # --- PHP Legacy App (Laravel) ---
+    # All values from .env with PHP_ prefix → mapped to Laravel env var names
+    services.pop("php", None)
+    services["php"] = {
+        "image": "${PHP_IMAGE}",
+        "restart": "unless-stopped",
+        "expose": ["8080"],
+        "volumes": [
+            "./php-config/trustedproxy.php:/var/www/html/config/trustedproxy.php:ro",
+        ],
+        "environment": {
+            "APP_ENV": "${PHP_APP_ENV}",
+            "APP_DEBUG": "${PHP_APP_DEBUG}",
+            "APP_KEY": "${PHP_APP_KEY}",
+            "APP_NAME": "${PHP_APP_NAME}",
+            "APP_URL": "${PHP_APP_URL}",
+            "APP_TIMEZONE": "${PHP_APP_TIMEZONE}",
+            "APP_LOCALE": "${PHP_APP_LOCALE}",
+            "DB_CONNECTION": "${PHP_DB_CONNECTION}",
+            "DB_HOST": "${PHP_DB_HOST}",
+            "DB_PORT": "${PHP_DB_PORT}",
+            "DB_DATABASE": "${PHP_DB_DATABASE}",
+            "DB_USERNAME": "${PHP_DB_USERNAME}",
+            "DB_PASSWORD": "${POSTGRES_PASSWORD}",
+            "REDIS_HOST": "redis",
+            "REDIS_PORT": "6379",
+            "REDIS_PASSWORD": "${REDIS_PASSWORD}",
+            "SESSION_DRIVER": "${PHP_SESSION_DRIVER}",
+            "CACHE_STORE": "${PHP_CACHE_STORE}",
+            "QUEUE_CONNECTION": "${PHP_QUEUE_CONNECTION}",
+            "KEYCLOAK_BASE_URL": "${PHP_KEYCLOAK_BASE_URL}",
+            "KEYCLOAK_BASE_URL_INTERNAL": "${PHP_KEYCLOAK_BASE_URL_INTERNAL}",
+            "KEYCLOAK_REALM": "${PHP_KEYCLOAK_REALM}",
+            "KEYCLOAK_CLIENT_ID": "${PHP_KEYCLOAK_CLIENT_ID}",
+            "KEYCLOAK_CLIENT_SECRET": "${PHP_KEYCLOAK_CLIENT_SECRET}",
+            "KEYCLOAK_REDIRECT_URI": "${PHP_KEYCLOAK_REDIRECT_URI}",
+            "CURRENT_THEME": "${PHP_CURRENT_THEME}",
+            "OPENAI_API_KEY": "${PHP_OPENAI_API_KEY}",
+            "TELESCOPE_ENABLED": "${PHP_TELESCOPE_ENABLED}",
+            "ABLY_KEY": "${PHP_ABLY_KEY}",
+            "ABLY_PUBLIC_KEY": "${PHP_ABLY_PUBLIC_KEY}",
+            "FORECASTING_ENABLED": "${PHP_FORECASTING_ENABLED}",
+            "TRUSTED_PROXIES": "*",
+        },
+        "depends_on": {
+            "postgres": {"condition": "service_healthy"},
+            "redis": {"condition": "service_healthy"},
+            "keycloak": {"condition": "service_healthy"},
+        },
+        "networks": ["aspire"],
+        "logging": _log_config(),
+    }
+
+    # Add PHP to Caddy dependencies
+    caddy_deps = services["caddy"].setdefault("depends_on", {})
+    caddy_deps["php"] = {"condition": "service_started"}
 
     # --- Named volumes ---
     compose["volumes"] = {
@@ -311,6 +390,54 @@ def _log_config() -> dict:
     }
 
 
+def _transform_realm_for_production(realm_file: pathlib.Path) -> None:
+    """Transform Keycloak realm JSON for production deployment.
+
+    - Adds https://${DOMAIN} redirect URIs alongside localhost dev URIs
+    - Updates backchannel logout URLs to use Docker service names
+    - Updates post-logout redirect URIs
+    """
+    DOMAIN = "innovation.test"  # Placeholder — operator sets real domain in .env
+    content = realm_file.read_text(encoding="utf-8")
+    realm = json.loads(content)
+
+    for client in realm.get("clients", []):
+        client_id = client.get("clientId", "")
+
+        if client_id == "innovation-web":
+            # Add production redirect URIs
+            client["redirectUris"] = [
+                "http://localhost:5200/*",
+                "https://localhost:7200/*",
+                f"https://{DOMAIN}/*",
+            ]
+            client["webOrigins"] = [
+                "http://localhost:5200",
+                "https://localhost:7200",
+                f"https://{DOMAIN}",
+            ]
+            attrs = client.setdefault("attributes", {})
+            attrs["post.logout.redirect.uris"] = (
+                f"http://localhost:5200/*##https://localhost:7200/*##https://{DOMAIN}/*"
+            )
+            attrs["backchannel.logout.url"] = "http://web:8080/auth/backchannel-logout"
+
+        elif client_id == "innovation-php":
+            client["redirectUris"] = [
+                "http://localhost:8000/*",
+                f"https://{DOMAIN}/*",
+            ]
+            client["webOrigins"] = [
+                "http://localhost:8000",
+                f"https://{DOMAIN}",
+            ]
+            attrs = client.setdefault("attributes", {})
+            attrs["post.logout.redirect.uris"] = f"https://{DOMAIN}/*"
+            attrs["backchannel.logout.url"] = "http://php:8080/sso/backchannel-logout"
+
+    realm_file.write_text(json.dumps(realm, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
 def _copy_deploy_artifacts(docker_out: pathlib.Path, passwords: dict) -> None:
     """Copy deploy config files alongside compose, injecting secrets."""
     for src_dir in ("keycloak", "ldap", "postgres"):
@@ -332,6 +459,17 @@ def _copy_deploy_artifacts(docker_out: pathlib.Path, passwords: dict) -> None:
             content = content.replace('"adminpassword"', f'"{passwords["LDAP_ADMIN_PASSWORD"]}"')
             realm_file.write_text(content, encoding="utf-8")
 
+    # Transform Keycloak realm JSON for production (Docker service names + domain URIs)
+    for realm_file in (docker_out / "keycloak" / "realms").glob("*.json"):
+        _transform_realm_for_production(realm_file)
+
+    # PHP TrustedProxies config (Laravel needs this behind reverse proxy)
+    php_config_dir = docker_out / "php-config"
+    php_config_dir.mkdir(exist_ok=True)
+    (php_config_dir / "trustedproxy.php").write_text(
+        "<?php\n\nreturn [\n    'proxies' => '*',\n];\n"
+    )
+
     # Caddyfile
     caddy_src = ROOT / "deploy" / "caddy" / "Caddyfile"
     if caddy_src.exists():
@@ -348,30 +486,62 @@ def _copy_deploy_artifacts(docker_out: pathlib.Path, passwords: dict) -> None:
 
 
 def _generate_env(docker_out: pathlib.Path, full_image: str,
-                  passwords: dict) -> None:
+                  passwords: dict, php_image: str = "") -> None:
     """Generate .env and .env.example files."""
     lines = [
         "# === Innovation Platform — Production Configuration ===",
         "",
-        "# Domain - set to your hostname",
+        "# Domain — set to your hostname",
         "DOMAIN=innovation.test",
         "AUTH_DOMAIN=auth.innovation.test",
         "",
-        "# Container image",
+        "# Container images",
         f"WEB_IMAGE={full_image}",
+        f"PHP_IMAGE={php_image}",
         "WEB_PORT=8080",
         "",
-        "# PostgreSQL",
+        "# Generated passwords (shared across services)",
         f"POSTGRES_PASSWORD={passwords['POSTGRES_PASSWORD']}",
-        "",
-        "# Redis",
         f"REDIS_PASSWORD={passwords['REDIS_PASSWORD']}",
-        "",
-        "# Keycloak",
         f"KEYCLOAK_PASSWORD={passwords['KEYCLOAK_PASSWORD']}",
-        "",
-        "# LDAP",
         f"LDAP_ADMIN_PASSWORD={passwords['LDAP_ADMIN_PASSWORD']}",
+        "",
+        "# PHP — app",
+        "PHP_APP_ENV=production",
+        "PHP_APP_DEBUG=false",
+        "PHP_APP_KEY=base64:CHANGE_ME_GENERATE_WITH_PHP_ARTISAN_KEY_GENERATE",
+        "PHP_APP_NAME=Innovation Lab",
+        "PHP_APP_URL=https://innovation.test",
+        "PHP_APP_TIMEZONE=Asia/Riyadh",
+        "PHP_APP_LOCALE=ar",
+        "",
+        "# PHP — database",
+        "PHP_DB_CONNECTION=pgsql",
+        "PHP_DB_HOST=postgres",
+        "PHP_DB_PORT=5432",
+        "PHP_DB_DATABASE=innovation",
+        "PHP_DB_USERNAME=postgres",
+        "",
+        "# PHP — session/cache/queue",
+        "PHP_SESSION_DRIVER=redis",
+        "PHP_CACHE_STORE=redis",
+        "PHP_QUEUE_CONNECTION=redis",
+        "",
+        "# PHP — keycloak SSO",
+        "PHP_KEYCLOAK_BASE_URL=https://auth.innovation.test",
+        "PHP_KEYCLOAK_BASE_URL_INTERNAL=http://keycloak:8080",
+        "PHP_KEYCLOAK_REALM=innovation",
+        "PHP_KEYCLOAK_CLIENT_ID=innovation-php",
+        "PHP_KEYCLOAK_CLIENT_SECRET=innovation-php-secret",
+        "PHP_KEYCLOAK_REDIRECT_URI=https://innovation.test/sso/callback",
+        "",
+        "# PHP — services",
+        "PHP_OPENAI_API_KEY=sk-not-configured",
+        "PHP_TELESCOPE_ENABLED=false",
+        "PHP_CURRENT_THEME=custom",
+        "PHP_FORECASTING_ENABLED=true",
+        "PHP_ABLY_KEY=",
+        "PHP_ABLY_PUBLIC_KEY=",
         "",
         "# Bind mounts",
         "OPENLDAP_BINDMOUNT_0=./ldap",
@@ -394,7 +564,7 @@ def _generate_env(docker_out: pathlib.Path, full_image: str,
 # ---------------------------------------------------------------------------
 
 def generate_kubernetes(output: pathlib.Path, full_image: str, registry: str,
-                        image_tag: str) -> None:
+                        image_tag: str, php_image: str = "") -> None:
     header("Generating Kubernetes manifests")
     k8s_out = output / "kubernetes"
     k8s_out.mkdir(parents=True, exist_ok=True)
@@ -420,6 +590,7 @@ def generate_kubernetes(output: pathlib.Path, full_image: str, registry: str,
             content = content.replace(placeholder, value)
         content = content.replace("KC_IMAGE_PLACEHOLDER", kc_image)
         content = content.replace("WEB_IMAGE_PLACEHOLDER", full_image)
+        content = content.replace("PHP_IMAGE_PLACEHOLDER", php_image)
         (k8s_out / f.name).write_text(content, encoding="utf-8")
 
     # Copy config files for ConfigMaps
@@ -502,16 +673,19 @@ def main() -> None:
     args = parser.parse_args()
     image_name = f"{args.registry}/innovation-web"
     full_image = f"{image_name}:{args.image_tag}"
+    php_image_name = f"{args.registry}/innovation-php"
+    php_full_image = f"{php_image_name}:{args.image_tag}"
     output = ROOT / args.output
 
     print(f"\n{'='*60}")
     print(f"  Innovation Platform — Publish")
     print(f"{'='*60}")
-    print(f"  Target:  {args.target}")
-    print(f"  Output:  {output}")
-    print(f"  Image:   {full_image}")
+    print(f"  Target:    {args.target}")
+    print(f"  Output:    {output}")
+    print(f"  .NET img:  {full_image}")
+    print(f"  PHP img:   {php_full_image}")
     if args.skip_push:
-        print(f"  Push:    SKIPPED")
+        print(f"  Push:      SKIPPED")
 
     # Clean output
     if output.exists():
@@ -524,16 +698,17 @@ def main() -> None:
     # Ensure aspire CLI
     os.chdir(str(ROOT))
 
-    # Build container image
+    # Build container images
     if args.target != "windows":
         build_container_image(full_image, image_name, args.image_tag, args.skip_push)
+        build_php_image(php_full_image, args.skip_push)
 
     # Generate targets
     if args.target in ("docker", "all"):
-        generate_docker_compose(output, full_image)
+        generate_docker_compose(output, full_image, php_full_image)
 
     if args.target in ("kubernetes", "all"):
-        generate_kubernetes(output, full_image, args.registry, args.image_tag)
+        generate_kubernetes(output, full_image, args.registry, args.image_tag, php_full_image)
 
     if args.target in ("windows", "all"):
         build_windows_exe(output, args.runtime)

@@ -41,16 +41,92 @@
       "authorizationServicesEnabled": false,
       "publicClient": false,
       "protocol": "openid-connect",
-      "redirectUris": ["http://localhost:5200/*", "https://localhost:7200/*"],
-      "webOrigins": ["http://localhost:5200", "https://localhost:7200"],
+      "redirectUris": ["http://localhost:5200/*", "https://localhost:7200/*", "http://localhost:3000/*"],
+      "webOrigins": ["http://localhost:5200", "https://localhost:7200", "http://localhost:3000"],
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
       "attributes": {
-        "post.logout.redirect.uris": "http://localhost:5200/*##https://localhost:7200/*",
+        "post.logout.redirect.uris": "http://localhost:5200/*##https://localhost:7200/*##http://localhost:3000/*",
         "backchannel.logout.url": "http://host.docker.internal:5200/auth/backchannel-logout",
         "backchannel.logout.session.required": "true",
         "backchannel.logout.revoke.offline.tokens": "false",
         "require.pushed.authorization.requests": "true"
+      },
+      "protocolMappers": [
+        {
+          "name": "name",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "config": {
+            "user.attribute": "firstName",
+            "claim.name": "name",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "email",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "config": {
+            "user.attribute": "email",
+            "claim.name": "email",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "config": {
+            "multivalued": "true",
+            "claim.name": "roles",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "session id",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "config": {
+            "user.session.note": "sid",
+            "claim.name": "sid",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "introspection.token.claim": "true"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "innovation-php",
+      "name": "Innovation PHP (Legacy)",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "innovation-php-secret",
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "authorizationServicesEnabled": false,
+      "publicClient": false,
+      "protocol": "openid-connect",
+      "redirectUris": ["http://localhost:8000/*", "http://localhost:3000/*"],
+      "webOrigins": ["http://localhost:8000", "http://localhost:3000"],
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "attributes": {
+        "post.logout.redirect.uris": "http://localhost:8000/*",
+        "backchannel.logout.url": "http://host.docker.internal:8000/sso/backchannel-logout",
+        "backchannel.logout.session.required": "true",
+        "backchannel.logout.revoke.offline.tokens": "false"
       },
       "protocolMappers": [
         {

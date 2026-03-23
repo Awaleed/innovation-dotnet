@@ -1,0 +1,30 @@
+# Local dev — Strangler Fig routing on localhost:3000
+# Routes migrated paths to .NET, everything else to PHP
+#
+# RULE: Only add paths here that .NET actually serves.
+# PHP is the catch-all — if a path isn't listed here, it goes to PHP.
+
+:3000 {
+    # .NET — only explicitly migrated routes
+    @dotnet {
+        path /dotnet-build/*
+        path /dashboard*
+        path /login*
+        path /register*
+        path /logout*
+        path /admin/challenges*
+        path /admin/roles*
+        path /api/challenges*
+        path /api/roles*
+        path /api/antiforgery*
+        path /auth/backchannel-logout*
+        path /signin-oidc*
+        path /signout-callback-oidc*
+        path /signout-oidc*
+        path /health*
+    }
+    reverse_proxy @dotnet localhost:5200
+
+    # PHP — everything else (legacy catch-all)
+    reverse_proxy localhost:8000
+}
